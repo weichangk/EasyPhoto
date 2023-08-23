@@ -1,4 +1,4 @@
-#include "mainWindow.h"
+#include "mainwindow.h"
 #include <QStringListModel>
 #include <QStringList>
 #include <QHBoxLayout>
