@@ -1,9 +1,9 @@
 #pragma once
-#include <QMainWindow>
-#include <QListView>
+#include <QWidget>
+#include <QTreeWidget>
 #include <QStackedWidget>
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QWidget {
     Q_OBJECT
 
 public:
@@ -12,8 +12,9 @@ public:
 
 private:
     void createUi();
-
+    void createTree();
 private:
-    QListView *m_listView = nullptr;
+
+    QTreeWidget *m_treeWidget = nullptr;
     QStackedWidget *m_stackedWidget = nullptr;
 };
