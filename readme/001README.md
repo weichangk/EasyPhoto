@@ -113,3 +113,5 @@ F5使用启动文件 launch.json 启动运行调试，因为配置了 visualizer
     "D:/Qt/6.5.0/msvc2019_64/include/**"
 ],
 ```
+
+defines 用于预处理宏配置

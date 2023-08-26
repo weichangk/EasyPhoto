@@ -4,25 +4,25 @@
 #include <QAbstractItemModel>
 #include <QStyledItemDelegate>
 
-class QWListView : public QListView
+class AListView : public QListView
 {
 public:
-    QWListView(QWidget* parent = nullptr);
-    ~QWListView();
+    AListView(QWidget* parent = nullptr);
+    ~AListView();
 };
 
-class QWListModel : public QAbstractItemModel
+class AListModel : public QAbstractItemModel
 {
 public:
-    QWListModel(QObject* parent = nullptr);
-    ~QWListModel();
+    AListModel(QObject* parent = nullptr);
+    ~AListModel();
 };
 
-class QWListDelete : public QStyledItemDelegate
+class AListDelegate : public QStyledItemDelegate
 {
 public:
-    QWListDelete(QObject* parent = nullptr);
-    ~QWListDelete();
+    AListDelegate(QObject* parent = nullptr);
+    ~AListDelegate();
     void paint(QPainter *painter,const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const override;
     void setSize(QSize size);

@@ -1,6 +1,8 @@
 #include "mainwindow.h"
-#include <QHBoxLayout>
-#include <QTreeWidgetItem>
+#include "qtreewidget.h"
+#include "qstackedwidget.h"
+#include "qboxlayout.h"
+#include "qtreewidget.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent)

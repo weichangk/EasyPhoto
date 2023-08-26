@@ -1,0 +1,19 @@
+QPushbutton {
+    border-radius: 6px;
+}
+
+QPushbutton:hover {
+
+}
+
+QPushbutton:pressed {
+
+}
+
+QPushbutton:checked {
+
+}
+
+QPushbutton:disabled {
+
+}

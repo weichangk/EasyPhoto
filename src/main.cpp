@@ -1,12 +1,13 @@
 #include "mainwindow.h"
+#include "qapplication.h"
 #include "stylemgr.h"
-#include <QApplication>
-#pragma comment(lib, "user32.lib")
+#include "fontmgr.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    StyleMgr::setStyleToAppByCssFolder(":/resources/qss/global");
+    FontMgr::setFontToApp(QStringLiteral("微软雅黑"), 12);
+    StyleMgr::setStyleToApp(":/resource/style/app");
     MainWindow w;
     w.show();
     return a.exec();

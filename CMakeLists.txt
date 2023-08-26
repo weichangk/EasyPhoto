@@ -10,11 +10,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 set(qrcs ./QtNote.qrc)
 aux_source_directory(./src srcs)
-set(qwidget_headers
-    ./qwidget/qwidgetelement/qwlistview.h
+set(awidget_headers
+    ./awidget/awlistview.h
 )
-set(qwidget_sources
-    ./qwidget/qwidgetelement/qwlistview.cpp
+set(awidget_sources
+    ./awidget/awlistview.cpp
 )
 # Specify MSVC UTF-8 encoding
 add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
@@ -24,7 +24,7 @@ add_executable(${PROJECT_NAME}
     WIN32 # If you need a terminal for debug, please comment this statement
     ${qrcs}
     ${srcs}
-    ${qwidget_headers}
-    ${qwidget_sources}
+    ${awidget_headers}
+    ${awidget_sources}
 )
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)

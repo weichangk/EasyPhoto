@@ -1,6 +1,9 @@
 #include "stylemgr.h"
+#include "qapplication.h"
+#include "qwidget.h"
+#include "QtCore"
 
-void StyleMgr::setStyleToAppByCssFolder(const QString &qssfolder)
+void StyleMgr::setStyleToApp(const QString &qssfolder)
 {
   QString all_style;
   QDir dir(qssfolder);
@@ -22,7 +25,7 @@ void StyleMgr::setStyleToAppByCssFolder(const QString &qssfolder)
   qApp->setStyleSheet(all_style);
 }
 
-void StyleMgr::setStyleToWidgetByCssFile(QWidget *widget, const QString &fileName)
+void StyleMgr::setStyleToWidget(QWidget *widget, const QString &fileName)
 {
   QFile fileQss(fileName);
   fileQss.open(QFile::ReadOnly);
