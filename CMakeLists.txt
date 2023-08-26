@@ -11,9 +11,11 @@ find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 set(qrcs ./QtNote.qrc)
 aux_source_directory(./src srcs)
 set(awidget_headers
+    ./awidget/awidget.h
     ./awidget/awlistview.h
 )
 set(awidget_sources
+    ./awidget/awidget.cpp
     ./awidget/awlistview.cpp
 )
 # Specify MSVC UTF-8 encoding
