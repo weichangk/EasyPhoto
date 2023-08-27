@@ -3,26 +3,26 @@
 #include "qwidget.h"
 #include "QtCore"
 
-void StyleMgr::setStyleToApp(const QString &qssfolder)
+void StyleMgr::setStyleToApp(const QString &qssFolder)
 {
-  QString all_style;
-  QDir dir(qssfolder);
-  QFileInfoList file_list = dir.entryInfoList(QDir::Files);
-  for (auto fileinfo : file_list)
+  QString allStyle;
+  QDir dir(qssFolder);
+  QFileInfoList fileList = dir.entryInfoList(QDir::Files);
+  for (auto fileinfo : fileList)
   {
     if (fileinfo.suffix() != "qss")
       continue;
-    QString path = QString("%1/%2").arg(qssfolder).arg(fileinfo.fileName());
+    QString path = QString("%1/%2").arg(qssFolder).arg(fileinfo.fileName());
     QFile file(path);
     file.open(QIODevice::ReadOnly);
     QString style = file.readAll();
     if (!style.isEmpty())
     {
-      all_style += style;
+      allStyle += style;
     }
     file.close();
   }
-  qApp->setStyleSheet(all_style);
+  qApp->setStyleSheet(allStyle);
 }
 
 void StyleMgr::setStyleToWidget(QWidget *widget, const QString &fileName)
