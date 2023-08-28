@@ -12,6 +12,18 @@ set(CMAKE_BUILD_TYPE "Debug")
 find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 set(qrcs ./QtNote.qrc)
 aux_source_directory(./src srcs)
+set(acore_headers
+    ./acore/langmgr.h
+    ./acore/fontmgr.h
+    ./acore/stylemgr.h
+    ./acore/logmgr.h
+)
+set(acore_sources
+    ./acore/langmgr.cpp
+    ./acore/fontmgr.cpp
+    ./acore/stylemgr.cpp
+    ./acore/logmgr.cpp
+)
 set(awidget_headers
     ./awidget/awidget.h
     ./awidget/awlistview.h
@@ -31,6 +43,8 @@ add_executable(${PROJECT_NAME}
     # WIN32 # If you need a terminal for debug, please comment this statement
     ${qrcs}
     ${srcs}
+    ${acore_headers}
+    ${acore_sources}
     ${awidget_headers}
     ${awidget_sources}
 )

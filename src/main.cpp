@@ -1,8 +1,8 @@
 #include "mainwindow.h"
 #include "qapplication.h"
-#include "logmgr.h"
-#include "fontmgr.h"
-#include "stylemgr.h"
+#include "acore/logmgr.h"
+#include "acore/fontmgr.h"
+#include "acore/stylemgr.h"
 
 int main(int argc, char *argv[])
 {

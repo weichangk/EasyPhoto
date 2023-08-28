@@ -7,4 +7,8 @@ class AWidget : public QWidget
 public:
     AWidget(QWidget *parent = nullptr);
     ~AWidget();
+
+protected:
+    virtual void changeLanguage();
+    virtual void sigConnect();
 };

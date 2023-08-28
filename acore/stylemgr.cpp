@@ -1,7 +1,8 @@
 #include "stylemgr.h"
 #include "qapplication.h"
 #include "qwidget.h"
-#include "QtCore"
+#include "QtCore/qdir.h"
+#include "QtCore/qfile.h"
 
 void StyleMgr::setStyleToApp(const QString &qssFolder)
 {
