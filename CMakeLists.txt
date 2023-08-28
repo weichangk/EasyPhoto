@@ -26,10 +26,12 @@ set(acore_sources
 )
 set(awidget_headers
     ./awidget/awidget.h
+    ./awidget/atextedit.h
     ./awidget/awlistview.h
 )
 set(awidget_sources
     ./awidget/awidget.cpp
+    ./awidget/atextedit.cpp
     ./awidget/awlistview.cpp
 )
 # Specify MSVC UTF-8 encoding

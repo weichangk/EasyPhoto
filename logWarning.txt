@@ -1,0 +1,2 @@
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\corelib\io\qiodevice.cpp) Line:(53) QIODevice::read (QFile, ":\resource\style\test.qss"): device not open (2023-08-29 00:12:37 Tue)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\corelib\io\qiodevice.cpp) Line:(53) QIODevice::read (QFile, ":\resource\style\test.qss"): device not open (2023-08-29 00:13:14 Tue)

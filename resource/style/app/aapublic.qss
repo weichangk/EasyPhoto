@@ -1,0 +1,4 @@
+/* AWidget,
+ATextEdit {
+    outline: none;
+} */

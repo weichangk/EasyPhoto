@@ -3,11 +3,15 @@
 #include "qstackedwidget.h"
 #include "qboxlayout.h"
 #include "qtreewidget.h"
+#include "acore/stylemgr.h"
+#include "awidget/awidget.h"
+#include "awidget/atextedit.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QWidget(parent)
 {
     createUi();
+    // StyleMgr::setStyleToWidget(this, ":/resource/style/test.qss");
 }
 
 MainWindow::~MainWindow()
@@ -29,6 +33,21 @@ void MainWindow::createUi()
     mainLyt->setContentsMargins(20, 20, 20, 20);
     mainLyt->addWidget(m_treeWidget);
     mainLyt->addWidget(m_stackedWidget, 1);
+    m_stackedWidget->setStyleSheet("background-color: red");
+
+    QWidget *testWidget = new QWidget();
+    testWidget->setObjectName("testWidget");
+    testWidget->setFixedSize(700, 700);
+    testWidget->setStyleSheet("background-color: blue");
+    // testWidget->show();
+    m_stackedWidget->addWidget(testWidget);
+    m_stackedWidget->setCurrentIndex(0);
+
+    // ATextEdit *testTextEdit = new ATextEdit(testWidget);
+    // testTextEdit->setGeometry(20, 20, 500, 200);
+    // testTextEdit->setUseCustomTextCursor(true);
+    // testTextEdit->setCustomTextCursorColor(QColor("#2977FF"));
+
 }
 
 void MainWindow::createTree()

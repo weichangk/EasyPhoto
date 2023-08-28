@@ -1,5 +1,15 @@
 <RCC>
   <qresource prefix="/">
     <file>aml/Test.qml</file>
+
+    <file>resource/style/test.qss</file>
+
+    <file>resource/style/app/aapublic.qss</file>
+    <file>resource/style/app/awidget.qss</file>
+    <file>resource/style/app/alabel.qss</file>
+    <file>resource/style/app/apushbutton.qss</file>
+    <file>resource/style/app/atextedit.qss</file>
+
+
   </qresource>
 </RCC>

@@ -1,0 +1,3 @@
+AWidget#testWidget {
+    background-color: red;
+}
