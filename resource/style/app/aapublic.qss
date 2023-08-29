@@ -1,4 +1,6 @@
-/* AWidget,
+QWidget,
+AWidget,
 ATextEdit {
     outline: none;
-} */
+    font-family:"Microsoft YaHei";
+}

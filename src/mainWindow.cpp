@@ -33,17 +33,17 @@ void MainWindow::createUi()
     mainLyt->setContentsMargins(20, 20, 20, 20);
     mainLyt->addWidget(m_treeWidget);
     mainLyt->addWidget(m_stackedWidget, 1);
-    m_stackedWidget->setStyleSheet("background-color: red");
+    // m_stackedWidget->setStyleSheet("background-color: red");
 
     QWidget *testWidget = new QWidget();
     testWidget->setObjectName("testWidget");
     testWidget->setFixedSize(700, 700);
-    testWidget->setStyleSheet("background-color: blue");
+    // testWidget->setStyleSheet("background-color: blue");
     // testWidget->show();
     m_stackedWidget->addWidget(testWidget);
     m_stackedWidget->setCurrentIndex(0);
 
-    // ATextEdit *testTextEdit = new ATextEdit(testWidget);
+    QTextEdit *testTextEdit = new QTextEdit(testWidget);
     // testTextEdit->setGeometry(20, 20, 500, 200);
     // testTextEdit->setUseCustomTextCursor(true);
     // testTextEdit->setCustomTextCursorColor(QColor("#2977FF"));

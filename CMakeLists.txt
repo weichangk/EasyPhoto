@@ -14,13 +14,11 @@ set(qrcs ./QtNote.qrc)
 aux_source_directory(./src srcs)
 set(acore_headers
     ./acore/langmgr.h
-    ./acore/fontmgr.h
     ./acore/stylemgr.h
     ./acore/logmgr.h
 )
 set(acore_sources
     ./acore/langmgr.cpp
-    ./acore/fontmgr.cpp
     ./acore/stylemgr.cpp
     ./acore/logmgr.cpp
 )
