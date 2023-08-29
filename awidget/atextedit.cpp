@@ -4,6 +4,7 @@
 
 ATextEdit::ATextEdit(QWidget *parent) : QTextEdit(parent)
 {
+    setAttribute(Qt::WA_StyledBackground);
 }
 
 ATextEdit::~ATextEdit()

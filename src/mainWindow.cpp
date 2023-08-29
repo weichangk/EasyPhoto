@@ -20,6 +20,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::createUi()
 {
+    setFocusPolicy(Qt::ClickFocus);
+    setAttribute(Qt::WA_StyledBackground);
+
     setMinimumSize(1096, 680);
 
     //
@@ -33,21 +36,18 @@ void MainWindow::createUi()
     mainLyt->setContentsMargins(20, 20, 20, 20);
     mainLyt->addWidget(m_treeWidget);
     mainLyt->addWidget(m_stackedWidget, 1);
-    // m_stackedWidget->setStyleSheet("background-color: red");
 
-    QWidget *testWidget = new QWidget();
+    AWidget *testWidget = new AWidget();
+    testWidget->setAttribute(Qt::WA_StyledBackground);
     testWidget->setObjectName("testWidget");
-    testWidget->setFixedSize(700, 700);
-    // testWidget->setStyleSheet("background-color: blue");
-    // testWidget->show();
     m_stackedWidget->addWidget(testWidget);
     m_stackedWidget->setCurrentIndex(0);
 
-    QTextEdit *testTextEdit = new QTextEdit(testWidget);
-    // testTextEdit->setGeometry(20, 20, 500, 200);
-    // testTextEdit->setUseCustomTextCursor(true);
-    // testTextEdit->setCustomTextCursorColor(QColor("#2977FF"));
-
+    ATextEdit *testTextEdit = new ATextEdit(testWidget);
+    testTextEdit->setGeometry(20, 20, 500, 200);
+    testTextEdit->setUseCustomTextCursor(true);
+    testTextEdit->setCustomTextCursorColor(QColor("#2977FF"));
+    testTextEdit->setPlaceholderText("请输入你的手机号码或邮箱地址");
 }
 
 void MainWindow::createTree()

@@ -6,6 +6,7 @@
 
 class AListView : public QListView
 {
+    Q_OBJECT
 public:
     AListView(QWidget* parent = nullptr);
     ~AListView();

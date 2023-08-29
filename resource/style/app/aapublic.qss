@@ -1,6 +1,4 @@
-QWidget,
-AWidget,
-ATextEdit {
+QWidget {
     outline: none;
-    font-family:"Microsoft YaHei";
+    font-family: "Microsoft YaHei";
 }
