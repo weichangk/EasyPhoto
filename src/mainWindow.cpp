@@ -6,8 +6,9 @@
 #include "acore/stylemgr.h"
 #include "awidget/awidget.h"
 #include "awidget/atextedit.h"
+#include "awidget/apushbutton.h"
 
-MainWindow::MainWindow(QWidget* parent)
+MainWindow::MainWindow(QWidget *parent)
     : QWidget(parent)
 {
     createUi();
@@ -43,11 +44,31 @@ void MainWindow::createUi()
     m_stackedWidget->addWidget(testWidget);
     m_stackedWidget->setCurrentIndex(0);
 
+    QVBoxLayout *testWidgetLyt = new QVBoxLayout(testWidget);
+
     ATextEdit *testTextEdit = new ATextEdit(testWidget);
-    testTextEdit->setGeometry(20, 20, 500, 200);
+    testTextEdit->setFixedHeight(100);
     testTextEdit->setUseCustomTextCursor(true);
     testTextEdit->setCustomTextCursorColor(QColor("#2977FF"));
     testTextEdit->setPlaceholderText("请输入你的手机号码或邮箱地址");
+    testWidgetLyt->addWidget(testTextEdit);
+
+    QHBoxLayout *testLyt = new QHBoxLayout();
+    testWidgetLyt->addLayout(testLyt);
+
+    APushButton *testBtn1 = new APushButton(testWidget);
+    testBtn1->setCheckable(true);
+    testBtn1->setText("一个按钮");
+    testLyt->addWidget(testBtn1);
+    APushButton *testBtn2 = new APushButton(testWidget);
+    testBtn2->setCheckable(true);
+    testBtn2->setText("第二个测试按钮");
+    testLyt->addWidget(testBtn2);
+    testLyt->addStretch();
+
+
+    testWidgetLyt->addStretch();
+
 }
 
 void MainWindow::createTree()

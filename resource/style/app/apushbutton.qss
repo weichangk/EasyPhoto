@@ -1,19 +1,24 @@
-QPushbutton {
-    border-radius: 6px;
+APushButton {
+    padding: 5px 10px;
+    border: 1px solid rgba(30, 30, 30, 1);
+    border-radius: 8px;
+    background-color: rgba(30, 30, 30, 1);
+    color: #FFFFFF;
 }
 
-QPushbutton:hover {
-
+APushButton:hover {
+    background-color: rgba(30, 30, 30, 0.75);
 }
 
-QPushbutton:pressed {
-
+APushButton:pressed {
+    background-color: rgba(30, 30, 30, 0.45);
 }
 
-QPushbutton:checked {
-
+APushButton:checked {
+    border: 1px solid rgba(1, 186, 198, 1);
+    background-color: rgba(32, 55, 57, 1);
 }
 
-QPushbutton:disabled {
-
+APushButton:disabled {
+    background-color: rgba(30, 30, 30, 0.15);
 }

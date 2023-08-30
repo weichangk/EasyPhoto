@@ -24,11 +24,13 @@ set(acore_sources
 )
 set(awidget_headers
     ./awidget/awidget.h
+    ./awidget/apushbutton.h
     ./awidget/atextedit.h
     ./awidget/awlistview.h
 )
 set(awidget_sources
     ./awidget/awidget.cpp
+    ./awidget/apushbutton.cpp
     ./awidget/atextedit.cpp
     ./awidget/awlistview.cpp
 )

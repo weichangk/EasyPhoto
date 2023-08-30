@@ -2300,3 +2300,8 @@ Warning: File:(C:\Users\qt\work\qt\qtbase\src\widgets\kernel\qwidget.cpp) Line:(
 Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\painting\qpainter.cpp) Line:(1721) QPainter::begin: Paint device returned engine == 0, type: 1 (2023-08-29 23:36:01 Tue)
 Warning: File:(C:\Users\qt\work\qt\qtbase\src\widgets\kernel\qwidget.cpp) Line:(12418) QWidget::paintEngine: Should no longer be called (2023-08-29 23:36:01 Tue)
 Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\painting\qpainter.cpp) Line:(1721) QPainter::begin: Paint device returned engine == 0, type: 1 (2023-08-29 23:36:01 Tue)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\text\qcssparser.cpp) Line:(751) QCssParser::parseColorValue: Specified color without alpha value but alpha given: 'rgb 30, 30, 30, 1' (2023-08-30 23:59:07 Wed)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\text\qcssparser.cpp) Line:(751) QCssParser::parseColorValue: Specified color without alpha value but alpha given: 'rgb 30, 30, 30, 0.15' (2023-08-30 23:59:07 Wed)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\text\qcssparser.cpp) Line:(751) QCssParser::parseColorValue: Specified color without alpha value but alpha given: 'rgb 30, 30, 30, 0,75' (2023-08-30 23:59:07 Wed)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\text\qcssparser.cpp) Line:(751) QCssParser::parseColorValue: Specified color without alpha value but alpha given: 'rgb 30, 30, 30, 0.45' (2023-08-30 23:59:07 Wed)
+Warning: File:(C:\Users\qt\work\qt\qtbase\src\gui\text\qcssparser.cpp) Line:(747) QCssParser::parseColorValue: Specified color with alpha value but no alpha given: 'rgba 30, 30, 30, 0,75' (2023-08-30 23:59:23 Wed)
