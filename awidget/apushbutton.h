@@ -7,4 +7,7 @@ class APushButton : public QPushButton
 public:
     APushButton(QWidget *parent = nullptr);
     ~APushButton();
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
 };
