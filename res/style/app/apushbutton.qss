@@ -1,0 +1,22 @@
+/* APushButton {
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: rgba(54, 54, 54, 1);
+    color: rgba(215, 215, 215, 1);
+}
+
+APushButton:hover {
+    background-color: rgba(64, 64, 64, 1);
+}
+
+APushButton:pressed {
+    background-color: rgba(64, 64, 64, 0.15);
+}
+
+APushButton:checked {
+    color: rgba(236, 65, 65, 1);
+}
+
+APushButton:disabled {
+    background-color: rgba(54, 54, 54, 0.15);
+} */

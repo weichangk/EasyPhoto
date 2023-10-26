@@ -1,2 +1,13 @@
+/bin
+/lib
 /build
+/acore/build
+/awidget/build
+/agui/build
+
+/logDebug.txt
+/logInfo.txt
+/logWarning.txt
+/logCritical.txt
+/logFatal.txt
 

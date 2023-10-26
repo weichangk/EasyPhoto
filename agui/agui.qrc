@@ -1,0 +1,21 @@
+<RCC>
+  <qresource prefix="/">
+    <file>res/atopbar.qss</file>
+    <file>res/icon40_close_disabled.svg</file>
+    <file>res/icon40_close_hover.svg</file>
+    <file>res/icon40_close_normal.svg</file>
+    <file>res/icon40_close_pressed.svg</file>
+    <file>res/icon40_max_disabled.svg</file>
+    <file>res/icon40_max_hover.svg</file>
+    <file>res/icon40_max_normal.svg</file>
+    <file>res/icon40_max_pressed.svg</file>
+    <file>res/icon40_min_disabled.svg</file>
+    <file>res/icon40_min_hover.svg</file>
+    <file>res/icon40_min_normal.svg</file>
+    <file>res/icon40_min_pressed.svg</file>
+    <file>res/icon40_normal_disabled.svg</file>
+    <file>res/icon40_normal_hover.svg</file>
+    <file>res/icon40_normal_normal.svg</file>
+    <file>res/icon40_normal_pressed.svg</file>
+  </qresource>
+</RCC>

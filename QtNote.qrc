@@ -2,14 +2,16 @@
   <qresource prefix="/">
     <file>aml/Test.qml</file>
 
-    <file>resource/style/test.qss</file>
+    <file>res/style/test.qss</file>
 
-    <file>resource/style/app/aapublic.qss</file>
-    <file>resource/style/app/awidget.qss</file>
-    <file>resource/style/app/alabel.qss</file>
-    <file>resource/style/app/apushbutton.qss</file>
-    <file>resource/style/app/atextedit.qss</file>
+    <file>res/style/app/aapublic.qss</file>
+    <file>res/style/app/awidget.qss</file>
+    <file>res/style/app/alabel.qss</file>
+    <file>res/style/app/apushbutton.qss</file>
+    <file>res/style/app/atextedit.qss</file>
+    <file>res/style/app/atooltip.qss</file>
 
+    <file>res/image/green.jpg</file>
 
   </qresource>
 </RCC>
