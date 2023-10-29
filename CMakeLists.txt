@@ -65,6 +65,7 @@ add_executable(${PROJECT_NAME}
 add_subdirectory(acore)
 add_subdirectory(awidget)
 add_subdirectory(agui)
+add_subdirectory(imagekit)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets AWidget ACore AGui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets AWidget ACore AGui ImageKit)
 
