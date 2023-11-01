@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
     AApplication a(argc, argv);
     qInstallMessageHandler(ALogMgr::outputMessage);
     AStyleMgr::setStyleToApp(":/res/style/app");
+    AStyleMgr::setStyleToApp(":/imagekit/res/style");
     ALangMgr::getInstance()->setSysLangLocale();
     MainWindow w;
     w.show();

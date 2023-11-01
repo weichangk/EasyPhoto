@@ -14,6 +14,23 @@ APushButton#ATopbar_m_closeBtn:pressed {
 APushButton#ATopbar_m_closeBtn:disabled {
     border-image: url(:/res/icon40_close_disabled.svg);
 }
+APushButton#ATopbar_m_closeBtn_10Radius {
+	border:0px;
+	margin:0px;
+	padding:0px;
+	background:transparent;
+    border-top-right-radius: 10px;
+	border-image: url(:/res/icon40_close_normal.svg);
+}
+APushButton#ATopbar_m_closeBtn_10Radius:hover {
+    border-image: url(:/res/icon40_close_hover.svg);
+}
+APushButton#ATopbar_m_closeBtn_10Radius:pressed {
+    border-image: url(:/res/icon40_close_pressed.svg);
+}
+APushButton#ATopbar_m_closeBtn_10Radius:disabled {
+    border-image: url(:/res/icon40_close_disabled.svg);
+}
 
 APushButton#ATopbar_m_maxBtn {
 	border:0px;

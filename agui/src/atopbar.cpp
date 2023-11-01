@@ -25,6 +25,12 @@ void ATopbar::setNormalVisible(bool visible)
 #endif
 }
 
+void ATopbar::setCloseBtnTopRight10Radius()
+{
+    m_closeBtn->setObjectName("ATopbar_m_closeBtn_10Radius");
+    m_closeBtn->setStyle(m_closeBtn->style());
+}
+
 void ATopbar::createUi()
 {
     setFixedHeight(40);//36

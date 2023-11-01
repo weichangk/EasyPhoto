@@ -10,6 +10,7 @@ public:
     ATopbar(QWidget *parent);
     ~ATopbar();
     void setNormalVisible(bool visible);
+    void setCloseBtnTopRight10Radius();
 
 Q_SIGNALS:
     void sigMin();

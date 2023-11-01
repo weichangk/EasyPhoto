@@ -1,4 +1,5 @@
 <RCC>
   <qresource prefix="imagekit/">
+  <file>res/style/imagekitstartupview.qss</file>
   </qresource>
 </RCC>

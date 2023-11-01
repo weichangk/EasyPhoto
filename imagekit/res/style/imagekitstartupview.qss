@@ -1,0 +1,17 @@
+QWidget#ImageKitStartupView {
+    /* background-color: transparent;
+    border: 1px solid rgb(64, 64, 64);
+    border-radius: 8px; */
+}
+
+QWidget#ImageKitStartupView_m_Topbar {
+    /* border-top-left-radius: 8px; */
+    /* border-top-right-radius: 8px; */
+}
+
+QWidget#ImageKitStartupView_m_FuncArea {
+    border-top-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    background-color: rgb(39, 42, 48);
+
+}

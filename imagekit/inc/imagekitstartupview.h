@@ -15,7 +15,10 @@ protected:
     void changeLanguage() override;
     void sigConnect() override;
 
+    void paintEvent(QPaintEvent *event) override;
+
 private:
     ATopbar * m_Topbar = nullptr;
     ACanMoveWidget * m_Navbar = nullptr;
+    AWidget *m_FuncArea = nullptr;
 };
