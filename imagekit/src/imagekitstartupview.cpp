@@ -50,7 +50,6 @@ void ImageKitStartupView::createUi()
     funcLayout->setSpacing(0);
     funcLayout->addWidget(m_FuncArea, 1);
     rightLayout->addLayout(funcLayout, 1);
-    // rightLayout->addStretch();
 
     auto shadow = new AShadowEffect(this);
 }
@@ -61,6 +60,18 @@ void ImageKitStartupView::changeLanguage()
 
 void ImageKitStartupView::sigConnect()
 {
+    connect(m_Topbar, &ATopbar::sigMin, this, [=](){
+        showMinimized();
+    });
+    connect(m_Topbar, &ATopbar::sigMax, this, [=](){
+        showMaximized();
+    });
+    connect(m_Topbar, &ATopbar::sigNormal, this, [=](){
+        showNormal();
+    });
+    connect(m_Topbar, &ATopbar::sigClose, this, [=](){
+        close();
+    });
 }
 
 void ImageKitStartupView::paintEvent(QPaintEvent *event)
