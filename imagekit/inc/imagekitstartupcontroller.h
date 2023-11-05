@@ -1,16 +1,16 @@
 #pragma once
 #include "imagekit_global.h"
-#include "imagekitstartupview.h"
+#include "imagekitstartupwindow.h"
 
 class IMAGEKIT_EXPORT ImageKitStartupController : public QObject
 {
     Q_OBJECT
 public:
-    ImageKitStartupController(ImageKitStartupView * view);
+    ImageKitStartupController(ImageKitStartupWindow * view);
     ~ImageKitStartupController();
 
     void show();
 
 private:
-    ImageKitStartupView * m_view = nullptr;
+    ImageKitStartupWindow * m_view = nullptr;
 };

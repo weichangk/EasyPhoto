@@ -1,7 +1,7 @@
 #pragma once
-#include <QAbstractItemView>
+#include <QListView>
 
-class ImageFuncView : public QAbstractItemView
+class ImageFuncView : public QListView
 {
     Q_OBJECT
 public:

@@ -29,6 +29,16 @@ QVariant ImageFuncModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
+QModelIndex ImageFuncModel::index(int row, int column, const QModelIndex &parent) const
+{
+    return QModelIndex();
+}
+
+QModelIndex ImageFuncModel::parent(const QModelIndex &index) const
+{
+    return QModelIndex();
+}
+
 void ImageFuncModel::append(ImageFunc func)
 {
     beginResetModel();

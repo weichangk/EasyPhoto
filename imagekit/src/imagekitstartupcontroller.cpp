@@ -1,6 +1,6 @@
 #include "inc/imagekitstartupcontroller.h"
 
-ImageKitStartupController::ImageKitStartupController(ImageKitStartupView * view)
+ImageKitStartupController::ImageKitStartupController(ImageKitStartupWindow * view)
 {
     m_view = view;
 }

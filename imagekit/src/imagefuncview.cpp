@@ -1,5 +1,5 @@
 #include "inc/imagefuncview.h"
 
-ImageFuncView::ImageFuncView(QWidget *parent) : QAbstractItemView(parent)
+ImageFuncView::ImageFuncView(QWidget *parent) : QListView(parent)
 {
 }
