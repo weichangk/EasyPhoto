@@ -14,9 +14,10 @@ public:
     QModelIndex index(int row, int column, const QModelIndex &parent = QModelIndex()) const override;
     QModelIndex parent(const QModelIndex &index) const override;
 
-    void append(ImageFunc func);
+    void append(ImageFunc *func);
+    void append(QList<ImageFunc *> funcs);
     void clear();
 
 private:
-    QList<ImageFunc> m_Funcs;
+    QList<ImageFunc *> m_Funcs;
 };

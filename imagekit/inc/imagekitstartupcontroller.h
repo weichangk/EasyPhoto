@@ -6,11 +6,14 @@ class IMAGEKIT_EXPORT ImageKitStartupController : public QObject
 {
     Q_OBJECT
 public:
-    ImageKitStartupController(ImageKitStartupWindow * view);
+    ImageKitStartupController();
     ~ImageKitStartupController();
 
     void show();
 
 private:
-    ImageKitStartupWindow * m_view = nullptr;
+    void initImageFunc();
+
+private:
+    ImageKitStartupWindow * m_ImageKitStartupWindow = nullptr;
 };

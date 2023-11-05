@@ -5,12 +5,16 @@ class ATopbar;
 class ACanMoveWidget;
 class APushButton;
 class ImageFuncView;
+class ImageFuncModel;
+class ImageFuncDelegate;
+class ImageFunc;
 class IMAGEKIT_EXPORT ImageKitStartupWindow : public ABaseWidget
 {
     Q_OBJECT
 public:
     ImageKitStartupWindow(QWidget *parent = nullptr);
     ~ImageKitStartupWindow();
+    void imageFuncModelAppend(QList<ImageFunc *> funcs);
 
 protected:
     void createUi() override;
@@ -33,4 +37,6 @@ private:
     APushButton *m_SettingsBtn = nullptr;
 
     ImageFuncView *m_ImageFuncView = nullptr;
+    ImageFuncModel *m_ImageFuncModel = nullptr;
+    ImageFuncDelegate *m_ImageFuncDelegate = nullptr;
 };

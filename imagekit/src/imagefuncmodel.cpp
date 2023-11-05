@@ -39,10 +39,17 @@ QModelIndex ImageFuncModel::parent(const QModelIndex &index) const
     return QModelIndex();
 }
 
-void ImageFuncModel::append(ImageFunc func)
+void ImageFuncModel::append(ImageFunc* func)
 {
     beginResetModel();
     m_Funcs.append(func);
+    endResetModel();
+}
+
+void ImageFuncModel::append(QList<ImageFunc *> funcs)
+{
+    beginResetModel();
+    m_Funcs.append(funcs);
     endResetModel();
 }
 

@@ -5,6 +5,7 @@
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
 #include "../awidget/inc/apushbutton.h"
+#include "inc/imagefunc.h"
 #include "inc/imagefuncview.h"
 #include "inc/imagefuncmodel.h"
 #include "inc/imagefuncdelegate.h"
@@ -20,6 +21,12 @@ ImageKitStartupWindow::ImageKitStartupWindow(QWidget *parent) : ABaseWidget(pare
 
 ImageKitStartupWindow::~ImageKitStartupWindow()
 {
+
+}
+
+void ImageKitStartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs)
+{
+    m_ImageFuncModel->append(funcs);
 }
 
 void ImageKitStartupWindow::createUi()
@@ -50,7 +57,7 @@ void ImageKitStartupWindow::createUi()
     navbarLayout->addLayout(logoLayout);
 
     m_LogoBtn = new APushButton(m_Navbar);
-    m_LogoBtn->setObjectName("m_LogoBtn");
+    m_LogoBtn->setObjectName("ImageKitStartupWindow_m_LogoBtn");
     m_LogoBtn->setFixedSize(32, 32);
     logoLayout->addWidget(m_LogoBtn);
 
@@ -59,29 +66,29 @@ void ImageKitStartupWindow::createUi()
     logoLayout->addLayout(vipLayout);
 
     m_VipBtn = new APushButton(m_Navbar);
-    m_VipBtn->setObjectName("m_VipBtn");
+    m_VipBtn->setObjectName("ImageKitStartupWindow_m_VipBtn");
     m_VipBtn->setFixedHeight(16);
     vipLayout->addWidget(m_VipBtn);
 
     m_VipRightsBtn = new APushButton(m_Navbar);
-    m_VipRightsBtn->setObjectName("m_VipRightsBtn");
+    m_VipRightsBtn->setObjectName("ImageKitStartupWindow_m_VipRightsBtn");
     m_VipRightsBtn->setFixedHeight(16);
     vipLayout->addWidget(m_VipRightsBtn);
 
     navbarLayout->addSpacing(20);
 
     m_FuncBtn = new APushButton(m_Navbar);
-    m_FuncBtn->setObjectName("m_FuncBtn");
+    m_FuncBtn->setObjectName("ImageKitStartupWindow_m_FuncBtn");
     m_FuncBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_FuncBtn);
 
     m_FilesBtn = new APushButton(m_Navbar);
-    m_FilesBtn->setObjectName("m_FilesBtn");
+    m_FilesBtn->setObjectName("ImageKitStartupWindow_m_FilesBtn");
     m_FilesBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_FilesBtn);
 
     m_SettingsBtn = new APushButton(m_Navbar);
-    m_SettingsBtn->setObjectName("m_SettingsBtn");
+    m_SettingsBtn->setObjectName("ImageKitStartupWindow_m_SettingsBtn");
     m_SettingsBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_SettingsBtn);
 
@@ -103,11 +110,13 @@ void ImageKitStartupWindow::createUi()
     auto funcAreaLayout = new AHBoxLayout(m_FuncArea);
     funcAreaLayout->setContentsMargins(20, 20, 20, 20);
 
-    ImageFuncModel *imageFuncModel = new ImageFuncModel;
-    ImageFuncDelegate *imageFuncDelegate = new ImageFuncDelegate;
     m_ImageFuncView = new ImageFuncView(this);
-    m_ImageFuncView->setModel(imageFuncModel);
-    m_ImageFuncView->setItemDelegate(imageFuncDelegate);
+    m_ImageFuncModel = new ImageFuncModel(m_ImageFuncView);
+    m_ImageFuncDelegate = new ImageFuncDelegate(m_ImageFuncView);
+    m_ImageFuncView->setObjectName("ImageKitStartupWindow_m_ImageFuncView");
+    m_ImageFuncView->setModel(m_ImageFuncModel);
+    m_ImageFuncView->setItemDelegate(m_ImageFuncDelegate);
+    m_ImageFuncView->viewport()->installEventFilter(m_ImageFuncDelegate);//关键
     funcAreaLayout->addWidget(m_ImageFuncView, 1);
 
     auto shadow = new AShadowEffect(this);

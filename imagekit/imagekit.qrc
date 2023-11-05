@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="imagekit/">
   <file>res/style/imagekitstartupview.qss</file>
+
+  <file>res/image/icon40_image_converter.png</file>
   </qresource>
 </RCC>

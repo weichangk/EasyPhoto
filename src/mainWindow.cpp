@@ -13,7 +13,6 @@
 #include "awidget/inc/ashadoweffect.h"
 #include "awidget/inc/aarrowwidget.h"
 #include "agui/inc/atopbar.h"
-#include "imagekit/inc/imagekitstartupwindow.h"
 #include "imagekit/inc/imagekitstartupcontroller.h"
 #include <QShortcut>
 
@@ -140,8 +139,7 @@ void MainWindow::createUi()
     testBtn4->setText(tr("second button"));
     testAPushButtonLyt->addWidget(testBtn4);
 
-    m_ImageKitStartupWindow = new ImageKitStartupWindow();
-    m_ImageKitStartupController = new ImageKitStartupController(m_ImageKitStartupWindow);
+    m_ImageKitStartupController = new ImageKitStartupController();
     QPushButton *testBtn5 = new QPushButton(rightWidget);
     testBtn5->setCheckable(true);
     testBtn5->setText(tr("image kit"));
