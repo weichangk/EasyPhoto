@@ -26,7 +26,7 @@ ImageKitStartupWindow::~ImageKitStartupWindow()
 
 void ImageKitStartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs)
 {
-    m_ImageFuncModel->append(funcs);
+    // m_ImageFuncModel->append(funcs);
 }
 
 void ImageKitStartupWindow::createUi()
@@ -110,14 +110,14 @@ void ImageKitStartupWindow::createUi()
     auto funcAreaLayout = new AHBoxLayout(m_FuncArea);
     funcAreaLayout->setContentsMargins(20, 20, 20, 20);
 
-    m_ImageFuncView = new ImageFuncView(this);
-    m_ImageFuncModel = new ImageFuncModel(m_ImageFuncView);
-    m_ImageFuncDelegate = new ImageFuncDelegate(m_ImageFuncView);
-    m_ImageFuncView->setObjectName("ImageKitStartupWindow_m_ImageFuncView");
-    m_ImageFuncView->setModel(m_ImageFuncModel);
-    m_ImageFuncView->setItemDelegate(m_ImageFuncDelegate);
-    m_ImageFuncView->viewport()->installEventFilter(m_ImageFuncDelegate);//关键
-    funcAreaLayout->addWidget(m_ImageFuncView, 1);
+    // m_ImageFuncView = new ImageFuncView(this);
+    // m_ImageFuncModel = new ImageFuncModel(m_ImageFuncView);
+    // m_ImageFuncDelegate = new ImageFuncDelegate(m_ImageFuncView);
+    // m_ImageFuncView->setObjectName("ImageKitStartupWindow_m_ImageFuncView");
+    // m_ImageFuncView->setModel(m_ImageFuncModel);
+    // m_ImageFuncView->setItemDelegate(m_ImageFuncDelegate);
+    // m_ImageFuncView->viewport()->installEventFilter(m_ImageFuncDelegate);//关键
+    // funcAreaLayout->addWidget(m_ImageFuncView, 1);
 
     auto shadow = new AShadowEffect(this);
 }

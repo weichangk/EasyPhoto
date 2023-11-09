@@ -4,13 +4,28 @@ ImageFuncModel::ImageFuncModel(QObject *parent) : QAbstractItemModel(parent)
 {
 }
 
+void ImageFuncModel::changeData(const QList<ImageFunc> &datas)
+{
+    beginResetModel();
+    m_Datas.append(datas);
+    endResetModel();
+}
+
+void ImageFuncModel::changeData(int row, const ImageFunc &data)
+{
+    beginResetModel();
+    m_Datas.insert(row, data);
+    endResetModel();
+}
+
+void ImageFuncModel::addData(QList<ImageFunc> &datas)
+{
+    m_Datas.append(datas);
+}
+
 int ImageFuncModel::rowCount(const QModelIndex &parent) const
 {
-    return m_Funcs.size();
-}
-int ImageFuncModel::columnCount(const QModelIndex &parent) const
-{
-    return 3;
+    return m_Datas.size();
 }
 
 QVariant ImageFuncModel::data(const QModelIndex &index, int role) const
@@ -27,35 +42,4 @@ QVariant ImageFuncModel::data(const QModelIndex &index, int role) const
         //     return m_Funcs[index.row()].birthday();
     }
     return QVariant();
-}
-
-QModelIndex ImageFuncModel::index(int row, int column, const QModelIndex &parent) const
-{
-    return QModelIndex();
-}
-
-QModelIndex ImageFuncModel::parent(const QModelIndex &index) const
-{
-    return QModelIndex();
-}
-
-void ImageFuncModel::append(ImageFunc* func)
-{
-    beginResetModel();
-    m_Funcs.append(func);
-    endResetModel();
-}
-
-void ImageFuncModel::append(QList<ImageFunc *> funcs)
-{
-    beginResetModel();
-    m_Funcs.append(funcs);
-    endResetModel();
-}
-
-void ImageFuncModel::clear()
-{
-    beginResetModel();
-    m_Funcs.clear();
-    endResetModel();
 }

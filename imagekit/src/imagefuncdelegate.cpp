@@ -20,12 +20,12 @@ void ImageFuncDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opt
     }
 }
 
+bool ImageFuncDelegate::eventFilter(QObject *object, QEvent *event)
+{
+    return QItemDelegate::eventFilter(object, event);
+}
+
 QSize ImageFuncDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     return m_Size;
-}
-
-void ImageFuncDelegate::setSize(QSize size)
-{
-    m_Size = size;
 }

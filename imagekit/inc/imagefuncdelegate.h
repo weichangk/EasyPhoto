@@ -9,8 +9,8 @@ class ImageFuncDelegate : public QItemDelegate
 public:
     ImageFuncDelegate(QObject *parent = 0);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    bool eventFilter(QObject *object, QEvent *event) override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
-    void setSize(QSize size);
 
 private:
     QSize m_Size = QSize(0, 0);
