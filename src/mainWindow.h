@@ -7,7 +7,6 @@ class QTreeWidget;
 class QStackedWidget;
 class AComboBox;
 class ATextEdit;
-class ImageKitStartupController;
 class QShortcut;
 class MainWindow : public ABaseWidget
 {
@@ -37,6 +36,4 @@ private:
     ATextEdit *testTextEdit = nullptr;
 
     QShortcut *enterShortcut = nullptr;
-
-    ImageKitStartupController *m_ImageKitStartupController = nullptr;
 };

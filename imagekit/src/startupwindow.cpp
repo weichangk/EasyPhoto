@@ -1,4 +1,4 @@
-#include "inc/imagekitstartupwindow.h"
+#include "inc/startupwindow.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
 #include "../agui/inc/aicontextwidget.h"
@@ -14,24 +14,24 @@
 #include <QPainter>
 #include <QPainterPath>
 
-ImageKitStartupWindow::ImageKitStartupWindow(QWidget *parent) : ABaseWidget(parent)
+StartupWindow::StartupWindow(QWidget *parent) : ABaseWidget(parent)
 {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-ImageKitStartupWindow::~ImageKitStartupWindow()
+StartupWindow::~StartupWindow()
 {
 
 }
 
-void ImageKitStartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs)
+void StartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs)
 {
     // m_ImageFuncModel->append(funcs);
 }
 
-void ImageKitStartupWindow::createUi()
+void StartupWindow::createUi()
 {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -59,7 +59,7 @@ void ImageKitStartupWindow::createUi()
     navbarLayout->addLayout(logoLayout);
 
     m_LogoBtn = new APushButton(m_Navbar);
-    m_LogoBtn->setObjectName("ImageKitStartupWindow_m_LogoBtn");
+    m_LogoBtn->setObjectName("StartupWindow_m_LogoBtn");
     m_LogoBtn->setFixedSize(32, 32);
     logoLayout->addWidget(m_LogoBtn);
 
@@ -68,22 +68,22 @@ void ImageKitStartupWindow::createUi()
     logoLayout->addLayout(vipLayout);
 
     m_VipBtn = new APushButton(m_Navbar);
-    m_VipBtn->setObjectName("ImageKitStartupWindow_m_VipBtn");
+    m_VipBtn->setObjectName("StartupWindow_m_VipBtn");
     m_VipBtn->setFixedHeight(16);
     vipLayout->addWidget(m_VipBtn);
 
     m_VipRightsBtn = new APushButton(m_Navbar);
-    m_VipRightsBtn->setObjectName("ImageKitStartupWindow_m_VipRightsBtn");
+    m_VipRightsBtn->setObjectName("StartupWindow_m_VipRightsBtn");
     m_VipRightsBtn->setFixedHeight(16);
     vipLayout->addWidget(m_VipRightsBtn);
 
     navbarLayout->addSpacing(20);
 
     m_FuncBtn = new AIconTextWidget(m_Navbar);
-    m_FuncBtn->setObjectName("ImageKitStartupWindow_m_FuncBtn");
+    m_FuncBtn->setObjectName("StartupWindow_m_FuncBtn");
     m_FuncBtn->setFixedHeight(32);
     QPixmap pix(24*4, 24);
-    pix.load(":/imagekit/res/image/icon24_menu_myfuncs.png");
+    pix.load(":/res/image/icon24_menu_myfuncs.png");
 
     m_FuncBtn->getIcon()->setFixedSize(24, 24);
     m_FuncBtn->getIcon()->setFourPixmap(pix);
@@ -91,12 +91,12 @@ void ImageKitStartupWindow::createUi()
     navbarLayout->addWidget(m_FuncBtn);
 
     m_FilesBtn = new AIconTextWidget(m_Navbar);
-    m_FilesBtn->setObjectName("ImageKitStartupWindow_m_FilesBtn");
+    m_FilesBtn->setObjectName("StartupWindow_m_FilesBtn");
     m_FilesBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_FilesBtn);
 
     m_SettingsBtn = new AIconTextWidget(m_Navbar);
-    m_SettingsBtn->setObjectName("ImageKitStartupWindow_m_SettingsBtn");
+    m_SettingsBtn->setObjectName("StartupWindow_m_SettingsBtn");
     m_SettingsBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_SettingsBtn);
 
@@ -112,7 +112,7 @@ void ImageKitStartupWindow::createUi()
     rightLayout->addLayout(funcLayout, 1);
 
     m_FuncArea = new AWidget(this);
-    m_FuncArea->setObjectName("ImageKitStartupWindow_m_FuncArea");
+    m_FuncArea->setObjectName("StartupWindow_m_FuncArea");
     funcLayout->addWidget(m_FuncArea, 1);
 
     auto funcAreaLayout = new AHBoxLayout(m_FuncArea);
@@ -121,7 +121,7 @@ void ImageKitStartupWindow::createUi()
     // m_ImageFuncView = new ImageFuncView(this);
     // m_ImageFuncModel = new ImageFuncModel(m_ImageFuncView);
     // m_ImageFuncDelegate = new ImageFuncDelegate(m_ImageFuncView);
-    // m_ImageFuncView->setObjectName("ImageKitStartupWindow_m_ImageFuncView");
+    // m_ImageFuncView->setObjectName("StartupWindow_m_ImageFuncView");
     // m_ImageFuncView->setModel(m_ImageFuncModel);
     // m_ImageFuncView->setItemDelegate(m_ImageFuncDelegate);
     // m_ImageFuncView->viewport()->installEventFilter(m_ImageFuncDelegate);//关键
@@ -130,11 +130,11 @@ void ImageKitStartupWindow::createUi()
     auto shadow = new AShadowEffect(this);
 }
 
-void ImageKitStartupWindow::changeLanguage()
+void StartupWindow::changeLanguage()
 {
 }
 
-void ImageKitStartupWindow::sigConnect()
+void StartupWindow::sigConnect()
 {
     connect(m_Topbar, &ATopbar::sigMin, this, [=]()
             { showMinimized(); });
@@ -146,7 +146,7 @@ void ImageKitStartupWindow::sigConnect()
             { close(); });
 }
 
-void ImageKitStartupWindow::paintEvent(QPaintEvent *event)
+void StartupWindow::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);

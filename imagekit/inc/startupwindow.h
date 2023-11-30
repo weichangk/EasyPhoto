@@ -9,12 +9,12 @@ class ImageFuncView;
 class ImageFuncModel;
 class ImageFuncDelegate;
 class ImageFunc;
-class IMAGEKIT_EXPORT ImageKitStartupWindow : public ABaseWidget
+class StartupWindow : public ABaseWidget
 {
     Q_OBJECT
 public:
-    ImageKitStartupWindow(QWidget *parent = nullptr);
-    ~ImageKitStartupWindow();
+    StartupWindow(QWidget *parent = nullptr);
+    ~StartupWindow();
     void imageFuncModelAppend(QList<ImageFunc *> funcs);
 
 protected:

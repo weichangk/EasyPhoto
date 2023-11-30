@@ -9,20 +9,15 @@ endif()
 project(
     ImageKit
     VERSION 1.0.0
-    DESCRIPTION "imagekit shared library project"
+    DESCRIPTION "imagekit project"
     LANGUAGES CXX
 )
 
 if (MSVC)
     set(BUILD_DEFINE
-        -DIMAGEKIT_LIB
         -D_AMD64_
         -DWIN32_LEAN_AND_MEAN
         -DUNICODE
-        -D_WINDOWS
-        -D_UNICODE
-        -DWIN32
-        -DWIN64
     )
 else()
     set(BUILD_DEFINE
@@ -59,7 +54,7 @@ find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 file(GLOB_RECURSE INC "inc/*.h" "inc/*.hpp")
 file(GLOB_RECURSE SRC "src/*.cpp" "src/*.cc")
 
-qt_add_library(${PROJECT_NAME} SHARED
+add_executable(${PROJECT_NAME}
     ${QRC}
     ${INC}
     ${SRC}

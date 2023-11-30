@@ -1,8 +1,8 @@
 #pragma once
 #include "imagekit_global.h"
-#include "imagekitstartupwindow.h"
+#include "startupwindow.h"
 
-class IMAGEKIT_EXPORT ImageKitStartupController : public QObject
+class ImageKitStartupController : public QObject
 {
     Q_OBJECT
 public:
@@ -15,5 +15,5 @@ private:
     void initImageFunc();
 
 private:
-    ImageKitStartupWindow * m_ImageKitStartupWindow = nullptr;
+    StartupWindow * m_StartupWindow = nullptr;
 };

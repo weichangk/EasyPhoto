@@ -1,7 +1,7 @@
 #pragma once
 #include "imagekit_global.h"
 
-class IMAGEKIT_EXPORT ImageKitWindow : public ABaseWidget
+class ImageKitWindow : public ABaseWidget
 {
     Q_OBJECT
 public:
