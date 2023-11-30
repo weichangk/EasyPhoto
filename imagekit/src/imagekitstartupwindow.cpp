@@ -1,6 +1,8 @@
 #include "inc/imagekitstartupwindow.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
+#include "../agui/inc/aicontextwidget.h"
+#include "../agui/inc/afourstateimagewidget.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
@@ -77,17 +79,23 @@ void ImageKitStartupWindow::createUi()
 
     navbarLayout->addSpacing(20);
 
-    m_FuncBtn = new APushButton(m_Navbar);
+    m_FuncBtn = new AIconTextWidget(m_Navbar);
     m_FuncBtn->setObjectName("ImageKitStartupWindow_m_FuncBtn");
     m_FuncBtn->setFixedHeight(32);
+    QPixmap pix(24*4, 24);
+    pix.load(":/imagekit/res/image/icon24_menu_myfuncs.png");
+
+    m_FuncBtn->getIcon()->setFixedSize(24, 24);
+    m_FuncBtn->getIcon()->setFourPixmap(pix);
+    m_FuncBtn->getText()->setText("全部功能");
     navbarLayout->addWidget(m_FuncBtn);
 
-    m_FilesBtn = new APushButton(m_Navbar);
+    m_FilesBtn = new AIconTextWidget(m_Navbar);
     m_FilesBtn->setObjectName("ImageKitStartupWindow_m_FilesBtn");
     m_FilesBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_FilesBtn);
 
-    m_SettingsBtn = new APushButton(m_Navbar);
+    m_SettingsBtn = new AIconTextWidget(m_Navbar);
     m_SettingsBtn->setObjectName("ImageKitStartupWindow_m_SettingsBtn");
     m_SettingsBtn->setFixedHeight(32);
     navbarLayout->addWidget(m_SettingsBtn);

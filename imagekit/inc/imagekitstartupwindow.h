@@ -4,6 +4,7 @@
 class ATopbar;
 class ACanMoveWidget;
 class APushButton;
+class AIconTextWidget;
 class ImageFuncView;
 class ImageFuncModel;
 class ImageFuncDelegate;
@@ -32,9 +33,9 @@ private:
     APushButton *m_VipBtn = nullptr;
     APushButton *m_VipRightsBtn = nullptr;
 
-    APushButton *m_FuncBtn = nullptr;
-    APushButton *m_FilesBtn = nullptr;
-    APushButton *m_SettingsBtn = nullptr;
+    AIconTextWidget *m_FuncBtn = nullptr;
+    AIconTextWidget *m_FilesBtn = nullptr;
+    AIconTextWidget *m_SettingsBtn = nullptr;
 
     ImageFuncView *m_ImageFuncView = nullptr;
     ImageFuncModel *m_ImageFuncModel = nullptr;

@@ -19,7 +19,6 @@ void AFourStateImageWidget::setFourPixmap(QPixmap pixmap)
 
 void AFourStateImageWidget::setNormalPixmap(QPixmap pixmap)
 {
-
     m_NormalPixmap = pixmap;
 }
 
@@ -36,6 +35,11 @@ void AFourStateImageWidget::setPressedPixmap(QPixmap pixmap)
 void AFourStateImageWidget::setDisablePixmap(QPixmap pixmap)
 {
     m_DisabledPixmap = pixmap;
+}
+
+void AFourStateImageWidget::showEvent(QShowEvent *event)
+{
+    ABaseWidget::showEvent(event);
 }
 
 void AFourStateImageWidget::paintEvent(QPaintEvent *event)
@@ -94,28 +98,37 @@ void AFourStateImageWidget::paintEvent(QPaintEvent *event)
     ABaseWidget::paintEvent(event);
 }
 
+void AFourStateImageWidget::mousePressEvent(QMouseEvent *event)
+{
+    ABaseWidget::mousePressEvent(event);
+    m_State = 2;
+    update();
+}
+
+void AFourStateImageWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    ABaseWidget::mouseReleaseEvent(event);
+    m_State = 0;
+    update();
+}
+
+void AFourStateImageWidget::enterEvent(QEnterEvent *event)
+{
+    ABaseWidget::enterEvent(event);
+    m_State = 1;
+    update();
+}
+
+void AFourStateImageWidget::leaveEvent(QEvent *event)
+{
+    ABaseWidget::leaveEvent(event);
+    m_State = 0;
+    update();
+}
+
 void AFourStateImageWidget::changeEvent(QEvent *event)
 {
-    if (event->type() == QEvent::Enter)
-    {
-        m_State = 1;
-        update();
-    }
-    if (event->type() == QEvent::Leave)
-    {
-        m_State = 0;
-        update();
-    }
-    if (event->type() == QEvent::MouseButtonPress)
-    {
-        m_State = 2;
-        update();
-    }
-    if (event->type() == QEvent::MouseButtonRelease)
-    {
-        m_State = 0;
-        update();
-    }
+    ABaseWidget::changeEvent(event);
     if (event->type() == QEvent::EnabledChange)
     {
         if (!isEnabled())
@@ -124,5 +137,4 @@ void AFourStateImageWidget::changeEvent(QEvent *event)
             update();
         }
     }
-    ABaseWidget::changeEvent(event);
 }
