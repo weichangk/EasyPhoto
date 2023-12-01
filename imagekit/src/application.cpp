@@ -1,17 +1,16 @@
 #include "inc/application.h"
-#include "inc/startupwindow.h"
-
+#include "inc/startupcontroller.h"
+#include "../acore/inc/astylemgr.h"
 
 Application::Application(int argc, char *argv[])
     : QApplication(argc, argv)
 {
-    // setOrganizationName(ORGANIZATION_NAME);
-    // setOrganizationDomain(ORGANIZATION_DOMAIN);
-    // setApplicationName(APPLICATION_NAME);
-    // setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
-
+    setOrganizationName(ORGANIZATION_NAME);
+    setOrganizationDomain(ORGANIZATION_DOMAIN);
+    setApplicationName(APPLICATION_NAME);
+    setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
     // setQuitOnLastWindowClosed(false);
-
+    AStyleMgr::setStyleToApp(":/res/style");
     initUi();
 }
 
@@ -31,10 +30,10 @@ void Application::initUi()
 
     m_Settings.load();
 
-    m_StartupWindow = new StartupWindow;
+    m_StartupController = new StartupController;
     // m_StartupWindow->setWindowIcon(appIcon_);
     // m_StartupWindow->setWindowTitle(applicationDisplayName());
-    m_StartupWindow->show(); // FIXME: crash without this
+    m_StartupController->show(); // FIXME: crash without this
 
     // trayIcon_->setIcon(appIcon_);
     // trayIcon_->setWidget(mainWindow_);

@@ -79,25 +79,33 @@ void StartupWindow::createUi()
 
     navbarLayout->addSpacing(20);
 
-    m_FuncBtn = new AIconTextWidget(m_Navbar);
-    m_FuncBtn->setObjectName("StartupWindow_m_FuncBtn");
-    m_FuncBtn->setFixedHeight(32);
     QPixmap pix(24*4, 24);
     pix.load(":/res/image/icon24_menu_myfuncs.png");
 
+    m_FuncBtn = new AIconTextWidget(m_Navbar);
+    m_FuncBtn->setObjectName("StartupWindow_m_FuncBtn");
+    m_FuncBtn->setFixedHeight(32);
     m_FuncBtn->getIcon()->setFixedSize(24, 24);
     m_FuncBtn->getIcon()->setFourPixmap(pix);
     m_FuncBtn->getText()->setText("全部功能");
     navbarLayout->addWidget(m_FuncBtn);
 
+    pix.load(":/res/image/icon24_menu_myfiles.png");
     m_FilesBtn = new AIconTextWidget(m_Navbar);
     m_FilesBtn->setObjectName("StartupWindow_m_FilesBtn");
     m_FilesBtn->setFixedHeight(32);
+    m_FilesBtn->getIcon()->setFixedSize(24, 24);
+    m_FilesBtn->getIcon()->setFourPixmap(pix);
+    m_FilesBtn->getText()->setText("我的文件");
     navbarLayout->addWidget(m_FilesBtn);
 
+    pix.load(":/res/image/icon24_menu_mysettings.png");
     m_SettingsBtn = new AIconTextWidget(m_Navbar);
     m_SettingsBtn->setObjectName("StartupWindow_m_SettingsBtn");
     m_SettingsBtn->setFixedHeight(32);
+    m_SettingsBtn->getIcon()->setFixedSize(24, 24);
+    m_SettingsBtn->getIcon()->setFourPixmap(pix);
+    m_SettingsBtn->getText()->setText("设置");
     navbarLayout->addWidget(m_SettingsBtn);
 
     navbarLayout->addStretch();

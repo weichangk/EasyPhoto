@@ -1,14 +1,13 @@
 #pragma once
-#include "imagekit_global.h"
 #include "startupwindow.h"
+#include <QObject>
 
-class ImageKitStartupController : public QObject
+class StartupController : public QObject
 {
     Q_OBJECT
 public:
-    ImageKitStartupController();
-    ~ImageKitStartupController();
-
+    StartupController();
+    ~StartupController();
     void show();
 
 private:

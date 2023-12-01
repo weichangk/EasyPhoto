@@ -4,7 +4,7 @@
 #include <QApplication>
 
 
-class StartupWindow;
+class StartupController;
 class Application : public QApplication
 {
     Q_OBJECT
@@ -16,5 +16,5 @@ public:
 private:
     void initUi();
     Settings m_Settings;
-    StartupWindow *m_StartupWindow;
+    StartupController *m_StartupController;
 };

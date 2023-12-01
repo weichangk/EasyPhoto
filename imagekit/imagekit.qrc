@@ -1,9 +1,7 @@
 <RCC>
   <qresource prefix="/">
-  <!-- <file>res/style/startupwindow.qss</file> -->
-
+  <file>res/style/startupwindow.qss</file>
   <file>res/image/icon40_image_converter.png</file>
-
   <file>res/image/icon24_menu_myfiles.png</file>
   <file>res/image/icon24_menu_myfuncs.png</file>
   <file>res/image/icon24_menu_mysettings.png</file>

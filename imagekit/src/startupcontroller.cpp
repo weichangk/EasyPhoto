@@ -1,24 +1,24 @@
-#include "inc/imagekitstartupcontroller.h"
+#include "inc/startupcontroller.h"
 #include "inc/startupwindow.h"
 #include "inc/imagefunc.h"
 
-ImageKitStartupController::ImageKitStartupController()
+StartupController::StartupController()
 {
     m_StartupWindow = new StartupWindow();
     initImageFunc();
 }
 
-ImageKitStartupController::~ImageKitStartupController()
+StartupController::~StartupController()
 {
     delete m_StartupWindow;
 }
 
-void ImageKitStartupController::show()
+void StartupController::show()
 {
     m_StartupWindow->show();
 }
 
-void ImageKitStartupController::initImageFunc()
+void StartupController::initImageFunc()
 {
     QList<ImageFunc *> imageFuncs;
     QString name = "图片转换";

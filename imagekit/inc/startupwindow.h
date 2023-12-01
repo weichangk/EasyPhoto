@@ -1,5 +1,6 @@
 #pragma once
-#include "imagekit_global.h"
+#include "../agui/inc/abasewidget.h"
+#include <QButtonGroup>
 
 class ATopbar;
 class ACanMoveWidget;

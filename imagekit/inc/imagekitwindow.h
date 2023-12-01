@@ -1,5 +1,5 @@
 #pragma once
-#include "imagekit_global.h"
+#include "../agui/inc/abasewidget.h"
 
 class ImageKitWindow : public ABaseWidget
 {
