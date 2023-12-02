@@ -4,104 +4,111 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../mainWindow.cpp" line="54"/>
-        <source>English</source>
-        <translation type="unfinished">英文</translation>
-    </message>
-    <message>
-        <location filename="../mainWindow.cpp" line="55"/>
-        <source>Chinens</source>
-        <translation type="unfinished">中文</translation>
-    </message>
-    <message>
-        <location filename="../mainWindow.cpp" line="63"/>
+        <location filename="../src/mainWindow.cpp" line="32"/>
         <source>Please enter your mobile phone number or email address</source>
         <translation type="unfinished">请输入您的手机号码或电子邮件地址</translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="72"/>
-        <location filename="../mainWindow.cpp" line="81"/>
+        <location filename="../src/mainWindow.cpp" line="95"/>
+        <source>Chinens</source>
+        <translation type="unfinished">中文</translation>
+    </message>
+    <message>
+        <location filename="../src/mainWindow.cpp" line="96"/>
+        <source>English</source>
+        <translation type="unfinished">英文</translation>
+    </message>
+    <message>
+        <location filename="../src/mainWindow.cpp" line="112"/>
+        <location filename="../src/mainWindow.cpp" line="113"/>
+        <location filename="../src/mainWindow.cpp" line="134"/>
         <source>first button</source>
         <translation type="unfinished">第一个按钮</translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="76"/>
-        <location filename="../mainWindow.cpp" line="85"/>
+        <location filename="../src/mainWindow.cpp" line="117"/>
+        <location filename="../src/mainWindow.cpp" line="118"/>
+        <location filename="../src/mainWindow.cpp" line="138"/>
         <source>second button</source>
         <translation type="unfinished">第二个按钮</translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="113"/>
+        <location filename="../src/mainWindow.cpp" line="143"/>
+        <source>image kit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainWindow.cpp" line="181"/>
         <source>Home</source>
         <translation type="unfinished">主页</translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="117"/>
+        <location filename="../src/mainWindow.cpp" line="185"/>
         <source>Layouts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="120"/>
+        <location filename="../src/mainWindow.cpp" line="188"/>
         <source>Ver Hor Grid Form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="123"/>
+        <location filename="../src/mainWindow.cpp" line="191"/>
         <source>Splitter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="126"/>
+        <location filename="../src/mainWindow.cpp" line="194"/>
         <source>CustomFlowLayout</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="130"/>
+        <location filename="../src/mainWindow.cpp" line="198"/>
         <source>Containers</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="133"/>
+        <location filename="../src/mainWindow.cpp" line="201"/>
         <source>ScrollArea</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="136"/>
+        <location filename="../src/mainWindow.cpp" line="204"/>
         <source>DockWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="138"/>
+        <location filename="../src/mainWindow.cpp" line="206"/>
         <source>AddDockWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="140"/>
+        <location filename="../src/mainWindow.cpp" line="208"/>
         <source>SplitDockWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="142"/>
+        <location filename="../src/mainWindow.cpp" line="210"/>
         <source>TabifyDockWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="145"/>
+        <location filename="../src/mainWindow.cpp" line="213"/>
         <source>StackedWidget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="149"/>
+        <location filename="../src/mainWindow.cpp" line="217"/>
         <source>Properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="151"/>
+        <location filename="../src/mainWindow.cpp" line="219"/>
         <source>SizeTest</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainWindow.cpp" line="155"/>
+        <location filename="../src/mainWindow.cpp" line="223"/>
         <source>itemviews</source>
         <translation type="unfinished"></translation>
     </message>

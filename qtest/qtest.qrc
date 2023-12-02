@@ -1,6 +1,6 @@
 <RCC>
   <qresource prefix="/">
-    <file>aml/Test.qml</file>
+    <file>../aml/Test.qml</file>
 
     <file>res/style/test.qss</file>
 

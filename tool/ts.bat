@@ -1,7 +1,7 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set "folder=%~dp0\%1"
+set "folder=%~dp0\..\%1"
 
 SETLOCAL ENABLEDELAYEDEXPANSION
 
@@ -13,7 +13,7 @@ for /r "%folder%" %%f in (*.cpp *.cc) do (
   set "srcs=!srcs!%%~ff "
 )
 
-set "outfolder=%~dp0\%1\lang"
+set "outfolder=%~dp0\..\%1\lang"
 if not exist "%outfolder%" (
     mkdir "%outfolder%"
 )

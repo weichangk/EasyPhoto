@@ -1,5 +1,5 @@
 #pragma once
-#include "agui/inc/abasewidget.h"
+#include "../agui/inc/abasewidget.h"
 
 class QWidget;
 class ATopbar;

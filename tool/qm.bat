@@ -1,10 +1,10 @@
 @echo off
 setlocal EnableDelayedExpansion
 
-set "folder=%~dp0\%1\lang"
-set "debug=%~dp0\bin\x64\Debug\lang\%2"
-set "release=%~dp0\bin\x64\Release\lang\%2"
-set "res=%~dp0\res\lang\%2"
+set "folder=%~dp0\..\%1\lang"
+set "debug=%~dp0\..\bin\x64\Debug\lang\%2"
+set "release=%~dp0\..\bin\x64\Release\lang\%2"
+set "res=%~dp0\..\%1\res\lang\%2"
 
 cd %folder%
 

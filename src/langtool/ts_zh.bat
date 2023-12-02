@@ -1,1 +1,0 @@
-../../ts.bat src zh
