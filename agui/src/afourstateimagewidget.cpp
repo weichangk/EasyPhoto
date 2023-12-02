@@ -68,7 +68,7 @@ void AFourStateImageWidget::paintEvent(QPaintEvent *event)
             pixmapTemp.setDevicePixelRatio(1);
             painter.drawPixmap(this->rect(), pixmapTemp);
             break;
-        case Disenabled:
+        case Disabled:
             pixmapTemp = m_DisabledPixmap.scaled(this->rect().size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             pixmapTemp.setDevicePixelRatio(1);
             painter.drawPixmap(this->rect(), pixmapTemp);
@@ -152,7 +152,7 @@ void AFourStateImageWidget::changeEvent(QEvent *event)
     {
         if (!isEnabled())
         {
-            m_State = Disenabled;
+            m_State = Disabled;
             update();
         }
     }

@@ -22,8 +22,10 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
-
     void paintEvent(QPaintEvent *event) override;
+
+private:
+    void slotNavClicked(QString objectName);
 
 private:
     ATopbar * m_Topbar = nullptr;

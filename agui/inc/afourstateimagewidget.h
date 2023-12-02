@@ -11,7 +11,7 @@ enum AGUI_EXPORT AFourStateImageStatus
     Hover,
     Pressed,
     Checked,
-    Disenabled
+    Disabled
 };
 
 class AGUI_EXPORT AFourStateImageWidget : public ABaseWidget
