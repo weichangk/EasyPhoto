@@ -1,18 +1,10 @@
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
+#include "astylestatus.h"
 #include <QPainter>
 #include <QEvent>
 #include <QPixmap>
-
-enum AGUI_EXPORT AFourStateImageStatus
-{
-    Normal = 0,
-    Hover,
-    Pressed,
-    Checked,
-    Disabled
-};
 
 class AGUI_EXPORT AFourStateImageWidget : public ABaseWidget
 {
@@ -25,7 +17,7 @@ public:
     void setHoverPixmap(QPixmap pixmap);
     void setPressedPixmap(QPixmap pixmap);
     void setDisablePixmap(QPixmap pixmap);
-    void setState(AFourStateImageStatus state);
+    void setState(StyleStatus state);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -37,7 +29,7 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    AFourStateImageStatus m_State = AFourStateImageStatus::Normal;
+    StyleStatus m_State = StyleStatus::Normal;
     QPixmap m_FourPixmap;
     QPixmap m_NormalPixmap;
     QPixmap m_HoverPixmap;

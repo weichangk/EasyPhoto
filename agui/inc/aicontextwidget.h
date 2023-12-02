@@ -1,6 +1,7 @@
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
+#include "astylestatus.h"
 #include "afourstateimagewidget.h"
 #include "../awidget/inc/alabel.h"
 
@@ -12,6 +13,7 @@ public:
     ~AIconTextWidget();
     AFourStateImageWidget *getIcon() { return m_Icon; }
     ALabel *getText() { return m_Text; }
+    void setState(StyleStatus state);
     void setIconTextSpacing(int spacing) { m_IconTextSpacing = spacing; }
 
 Q_SIGNALS:
@@ -25,6 +27,7 @@ protected:
     void leaveEvent(QEvent *event) override;
 
 private:
+    StyleStatus m_State = StyleStatus::Normal;
     AFourStateImageWidget *m_Icon = nullptr;
     ALabel *m_Text = nullptr;
     int m_IconTextSpacing = 6;

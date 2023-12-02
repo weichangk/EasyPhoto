@@ -37,7 +37,7 @@ void AFourStateImageWidget::setDisablePixmap(QPixmap pixmap)
     m_DisabledPixmap = pixmap;
 }
 
-void AFourStateImageWidget::setState(AFourStateImageStatus state)
+void AFourStateImageWidget::setState(StyleStatus state)
 {
     m_State = state;
     update();
