@@ -4,6 +4,8 @@
 /acore/build
 /awidget/build
 /agui/build
+/qtest/build
+/imagekit/build
 
 /logDebug.txt
 /logInfo.txt
