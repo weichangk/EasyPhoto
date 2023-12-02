@@ -9,9 +9,9 @@
 #include "../awidget/inc/acombobox.h"
 #include "../awidget/inc/atextedit.h"
 #include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/athumbnail.h"
 #include "../awidget/inc/ashadoweffect.h"
-#include "../awidget/inc/aarrowwidget.h"
+#include "../agui/inc/athumbnail.h"
+#include "../agui/inc/aarrowwidget.h"
 #include "../agui/inc/atopbar.h"
 #include <QShortcut>
 

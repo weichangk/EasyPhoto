@@ -1,5 +1,4 @@
 #include "inc/apushbutton.h"
-#include "inc/atooltip.h"
 #include <QEvent>
 #include <QCoreApplication>
 
@@ -34,23 +33,5 @@ void APushButton::enterEvent(QEnterEvent *event)
 
 bool APushButton::eventFilter(QObject *watched, QEvent *event)
 {
-    // if(watched == this)
-    // {
-    //     if(event->type() == QEvent::ToolTip)
-    //     {
-    //         if(!this->toolTip().isEmpty())
-    //         {
-    //             if(!AToolTip::getInstance()->isVisible())
-    //             {
-    //                 AToolTip::getInstance()->showText(this->toolTip());
-    //             }
-    //             return true;
-    //         }
-    //     }
-    //     else if (event->type() == QEvent::Leave)
-    //     {
-    //         AToolTip::getInstance()->hideText();
-    //     }
-    // }
     return QPushButton::eventFilter(watched, event);
 }

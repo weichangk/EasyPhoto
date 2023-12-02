@@ -1,9 +1,9 @@
 #pragma once
-#include "awidget_global.h"
-#include "awidget.h"
+#include "agui_global.h"
+#include "abasewidget.h"
 #include <QPixmap>
 
-class AWIDGET_EXPORT AThumbnail : public AWidget
+class AGUI_EXPORT AThumbnail : public ABaseWidget
 {
 public:
     AThumbnail(QWidget *parent = nullptr);

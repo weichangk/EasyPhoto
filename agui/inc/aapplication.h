@@ -1,8 +1,8 @@
 #pragma once
-#include "awidget_global.h"
+#include "agui_global.h"
 #include <QApplication>
 
-class AWIDGET_EXPORT AApplication : public QApplication
+class AGUI_EXPORT AApplication : public QApplication
 {
     Q_OBJECT
 public:

@@ -55,7 +55,7 @@ void AToolTip::hideText()
 
 void AToolTip::paintEvent(QPaintEvent *event)
 {
-    AWidget::paintEvent(event);
+    ABaseWidget::paintEvent(event);
 }
 
 AToolTip::AToolTip()

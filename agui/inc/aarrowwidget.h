@@ -1,7 +1,7 @@
 #pragma once
-#include "awidget_global.h"
-#include "awidget.h"
-class AWIDGET_EXPORT AArrowWidget : public AWidget
+#include "agui_global.h"
+#include "abasewidget.h"
+class AGUI_EXPORT AArrowWidget : public ABaseWidget
 {
     Q_OBJECT
 public:

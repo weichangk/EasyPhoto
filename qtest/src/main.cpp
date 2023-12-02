@@ -2,7 +2,7 @@
 #include "../acore/inc/alogmgr.h"
 #include "../acore/inc/astylemgr.h"
 #include "../acore/inc/alangmgr.h"
-#include "../awidget/inc/aapplication.h"
+#include "../agui/inc/aapplication.h"
 
 int main(int argc, char *argv[])
 {

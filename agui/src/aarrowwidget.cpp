@@ -5,7 +5,7 @@
 #include <QGraphicsDropShadowEffect>
 
 AArrowWidget::AArrowWidget(QWidget *parent)
-    : AWidget(parent)
+    : ABaseWidget(parent)
 {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);

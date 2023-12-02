@@ -1,10 +1,10 @@
 #pragma once
-#include "awidget_global.h"
-#include "awidget.h"
+#include "agui_global.h"
+#include "abasewidget.h"
 
 class QFrame;
 class QLabel;
-class AWIDGET_EXPORT AToolTip : public AWidget
+class AGUI_EXPORT AToolTip : public ABaseWidget
 {
     Q_OBJECT
 public:

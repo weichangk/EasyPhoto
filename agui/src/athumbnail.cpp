@@ -2,7 +2,7 @@
 #include <QPainter>
 #include <QPainterPath>
 
-AThumbnail::AThumbnail(QWidget *parent) : AWidget(parent)
+AThumbnail::AThumbnail(QWidget *parent) : ABaseWidget(parent)
 {
 }
 
