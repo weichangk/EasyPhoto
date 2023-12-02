@@ -11,10 +11,4 @@ public:
 
 protected:
     void paintEvent(QPaintEvent *event) override;
-    virtual void showEvent(QShowEvent *event);
-    virtual void leaveEvent(QEvent *event);
-    virtual void enterEvent(QEnterEvent *event);
-    virtual bool eventFilter(QObject *watched, QEvent *event);
-
-private:
 };

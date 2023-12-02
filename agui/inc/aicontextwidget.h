@@ -12,18 +12,20 @@ public:
     ~AIconTextWidget();
     AFourStateImageWidget *getIcon() { return m_Icon; }
     ALabel *getText() { return m_Text; }
-    void setIconLeftSpacing(int spacing) { m_IconLeftSpacing = spacing; }
-    void setIconRightSpacing(int spacing) { m_IconRightSpacing = spacing; }
+    void setIconTextSpacing(int spacing) { m_IconTextSpacing = spacing; }
 
 Q_SIGNALS:
     void sigClicked();
 
 protected:
     void createUi() override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent *event) override;
+    void enterEvent(QEnterEvent *event) override;
+    void leaveEvent(QEvent *event) override;
 
 private:
     AFourStateImageWidget *m_Icon = nullptr;
     ALabel *m_Text = nullptr;
-    int m_IconLeftSpacing = 8;
-    int m_IconRightSpacing = 8;
+    int m_IconTextSpacing = 6;
 };

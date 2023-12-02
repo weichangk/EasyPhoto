@@ -5,6 +5,15 @@
 #include <QEvent>
 #include <QPixmap>
 
+enum AGUI_EXPORT AFourStateImageStatus
+{
+    Normal = 0,
+    Hover,
+    Pressed,
+    Checked,
+    Disenabled
+};
+
 class AGUI_EXPORT AFourStateImageWidget : public ABaseWidget
 {
     Q_OBJECT
@@ -16,6 +25,7 @@ public:
     void setHoverPixmap(QPixmap pixmap);
     void setPressedPixmap(QPixmap pixmap);
     void setDisablePixmap(QPixmap pixmap);
+    void setState(AFourStateImageStatus state);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -27,7 +37,7 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    int m_State = 0; // 0 1 2 3 normal hover pressed disenabled
+    AFourStateImageStatus m_State = AFourStateImageStatus::Normal;
     QPixmap m_FourPixmap;
     QPixmap m_NormalPixmap;
     QPixmap m_HoverPixmap;
