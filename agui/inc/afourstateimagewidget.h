@@ -1,7 +1,7 @@
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
-#include "astylestatus.h"
+#include "aenum.h"
 #include <QPainter>
 #include <QEvent>
 #include <QPixmap>
@@ -17,7 +17,7 @@ public:
     void setHoverPixmap(QPixmap pixmap);
     void setPressedPixmap(QPixmap pixmap);
     void setDisablePixmap(QPixmap pixmap);
-    void setState(StyleStatus state);
+    void setState(AEnum::StyleStatus state);
 
 protected:
     void showEvent(QShowEvent *event) override;
@@ -29,7 +29,7 @@ protected:
     void changeEvent(QEvent *event) override;
 
 private:
-    StyleStatus m_State = StyleStatus::Normal;
+    AEnum::StyleStatus m_State = AEnum::StyleStatus::Normal;
     QPixmap m_FourPixmap;
     QPixmap m_NormalPixmap;
     QPixmap m_HoverPixmap;

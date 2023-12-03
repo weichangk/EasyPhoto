@@ -37,7 +37,7 @@ void AFourStateImageWidget::setDisablePixmap(QPixmap pixmap)
     m_DisabledPixmap = pixmap;
 }
 
-void AFourStateImageWidget::setState(StyleStatus state)
+void AFourStateImageWidget::setState(AEnum::StyleStatus state)
 {
     m_State = state;
     update();
@@ -57,18 +57,18 @@ void AFourStateImageWidget::paintEvent(QPaintEvent *event)
         QPixmap pixmapTemp;
         switch (m_State)
         {
-        case Hover:
+        case AEnum::StyleStatus::Hover:
             pixmapTemp = m_HoverPixmap.scaled(this->rect().size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             pixmapTemp.setDevicePixelRatio(1);
             painter.drawPixmap(this->rect(), pixmapTemp);
             break;
-        case Pressed:
-        case Checked:
+        case AEnum::StyleStatus::Pressed:
+        case AEnum::StyleStatus::Checked:
             pixmapTemp = m_PressedPixmap.scaled(this->rect().size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             pixmapTemp.setDevicePixelRatio(1);
             painter.drawPixmap(this->rect(), pixmapTemp);
             break;
-        case Disabled:
+        case AEnum::StyleStatus::Disabled:
             pixmapTemp = m_DisabledPixmap.scaled(this->rect().size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
             pixmapTemp.setDevicePixelRatio(1);
             painter.drawPixmap(this->rect(), pixmapTemp);
@@ -108,9 +108,9 @@ void AFourStateImageWidget::paintEvent(QPaintEvent *event)
 void AFourStateImageWidget::mousePressEvent(QMouseEvent *event)
 {
     ABaseWidget::mousePressEvent(event);
-    if(m_State != Checked)
+    if(m_State != AEnum::StyleStatus::Checked)
     {
-        m_State = Pressed;
+        m_State = AEnum::StyleStatus::Pressed;
         update();
     }
 }
@@ -118,9 +118,9 @@ void AFourStateImageWidget::mousePressEvent(QMouseEvent *event)
 void AFourStateImageWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     ABaseWidget::mouseReleaseEvent(event);
-    if(m_State != Checked)
+    if(m_State != AEnum::StyleStatus::Checked)
     {
-        m_State = Hover;
+        m_State = AEnum::StyleStatus::Hover;
         update();
     }
 }
@@ -128,9 +128,9 @@ void AFourStateImageWidget::mouseReleaseEvent(QMouseEvent *event)
 void AFourStateImageWidget::enterEvent(QEnterEvent *event)
 {
     ABaseWidget::enterEvent(event);
-    if(m_State != Checked)
+    if(m_State != AEnum::StyleStatus::Checked)
     {
-        m_State = Hover;
+        m_State = AEnum::StyleStatus::Hover;
         update();
     }
 }
@@ -138,9 +138,9 @@ void AFourStateImageWidget::enterEvent(QEnterEvent *event)
 void AFourStateImageWidget::leaveEvent(QEvent *event)
 {
     ABaseWidget::leaveEvent(event);
-    if(m_State != Checked)
+    if(m_State != AEnum::StyleStatus::Checked)
     {
-        m_State = Normal;
+        m_State = AEnum::StyleStatus::Normal;
         update();
     }
 }
@@ -152,7 +152,7 @@ void AFourStateImageWidget::changeEvent(QEvent *event)
     {
         if (!isEnabled())
         {
-            m_State = Disabled;
+            m_State = AEnum::StyleStatus::Disabled;
             update();
         }
     }

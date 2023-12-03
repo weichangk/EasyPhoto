@@ -1,5 +1,5 @@
 #include "inc/aicontextwidget.h"
-#include "inc/astylestatus.h"
+#include "inc/aenum.h"
 #include "../acore/inc/astring.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include <QMetaEnum>
@@ -13,11 +13,11 @@ AIconTextWidget::~AIconTextWidget()
 {
 }
 
-void AIconTextWidget::setState(StyleStatus state)
+void AIconTextWidget::setState(AEnum::StyleStatus state)
 {
     m_State = state;
     m_Icon->setState(state);
-    QString stateStr = QString(QMetaEnum::fromType<StyleStatus>().valueToKey(state)).toLower();
+    QString stateStr = AString::QtEnumToQString(state).toLower();
     m_Text->setProperty("style-state", stateStr);
 }
 
@@ -41,35 +41,31 @@ void AIconTextWidget::createUi()
 void AIconTextWidget::mousePressEvent(QMouseEvent *event)
 {
     ABaseWidget::mousePressEvent(event);
-    m_Icon->setState(StyleStatus::Pressed);
-    // QString stateStr = QString(QMetaEnum::fromType<StyleStatus>().valueToKey(StyleStatus::Pressed)).toLower();
-    // m_Text->setProperty("style-state", stateStr);
+    m_Icon->setState(AEnum::StyleStatus::Pressed);
+    m_Text->setProperty("style-state", "pressed");
     m_Text->setStyle(m_Text->style());
 }
 
 void AIconTextWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     ABaseWidget::mouseReleaseEvent(event);
-    m_Icon->setState(StyleStatus::Hover);
-    // QString stateStr = QString(QMetaEnum::fromType<StyleStatus>().valueToKey(StyleStatus::Hover)).toLower();
-    // m_Text->setProperty("style-state", stateStr);
+    m_Icon->setState(AEnum::StyleStatus::Hover);
+    m_Text->setProperty("style-state", "hover");
     m_Text->setStyle(m_Text->style());
 }
 
 void AIconTextWidget::enterEvent(QEnterEvent *event)
 {
     ABaseWidget::enterEvent(event);
-    m_Icon->setState(StyleStatus::Hover);
-    // QString stateStr = QString(QMetaEnum::fromType<StyleStatus>().valueToKey(StyleStatus::Hover)).toLower();
-    // m_Text->setProperty("style-state", stateStr);
+    m_Icon->setState(AEnum::StyleStatus::Hover);
+    m_Text->setProperty("style-state", "hover");
     m_Text->setStyle(m_Text->style());
 }
 
 void AIconTextWidget::leaveEvent(QEvent *event)
 {
     ABaseWidget::leaveEvent(event);
-    m_Icon->setState(StyleStatus::Normal);
-    // QString stateStr = QString(QMetaEnum::fromType<StyleStatus>().valueToKey(StyleStatus::Normal)).toLower();
-    // m_Text->setProperty("style-state", stateStr);
+    m_Icon->setState(AEnum::StyleStatus::Normal);
+    m_Text->setProperty("style-state", "normal");
     m_Text->setStyle(m_Text->style());
 }
