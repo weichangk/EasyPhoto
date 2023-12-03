@@ -1,11 +1,11 @@
 #pragma once
 #include "../agui/inc/abasewidget.h"
+#include "../agui/inc/anavbarwidget.h"
 #include <QButtonGroup>
 
 class ATopbar;
 class ACanMoveWidget;
 class APushButton;
-class AIconTextWidget;
 class ImageFuncView;
 class ImageFuncModel;
 class ImageFuncDelegate;
@@ -14,6 +14,14 @@ class StartupWindow : public ABaseWidget
 {
     Q_OBJECT
 public:
+    enum StartupNav
+    {
+        MyFunc = 0,
+        MyFiles,
+        MySettings
+    };
+    Q_ENUM(StartupNav)
+
     StartupWindow(QWidget *parent = nullptr);
     ~StartupWindow();
     void imageFuncModelAppend(QList<ImageFunc *> funcs);
@@ -28,17 +36,15 @@ private:
     void slotNavClicked(QString objectName);
 
 private:
-    ATopbar * m_Topbar = nullptr;
-    ACanMoveWidget * m_Navbar = nullptr;
+    ATopbar *m_Topbar = nullptr;
+    ACanMoveWidget *m_Navbar = nullptr;
     AWidget *m_FuncArea = nullptr;
 
     APushButton *m_LogoBtn = nullptr;
     APushButton *m_VipBtn = nullptr;
     APushButton *m_VipRightsBtn = nullptr;
 
-    AIconTextWidget *m_FuncBtn = nullptr;
-    AIconTextWidget *m_FilesBtn = nullptr;
-    AIconTextWidget *m_SettingsBtn = nullptr;
+    ANavbarWidget *m_anavbarwidget = nullptr;
 
     ImageFuncView *m_ImageFuncView = nullptr;
     ImageFuncModel *m_ImageFuncModel = nullptr;

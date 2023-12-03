@@ -5,6 +5,7 @@
 
 class AGUI_EXPORT AThumbnail : public ABaseWidget
 {
+    Q_OBJECT
 public:
     AThumbnail(QWidget *parent = nullptr);
     ~AThumbnail();

@@ -1,0 +1,30 @@
+#pragma once
+#include "agui_global.h"
+#include "abasewidget.h"
+#include "aicontextwidget.h"
+#include <QMap>
+
+class AGUI_EXPORT ANavbarWidget : public ABaseWidget
+{
+    Q_OBJECT
+public:
+    ANavbarWidget(QMap<int, QVariantList> data, QWidget *parent = 0);
+    ~ANavbarWidget();
+    void setExclusive(bool exclusive) { m_Exclusive = exclusive; }
+
+Q_SIGNALS:
+    void sigClicked(int index);
+
+protected:
+    void createUi() override;
+    void changeLanguage() override;
+    void sigConnect() override;
+
+private:
+    void exclusive(AIconTextWidget *widget);
+
+private:
+    // QVariantList: icon text
+    QMap<int, QVariantList> m_Data;
+    bool m_Exclusive = false;
+};

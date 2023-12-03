@@ -79,34 +79,12 @@ void StartupWindow::createUi()
 
     navbarLayout->addSpacing(20);
 
-    QPixmap pix(24*4, 24);
-    pix.load(":/res/image/icon24_menu_myfuncs.png");
-
-    m_FuncBtn = new AIconTextWidget(m_Navbar);
-    m_FuncBtn->setObjectName("m_FuncBtn");
-    m_FuncBtn->setFixedHeight(32);
-    m_FuncBtn->getIcon()->setFixedSize(24, 24);
-    m_FuncBtn->getIcon()->setFourPixmap(pix);
-    m_FuncBtn->getText()->setText("全部功能");
-    navbarLayout->addWidget(m_FuncBtn);
-
-    pix.load(":/res/image/icon24_menu_myfiles.png");
-    m_FilesBtn = new AIconTextWidget(m_Navbar);
-    m_FilesBtn->setObjectName("m_FilesBtn");
-    m_FilesBtn->setFixedHeight(32);
-    m_FilesBtn->getIcon()->setFixedSize(24, 24);
-    m_FilesBtn->getIcon()->setFourPixmap(pix);
-    m_FilesBtn->getText()->setText("我的文件");
-    navbarLayout->addWidget(m_FilesBtn);
-
-    pix.load(":/res/image/icon24_menu_mysettings.png");
-    m_SettingsBtn = new AIconTextWidget(m_Navbar);
-    m_SettingsBtn->setObjectName("m_SettingsBtn");
-    m_SettingsBtn->setFixedHeight(32);
-    m_SettingsBtn->getIcon()->setFixedSize(24, 24);
-    m_SettingsBtn->getIcon()->setFourPixmap(pix);
-    m_SettingsBtn->getText()->setText("设置");
-    navbarLayout->addWidget(m_SettingsBtn);
+    QMap<int, QVariantList> navbarData;
+    navbarData.insert(StartupNav::MyFunc, QVariantList() << ":/res/image/icon24_menu_myfuncs.png" << "全部功能");
+    navbarData.insert(StartupNav::MyFiles, QVariantList() << ":/res/image/icon24_menu_myfiles.png" << "我的文件");
+    navbarData.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png" << "设置");
+    m_anavbarwidget = new ANavbarWidget(navbarData, this);
+    navbarLayout->addWidget(m_anavbarwidget);
 
     navbarLayout->addStretch();
 
