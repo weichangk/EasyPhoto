@@ -77,12 +77,6 @@ void ATopbar::createUi()
     lyt->addWidget(m_normalBtn);
     lyt->addWidget(m_closeBtn);
 
-    //
-    QFile fileQss(":/res/atopbar.qss");
-    fileQss.open(QFile::ReadOnly);
-    setStyleSheet(fileQss.readAll());
-    fileQss.close();
-
 //
 #ifdef Q_OS_MAC
     m_minMacBtn->setVisible(true);

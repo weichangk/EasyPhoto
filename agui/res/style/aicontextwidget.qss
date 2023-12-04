@@ -1,0 +1,27 @@
+QWidget#AIconTextWidget {
+
+}
+
+QWidget#AIconTextWidget_Icon {
+
+}
+
+QLabel#AIconTextWidget_Text[style-state = 'normal'] {
+    color: #969799;
+}
+
+QLabel#AIconTextWidget_Text[style-state = 'hover'] {
+    color: #FFFFFF;
+}
+
+QLabel#AIconTextWidget_Text[style-state = 'pressed'] {
+    color: #FFFFFF;
+}
+
+QLabel#AIconTextWidget_Text[style-state = 'checked'] {
+    color: #FFFFFF;
+}
+
+QLabel#AIconTextWidget_Text[style-state = 'disabled'] {
+
+}
