@@ -47,13 +47,10 @@ void ANavbarWidget::sigConnect()
 
 void ANavbarWidget::exclusive(AIconTextWidget *widget)
 {
-    if(!m_Exclusive)
+    QList<AIconTextWidget *> btns = findChildren<AIconTextWidget *>();
+    for (int i = 0; i < btns.size(); i++)
     {
-        QList<AIconTextWidget *> btns = findChildren<AIconTextWidget *>();
-        for (int i = 0; i < btns.size(); i++)
-        {
-            btns[i]->setState(AEnum::StyleStatus::Normal);
-        }
+        btns[i]->setState(AEnum::StyleStatus::Normal);
     }
     widget->setState(AEnum::StyleStatus::Checked);
 }

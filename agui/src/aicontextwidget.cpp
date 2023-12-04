@@ -19,6 +19,7 @@ void AIconTextWidget::setState(AEnum::StyleStatus state)
     m_Icon->setState(state);
     QString stateStr = AString::QtEnumToQString(state).toLower();
     m_Text->setProperty("style-state", stateStr);
+    m_Text->setStyle(m_Text->style());
 }
 
 void AIconTextWidget::createUi()
@@ -41,31 +42,59 @@ void AIconTextWidget::createUi()
 void AIconTextWidget::mousePressEvent(QMouseEvent *event)
 {
     ABaseWidget::mousePressEvent(event);
-    m_Icon->setState(AEnum::StyleStatus::Pressed);
-    m_Text->setProperty("style-state", "pressed");
-    m_Text->setStyle(m_Text->style());
+    if(m_State != AEnum::StyleStatus::Checked)
+    {
+        m_Icon->setState(AEnum::StyleStatus::Pressed);
+        m_Text->setProperty("style-state", "pressed");
+        m_Text->setStyle(m_Text->style());
+    }
+    emit sigClicked();
 }
 
 void AIconTextWidget::mouseReleaseEvent(QMouseEvent *event)
 {
     ABaseWidget::mouseReleaseEvent(event);
-    m_Icon->setState(AEnum::StyleStatus::Hover);
-    m_Text->setProperty("style-state", "hover");
-    m_Text->setStyle(m_Text->style());
+    if(m_State != AEnum::StyleStatus::Checked)
+    {
+        m_Icon->setState(AEnum::StyleStatus::Hover);
+        m_Text->setProperty("style-state", "hover");
+        m_Text->setStyle(m_Text->style());
+    }
 }
 
 void AIconTextWidget::enterEvent(QEnterEvent *event)
 {
     ABaseWidget::enterEvent(event);
-    m_Icon->setState(AEnum::StyleStatus::Hover);
-    m_Text->setProperty("style-state", "hover");
-    m_Text->setStyle(m_Text->style());
+    if(m_State != AEnum::StyleStatus::Checked)
+    {
+        m_Icon->setState(AEnum::StyleStatus::Hover);
+        m_Text->setProperty("style-state", "hover");
+        m_Text->setStyle(m_Text->style());
+    }
 }
 
 void AIconTextWidget::leaveEvent(QEvent *event)
 {
     ABaseWidget::leaveEvent(event);
-    m_Icon->setState(AEnum::StyleStatus::Normal);
-    m_Text->setProperty("style-state", "normal");
-    m_Text->setStyle(m_Text->style());
+    if(m_State != AEnum::StyleStatus::Checked)
+    {
+        m_Icon->setState(AEnum::StyleStatus::Normal);
+        m_Text->setProperty("style-state", "normal");
+        m_Text->setStyle(m_Text->style());
+    }
+}
+
+void AIconTextWidget::changeEvent(QEvent *event)
+{
+    ABaseWidget::changeEvent(event);
+    if (event->type() == QEvent::EnabledChange)
+    {
+        if (!isEnabled())
+        {
+            m_State = AEnum::StyleStatus::Disabled;
+            m_Icon->setState(AEnum::StyleStatus::Disabled);
+            m_Text->setProperty("style-state", "disabled");
+            m_Text->setStyle(m_Text->style());
+        }
+    }
 }

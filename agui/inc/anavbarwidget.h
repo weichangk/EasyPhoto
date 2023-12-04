@@ -10,7 +10,6 @@ class AGUI_EXPORT ANavbarWidget : public ABaseWidget
 public:
     ANavbarWidget(QMap<int, QVariantList> data, QWidget *parent = 0);
     ~ANavbarWidget();
-    void setExclusive(bool exclusive) { m_Exclusive = exclusive; }
 
 Q_SIGNALS:
     void sigClicked(int index);
@@ -26,5 +25,4 @@ private:
 private:
     // QVariantList: icon text
     QMap<int, QVariantList> m_Data;
-    bool m_Exclusive = false;
 };

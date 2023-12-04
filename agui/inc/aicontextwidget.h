@@ -25,6 +25,7 @@ protected:
     void mouseReleaseEvent(QMouseEvent *event) override;
     void enterEvent(QEnterEvent *event) override;
     void leaveEvent(QEvent *event) override;
+    void changeEvent(QEvent *event) override;
 
 private:
     AEnum::StyleStatus m_State = AEnum::StyleStatus::Normal;
