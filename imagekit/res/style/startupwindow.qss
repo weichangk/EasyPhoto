@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 23:02:47
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:02:47
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-05 23:50:21
  */
 
 QWidget#StartupWindow {
@@ -24,4 +24,18 @@ QWidget#StartupWindow_m_FuncArea {
 
 QPushButton#StartupWindow_m_LogoBtn {
     border-image: url(":/res/image/account_80.png");
+}
+
+QPushButton#StartupWindow_m_VipBtn {
+    background-color: transparent;
+    text-align: left;
+}
+
+QPushButton#StartupWindow_m_VipRightsBtn {
+    background-color: #996C42;
+    text-align: left;
+    font-size: 10px;
+    padding: 1px 4px;
+    border-top-left-radius: 6px;
+    border-bottom-right-radius: 6px;
 }

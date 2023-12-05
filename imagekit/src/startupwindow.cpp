@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:04:11
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-05 23:51:11
  */
 
 #include "inc/startupwindow.h"
@@ -72,13 +72,11 @@ void StartupWindow::createUi() {
 
     m_VipBtn = new APushButton(m_Navbar);
     m_VipBtn->setObjectName("StartupWindow_m_VipBtn");
-    m_VipBtn->setFixedHeight(20);
     m_VipBtn->setText("登录");
     vipLayout->addWidget(m_VipBtn);
 
     m_VipRightsBtn = new APushButton(m_Navbar);
     m_VipRightsBtn->setObjectName("StartupWindow_m_VipRightsBtn");
-    m_VipRightsBtn->setFixedHeight(20);
     m_VipRightsBtn->setText("会员特惠");
     vipLayout->addWidget(m_VipRightsBtn);
 
