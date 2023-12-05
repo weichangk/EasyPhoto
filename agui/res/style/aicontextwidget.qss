@@ -1,27 +1,32 @@
-QWidget#AIconTextWidget {
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:53:40
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:53:40
+ */
 
-}
+QWidget#AIconTextWidget {}
 
-QWidget#AIconTextWidget_Icon {
+QWidget#AIconTextWidget_Icon {}
 
-}
-
-QLabel#AIconTextWidget_Text[style-state = 'normal'] {
+QLabel#AIconTextWidget_Text[style-state='normal'] {
+    font-size: 14px;
     color: #969799;
 }
 
-QLabel#AIconTextWidget_Text[style-state = 'hover'] {
+QLabel#AIconTextWidget_Text[style-state='hover'] {
+    font-size: 14px;
     color: #FFFFFF;
 }
 
-QLabel#AIconTextWidget_Text[style-state = 'pressed'] {
+QLabel#AIconTextWidget_Text[style-state='pressed'] {
+    font-size: 14px;
     color: #FFFFFF;
 }
 
-QLabel#AIconTextWidget_Text[style-state = 'checked'] {
+QLabel#AIconTextWidget_Text[style-state='checked'] {
+    font-size: 14px;
     color: #FFFFFF;
 }
 
-QLabel#AIconTextWidget_Text[style-state = 'disabled'] {
-
-}
+QLabel#AIconTextWidget_Text[style-state='disabled'] {}

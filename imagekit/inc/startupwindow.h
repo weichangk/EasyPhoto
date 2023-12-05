@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:02:37
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:02:37
+ */
+
 #pragma once
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/anavbarwidget.h"
@@ -10,12 +17,10 @@ class ImageFuncView;
 class ImageFuncModel;
 class ImageFuncDelegate;
 class ImageFunc;
-class StartupWindow : public ABaseWidget
-{
+class StartupWindow : public ABaseWidget {
     Q_OBJECT
 public:
-    enum StartupNav
-    {
+    enum StartupNav {
         MyFunc = 0,
         MyFiles,
         MySettings

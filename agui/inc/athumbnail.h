@@ -1,18 +1,32 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:52:48
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:52:48
+ */
+
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
 #include <QPixmap>
 
-class AGUI_EXPORT AThumbnail : public ABaseWidget
-{
+class AGUI_EXPORT AThumbnail : public ABaseWidget {
     Q_OBJECT
 public:
     AThumbnail(QWidget *parent = nullptr);
     ~AThumbnail();
 
-    void setPixmap(QPixmap pixmap) { m_pixmap = pixmap; update(); };
-    void setRadiius(int radiius) { m_radiius = radiius; update(); };
-    void setHasBorder(bool b) { m_hasBorder = b; };
+    void setPixmap(QPixmap pixmap) {
+        m_pixmap = pixmap;
+        update();
+    };
+    void setRadiius(int radiius) {
+        m_radiius = radiius;
+        update();
+    };
+    void setHasBorder(bool b) {
+        m_hasBorder = b;
+    };
 
 protected:
     virtual void paintEvent(QPaintEvent *event);

@@ -1,9 +1,15 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:58:18
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:58:18
+ */
+
 #pragma once
 #include "awidget_global.h"
 #include <QTextEdit>
 
-class AWIDGET_EXPORT ATextEdit : public QTextEdit
-{
+class AWIDGET_EXPORT ATextEdit : public QTextEdit {
     Q_OBJECT
 public:
     ATextEdit(QWidget *parent = nullptr);

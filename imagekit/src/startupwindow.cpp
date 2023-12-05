@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:04:11
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:04:11
+ */
+
 #include "inc/startupwindow.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
@@ -14,25 +21,21 @@
 #include <QPainter>
 #include <QPainterPath>
 
-StartupWindow::StartupWindow(QWidget *parent) : ABaseWidget(parent)
-{
+StartupWindow::StartupWindow(QWidget *parent) :
+    ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-StartupWindow::~StartupWindow()
-{
-
+StartupWindow::~StartupWindow() {
 }
 
-void StartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs)
-{
+void StartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs) {
     // m_ImageFuncModel->append(funcs);
 }
 
-void StartupWindow::createUi()
-{
+void StartupWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(800, 540);
@@ -45,7 +48,7 @@ void StartupWindow::createUi()
     auto rightLayout = new AVBoxLayout();
     mainLayout->addLayout(rightLayout);
 
-    //left
+    // left
     m_Navbar = new ACanMoveWidget(this);
     m_Navbar->setFixedWidth(140);
     leftLayout->addWidget(m_Navbar, 1);
@@ -64,31 +67,36 @@ void StartupWindow::createUi()
     logoLayout->addWidget(m_LogoBtn);
 
     auto vipLayout = new AVBoxLayout();
-    vipLayout->setSpacing(3);
+    vipLayout->setSpacing(0);
     logoLayout->addLayout(vipLayout);
 
     m_VipBtn = new APushButton(m_Navbar);
     m_VipBtn->setObjectName("StartupWindow_m_VipBtn");
-    m_VipBtn->setFixedHeight(16);
+    m_VipBtn->setFixedHeight(20);
+    m_VipBtn->setText("登录");
     vipLayout->addWidget(m_VipBtn);
 
     m_VipRightsBtn = new APushButton(m_Navbar);
     m_VipRightsBtn->setObjectName("StartupWindow_m_VipRightsBtn");
-    m_VipRightsBtn->setFixedHeight(16);
+    m_VipRightsBtn->setFixedHeight(20);
+    m_VipRightsBtn->setText("会员特惠");
     vipLayout->addWidget(m_VipRightsBtn);
 
     navbarLayout->addSpacing(20);
 
     QMap<int, QVariantList> navbarData;
-    navbarData.insert(StartupNav::MyFunc, QVariantList() << ":/res/image/icon24_menu_myfuncs.png" << "全部功能");
-    navbarData.insert(StartupNav::MyFiles, QVariantList() << ":/res/image/icon24_menu_myfiles.png" << "我的文件");
-    navbarData.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png" << "设置");
+    navbarData.insert(StartupNav::MyFunc, QVariantList() << ":/res/image/icon24_menu_myfuncs.png"
+                                                         << "全部功能");
+    navbarData.insert(StartupNav::MyFiles, QVariantList() << ":/res/image/icon24_menu_myfiles.png"
+                                                          << "我的文件");
+    navbarData.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
+                                                             << "设置");
     m_anavbarwidget = new ANavbarWidget(navbarData, this);
     navbarLayout->addWidget(m_anavbarwidget);
 
     navbarLayout->addStretch();
 
-    //right
+    // right
     m_Topbar = new ATopbar(this);
     m_Topbar->setCloseBtnTopRight10Radius();
     rightLayout->addWidget(m_Topbar);
@@ -116,24 +124,17 @@ void StartupWindow::createUi()
     auto shadow = new AShadowEffect(this);
 }
 
-void StartupWindow::changeLanguage()
-{
+void StartupWindow::changeLanguage() {
 }
 
-void StartupWindow::sigConnect()
-{
-    connect(m_Topbar, &ATopbar::sigMin, this, [=]()
-            { showMinimized(); });
-    connect(m_Topbar, &ATopbar::sigMax, this, [=]()
-            { showMaximized(); });
-    connect(m_Topbar, &ATopbar::sigNormal, this, [=]()
-            { showNormal(); });
-    connect(m_Topbar, &ATopbar::sigClose, this, [=]()
-            { close(); });
+void StartupWindow::sigConnect() {
+    connect(m_Topbar, &ATopbar::sigMin, this, [=]() { showMinimized(); });
+    connect(m_Topbar, &ATopbar::sigMax, this, [=]() { showMaximized(); });
+    connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
+    connect(m_Topbar, &ATopbar::sigClose, this, [=]() { close(); });
 }
 
-void StartupWindow::paintEvent(QPaintEvent *event)
-{
+void StartupWindow::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     // 背景色透明
@@ -160,15 +161,9 @@ void StartupWindow::paintEvent(QPaintEvent *event)
     painter.drawRoundedRect(borderRect, 10, 10);
 }
 
-void StartupWindow::slotNavClicked(QString objectName)
-{
-    if("m_FuncBtn" == objectName)
-    {
-    }
-    else if("m_FilesBtn" == objectName)
-    {
-    }
-    else if("m_SettingsBtn" == objectName)
-    {
+void StartupWindow::slotNavClicked(QString objectName) {
+    if ("m_FuncBtn" == objectName) {
+    } else if ("m_FilesBtn" == objectName) {
+    } else if ("m_SettingsBtn" == objectName) {
     }
 }

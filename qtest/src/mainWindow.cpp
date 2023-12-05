@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:05:46
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:05:46
+ */
+
 #include "mainwindow.h"
 #include "qtreewidget.h"
 #include "qstackedwidget.h"
@@ -15,42 +22,37 @@
 #include "../agui/inc/atopbar.h"
 #include <QShortcut>
 
-MainWindow::MainWindow(QWidget *parent)
-    : ABaseWidget(parent)
-{
+MainWindow::MainWindow(QWidget *parent) :
+    ABaseWidget(parent) {
     createUi();
     changeLanguage();
     sigConnect();
 }
 
-MainWindow::~MainWindow()
-{
+MainWindow::~MainWindow() {
 }
 
-void MainWindow::changeLanguage()
-{
+void MainWindow::changeLanguage() {
     testTextEdit->setPlaceholderText(tr("Please enter your mobile phone number or email address"));
 }
 
-void MainWindow::sigConnect()
-{
+void MainWindow::sigConnect() {
     connect(langCombox, &QComboBox::currentIndexChanged, this, &MainWindow::slotLangComboxIndexChanged);
-    connect(m_topbar, &ATopbar::sigMin, this, [=](){
+    connect(m_topbar, &ATopbar::sigMin, this, [=]() {
         showMinimized();
     });
-    connect(m_topbar, &ATopbar::sigMax, this, [=](){
+    connect(m_topbar, &ATopbar::sigMax, this, [=]() {
         showMaximized();
     });
-    connect(m_topbar, &ATopbar::sigNormal, this, [=](){
+    connect(m_topbar, &ATopbar::sigNormal, this, [=]() {
         showNormal();
     });
-    connect(m_topbar, &ATopbar::sigClose, this, [=](){
+    connect(m_topbar, &ATopbar::sigClose, this, [=]() {
         close();
     });
 }
 
-void MainWindow::createUi()
-{
+void MainWindow::createUi() {
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint);
     setMinimumSize(1096, 680);
 
@@ -79,7 +81,6 @@ void MainWindow::createUi()
     //
     lrLyt->addWidget(m_treeWidget);
     lrLyt->addWidget(m_stackedWidget, 1);
-
 
     //
     AWidget *rightWidget = new AWidget();
@@ -118,15 +119,14 @@ void MainWindow::createUi()
     testBtn2->setToolTip(tr("second button"));
     testAPushButtonLyt->addWidget(testBtn2);
 
-    connect(testBtn1, &QPushButton::clicked, this, [=](){
-
-        AArrowWidget* widget = new AArrowWidget(this);
+    connect(testBtn1, &QPushButton::clicked, this, [=]() {
+        AArrowWidget *widget = new AArrowWidget(this);
         widget->resize(300, 150);
         widget->setTriangleDirection(1);
         widget->setTriangleX(150 - 14);
         widget->show();
     });
-    connect(testBtn2, &QPushButton::clicked, this, [=](){
+    connect(testBtn2, &QPushButton::clicked, this, [=]() {
     });
 
     QPushButton *testBtn3 = new QPushButton(rightWidget);
@@ -142,7 +142,7 @@ void MainWindow::createUi()
     testBtn5->setCheckable(true);
     testBtn5->setText(tr("image kit"));
     testAPushButtonLyt->addWidget(testBtn5);
-    connect(testBtn5, &QPushButton::clicked, this, [=](){
+    connect(testBtn5, &QPushButton::clicked, this, [=]() {
     });
 
     testAPushButtonLyt->addStretch();
@@ -171,8 +171,7 @@ void MainWindow::createUi()
     auto shadow = new AShadowEffect(this);
 }
 
-void MainWindow::createTree()
-{
+void MainWindow::createTree() {
     m_treeWidget = new QTreeWidget(this);
     m_treeWidget->setHeaderHidden(true);
     m_treeWidget->setFixedWidth(170);
@@ -223,10 +222,8 @@ void MainWindow::createTree()
     itemviewsitem->setText(0, tr("itemviews"));
 }
 
-void MainWindow::slotLangComboxIndexChanged(int index)
-{
-    switch (index)
-    {
+void MainWindow::slotLangComboxIndexChanged(int index) {
+    switch (index) {
     case 0:
         ALangMgr::getInstance()->setLangLocale(ALangLocale::lang_locale_zh);
         break;

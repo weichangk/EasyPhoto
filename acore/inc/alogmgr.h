@@ -1,8 +1,14 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:48:11
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:48:11
+ */
+
 #pragma once
 #include "acore_global.h"
 
-class ACORE_EXPORT ALogMgr
-{
+class ACORE_EXPORT ALogMgr {
 public:
     static void outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg);
 

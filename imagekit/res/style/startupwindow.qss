@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:02:47
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:02:47
+ */
+
 QWidget#StartupWindow {
     /* background-color: transparent;
     border: 1px solid rgb(64, 64, 64);
@@ -13,4 +20,8 @@ QWidget#StartupWindow_m_FuncArea {
     border-top-left-radius: 10px;
     border-bottom-right-radius: 10px;
     background-color: rgb(39, 42, 48);
+}
+
+QPushButton#StartupWindow_m_LogoBtn {
+    border-image: url(":/res/image/account_80.png");
 }

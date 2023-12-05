@@ -1,25 +1,28 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:03:58
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:03:58
+ */
+
 #include "inc/startupcontroller.h"
 #include "inc/startupwindow.h"
 #include "inc/imagefunc.h"
 
-StartupController::StartupController()
-{
+StartupController::StartupController() {
     m_StartupWindow = new StartupWindow();
     initImageFunc();
 }
 
-StartupController::~StartupController()
-{
+StartupController::~StartupController() {
     delete m_StartupWindow;
 }
 
-void StartupController::show()
-{
+void StartupController::show() {
     m_StartupWindow->show();
 }
 
-void StartupController::initImageFunc()
-{
+void StartupController::initImageFunc() {
     QList<ImageFunc *> imageFuncs;
     QString name = "图片转换";
     QString desc = "图片jpg、jpeg、png、gif等多种格式转换";

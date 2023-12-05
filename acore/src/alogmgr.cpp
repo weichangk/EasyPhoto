@@ -1,10 +1,16 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:49:31
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:49:31
+ */
+
 #include "inc/alogmgr.h"
 #include <QDateTime>
 #include <QFile>
 #include <QMutex>
 
-void ALogMgr::outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg)
-{
+void ALogMgr::outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     QString contextInfo = QString("File:(%1) Line:(%2)").arg(QString(context.file)).arg(context.line);
     QString currentDateTime = QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss ddd");
     QString currentDate = QString("(%1)").arg(currentDateTime);
@@ -13,8 +19,7 @@ void ALogMgr::outputMessage(QtMsgType type, const QMessageLogContext &context, c
     QString text;
     QString fileName;
 
-    switch (type)
-    {
+    switch (type) {
     case QtDebugMsg:
         text = QString("Debug:");
         message = QString("%1 %2 %3 %4").arg(text).arg(contextInfo).arg(msg).arg(currentDate);
@@ -52,8 +57,7 @@ void ALogMgr::outputMessage(QtMsgType type, const QMessageLogContext &context, c
     }
 }
 
-void ALogMgr::writeLine(QString logFileName, QString logMessage)
-{
+void ALogMgr::writeLine(QString logFileName, QString logMessage) {
     QFile file(logFileName);
     file.open(QIODevice::WriteOnly | QIODevice::Append);
     QTextStream textStream(&file);
@@ -62,20 +66,17 @@ void ALogMgr::writeLine(QString logFileName, QString logMessage)
     file.close();
 }
 
-void ALogMgr::log(QString logFileName, QString logMessage)
-{
+void ALogMgr::log(QString logFileName, QString logMessage) {
     static QMutex mutex;
     mutex.lock();
 
-    if(m_bEnableTerminalLog)
-    {
+    if (m_bEnableTerminalLog) {
         QTextStream stream(stdout);
         stream << logMessage << "\r\n";
         stream.flush();
     }
 
-    if (m_bEnableFileLog)
-    {
+    if (m_bEnableFileLog) {
         writeLine(logFileName, logMessage);
     }
 

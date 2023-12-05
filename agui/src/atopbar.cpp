@@ -1,23 +1,27 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:55:51
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:55:51
+ */
+
 #include "inc/atopbar.h"
 #include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include <QMouseEvent>
 #include <QFile>
 
-ATopbar::ATopbar(QWidget *parent)
-    : ACanMoveWidget(parent)
-{
+ATopbar::ATopbar(QWidget *parent) :
+    ACanMoveWidget(parent) {
     createUi();
     changeLanguage();
     sigConnect();
 }
 
-ATopbar::~ATopbar()
-{
+ATopbar::~ATopbar() {
 }
 
-void ATopbar::setNormalVisible(bool visible)
-{
+void ATopbar::setNormalVisible(bool visible) {
 #ifdef Q_OS_MAC
 #else
     m_maxBtn->setVisible(!visible);
@@ -25,15 +29,13 @@ void ATopbar::setNormalVisible(bool visible)
 #endif
 }
 
-void ATopbar::setCloseBtnTopRight10Radius()
-{
+void ATopbar::setCloseBtnTopRight10Radius() {
     m_closeBtn->setObjectName("ATopbar_m_closeBtn_10Radius");
     m_closeBtn->setStyle(m_closeBtn->style());
 }
 
-void ATopbar::createUi()
-{
-    setFixedHeight(40);//36
+void ATopbar::createUi() {
+    setFixedHeight(40); // 36
 
     m_minMacBtn = new APushButton(this);
     m_minMacBtn->setObjectName("ATopbar_m_minMacBtn");
@@ -97,23 +99,21 @@ void ATopbar::createUi()
     m_closeBtn->setVisible(true);
 #endif
 }
-void ATopbar::changeLanguage()
-{
+void ATopbar::changeLanguage() {
     m_minBtn->setToolTip(tr("Minimize"));
     m_maxBtn->setToolTip(tr("Maximize"));
     m_normalBtn->setToolTip(tr("Normal"));
     m_closeBtn->setToolTip(tr("Close"));
 }
 
-void ATopbar::sigConnect()
-{
+void ATopbar::sigConnect() {
     connect(m_minBtn, &QPushButton::clicked, this, &ATopbar::sigMin);
     connect(m_closeBtn, &QPushButton::clicked, this, &ATopbar::sigClose);
-    connect(m_maxBtn, &QPushButton::clicked, this, [=](){
+    connect(m_maxBtn, &QPushButton::clicked, this, [=]() {
         emit sigMax();
         setNormalVisible(true);
     });
-    connect(m_normalBtn, &QPushButton::clicked, this, [=](){
+    connect(m_normalBtn, &QPushButton::clicked, this, [=]() {
         emit sigNormal();
         setNormalVisible(false);
     });

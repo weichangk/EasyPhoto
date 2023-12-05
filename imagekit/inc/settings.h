@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:02:19
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:02:19
+ */
+
 #pragma once
 
 namespace Default {
@@ -8,16 +15,19 @@ namespace Limits {
 static constexpr int zoomMax = 5;
 }
 
-class Settings
-{
+class Settings {
 public:
     Settings();
 
     void load();
     void save();
 
-    bool autoStart() const { return m_AutoStart; }
-    void setAutoStart(bool autoStart) { m_AutoStart = autoStart; }
+    bool autoStart() const {
+        return m_AutoStart;
+    }
+    void setAutoStart(bool autoStart) {
+        m_AutoStart = autoStart;
+    }
 
 private:
     bool m_AutoStart;

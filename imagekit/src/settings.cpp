@@ -1,14 +1,19 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:03:50
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:03:50
+ */
+
 #include "inc/settings.h"
 #include <QApplication>
 #include <QSettings>
 
-Settings::Settings()
-    : m_AutoStart(Default::autoStart)
-{
+Settings::Settings() :
+    m_AutoStart(Default::autoStart) {
 }
 
-void Settings::load()
-{
+void Settings::load() {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
                        QApplication::applicationDisplayName());
 
@@ -17,8 +22,7 @@ void Settings::load()
     settings.endGroup();
 }
 
-void Settings::save()
-{
+void Settings::save() {
     QSettings settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
                        QApplication::applicationDisplayName());
 

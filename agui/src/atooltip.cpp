@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:55:38
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:55:38
+ */
+
 #include "inc/atooltip.h"
 #include <QHBoxLayout>
 #include <QLabel>
@@ -7,59 +14,48 @@
 #include <QScreen>
 
 static AToolTip *m_ins;
-AToolTip *AToolTip::getInstance()
-{
-    if (m_ins == 0)
-    {
+AToolTip *AToolTip::getInstance() {
+    if (m_ins == 0) {
         m_ins = new AToolTip();
     }
     return m_ins;
 }
 
-void AToolTip::release()
-{
-    if (m_ins != 0)
-    {
+void AToolTip::release() {
+    if (m_ins != 0) {
         delete m_ins;
         m_ins = 0;
     }
 }
 
-void AToolTip::showText(const QString &text, QPoint pos)
-{
+void AToolTip::showText(const QString &text, QPoint pos) {
     hideText();
-    if ("" != text)
-    {
+    if ("" != text) {
         show();
         m_text->setText(text);
         m_text->adjustSize();
         m_frame->setFixedWidth(m_text->width());
         QPoint p = pos; // QCursor::pos();
         QSize screenSize = QApplication::primaryScreen()->size();
-        if (p.rx() + m_frame->width() + 16 > screenSize.width())
-        {
+        if (p.rx() + m_frame->width() + 16 > screenSize.width()) {
             p = p - QPoint(m_frame->width() + 16, 0);
         }
-        if (p.ry() + m_frame->height() + 16 > screenSize.height())
-        {
+        if (p.ry() + m_frame->height() + 16 > screenSize.height()) {
             p = p - QPoint(0, m_frame->height() + 16);
         }
         move(p - QPoint(6, 6));
     }
 }
 
-void AToolTip::hideText()
-{
+void AToolTip::hideText() {
     hide();
 }
 
-void AToolTip::paintEvent(QPaintEvent *event)
-{
+void AToolTip::paintEvent(QPaintEvent *event) {
     ABaseWidget::paintEvent(event);
 }
 
-AToolTip::AToolTip()
-{
+AToolTip::AToolTip() {
     setWindowFlags(Qt::Window | Qt::FramelessWindowHint | Qt::ToolTip);
     setAttribute(Qt::WA_TranslucentBackground);
 

@@ -1,5 +1,10 @@
 <RCC>
   <qresource prefix="/">
-    <file>res/shadow.png</file>
+    <file>res/style/aapublic.qss</file>
+    <file>res/style/awidget.qss</file>
+    <file>res/style/alabel.qss</file>
+    <file>res/style/apushbutton.qss</file>
+    <file>res/style/atextedit.qss</file>
+    <file>res/image/shadow.png</file>
   </qresource>
 </RCC>

@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:59:36
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-05 23:17:29
+ */
+
 #include "inc/ashadoweffect.h"
 #include <QDialog>
 #include <QEvent>
@@ -5,17 +12,14 @@
 #include <QApplication>
 #include <QPainter>
 
-AShadowEffect::AShadowEffect(QWidget *parent)
-    : QObject(nullptr),
-    m_parentWidget(parent)
-{
-    m_pixmap = QPixmap(":/res/shadow.png");
+AShadowEffect::AShadowEffect(QWidget *parent) :
+    QObject(nullptr),
+    m_parentWidget(parent) {
+    m_pixmap = QPixmap(":/res/image/shadow.png");
     setParent(m_parentWidget);
     m_parentWidget->installEventFilter(this);
-    if (auto dlg = qobject_cast<QDialog*>(m_parentWidget))
-    {
-        connect(dlg, &QDialog::finished, this, [=](int result)
-        {
+    if (auto dlg = qobject_cast<QDialog *>(m_parentWidget)) {
+        connect(dlg, &QDialog::finished, this, [=](int result) {
             Q_UNUSED(result);
             m_shadowWidget->close();
         });
@@ -29,33 +33,26 @@ AShadowEffect::AShadowEffect(QWidget *parent)
     m_shadowWidget->installEventFilter(this);
 }
 
-AShadowEffect::~AShadowEffect()
-{
+AShadowEffect::~AShadowEffect() {
 }
 
-bool AShadowEffect::eventFilter(QObject *watched, QEvent *event)
-{
-    if (watched == m_parentWidget)
-    {
+bool AShadowEffect::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == m_parentWidget) {
         auto ResizeEffectFun = [&]() {
             QRect rc = m_parentWidget->geometry();
             rc.adjust(-30, -30, 30, 30);
             m_shadowWidget->setGeometry(rc);
             m_shadowWidget->setFixedSize(rc.size());
-			m_maskPixmap = ninePatchPixmap(m_pixmap, 40, 40, rc.width(), rc.height());
+            m_maskPixmap = ninePatchPixmap(m_pixmap, 40, 40, rc.width(), rc.height());
         };
-        if (event->type() == QEvent::Move)
-        {
+        if (event->type() == QEvent::Move) {
             ResizeEffectFun();
             // qt6.5版本，移动到分屏，阴影大小正确更新，需要update！1.15.2就不需要
             // QTimer::singleShot(0, this, [=]() {
-                m_shadowWidget->update();
+            m_shadowWidget->update();
             // });
-        }
-        else if (event->type() == QEvent::Show)
-        {
-            QTimer::singleShot(50, this, [=]()
-            {
+        } else if (event->type() == QEvent::Show) {
+            QTimer::singleShot(50, this, [=]() {
                 m_shadowWidget->show();
                 if (QApplication::screens().size() > 1) {
                     QTimer::singleShot(50, this, [=]() {
@@ -64,32 +61,20 @@ bool AShadowEffect::eventFilter(QObject *watched, QEvent *event)
                 }
             });
 
-        }
-        else if (event->type() == QEvent::Hide)
-        {
+        } else if (event->type() == QEvent::Hide) {
             m_shadowWidget->hide();
-        }
-        else if (event->type() == QEvent::Close)
-        {
+        } else if (event->type() == QEvent::Close) {
             m_shadowWidget->close();
-        }
-        else if (event->type() == QEvent::Resize)
-        {
+        } else if (event->type() == QEvent::Resize) {
             ResizeEffectFun();
-        }
-        else if (event->type() == QEvent::WindowActivate)
-        {
+        } else if (event->type() == QEvent::WindowActivate) {
             QTimer::singleShot(0, this, [=]() {
                 m_shadowWidget->update();
             });
         }
-    }
-    else if (watched == m_shadowWidget)
-    {
-        if (event->type() == QEvent::Paint)
-        {
-            if (m_parentWidget->isVisible() && !m_parentWidget->isMinimized())
-            {
+    } else if (watched == m_shadowWidget) {
+        if (event->type() == QEvent::Paint) {
+            if (m_parentWidget->isVisible() && !m_parentWidget->isMinimized()) {
                 QPainter painter(m_shadowWidget);
                 painter.drawPixmap(m_shadowWidget->rect(), m_maskPixmap);
             }
@@ -98,12 +83,11 @@ bool AShadowEffect::eventFilter(QObject *watched, QEvent *event)
     return false;
 }
 
-QPixmap AShadowEffect::ninePatchPixmap(const QPixmap& srcPixmap, int horzSplit, int vertSplit, int dstWidth, int dstHeight)
-{
+QPixmap AShadowEffect::ninePatchPixmap(const QPixmap &srcPixmap, int horzSplit, int vertSplit, int dstWidth, int dstHeight) {
     if (srcPixmap.isNull())
         return QPixmap();
 
-    const QPixmap* pix = &srcPixmap;
+    const QPixmap *pix = &srcPixmap;
     int pixWidth = pix->width();
     int pixHeight = pix->height();
 

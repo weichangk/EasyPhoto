@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:52:25
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:52:25
+ */
+
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
@@ -5,16 +12,21 @@
 #include "afourstateimagewidget.h"
 #include "../awidget/inc/alabel.h"
 
-class AGUI_EXPORT AIconTextWidget : public ABaseWidget
-{
+class AGUI_EXPORT AIconTextWidget : public ABaseWidget {
     Q_OBJECT
 public:
     AIconTextWidget(QWidget *parent = nullptr);
     ~AIconTextWidget();
-    AFourStateImageWidget *getIcon() { return m_Icon; }
-    ALabel *getText() { return m_Text; }
+    AFourStateImageWidget *getIcon() {
+        return m_Icon;
+    }
+    ALabel *getText() {
+        return m_Text;
+    }
     void setState(AEnum::StyleStatus state);
-    void setIconTextSpacing(int spacing) { m_IconTextSpacing = spacing; }
+    void setIconTextSpacing(int spacing) {
+        m_IconTextSpacing = spacing;
+    }
 
 Q_SIGNALS:
     void sigClicked();

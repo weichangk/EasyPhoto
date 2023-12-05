@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 22:51:45
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 22:51:45
+ */
+
 #pragma once
 #include "agui_global.h"
 #include "abasewidget.h"
@@ -6,8 +13,7 @@
 #include <QEvent>
 #include <QPixmap>
 
-class AGUI_EXPORT AFourStateImageWidget : public ABaseWidget
-{
+class AGUI_EXPORT AFourStateImageWidget : public ABaseWidget {
     Q_OBJECT
 public:
     AFourStateImageWidget(QWidget *parent = 0);
@@ -36,4 +42,3 @@ private:
     QPixmap m_PressedPixmap;
     QPixmap m_DisabledPixmap;
 };
-

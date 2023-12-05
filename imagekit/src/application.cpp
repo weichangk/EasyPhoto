@@ -1,10 +1,16 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:02:58
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:02:58
+ */
+
 #include "inc/application.h"
 #include "inc/startupcontroller.h"
 #include "../acore/inc/astylemgr.h"
 
-Application::Application(int argc, char *argv[])
-    : QApplication(argc, argv)
-{
+Application::Application(int argc, char *argv[]) :
+    QApplication(argc, argv) {
     setOrganizationName(ORGANIZATION_NAME);
     setOrganizationDomain(ORGANIZATION_DOMAIN);
     setApplicationName(APPLICATION_NAME);
@@ -14,8 +20,7 @@ Application::Application(int argc, char *argv[])
     initUi();
 }
 
-void Application::initUi()
-{
+void Application::initUi() {
     // UseHighDpiPixmaps is default from Qt6
 #if QT_VERSION < 0x060000
     setAttribute(Qt::AA_UseHighDpiPixmaps, true);
@@ -46,8 +51,7 @@ void Application::initUi()
     // });
 }
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     Application app(argc, argv);
     return app.exec();
 }

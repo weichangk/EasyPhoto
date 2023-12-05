@@ -1,3 +1,10 @@
+/*
+ * @Author: weick
+ * @Date: 2023-12-05 23:05:54
+ * @Last Modified by:   weick
+ * @Last Modified time: 2023-12-05 23:05:54
+ */
+
 #pragma once
 #include "../agui/inc/abasewidget.h"
 
@@ -8,8 +15,7 @@ class QStackedWidget;
 class AComboBox;
 class ATextEdit;
 class QShortcut;
-class MainWindow : public ABaseWidget
-{
+class MainWindow : public ABaseWidget {
     Q_OBJECT
 
 public:
