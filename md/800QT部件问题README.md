@@ -9,3 +9,16 @@ Awidget里的Bwidget的btn点击隐藏Awidget，重新打开显示Awidget发现b
 
 
 ### 四态按钮背景色如果有透明度，在切换状态的时候颜色会有误差，透明度的问题！
+
+### QSizePolicy类是一个描述布局水平和垂直方向调整策略的属性。
+大小策略会影响布局引擎处理部件的方式，部件加入布局以后，会返回一个QSizePolicy，描述了其水平和垂直方向的大小策略。可以通过QWidget::sizePolicy属性为特定部件设置大小策略。
+
+在水平或垂直布局中添加部件时，部件会自动垂直放大或水平放大，但是在添加按钮到布局中时往往不想设置按钮固定大小，又不想因为布局导致按钮自动放大时，可以设置按钮的QSizePolicy属性为，如下：
+```
+QSizePolicy sizePolicy = this->sizePolicy();
+sizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
+sizePolicy.setVerticalPolicy(QSizePolicy::Fixed);
+this->setSizePolicy(sizePolicy);
+```
+
+这样，按钮就可以根据按钮文本自适应大小，只需要在qss中设置padding即可

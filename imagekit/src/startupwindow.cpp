@@ -63,11 +63,10 @@ void StartupWindow::createUi() {
 
     m_LogoBtn = new APushButton(m_Navbar);
     m_LogoBtn->setObjectName("StartupWindow_m_LogoBtn");
-    m_LogoBtn->setFixedSize(32, 32);
+    m_LogoBtn->setFixedSize(40, 40);
     logoLayout->addWidget(m_LogoBtn);
 
     auto vipLayout = new AVBoxLayout();
-    vipLayout->setSpacing(0);
     logoLayout->addLayout(vipLayout);
 
     m_VipBtn = new APushButton(m_Navbar);

@@ -12,6 +12,10 @@
 APushButton::APushButton(QWidget *parent) :
     QPushButton(parent) {
     installEventFilter(this);
+    QSizePolicy sizePolicy = this->sizePolicy();
+    sizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
+    sizePolicy.setVerticalPolicy(QSizePolicy::Fixed);
+    this->setSizePolicy(sizePolicy);
 }
 
 APushButton::~APushButton() {

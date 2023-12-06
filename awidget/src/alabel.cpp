@@ -9,6 +9,10 @@
 
 ALabel::ALabel(QWidget *parent) :
     QLabel(parent) {
+    QSizePolicy sizePolicy = this->sizePolicy();
+    sizePolicy.setHorizontalPolicy(QSizePolicy::Fixed);
+    sizePolicy.setVerticalPolicy(QSizePolicy::Fixed);
+    this->setSizePolicy(sizePolicy);
 }
 
 ALabel::~ALabel() {
