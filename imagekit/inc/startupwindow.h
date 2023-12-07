@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 23:02:37
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:02:37
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-07 23:34:29
  */
 
 #pragma once
@@ -27,9 +27,14 @@ public:
     };
     Q_ENUM(StartupNav)
 
+    enum Funcs {
+        ImageConverter = 0,
+        Imagecompress,
+    };
+    Q_ENUM(Funcs)
+
     StartupWindow(QWidget *parent = nullptr);
     ~StartupWindow();
-    void imageFuncModelAppend(QList<ImageFunc *> funcs);
 
 protected:
     void createUi() override;

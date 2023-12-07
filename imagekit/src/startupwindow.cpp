@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-05 23:51:11
+ * @Last Modified time: 2023-12-07 23:36:25
  */
 
 #include "inc/startupwindow.h"
@@ -14,10 +14,6 @@
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
 #include "../awidget/inc/apushbutton.h"
-#include "inc/imagefunc.h"
-#include "inc/imagefuncview.h"
-#include "inc/imagefuncmodel.h"
-#include "inc/imagefuncdelegate.h"
 #include <QPainter>
 #include <QPainterPath>
 
@@ -29,10 +25,6 @@ StartupWindow::StartupWindow(QWidget *parent) :
 }
 
 StartupWindow::~StartupWindow() {
-}
-
-void StartupWindow::imageFuncModelAppend(QList<ImageFunc *> funcs) {
-    // m_ImageFuncModel->append(funcs);
 }
 
 void StartupWindow::createUi() {
@@ -109,14 +101,6 @@ void StartupWindow::createUi() {
     auto funcAreaLayout = new AHBoxLayout(m_FuncArea);
     funcAreaLayout->setContentsMargins(20, 20, 20, 20);
 
-    // m_ImageFuncView = new ImageFuncView(this);
-    // m_ImageFuncModel = new ImageFuncModel(m_ImageFuncView);
-    // m_ImageFuncDelegate = new ImageFuncDelegate(m_ImageFuncView);
-    // m_ImageFuncView->setObjectName("StartupWindow_m_ImageFuncView");
-    // m_ImageFuncView->setModel(m_ImageFuncModel);
-    // m_ImageFuncView->setItemDelegate(m_ImageFuncDelegate);
-    // m_ImageFuncView->viewport()->installEventFilter(m_ImageFuncDelegate);//关键
-    // funcAreaLayout->addWidget(m_ImageFuncView, 1);
 
     auto shadow = new AShadowEffect(this);
 }

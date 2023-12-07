@@ -5,24 +5,24 @@
  * @Last Modified time: 2023-12-05 23:03:42
  */
 
-#include "inc/imagekitwindow.h"
+#include "inc/mainwindow.h"
 
-ImageKitWindow::ImageKitWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-ImageKitWindow::~ImageKitWindow() {
+MainWindow::~MainWindow() {
 }
 
-void ImageKitWindow::createUi() {
+void MainWindow::createUi() {
     setFixedSize(900, 600);
 }
 
-void ImageKitWindow::changeLanguage() {
+void MainWindow::changeLanguage() {
 }
 
-void ImageKitWindow::sigConnect() {
+void MainWindow::sigConnect() {
 }

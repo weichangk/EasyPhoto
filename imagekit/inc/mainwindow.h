@@ -8,11 +8,11 @@
 #pragma once
 #include "../agui/inc/abasewidget.h"
 
-class ImageKitWindow : public ABaseWidget {
+class MainWindow : public ABaseWidget {
     Q_OBJECT
 public:
-    ImageKitWindow(QWidget *parent = nullptr);
-    ~ImageKitWindow();
+    MainWindow(QWidget *parent = nullptr);
+    ~MainWindow();
 
 protected:
     void createUi() override;

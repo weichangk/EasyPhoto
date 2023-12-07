@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 22:55:08
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 22:55:08
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-07 23:25:49
  */
 
 #include "inc/aicontextwidget.h"
@@ -10,6 +10,7 @@
 #include "../acore/inc/astring.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include <QMetaEnum>
+#include <QMouseEvent>
 
 AIconTextWidget::AIconTextWidget(QWidget *parent) :
     ABaseWidget(parent) {
@@ -50,7 +51,10 @@ void AIconTextWidget::mousePressEvent(QMouseEvent *event) {
         m_Text->setProperty("style-state", "pressed");
         m_Text->setStyle(m_Text->style());
     }
-    emit sigClicked();
+    if (event->button() == Qt::LeftButton)
+    {
+        emit sigClicked();
+    }
 }
 
 void AIconTextWidget::mouseReleaseEvent(QMouseEvent *event) {
