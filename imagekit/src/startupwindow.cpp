@@ -2,18 +2,15 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-07 23:36:25
+ * @Last Modified time: 2023-12-08 23:32:57
  */
 
 #include "inc/startupwindow.h"
-#include "../agui/inc/atopbar.h"
-#include "../agui/inc/acanmovewidget.h"
-#include "../agui/inc/aicontextwidget.h"
-#include "../agui/inc/afourstateimagewidget.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
+#include "../awidget/inc/aflowlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
-#include "../awidget/inc/apushbutton.h"
+#include "../agui/inc/afuncpanelwidget.h"
 #include <QPainter>
 #include <QPainterPath>
 
@@ -73,15 +70,15 @@ void StartupWindow::createUi() {
 
     navbarLayout->addSpacing(20);
 
-    QMap<int, QVariantList> navbarData;
-    navbarData.insert(StartupNav::MyFunc, QVariantList() << ":/res/image/icon24_menu_myfuncs.png"
-                                                         << "全部功能");
-    navbarData.insert(StartupNav::MyFiles, QVariantList() << ":/res/image/icon24_menu_myfiles.png"
-                                                          << "我的文件");
-    navbarData.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
-                                                             << "设置");
-    m_anavbarwidget = new ANavbarWidget(navbarData, this);
-    navbarLayout->addWidget(m_anavbarwidget);
+    QMap<int, QVariantList> navbarDataMap;
+    navbarDataMap.insert(StartupNav::MyFunc, QVariantList() << ":/res/image/icon24_menu_myfuncs.png"
+                                                            << "全部功能");
+    navbarDataMap.insert(StartupNav::MyFiles, QVariantList() << ":/res/image/icon24_menu_myfiles.png"
+                                                             << "我的文件");
+    navbarDataMap.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
+                                                                << "设置");
+    m_Navbarwidget = new ANavbarWidget(navbarDataMap, this);
+    navbarLayout->addWidget(m_Navbarwidget);
 
     navbarLayout->addStretch();
 
@@ -90,17 +87,60 @@ void StartupWindow::createUi() {
     m_Topbar->setCloseBtnTopRight10Radius();
     rightLayout->addWidget(m_Topbar);
 
-    auto funcLayout = new AHBoxLayout();
+    auto funcLayout = new AVBoxLayout();
     funcLayout->setContentsMargins(0, 0, 1, 1);
-    rightLayout->addLayout(funcLayout, 1);
+    rightLayout->addLayout(funcLayout);
 
     m_FuncArea = new AWidget(this);
     m_FuncArea->setObjectName("StartupWindow_m_FuncArea");
-    funcLayout->addWidget(m_FuncArea, 1);
+    funcLayout->addWidget(m_FuncArea);
 
-    auto funcAreaLayout = new AHBoxLayout(m_FuncArea);
-    funcAreaLayout->setContentsMargins(20, 20, 20, 20);
-
+    auto funcFlowLayout = new AFlowLayout(m_FuncArea, 20, 12, 12);
+    QMap<int, QVariantList> funcDataMap;
+    funcDataMap.insert(Funcs::ImageConversion, QVariantList() << ":/res/image/account_80_vip.png"
+                                                              << "图片转换"
+                                                              << "支持多种格式转换");
+    funcDataMap.insert(Funcs::ImageCompression, QVariantList() << ":/res/image/account_80_vip.png"
+                                                               << "图片压缩"
+                                                               << "高质量压缩图片");
+    funcDataMap.insert(Funcs::ImageCropping, QVariantList() << ":/res/image/account_80_vip.png"
+                                                            << "图片裁剪"
+                                                            << "自由裁剪图片");
+    funcDataMap.insert(Funcs::ImageAmplification, QVariantList() << ":/res/image/account_80_vip.png"
+                                                                 << "图片放大"
+                                                                 << "不失真放大图片");
+    funcDataMap.insert(Funcs::ImageManipulation, QVariantList() << ":/res/image/account_80_vip.png"
+                                                                << "图片抠像"
+                                                                << "去除图片背景");
+    funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
+                                                         << "图片擦除"
+                                                         << "去除图片水印");
+    funcDataMap.insert(Funcs::ImageEnhancement, QVariantList() << ":/res/image/account_80_vip.png"
+                                                               << "图片增强"
+                                                               << "图片画质增强");
+    funcDataMap.insert(Funcs::ImageRestoration, QVariantList() << ":/res/image/account_80_vip.png"
+                                                               << "图片复原"
+                                                               << "老照片修复");
+    funcDataMap.insert(Funcs::ImageEffect, QVariantList() << ":/res/image/account_80_vip.png"
+                                                          << "图片效果"
+                                                          << "支持多种图片效果");
+    funcDataMap.insert(Funcs::ImageSpecialEffect, QVariantList() << ":/res/image/account_80_vip.png"
+                                                                 << "图片特效"
+                                                                 << "支持多种图片特效");
+    QMap<int, QVariantList>::Iterator iter;
+    for (iter = funcDataMap.begin(); iter != funcDataMap.end(); ++iter) {
+        auto btn = new AFuncPanelWidget(this, iter.key());
+        btn->setFixedSize(198, 90);
+        btn->getLayout()->setContentsMargins(24, 24, 24, 24);
+        btn->getIcon()->setPixmap(QPixmap(iter.value().at(0).toString()));
+        btn->getIcon()->setScaledContents(true);
+        btn->getName()->setText(iter.value().at(1).toString());
+        btn->getDec()->setText(iter.value().at(2).toString());
+        connect(btn, &AFuncPanelWidget::sigClicked, this, [=](int id) {
+            qDebug() << "AFuncPanelWidget::sigClicked id: " << id;
+        });
+        funcFlowLayout->addWidget(btn);
+    }
 
     auto shadow = new AShadowEffect(this);
 }
@@ -140,6 +180,12 @@ void StartupWindow::paintEvent(QPaintEvent *event) {
     painter.setPen(pen);
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
     painter.drawRoundedRect(borderRect, 10, 10);
+}
+
+void StartupWindow::showEvent(QShowEvent *event) {
+    ABaseWidget::showEvent(event);
+    // AFlowLayout会撑大设置setMinimumSize的窗体，暂时这样解决
+    resize(800, 540);
 }
 
 void StartupWindow::slotNavClicked(QString objectName) {

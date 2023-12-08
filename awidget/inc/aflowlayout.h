@@ -10,12 +10,12 @@
 #include <QLayout>
 #include <QStyle>
 
-class AWIDGET_EXPORT FlowLayout : public QLayout
+class AWIDGET_EXPORT AFlowLayout : public QLayout
 {
 public:
-    explicit FlowLayout(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
-    explicit FlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
-    ~FlowLayout();
+    explicit AFlowLayout(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
+    explicit AFlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);
+    ~AFlowLayout();
 
     void addItem(QLayoutItem *item) override;
     int horizontalSpacing() const;

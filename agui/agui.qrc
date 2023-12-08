@@ -3,6 +3,7 @@
     <file>res/style/atopbar.qss</file>
     <file>res/style/atooltip.qss</file>
     <file>res/style/aicontextwidget.qss</file>
+    <file>res/style/afuncpanelwidget.qss</file>
     <file>res/image/icon40_close_disabled.svg</file>
     <file>res/image/icon40_close_hover.svg</file>
     <file>res/image/icon40_close_normal.svg</file>

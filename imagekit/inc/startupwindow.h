@@ -2,21 +2,17 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:37
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-07 23:34:29
+ * @Last Modified time: 2023-12-08 23:15:44
  */
 
 #pragma once
+#include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/anavbarwidget.h"
+#include "../agui/inc/atopbar.h"
+#include "../agui/inc/acanmovewidget.h"
 #include <QButtonGroup>
 
-class ATopbar;
-class ACanMoveWidget;
-class APushButton;
-class ImageFuncView;
-class ImageFuncModel;
-class ImageFuncDelegate;
-class ImageFunc;
 class StartupWindow : public ABaseWidget {
     Q_OBJECT
 public:
@@ -28,12 +24,20 @@ public:
     Q_ENUM(StartupNav)
 
     enum Funcs {
-        ImageConverter = 0,
-        Imagecompress,
+        ImageConversion = 0, // 图片转换
+        ImageCompression,    // 图片压缩
+        ImageCropping,       // 图片裁剪
+        ImageAmplification,  // 图像放大
+        ImageManipulation,   // 图片抠像
+        ImageErase,          // 图片擦除
+        ImageEnhancement,    // 图像增强
+        ImageRestoration,    // 图像复原
+        ImageEffect,         // 图片效果
+        ImageSpecialEffect   // 图片特效
     };
     Q_ENUM(Funcs)
 
-    StartupWindow(QWidget *parent = nullptr);
+    StartupWindow(QWidget *parent = 0);
     ~StartupWindow();
 
 protected:
@@ -41,22 +45,19 @@ protected:
     void changeLanguage() override;
     void sigConnect() override;
     void paintEvent(QPaintEvent *event) override;
+    void showEvent(QShowEvent *event) override;
 
 private:
     void slotNavClicked(QString objectName);
 
 private:
-    ATopbar *m_Topbar = nullptr;
-    ACanMoveWidget *m_Navbar = nullptr;
-    AWidget *m_FuncArea = nullptr;
+    ATopbar *m_Topbar = 0;
+    ACanMoveWidget *m_Navbar = 0;
+    AWidget *m_FuncArea = 0;
 
-    APushButton *m_LogoBtn = nullptr;
-    APushButton *m_VipBtn = nullptr;
-    APushButton *m_VipRightsBtn = nullptr;
+    APushButton *m_LogoBtn = 0;
+    APushButton *m_VipBtn = 0;
+    APushButton *m_VipRightsBtn = 0;
 
-    ANavbarWidget *m_anavbarwidget = nullptr;
-
-    ImageFuncView *m_ImageFuncView = nullptr;
-    ImageFuncModel *m_ImageFuncModel = nullptr;
-    ImageFuncDelegate *m_ImageFuncDelegate = nullptr;
+    ANavbarWidget *m_Navbarwidget = 0;
 };

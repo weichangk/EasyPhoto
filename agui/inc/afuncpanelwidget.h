@@ -13,12 +13,23 @@
 class AGUI_EXPORT AFuncPanelWidget : public ABaseWidget {
     Q_OBJECT
 public:
-    AFuncPanelWidget(QWidget *parent = 0);
+    explicit AFuncPanelWidget(QWidget *parent = 0, int id = 0);
     ~AFuncPanelWidget();
-    void setIcon(QPixmap p);
+    ALabel *getName() {
+        return m_Name;
+    }
+    ALabel *getDec() {
+        return m_Dec;
+    }
+    ALabel *getIcon() {
+        return m_Icon;
+    }
+    QLayout *getLayout() {
+        return layout();
+    }
 
 Q_SIGNALS:
-    void sigClicked();
+    void sigClicked(int id);
 
 protected:
     void createUi() override;
@@ -26,6 +37,7 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
+    int m_Id = 0;
     ALabel *m_Name = 0;
     ALabel *m_Dec = 0;
     ALabel *m_Icon = 0;

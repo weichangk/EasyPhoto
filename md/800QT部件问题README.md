@@ -22,3 +22,7 @@ this->setSizePolicy(sizePolicy);
 ```
 
 这样，按钮就可以根据按钮文本自适应大小，只需要在qss中设置padding即可
+
+
+### QLabel设置的QPixmap自动缩放为QLabel大小
+setScaledContents(true);
