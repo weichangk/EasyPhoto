@@ -1,12 +1,13 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 23:02:58
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:02:58
+ * @Last Modified by: weick
+ * @Last Modified time: 2023-12-10 14:56:50
  */
 
 #include "inc/application.h"
 #include "inc/startupcontroller.h"
+#include "inc/models.h"
 #include "../acore/inc/astylemgr.h"
 
 Application::Application(int argc, char *argv[]) :
@@ -38,7 +39,7 @@ void Application::initUi() {
     m_StartupController = new StartupController;
     // m_StartupWindow->setWindowIcon(appIcon_);
     // m_StartupWindow->setWindowTitle(applicationDisplayName());
-    m_StartupController->show(); // FIXME: crash without this
+    m_StartupController->showFunc(Models::Funcs::Startup); // FIXME: crash without this
 
     // trayIcon_->setIcon(appIcon_);
     // trayIcon_->setWidget(mainWindow_);

@@ -2,10 +2,12 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-08 23:32:57
+ * @Last Modified time: 2023-12-10 14:40:01
  */
 
 #include "inc/startupwindow.h"
+#include "inc/models.h"
+#include "inc/signals.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/aflowlayout.h"
@@ -13,6 +15,8 @@
 #include "../agui/inc/afuncpanelwidget.h"
 #include <QPainter>
 #include <QPainterPath>
+
+using Funcs = Models::Funcs;
 
 StartupWindow::StartupWindow(QWidget *parent) :
     ABaseWidget(parent) {
@@ -137,7 +141,7 @@ void StartupWindow::createUi() {
         btn->getName()->setText(iter.value().at(1).toString());
         btn->getDec()->setText(iter.value().at(2).toString());
         connect(btn, &AFuncPanelWidget::sigClicked, this, [=](int id) {
-            qDebug() << "AFuncPanelWidget::sigClicked id: " << id;
+            emit Signals::getInstance()->sigGotoFunc((Models::Funcs)id);
         });
         funcFlowLayout->addWidget(btn);
     }
