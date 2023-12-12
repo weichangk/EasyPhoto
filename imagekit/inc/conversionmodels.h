@@ -2,14 +2,14 @@
  * @Author: weick
  * @Date: 2023-12-10 22:25:46
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 23:35:27
+ * @Last Modified time: 2023-12-13 00:00:22
  */
 
 #pragma once
 #include <QObject>
 #include <QString>
 
-class ConversionData : public QObject {
+class conversionmodels : public QObject {
     Q_OBJECT
 public:
     enum ConversionType {
@@ -19,16 +19,12 @@ public:
         Fail
     };
     Q_ENUM(ConversionType)
+};
 
-    explicit ConversionData();
-
-private:
+struct ConversionData {
     QString m_Name;
     QString m_Infmt;
     QString m_Outfmt;
-    ConversionType m_ConversionType = ConversionType::None;
+    conversionmodels::ConversionType m_ConversionType = conversionmodels::ConversionType::None;
 };
-
-ConversionData::ConversionData(){
-
-}
+Q_DECLARE_METATYPE(ConversionData)
