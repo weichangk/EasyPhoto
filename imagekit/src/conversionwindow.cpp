@@ -2,10 +2,11 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 15:04:40
+ * @Last Modified time: 2023-12-14 00:04:49
  */
 
 #include "inc/conversionwindow.h"
+#include "inc/conversionmodels.h"
 #include "inc/signals.h"
 #include "inc/models.h"
 #include "../awidget/inc/ahboxlayout.h"
@@ -88,6 +89,19 @@ void ConversionWindow::createUi() {
     auto convertArea = new AWidget(this);
     convertArea->setObjectName("ConversionWindow_m_FuncArea");
     funcLayout->addWidget(convertArea);
+
+    auto convertListViewLayout = new AVBoxLayout(convertArea);
+    convertListViewLayout->setContentsMargins(24 , 24, 24, 24);
+
+    m_ConversionListView = new ConversionListView(this);
+    convertListViewLayout->addWidget(m_ConversionListView);
+
+    QList<ConversionData> conversionDatas;
+    ConversionData data1 ={"", "", "", ConversionModels::ConversionType::None};
+    ConversionData data2 ={"", "", "", ConversionModels::ConversionType::None};
+    conversionDatas.append(data1);
+    conversionDatas.append(data2);
+    m_ConversionListView->chageData(conversionDatas);
 
     auto shadow = new AShadowEffect(this);
 }

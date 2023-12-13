@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 00:23:22
+ * @Last Modified time: 2023-12-13 23:58:32
  */
 
 #pragma once
@@ -12,6 +12,7 @@
 #include "../agui/inc/anavbarwidget.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
+#include "inc/conversionlistview.h"
 #include <QButtonGroup>
 
 class ConversionWindow : public ABaseWidget {
@@ -40,4 +41,5 @@ private:
     APushButton *m_LogoBtn = 0;
     ALabel *m_ProductLab = 0;
     ANavbarWidget *m_Navbarwidget = 0;
+    ConversionListView *m_ConversionListView = 0;
 };
