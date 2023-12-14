@@ -8,6 +8,7 @@
 #pragma once
 #include <QObject>
 #include <QString>
+#include <QPixmap>
 
 class ConversionModels : public QObject {
     Q_OBJECT
@@ -22,9 +23,10 @@ public:
 };
 
 struct ConversionData {
-    QString m_Name;
-    QString m_Infmt;
-    QString m_Outfmt;
+    bool m_IsAdd = false;
+    QString m_FileName = "";
+    QString m_FilePath = "";
     ConversionModels::ConversionType m_ConversionType = ConversionModels::ConversionType::None;
+    QPixmap m_Thumbnail = QPixmap();
 };
 Q_DECLARE_METATYPE(ConversionData)

@@ -91,16 +91,15 @@ void ConversionWindow::createUi() {
     funcLayout->addWidget(convertArea);
 
     auto convertListViewLayout = new AVBoxLayout(convertArea);
-    convertListViewLayout->setContentsMargins(24 , 24, 24, 24);
+    // convertListViewLayout->setContentsMargins(24 , 24, 24, 24);
 
     m_ConversionListView = new ConversionListView(this);
     convertListViewLayout->addWidget(m_ConversionListView);
 
     QList<ConversionData> conversionDatas;
-    ConversionData data1 ={"", "", "", ConversionModels::ConversionType::None};
-    ConversionData data2 ={"", "", "", ConversionModels::ConversionType::None};
+    ConversionData data1 ={true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data2 ={false, "", "", ConversionModels::ConversionType::None, QPixmap()};
     conversionDatas.append(data1);
-    conversionDatas.append(data2);
     m_ConversionListView->chageData(conversionDatas);
 
     auto shadow = new AShadowEffect(this);

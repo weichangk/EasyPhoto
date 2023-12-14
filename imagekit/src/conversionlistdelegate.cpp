@@ -26,25 +26,19 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     bool selected_or_hover = selected || hover;
 
     painter->setPen(Qt::NoPen);
+    if (data.m_IsAdd) {
+        painter->drawPixmap(17, 17, data.m_Thumbnail.width(), data.m_Thumbnail.height(), data.m_Thumbnail); // 96 *96
+    } else {
+        auto thumb = data.m_Thumbnail.scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        painter->drawPixmap(3, 3, 100, 100, thumb);
+    }
 
-    QPen pen(QColor(177, 182, 192, 0.24 * 255));
+    QPen pen(QColor("#E5E5E5"));
     pen.setWidth(1);
     painter->setPen(pen);
     auto borderRect = rc.adjusted(1, 1, -1, -1);
-    if (hover) {
-        painter->drawRoundedRect(borderRect, 8, 8);
-    }
-    if (selected && !pressed) {
-        QPen pen(QColor("#2977FF"));
-        pen.setWidth(2);
-        painter->setPen(pen);
-        painter->drawRoundedRect(borderRect, 8, 8);
-    }
-    if (pressed) {
-        QPen pen(QColor(15, 38, 77, 0.12 * 255));
-        pen.setWidth(2);
-        painter->setPen(pen);
-        painter->drawRoundedRect(borderRect, 8, 8);
+    if (hover || pressed) {
+        painter->drawRoundedRect(borderRect, 10, 10);
     }
 }
 
