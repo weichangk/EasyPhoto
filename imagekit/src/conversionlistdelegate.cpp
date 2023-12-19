@@ -2,11 +2,12 @@
  * @Author: weick
  * @Date: 2023-12-12 23:58:34
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-13 23:52:43
+ * @Last Modified time: 2023-12-19 23:59:39
  */
 
 #include "inc/conversionlistdelegate.h"
 #include "inc/conversionmodels.h"
+#include "../acore/inc/apainterhelper.h"
 #include <QMouseEvent>
 #include <QPainter>
 
@@ -27,16 +28,18 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     painter->setPen(Qt::NoPen);
     if (data.m_IsAdd) {
-        painter->drawPixmap(17, 17, data.m_Thumbnail.width(), data.m_Thumbnail.height(), data.m_Thumbnail); // 96 *96
+        auto pixmapRect = QRect(rc.x() + 17 + 12, rc.y() + 17 + 12, data.m_Thumbnail.width(), data.m_Thumbnail.height()); // 96 *96
+        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     } else {
+        auto pixmapRect = QRect(rc.x() + 3 + 12, rc.y() + 3 + 12, 100, 100);
         auto thumb = data.m_Thumbnail.scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        painter->drawPixmap(3, 3, 100, 100, thumb);
+        APainterHelper::paintPixmap(painter, pixmapRect, thumb, 1, 10, false);
     }
 
-    QPen pen(QColor("#E5E5E5"));
+    QPen pen(QColor("#1F1F1F"));
     pen.setWidth(1);
     painter->setPen(pen);
-    auto borderRect = rc.adjusted(1, 1, -1, -1);
+    auto borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
     if (hover || pressed) {
         painter->drawRoundedRect(borderRect, 10, 10);
     }

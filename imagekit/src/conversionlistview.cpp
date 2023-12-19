@@ -19,7 +19,7 @@ ConversionListView::ConversionListView(QWidget *parent) :
     setSelectionMode(QAbstractItemView::SingleSelection);
     setMouseTracking(true);
     setStyleSheet("border:0px; background-color:transparent");
-    setSpacing(12);
+    setSpacing(0);
     m_Model = new ConversionListViewModel(this);
     setModel(m_Model);
     auto delegate = new ConversionListDelegate(this);

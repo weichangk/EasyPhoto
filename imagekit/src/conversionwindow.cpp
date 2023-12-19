@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-14 00:04:49
+ * @Last Modified time: 2023-12-19 23:55:22
  */
 
 #include "inc/conversionwindow.h"
@@ -98,8 +98,15 @@ void ConversionWindow::createUi() {
 
     QList<ConversionData> conversionDatas;
     ConversionData data1 ={true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data2 ={false, "", "", ConversionModels::ConversionType::None, QPixmap()};
+    ConversionData data2 ={false, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data3 ={false, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data4 ={false, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data5 ={false, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
     conversionDatas.append(data1);
+    conversionDatas.append(data2);
+    conversionDatas.append(data3);
+    conversionDatas.append(data4);
+    conversionDatas.append(data5);
     m_ConversionListView->chageData(conversionDatas);
 
     auto shadow = new AShadowEffect(this);
