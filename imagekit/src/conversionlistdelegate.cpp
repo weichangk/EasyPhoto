@@ -27,12 +27,11 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     bool selected_or_hover = selected || hover;
 
     painter->setPen(Qt::NoPen);
+    auto pixmapRect = QRect(rc.x() + 12, rc.y() + 12, 148, 148);
     if (data.m_IsAdd) {
-        auto pixmapRect = QRect(rc.x() + 17 + 12, rc.y() + 17 + 12, data.m_Thumbnail.width(), data.m_Thumbnail.height()); // 96 *96
-        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
+        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, false);
     } else {
-        auto pixmapRect = QRect(rc.x() + 3 + 12, rc.y() + 3 + 12, 100, 100);
-        auto thumb = data.m_Thumbnail.scaled(100, 100, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        auto thumb = data.m_Thumbnail.scaled(148, 148, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         APainterHelper::paintPixmap(painter, pixmapRect, thumb, 1, 10, false);
     }
 
@@ -43,6 +42,15 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     if (hover || pressed) {
         painter->drawRoundedRect(borderRect, 10, 10);
     }
+
+    pen.setColor(QColor("#575859"));
+    painter->setPen(pen);
+    QFont font = painter->font();
+    font.setPointSizeF(11);
+    painter->setFont(font);
+    auto nameRect = QRect(rc.x() + 12 + 8, rc.y() + 12 + 148 - 24, rc.width() - 12 - 8 - 8, 24);
+    painter->drawText(nameRect, data.m_FileName);
+
 }
 
 bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
