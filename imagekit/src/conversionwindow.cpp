@@ -97,15 +97,15 @@ void ConversionWindow::createUi() {
     convertListViewLayout->addWidget(m_ConversionListView);
 
     QList<ConversionData> conversionDatas;
-    ConversionData data1 ={true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data2 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data3 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data4 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data5 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data6 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data7 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data8 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data9 ={false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data1 = {true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data2 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data3 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data4 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data5 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data6 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data7 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data8 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
+    ConversionData data9 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
     conversionDatas.append(data1);
     conversionDatas.append(data2);
     conversionDatas.append(data3);
@@ -137,6 +137,12 @@ void ConversionWindow::sigConnect() {
     connect(m_Topbar, &ATopbar::sigClose, this, [=]() {
         close();
         emit Signals::getInstance()->sigGotoFunc(Models::Funcs::Startup);
+    });
+    connect(m_ConversionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
+        auto data = index.data(Qt::UserRole).value<ConversionData>();
+        if(data.m_IsAdd) {
+
+        }
     });
 }
 
