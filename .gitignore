@@ -6,6 +6,7 @@
 /agui/build
 /qtest/build
 /imagekit/build
+/imagemagickwrapper/build
 
 /logDebug.txt
 /logInfo.txt

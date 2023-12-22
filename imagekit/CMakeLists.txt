@@ -60,7 +60,7 @@ add_executable(${PROJECT_NAME}
     ${SRC}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui ImageMagickWrapper)
 
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_ID}")
