@@ -60,8 +60,20 @@ add_executable(${PROJECT_NAME}
     ${SRC}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui ImageMagickWrapper)
+include_directories(
+    ${PROJECT_NAME}
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/Magick++
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/MagickCore
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/MagickWand
+)
 
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE Qt6::Widgets ACore AWidget AGui
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_RL_Magick++_.dll
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_RL_MagickCore_.dll
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_RL_MagickWand_.dll
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_ID}")
 
