@@ -9,9 +9,6 @@
 #include "inc/startupcontroller.h"
 #include "inc/models.h"
 #include "../acore/inc/astylemgr.h"
-#include <Magick++.h>
-
-using namespace Magick;
 
 Application::Application(int argc, char *argv[]) :
     QApplication(argc, argv) {
@@ -22,7 +19,6 @@ Application::Application(int argc, char *argv[]) :
     // setQuitOnLastWindowClosed(false);
     AStyleMgr::setStyleToApp(":/res/style");
     initUi();
-    // InitializeMagick(*argv);
 }
 
 void Application::initUi() {

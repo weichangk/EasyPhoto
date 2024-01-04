@@ -12,11 +12,8 @@
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
-#include <Magick++.h>
 #include <QPainter>
 #include <QPainterPath>
-
-using namespace Magick;
 
 ConversionWindow::ConversionWindow(QWidget *parent) :
     ABaseWidget(parent) {
@@ -147,10 +144,6 @@ void ConversionWindow::sigConnect() {
         }
     });
     connect(m_Navbarwidget, &ANavbarWidget::sigClicked, this, [=](int index) {
-        // InitializeMagick("F:\\weick\\mycode\\QtNote\\bin\\x64\\Debug");
-        Image image;
-        image.read("000.gif");
-        image.write("111.jpg" );
     });
 }
 
