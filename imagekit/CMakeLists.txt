@@ -68,7 +68,11 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/MagickWand
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_Magick++_.lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_MagickCore_.lib
+    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_MagickWand_.lib
+)
 
 set_target_properties(${PROJECT_NAME} PROPERTIES OUTPUT_NAME "${PROJECT_ID}")
 
