@@ -19,28 +19,34 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     auto data = index.data(Qt::UserRole).value<ConversionData>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
-    QRect rc = option.rect;
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::NoBrush);
 
+    QRect rc = option.rect;
     bool pressed = m_EventType == QEvent::MouseButtonPress && rc.contains(m_CurPos);
     bool selected = option.state & QStyle::State_Selected;
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
 
-    painter->setPen(Qt::NoPen);
-    auto pixmapRect = QRect(rc.x() + 12, rc.y() + 12, 148, 148);
-    if (data.m_IsAdd) {
-        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, false);
-    } else {
-        auto thumb = data.m_Thumbnail.scaled(148, 148, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
-        APainterHelper::paintPixmap(painter, pixmapRect, thumb, 1, 10, false);
-    }
+    auto borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
+    painter->setBrush(QColor("#303338"));
+    painter->drawRoundedRect(borderRect, 10, 10);
+    painter->setBrush(Qt::NoBrush);
 
     QPen pen(QColor("#1F1F1F"));
     pen.setWidth(1);
     painter->setPen(pen);
-    auto borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
     if (hover || pressed) {
         painter->drawRoundedRect(borderRect, 10, 10);
+    }
+    painter->setPen(Qt::NoPen);
+
+    auto pixmapRect = QRect(rc.x() + 12, rc.y() + 12, 148, 148);
+    if (data.m_IsAdd) {
+        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
+    } else {
+        pixmapRect = pixmapRect.adjusted(4, 4, -4, -4);
+        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     }
 
     pen.setColor(QColor("#575859"));
@@ -50,6 +56,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->setFont(font);
     auto nameRect = QRect(rc.x() + 12 + 8, rc.y() + 12 + 148 - 24, rc.width() - 12 - 8 - 8, 24);
     painter->drawText(nameRect, data.m_FileName);
+    painter->setPen(Qt::NoPen);
 
 }
 

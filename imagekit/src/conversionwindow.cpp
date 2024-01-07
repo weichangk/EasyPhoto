@@ -25,6 +25,10 @@ ConversionWindow::ConversionWindow(QWidget *parent) :
 ConversionWindow::~ConversionWindow() {
 }
 
+void ConversionWindow::changeData(QList<ConversionData> datas) {
+    m_ConversionListView->chageData(datas);
+}
+
 void ConversionWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -96,34 +100,6 @@ void ConversionWindow::createUi() {
     m_ConversionListView = new ConversionListView(this);
     convertListViewLayout->addWidget(m_ConversionListView);
 
-    QList<ConversionData> conversionDatas;
-    ConversionData data1 = {true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data2 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data3 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data4 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data5 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data6 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data7 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data8 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    ConversionData data9 = {false, "namename.png", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    conversionDatas.append(data1);
-    conversionDatas.append(data2);
-    conversionDatas.append(data3);
-    conversionDatas.append(data4);
-    conversionDatas.append(data5);
-    conversionDatas.append(data6);
-    conversionDatas.append(data7);
-    conversionDatas.append(data8);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    conversionDatas.append(data9);
-    m_ConversionListView->chageData(conversionDatas);
-
     auto shadow = new AShadowEffect(this);
 }
 
@@ -141,6 +117,7 @@ void ConversionWindow::sigConnect() {
     connect(m_ConversionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<ConversionData>();
         if (data.m_IsAdd) {
+            emit Signals::getInstance()->sigOpenConvFileDialog(this);
         }
     });
     connect(m_Navbarwidget, &ANavbarWidget::sigClicked, this, [=](int index) {

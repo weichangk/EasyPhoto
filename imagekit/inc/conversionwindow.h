@@ -28,6 +28,7 @@ public:
 
     explicit ConversionWindow(QWidget *parent = 0);
     ~ConversionWindow();
+    void changeData(QList<ConversionData> datas);
 
 protected:
     void createUi() override;

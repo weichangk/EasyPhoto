@@ -18,7 +18,7 @@ void APainterHelper::paintPixmap(QPainter *painter, QRect rc, const QPixmap &pix
     QPixmap pixmapTemp;
     QRect drawRc = rc;
     if (keepRadio) {
-        pixmapTemp = pixmap.scaled(scaledSize, Qt::KeepAspectRatio);
+        pixmapTemp = pixmap.scaled(scaledSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         drawRc = QRect((rc.width() - pixmapTemp.width()) * 0.5 + rc.x(), (rc.height() - pixmapTemp.height()) * 0.5 + rc.y(), pixmapTemp.width(), pixmapTemp.height());
     } else {
         pixmapTemp = pixmap.scaled(scaledSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);

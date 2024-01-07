@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:03:58
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 15:00:14
+ * @Last Modified time: 2024-01-07 23:48:31
  */
 
 #include "inc/startupcontroller.h"
@@ -11,6 +11,8 @@
 
 StartupController::StartupController() {
     m_StartupWindow = new StartupWindow();
+    m_ConversionController = new ConversionController();
+    m_CompressionController = new CompressionController();
     sigConnect();
 }
 
@@ -23,18 +25,12 @@ void StartupController::showFunc(Models::Funcs func) {
         m_StartupWindow->show();
         break;
     case Models::Funcs::ImageConversion:
-        if (!m_ConversionWindow) {
-            m_ConversionWindow = new ConversionWindow;
-        }
         m_StartupWindow->close();
-        m_ConversionWindow->show();
+        m_ConversionController->showWindow();
         break;
     case Models::Funcs::ImageCompression:
-        if (!m_CompressionWindow) {
-            m_CompressionWindow = new CompressionWindow;
-        }
         m_StartupWindow->close();
-        m_CompressionWindow->show();
+        m_CompressionController->showWindow();
         break;
     default:
         break;

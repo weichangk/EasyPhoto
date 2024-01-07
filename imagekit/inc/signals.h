@@ -8,7 +8,7 @@
 #pragma once
 #include "../acore/inc/asinglton.h"
 #include "models.h"
-#include <QObject>
+#include <QWidget>
 
 class Signals : public QObject, public ASinglton<Signals>
 {
@@ -16,4 +16,8 @@ class Signals : public QObject, public ASinglton<Signals>
 public:
     Q_SIGNALS:
     void sigGotoFunc(Models::Funcs func);
+
+    //Conversion
+    void sigOpenConvFileDialog(QWidget *parent = 0);
+    void sigAddConvFile();
 };

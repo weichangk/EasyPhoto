@@ -2,14 +2,14 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:29
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 14:57:43
+ * @Last Modified time: 2024-01-07 23:48:15
  */
 
 #pragma once
 #include "startupwindow.h"
 #include "models.h"
-#include "conversionwindow.h"
-#include "compressionwindow.h"
+#include "ConversionController.h"
+#include "CompressionController.h"
 #include <QObject>
 
 class StartupController : public QObject {
@@ -24,6 +24,6 @@ private:
 
 private:
     StartupWindow *m_StartupWindow = 0;
-    ConversionWindow *m_ConversionWindow = 0;
-    CompressionWindow *m_CompressionWindow = 0;
+    ConversionController *m_ConversionController = 0;
+    CompressionController *m_CompressionController = 0;
 };

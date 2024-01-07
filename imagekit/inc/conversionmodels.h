@@ -15,7 +15,7 @@ class ConversionModels : public QObject {
 public:
     enum ConversionType {
         None = 0,
-        Run,
+        InConvert,
         Success,
         Fail
     };

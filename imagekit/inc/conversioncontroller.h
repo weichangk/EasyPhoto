@@ -2,18 +2,30 @@
  * @Author: weick
  * @Date: 2023-12-21 23:43:01
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-21 23:57:17
+ * @Last Modified time: 2024-01-07 23:44:26
  */
 
 #pragma once
-#include "../acore/inc/asinglton.h"
-#include <QObject>
+#include "conversionwindow.h"
+#include "conversionmodels.h"
+#include <QWidget>
 
-class ConversionController : public QObject, public ASinglton<ConversionController> {
+class ConversionController : public QObject {
     Q_OBJECT
 public:
-
-protected:
     explicit ConversionController();
     ~ConversionController();
+    void showWindow();
+    void closeWindow();
+
+private:
+    void sigConnect();
+    void openConvFileDialog(QWidget *parent = 0);
+
+    void addConvData(QStringList filePaths);
+    void delConvData(QString filePath);
+
+private:
+    ConversionWindow *m_ConversionWindow = 0;
+    QList<ConversionData> m_ConvDatas;
 };
