@@ -29,5 +29,6 @@ struct ConversionData {
     QString m_FilePath = "";
     ConversionModels::ConversionType m_ConversionType = ConversionModels::ConversionType::None;
     QPixmap m_Thumbnail = QPixmap();
+    QPixmap m_DelIcon = QPixmap();
 };
 Q_DECLARE_METATYPE(ConversionData)

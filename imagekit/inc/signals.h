@@ -20,4 +20,5 @@ public:
     //Conversion
     void sigOpenConvFileDialog(QWidget *parent = 0);
     void sigAddConvFile();
+    void sigDelConvFile(const QString path);
 };

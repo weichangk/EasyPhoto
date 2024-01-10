@@ -33,14 +33,6 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
 
-    QPen pen(QColor("#1F1F1F"));
-    pen.setWidth(1);
-    painter->setPen(pen);
-    if (hover || pressed) {
-        painter->drawRoundedRect(borderRect, 10, 10);
-    }
-    painter->setPen(Qt::NoPen);
-
     auto pixmapRect = QRect(rc.x() + 12, rc.y() + 12, 148, 148);
     if (data.m_IsAdd) {
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
@@ -48,6 +40,20 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         pixmapRect = pixmapRect.adjusted(4, 4, -4, -4);
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     }
+
+    if(hover)
+    {
+        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 6, borderRect.y() + 6, data.m_DelIcon.width(), data.m_DelIcon.height());
+        APainterHelper::paintPixmap(painter, delIconRect, data.m_DelIcon, 1, 10, true);
+    }
+
+    QPen pen(QColor("#1F1F1F"));
+    pen.setWidth(1);
+    painter->setPen(pen);
+    if (hover || pressed) {
+        painter->drawRoundedRect(borderRect, 10, 10);
+    }
+    painter->setPen(Qt::NoPen);
 
     pen.setColor(QColor("#575859"));
     painter->setPen(pen);

@@ -24,5 +24,9 @@
   <qresource prefix="agui/">
     <file>res/image/loading-48.png</file>
     <file>res/image/loading-96.png</file>
+    <file>res/image/delete-24.png</file>
+    <file>res/image/delete-32.png</file>
+    <file>res/image/delete-48.png</file>
+    <file>res/image/delete-64.png</file>
   </qresource>
 </RCC>

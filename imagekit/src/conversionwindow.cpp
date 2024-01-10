@@ -116,8 +116,19 @@ void ConversionWindow::sigConnect() {
     });
     connect(m_ConversionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<ConversionData>();
+        QRect rc = m_ConversionListView->visualRect(index);
+        int posx = m_ConversionListView->mapFromGlobal(QCursor::pos()).x();
+        int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
+        QRect borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
+        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 6, borderRect.y() + 6, 24, 24);
+
         if (data.m_IsAdd) {
             emit Signals::getInstance()->sigOpenConvFileDialog(this);
+        } else {
+            if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
+                && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
+                emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
+            }
         }
     });
     connect(m_Navbarwidget, &ANavbarWidget::sigClicked, this, [=](int index) {

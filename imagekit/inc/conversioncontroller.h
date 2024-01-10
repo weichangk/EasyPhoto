@@ -22,8 +22,8 @@ private:
     void sigConnect();
     void openConvFileDialog(QWidget *parent = 0);
 
-    void addConvData(QStringList filePaths);
-    void delConvData(QString filePath);
+    void addConvData(const QStringList filePaths);
+    void delConvData(const QString filePath);
 
 private:
     ConversionWindow *m_ConversionWindow = 0;
