@@ -21,4 +21,8 @@
     <file>res/image/icon40_normal_normal.svg</file>
     <file>res/image/icon40_normal_pressed.svg</file>
   </qresource>
+  <qresource prefix="agui/">
+    <file>res/image/loading-48.png</file>
+    <file>res/image/loading-96.png</file>
+  </qresource>
 </RCC>

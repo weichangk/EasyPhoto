@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include "../agui/inc/arotatingpixmapwidget.h"
 #include <QObject>
 #include <QString>
 #include <QPixmap>

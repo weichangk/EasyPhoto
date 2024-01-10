@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 23:05:46
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:05:46
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-01-08 23:32:25
  */
 
 #include "mainwindow.h"
@@ -20,6 +20,7 @@
 #include "../agui/inc/athumbnail.h"
 #include "../agui/inc/aarrowwidget.h"
 #include "../agui/inc/atopbar.h"
+#include "../agui/inc/arotatingpixmapwidget.h"
 #include <QShortcut>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -157,6 +158,11 @@ void MainWindow::createUi() {
     thum1->setRadiius(20);
     thum1->setHasBorder(true);
     testAThumbnailLyt->addWidget(thum1);
+
+    AWidgetWithRotatingItem *loadingWidget = new AWidgetWithRotatingItem(this);
+    loadingWidget->start();
+    rightWidgetLyt->addWidget(loadingWidget);
+
 
     //
     rightWidgetLyt->addStretch();
