@@ -120,7 +120,7 @@ void ConversionWindow::sigConnect() {
         int posx = m_ConversionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
         QRect borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
-        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 6, borderRect.y() + 6, 24, 24);
+        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 2, borderRect.y() + 2, 24, 24);
 
         if (data.m_IsAdd) {
             emit Signals::getInstance()->sigOpenConvFileDialog(this);

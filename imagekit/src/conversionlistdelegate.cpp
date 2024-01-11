@@ -10,6 +10,7 @@
 #include "../acore/inc/apainterhelper.h"
 #include <QMouseEvent>
 #include <QPainter>
+#include <QFontMetricsF>
 
 ConversionListDelegate::ConversionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
@@ -37,13 +38,13 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     if (data.m_IsAdd) {
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     } else {
-        pixmapRect = pixmapRect.adjusted(4, 4, -4, -4);
+        pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     }
 
     if(hover)
     {
-        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 6, borderRect.y() + 6, data.m_DelIcon.width(), data.m_DelIcon.height());
+        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 2, borderRect.y() + 2, data.m_DelIcon.width(), data.m_DelIcon.height());
         APainterHelper::paintPixmap(painter, delIconRect, data.m_DelIcon, 1, 10, true);
     }
 
@@ -60,8 +61,14 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QFont font = painter->font();
     font.setPointSizeF(11);
     painter->setFont(font);
-    auto nameRect = QRect(rc.x() + 12 + 8, rc.y() + 12 + 148 - 24, rc.width() - 12 - 8 - 8, 24);
-    painter->drawText(nameRect, data.m_FileName);
+    QString fileName = data.m_FileName;
+    auto nameRect = QRect(borderRect.x() + 20, borderRect.y() + borderRect.height() - 24, borderRect.width() - 40, 24);
+    QFontMetricsF metrics(font);
+    if(metrics.horizontalAdvance(fileName) > nameRect.width())
+    {
+        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);
+    }
+    painter->drawText(nameRect, Qt::PlainText, fileName);
     painter->setPen(Qt::NoPen);
 
 }
