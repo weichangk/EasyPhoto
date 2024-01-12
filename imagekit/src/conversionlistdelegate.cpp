@@ -29,12 +29,12 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
 
-    auto borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
+    auto borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
     painter->setBrush(QColor("#303338"));
     painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
 
-    auto pixmapRect = QRect(rc.x() + 12, rc.y() + 12, 148, 148);
+    auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 148, 148);
     if (data.m_IsAdd) {
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     } else {

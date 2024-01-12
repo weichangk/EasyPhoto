@@ -38,9 +38,5 @@ protected:
 
 private:
     ATopbar *m_Topbar = 0;
-    ACanMoveWidget *m_Navbar = 0;
-    APushButton *m_LogoBtn = 0;
-    ALabel *m_ProductLab = 0;
-    ANavbarWidget *m_Navbarwidget = 0;
     ConversionListView *m_ConversionListView = 0;
 };

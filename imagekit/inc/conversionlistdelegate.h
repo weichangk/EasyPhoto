@@ -19,7 +19,7 @@ public:
     void changeSizeHint(const QSize &size);
 
 private:
-    QSize m_Size = QSize(148 + 12, 148 + 12); // 间距12
+    QSize m_Size = QSize(148 + 8, 148 + 8); // 间距8
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
 };

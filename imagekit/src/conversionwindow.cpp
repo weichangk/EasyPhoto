@@ -34,71 +34,25 @@ void ConversionWindow::createUi() {
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(800, 540);
 
-    auto mainLayout = new AHBoxLayout(this);
+    auto mainLayout = new AVBoxLayout(this);
 
-    auto leftLayout = new AVBoxLayout();
-    mainLayout->addLayout(leftLayout);
-
-    auto rightLayout = new AVBoxLayout();
-    mainLayout->addLayout(rightLayout);
-
-    // left
-    m_Navbar = new ACanMoveWidget(this);
-    m_Navbar->setFixedWidth(140);
-    leftLayout->addWidget(m_Navbar, 1);
-
-    auto navbarLayout = new AVBoxLayout(m_Navbar);
-    navbarLayout->setContentsMargins(12, 24, 12, 24);
-    navbarLayout->setSpacing(10);
-
-    auto logoLayout = new AHBoxLayout();
-    logoLayout->setSpacing(6);
-    navbarLayout->addLayout(logoLayout);
-
-    m_LogoBtn = new APushButton(m_Navbar);
-    m_LogoBtn->setObjectName("ConversionWindow_m_LogoBtn");
-    m_LogoBtn->setFixedSize(40, 40);
-    logoLayout->addWidget(m_LogoBtn);
-
-    m_ProductLab = new ALabel(m_Navbar);
-    m_ProductLab->setObjectName("ConversionWindow_m_ProductLab");
-    m_ProductLab->setText("图片转换");
-    logoLayout->addWidget(m_ProductLab);
-
-    navbarLayout->addSpacing(20);
-
-    QMap<int, QVariantList> navbarDataMap;
-    navbarDataMap.insert(ConvertOutType::PNG, QVariantList() << ":/res/image/icon24_menu_myfuncs.png"
-                                                             << "转换为PNG");
-    navbarDataMap.insert(ConvertOutType::JPG, QVariantList() << ":/res/image/icon24_menu_myfiles.png"
-                                                             << "转换为JPG");
-    navbarDataMap.insert(ConvertOutType::JPEG, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
-                                                              << "转换为JPEG");
-    navbarDataMap.insert(ConvertOutType::SVG, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
-                                                             << "转换为SVG");
-    m_Navbarwidget = new ANavbarWidget(navbarDataMap, this);
-    navbarLayout->addWidget(m_Navbarwidget);
-
-    navbarLayout->addStretch();
-
-    // right
     m_Topbar = new ATopbar(this);
     m_Topbar->setCloseBtnTopRight10Radius();
-    rightLayout->addWidget(m_Topbar);
+    mainLayout->addWidget(m_Topbar);
 
-    auto funcLayout = new AVBoxLayout();
-    funcLayout->setContentsMargins(0, 0, 1, 1);
-    rightLayout->addLayout(funcLayout);
+    auto bodyLayout = new AVBoxLayout();
+    bodyLayout->setContentsMargins(1, 0, 1, 64);
 
-    auto convertArea = new AWidget(this);
-    convertArea->setObjectName("ConversionWindow_m_FuncArea");
-    funcLayout->addWidget(convertArea);
+    auto convertListViewBG = new AWidget(this);
+    convertListViewBG->setObjectName("ConversionWindow_convertListViewBG");
+    bodyLayout->addWidget(convertListViewBG);
 
-    auto convertListViewLayout = new AVBoxLayout(convertArea);
-    // convertListViewLayout->setContentsMargins(24 , 24, 24, 24);
-
+    auto convertListViewBGLayout = new AVBoxLayout(convertListViewBG);
     m_ConversionListView = new ConversionListView(this);
-    convertListViewLayout->addWidget(m_ConversionListView);
+    convertListViewBGLayout->addWidget(m_ConversionListView);
+
+    mainLayout->addLayout(bodyLayout);
+
 
     auto shadow = new AShadowEffect(this);
 }
@@ -119,7 +73,7 @@ void ConversionWindow::sigConnect() {
         QRect rc = m_ConversionListView->visualRect(index);
         int posx = m_ConversionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
-        QRect borderRect = rc.adjusted(1 + 12, 1 + 12, -1, -1);
+        QRect borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 2, borderRect.y() + 2, 24, 24);
 
         if (data.m_IsAdd) {
@@ -130,8 +84,6 @@ void ConversionWindow::sigConnect() {
                 emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
             }
         }
-    });
-    connect(m_Navbarwidget, &ANavbarWidget::sigClicked, this, [=](int index) {
     });
 }
 
