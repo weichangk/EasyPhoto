@@ -1,0 +1,26 @@
+/*
+ * @Author: weick
+ * @Date: 2024-01-14 21:20:25
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-01-14 21:43:21
+ */
+
+ APushButton#FullBGButton_FS15 {
+    border-radius: 6px;
+    background-color: rgba(54, 54, 54, 1);
+    color: rgba(215, 215, 215, 1);
+    font-size: 15px;
+}
+
+APushButton#FullBGButton_FS15:hover {
+    background-color: rgba(64, 64, 64, 1);
+}
+
+APushButton#FullBGButton_FS15:pressed {
+    background-color: rgba(64, 64, 64, 0.15);
+}
+
+APushButton#FullBGButton_FS15:disabled {
+    background-color: rgba(54, 54, 54, 0.15);
+}
+

@@ -34,7 +34,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
 
-    auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 148, 148);
+    auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 176, 176);
     if (data.m_IsAdd) {
         APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
     } else {

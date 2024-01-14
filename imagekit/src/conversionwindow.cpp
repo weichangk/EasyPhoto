@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-19 23:55:22
+ * @Last Modified time: 2024-01-14 22:40:01
  */
 
 #include "inc/conversionwindow.h"
@@ -41,7 +41,7 @@ void ConversionWindow::createUi() {
     mainLayout->addWidget(m_Topbar);
 
     auto bodyLayout = new AVBoxLayout();
-    bodyLayout->setContentsMargins(1, 0, 1, 64);
+    bodyLayout->setContentsMargins(25, 0, 25, 0);
 
     auto convertListViewBG = new AWidget(this);
     convertListViewBG->setObjectName("ConversionWindow_convertListViewBG");
@@ -53,6 +53,47 @@ void ConversionWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout);
 
+    auto bottomBG = new AWidget(this);
+    bottomBG->setFixedHeight(64);
+    auto bottomLayout = new AHBoxLayout(bottomBG);
+    bottomLayout->setContentsMargins(25, 0, 25, 0);
+    bottomLayout->setSpacing(12);
+
+    m_AddFileBtn = new APushButton(this);
+    m_AddFileBtn->setObjectName("FullBGButton_FS15");
+    m_AddFileBtn->setFixedSize(116, 32);
+    m_AddFileBtn->setText("导入文件");
+    m_AddFileBtn->setIconSize(QSize(24, 24));
+    m_AddFileBtn->setIcon(QIcon(":/agui/res/image/add-24.png"));
+    bottomLayout->addWidget(m_AddFileBtn);
+
+    bottomLayout->addStretch();
+
+    m_ConvToLab = new ALabel(this);
+    m_ConvToLab->setObjectName("ConversionWindow_m_ConvToLab");
+    m_ConvToLab->setText("转换为");
+    bottomLayout->addWidget(m_ConvToLab);
+
+    m_ConvToBtn = new APushButton(this);
+    m_ConvToBtn->setObjectName("FullBGButton_FS15");
+    m_ConvToBtn->setFixedSize(80, 32);
+    m_ConvToBtn->setText("PNG");
+    bottomLayout->addWidget(m_ConvToBtn);
+
+    m_SetingBtn = new APushButton(this);
+    m_SetingBtn->setObjectName("FullBGButton_FS15");
+    m_SetingBtn->setFixedSize(32, 32);
+    bottomLayout->addWidget(m_SetingBtn);
+
+    m_ConvAllBtn = new APushButton(this);
+    m_ConvAllBtn->setObjectName("FullBGButton_FS15");
+    m_ConvAllBtn->setFixedSize(116, 32);
+    m_ConvAllBtn->setText("开始转换");
+    m_ConvAllBtn->setIconSize(QSize(24, 24));
+    m_ConvAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
+    bottomLayout->addWidget(m_ConvAllBtn);
+
+    mainLayout->addWidget(bottomBG);
 
     auto shadow = new AShadowEffect(this);
 }

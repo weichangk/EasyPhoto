@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-07 23:41:32
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-07 23:42:48
+ * @Last Modified time: 2024-01-14 22:08:41
  */
 
 #pragma once
@@ -12,6 +12,7 @@
 
 class AWIDGET_EXPORT AFlowLayout : public QLayout
 {
+    Q_OBJECT
 public:
     explicit AFlowLayout(QWidget *parent, int margin = -1, int hSpacing = -1, int vSpacing = -1);
     explicit AFlowLayout(int margin = -1, int hSpacing = -1, int vSpacing = -1);

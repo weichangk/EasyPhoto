@@ -1,4 +1,8 @@
 QWidget#ConversionWindow_convertListViewBG {
-    border-radius: 0px;
+    border-radius: 10px;
     background-color: rgb(39, 42, 48);
+}
+
+ALabel#ConversionWindow_m_ConvToLab {
+    font-size: 15px;
 }
