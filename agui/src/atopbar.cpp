@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 22:55:51
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 22:55:51
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-01-14 23:30:12
  */
 
 #include "inc/atopbar.h"
@@ -19,6 +19,10 @@ ATopbar::ATopbar(QWidget *parent) :
 }
 
 ATopbar::~ATopbar() {
+}
+
+QWidget *ATopbar::contentWidget() {
+    return m_contentWidget;
 }
 
 void ATopbar::setNormalVisible(bool visible) {

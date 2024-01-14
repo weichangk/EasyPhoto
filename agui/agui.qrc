@@ -40,5 +40,17 @@
     <file>res/image/setting-32.png</file>
     <file>res/image/setting-48.png</file>
     <file>res/image/setting-64.png</file>
+    <file>res/image/down-24.png</file>
+    <file>res/image/down-32.png</file>
+    <file>res/image/down-48.png</file>
+    <file>res/image/down-64.png</file>
+    <file>res/image/down1-24.png</file>
+    <file>res/image/down1-32.png</file>
+    <file>res/image/down1-48.png</file>
+    <file>res/image/down1-64.png</file>
+    <file>res/image/up-24.png</file>
+    <file>res/image/up-32.png</file>
+    <file>res/image/up-48.png</file>
+    <file>res/image/up-64.png</file>
   </qresource>
 </RCC>

@@ -1,8 +1,8 @@
 /*
  * @Author: weick
  * @Date: 2023-12-05 22:53:08
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 22:53:08
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-01-14 23:30:20
  */
 
 #pragma once
@@ -15,6 +15,7 @@ class AGUI_EXPORT ATopbar : public ACanMoveWidget {
 public:
     ATopbar(QWidget *parent);
     ~ATopbar();
+    QWidget *contentWidget();
     void setNormalVisible(bool visible);
     void setCloseBtnTopRight10Radius();
 

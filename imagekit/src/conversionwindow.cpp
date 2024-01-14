@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-14 22:40:01
+ * @Last Modified time: 2024-01-14 23:48:24
  */
 
 #include "inc/conversionwindow.h"
@@ -39,6 +39,21 @@ void ConversionWindow::createUi() {
     m_Topbar = new ATopbar(this);
     m_Topbar->setCloseBtnTopRight10Radius();
     mainLayout->addWidget(m_Topbar);
+
+    auto topbarLayout = new AHBoxLayout(m_Topbar->contentWidget());
+    topbarLayout->setSpacing(12);
+    topbarLayout->addStretch();
+    m_SetingBtn = new APushButton(this);
+    m_SetingBtn->setObjectName("OnlyIconButton");
+    m_SetingBtn->setFixedSize(24, 24);
+    m_SetingBtn->setIconSize(QSize(24, 24));
+    m_SetingBtn->setIcon(QIcon(":/agui/res/image/setting-24.png"));
+    topbarLayout->addWidget(m_SetingBtn);
+    QWidget *topbarSplit = new QWidget(this);
+    topbarSplit->setStyleSheet("background-color:#2F2F2F");
+    topbarSplit->setFixedSize(1, 16);
+    topbarLayout->addWidget(topbarSplit);
+    topbarLayout->addSpacing(12);
 
     auto bodyLayout = new AVBoxLayout();
     bodyLayout->setContentsMargins(25, 0, 25, 0);
@@ -78,12 +93,11 @@ void ConversionWindow::createUi() {
     m_ConvToBtn->setObjectName("FullBGButton_FS15");
     m_ConvToBtn->setFixedSize(80, 32);
     m_ConvToBtn->setText("PNG");
-    bottomLayout->addWidget(m_ConvToBtn);
+    m_ConvToBtn->setIconSize(QSize(24, 24));
+    m_ConvToBtn->setIcon(QIcon(":/agui/res/image/down1-24.png"));
+    m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
 
-    m_SetingBtn = new APushButton(this);
-    m_SetingBtn->setObjectName("FullBGButton_FS15");
-    m_SetingBtn->setFixedSize(32, 32);
-    bottomLayout->addWidget(m_SetingBtn);
+    bottomLayout->addWidget(m_ConvToBtn);
 
     m_ConvAllBtn = new APushButton(this);
     m_ConvAllBtn->setObjectName("FullBGButton_FS15");
