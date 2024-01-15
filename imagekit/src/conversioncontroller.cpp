@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-21 23:57:42
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-21 23:59:21
+ * @Last Modified time: 2024-01-15 22:15:02
  */
 
 #include "inc/conversioncontroller.h"
@@ -51,7 +51,7 @@ void ConversionController::addConvData(const QStringList filePaths) {
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         conversionData.m_Thumbnail = pixmap;
-        conversionData.m_DelIcon = QPixmap(":/agui/res/image/delete-24.png");
+        conversionData.m_DelIcon = QPixmap(":/agui/res/image/delete1-24.png");
         m_ConvDatas.append(conversionData);
     }
     m_ConversionWindow->changeData(m_ConvDatas);

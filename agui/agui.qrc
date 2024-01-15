@@ -22,12 +22,17 @@
     <file>res/image/icon40_normal_pressed.svg</file>
   </qresource>
   <qresource prefix="agui/">
+    <file>res/image/image-file-add-96.png</file>
     <file>res/image/loading-48.png</file>
     <file>res/image/loading-96.png</file>
     <file>res/image/delete-24.png</file>
     <file>res/image/delete-32.png</file>
     <file>res/image/delete-48.png</file>
     <file>res/image/delete-64.png</file>
+    <file>res/image/delete1-24.png</file>
+    <file>res/image/delete1-32.png</file>
+    <file>res/image/delete1-48.png</file>
+    <file>res/image/delete1-64.png</file>
     <file>res/image/add-24.png</file>
     <file>res/image/add-32.png</file>
     <file>res/image/add-48.png</file>
@@ -52,5 +57,17 @@
     <file>res/image/up-32.png</file>
     <file>res/image/up-48.png</file>
     <file>res/image/up-64.png</file>
+    <file>res/image/checked-24.png</file>
+    <file>res/image/checked-32.png</file>
+    <file>res/image/checked-48.png</file>
+    <file>res/image/checked-64.png</file>
+    <file>res/image/unchecked-24.png</file>
+    <file>res/image/unchecked-32.png</file>
+    <file>res/image/unchecked-48.png</file>
+    <file>res/image/unchecked-64.png</file>
+    <file>res/image/export-24.png</file>
+    <file>res/image/export-32.png</file>
+    <file>res/image/export-48.png</file>
+    <file>res/image/export-64.png</file>
   </qresource>
 </RCC>

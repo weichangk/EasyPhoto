@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-14 23:48:24
+ * @Last Modified time: 2024-01-15 23:06:24
  */
 
 #include "inc/conversionwindow.h"
@@ -76,32 +76,43 @@ void ConversionWindow::createUi() {
 
     m_AddFileBtn = new APushButton(this);
     m_AddFileBtn->setObjectName("FullBGButton_FS15");
-    m_AddFileBtn->setFixedSize(116, 32);
-    m_AddFileBtn->setText("导入文件");
+    m_AddFileBtn->setFixedSize(80, 32);
+    m_AddFileBtn->setText("导入");
     m_AddFileBtn->setIconSize(QSize(24, 24));
     m_AddFileBtn->setIcon(QIcon(":/agui/res/image/add-24.png"));
     bottomLayout->addWidget(m_AddFileBtn);
 
-    bottomLayout->addStretch();
+    m_DelFileBtn = new APushButton(this);
+    m_DelFileBtn->setObjectName("FullBGButton_FS15");
+    m_DelFileBtn->setFixedSize(80, 32);
+    m_DelFileBtn->setText("删除");
+    m_DelFileBtn->setIconSize(QSize(24, 24));
+    m_DelFileBtn->setIcon(QIcon(":/agui/res/image/delete-24.png"));
+    bottomLayout->addWidget(m_DelFileBtn);
 
-    m_ConvToLab = new ALabel(this);
-    m_ConvToLab->setObjectName("ConversionWindow_m_ConvToLab");
-    m_ConvToLab->setText("转换为");
-    bottomLayout->addWidget(m_ConvToLab);
+    m_CheckAllBtn = new APushButton(this);
+    m_CheckAllBtn->setObjectName("FullBGButton_FS15");
+    m_CheckAllBtn->setFixedSize(80, 32);
+    m_CheckAllBtn->setText("全选");
+    m_CheckAllBtn->setIconSize(QSize(24, 24));
+    m_CheckAllBtn->setIcon(QIcon(":/agui/res/image/checked-24.png"));
+    bottomLayout->addWidget(m_CheckAllBtn);
+
+    bottomLayout->addStretch();
 
     m_ConvToBtn = new APushButton(this);
     m_ConvToBtn->setObjectName("FullBGButton_FS15");
-    m_ConvToBtn->setFixedSize(80, 32);
-    m_ConvToBtn->setText("PNG");
+    m_ConvToBtn->setFixedSize(124, 32);
+    m_ConvToBtn->setText("转换为PNG");
     m_ConvToBtn->setIconSize(QSize(24, 24));
-    m_ConvToBtn->setIcon(QIcon(":/agui/res/image/down1-24.png"));
-    m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
+    m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
+    // m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
 
     bottomLayout->addWidget(m_ConvToBtn);
 
     m_ConvAllBtn = new APushButton(this);
     m_ConvAllBtn->setObjectName("FullBGButton_FS15");
-    m_ConvAllBtn->setFixedSize(116, 32);
+    m_ConvAllBtn->setFixedSize(124, 32);
     m_ConvAllBtn->setText("开始转换");
     m_ConvAllBtn->setIconSize(QSize(24, 24));
     m_ConvAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
@@ -110,6 +121,12 @@ void ConversionWindow::createUi() {
     mainLayout->addWidget(bottomBG);
 
     auto shadow = new AShadowEffect(this);
+
+    m_AddGuideBtn = new APushButton(this);
+    m_AddGuideBtn->setObjectName("ConversionWindow_m_AddGuideBtn");
+    m_AddGuideBtn->setFixedSize(96 * 3, 96 * 2);
+    m_AddGuideBtn->setIconSize(QSize(96, 96));
+    m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
 }
 
 void ConversionWindow::changeLanguage() {
@@ -167,4 +184,9 @@ void ConversionWindow::paintEvent(QPaintEvent *event) {
     painter.setPen(pen);
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
     painter.drawRoundedRect(borderRect, 10, 10);
+}
+
+void ConversionWindow::resizeEvent(QResizeEvent *event) {
+    ABaseWidget::resizeEvent(event);
+    m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
 }
