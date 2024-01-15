@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 22:53:11
+ * @Last Modified time: 2024-01-15 23:28:13
  */
 
 #pragma once
@@ -38,12 +38,14 @@ protected:
 
 private:
     ATopbar *m_Topbar = 0;
+    ALabel *m_LogoLab = 0;
+    ALabel *m_NameLab = 0;
+    APushButton *m_SetingBtn = 0;
     ConversionListView *m_ConversionListView = 0;
     APushButton *m_AddGuideBtn = 0;
     APushButton *m_ConvToBtn = 0;
     APushButton *m_AddFileBtn = 0;
     APushButton *m_DelFileBtn = 0;
     APushButton *m_CheckAllBtn = 0;
-    APushButton *m_SetingBtn = 0;
     APushButton *m_ConvAllBtn = 0;
 };

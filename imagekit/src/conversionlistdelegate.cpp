@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-12 23:58:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-09 00:22:51
+ * @Last Modified time: 2024-01-15 23:17:23
  */
 
 #include "inc/conversionlistdelegate.h"
@@ -35,12 +35,8 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->setBrush(Qt::NoBrush);
 
     auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 176, 176);
-    if (data.m_IsAdd) {
-        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
-    } else {
-        pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
-        APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
-    }
+    pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
+    APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
 
     if(hover)
     {

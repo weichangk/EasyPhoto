@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 23:06:24
+ * @Last Modified time: 2024-01-15 23:34:27
  */
 
 #include "inc/conversionwindow.h"
@@ -27,6 +27,7 @@ ConversionWindow::~ConversionWindow() {
 
 void ConversionWindow::changeData(QList<ConversionData> datas) {
     m_ConversionListView->chageData(datas);
+    m_AddGuideBtn->setVisible(m_ConversionListView->count() == 0);
 }
 
 void ConversionWindow::createUi() {
@@ -42,6 +43,18 @@ void ConversionWindow::createUi() {
 
     auto topbarLayout = new AHBoxLayout(m_Topbar->contentWidget());
     topbarLayout->setSpacing(12);
+    topbarLayout->addSpacing(12);
+    auto logoLayout = new AHBoxLayout();
+    logoLayout->setSpacing(4);
+    m_LogoLab = new ALabel(this);
+    QPixmap logo(":/agui/res/image/setting-24.png");
+    m_LogoLab->setPixmap(logo);
+    logoLayout->addWidget(m_LogoLab);
+    m_NameLab = new ALabel(this);
+    m_NameLab->setObjectName("ConversionWindow_m_NameLab");
+    m_NameLab->setText("图片格式转换");
+    logoLayout->addWidget(m_NameLab);
+    topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
     m_SetingBtn = new APushButton(this);
     m_SetingBtn->setObjectName("OnlyIconButton");
@@ -147,15 +160,16 @@ void ConversionWindow::sigConnect() {
         int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
         QRect borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 2, borderRect.y() + 2, 24, 24);
-
-        if (data.m_IsAdd) {
-            emit Signals::getInstance()->sigOpenConvFileDialog(this);
-        } else {
-            if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
-                && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-                emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
-            }
+        if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
+            && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
+            emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
         }
+    });
+    connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigOpenConvFileDialog(this);
+    });
+    connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigOpenConvFileDialog(this);
     });
 }
 

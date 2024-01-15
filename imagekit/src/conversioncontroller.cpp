@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-21 23:57:42
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 22:15:02
+ * @Last Modified time: 2024-01-15 23:17:39
  */
 
 #include "inc/conversioncontroller.h"
@@ -12,9 +12,6 @@
 
 ConversionController::ConversionController() {
     m_ConversionWindow = new ConversionWindow;
-    ConversionData add = {true, "", "", ConversionModels::ConversionType::None, QPixmap(":/res/image/icons8-add-image-96.png")};
-    m_ConvDatas.append(add);
-    m_ConversionWindow->changeData(m_ConvDatas);
     sigConnect();
 }
 
