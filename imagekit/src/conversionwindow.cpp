@@ -88,7 +88,7 @@ void ConversionWindow::createUi() {
     bottomLayout->setSpacing(12);
 
     m_AddFileBtn = new APushButton(this);
-    m_AddFileBtn->setObjectName("FullBGButton_FS15");
+    m_AddFileBtn->setObjectName("FullBGButton_FS14");
     m_AddFileBtn->setFixedSize(80, 32);
     m_AddFileBtn->setText("导入");
     m_AddFileBtn->setIconSize(QSize(24, 24));
@@ -96,7 +96,7 @@ void ConversionWindow::createUi() {
     bottomLayout->addWidget(m_AddFileBtn);
 
     m_DelFileBtn = new APushButton(this);
-    m_DelFileBtn->setObjectName("FullBGButton_FS15");
+    m_DelFileBtn->setObjectName("FullBGButton_FS14");
     m_DelFileBtn->setFixedSize(80, 32);
     m_DelFileBtn->setText("删除");
     m_DelFileBtn->setIconSize(QSize(24, 24));
@@ -104,7 +104,7 @@ void ConversionWindow::createUi() {
     bottomLayout->addWidget(m_DelFileBtn);
 
     m_CheckAllBtn = new APushButton(this);
-    m_CheckAllBtn->setObjectName("FullBGButton_FS15");
+    m_CheckAllBtn->setObjectName("FullBGButton_FS14");
     m_CheckAllBtn->setFixedSize(80, 32);
     m_CheckAllBtn->setText("全选");
     m_CheckAllBtn->setIconSize(QSize(24, 24));
@@ -114,7 +114,7 @@ void ConversionWindow::createUi() {
     bottomLayout->addStretch();
 
     m_ConvToBtn = new APushButton(this);
-    m_ConvToBtn->setObjectName("FullBGButton_FS15");
+    m_ConvToBtn->setObjectName("FullBGButton_FS14");
     m_ConvToBtn->setFixedSize(124, 32);
     m_ConvToBtn->setText("转换为PNG");
     m_ConvToBtn->setIconSize(QSize(24, 24));
@@ -124,7 +124,7 @@ void ConversionWindow::createUi() {
     bottomLayout->addWidget(m_ConvToBtn);
 
     m_ConvAllBtn = new APushButton(this);
-    m_ConvAllBtn->setObjectName("FullBGButton_FS15");
+    m_ConvAllBtn->setObjectName("FullBGButton_FS14");
     m_ConvAllBtn->setFixedSize(124, 32);
     m_ConvAllBtn->setText("开始转换");
     m_ConvAllBtn->setIconSize(QSize(24, 24));

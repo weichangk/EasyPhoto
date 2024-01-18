@@ -16,17 +16,17 @@ QLabel#AIconTextWidget_Text[style-state='normal'] {
 
 QLabel#AIconTextWidget_Text[style-state='hover'] {
     font-size: 14px;
-    color: #FFFFFF;
+    color: #E1E3E6;
 }
 
 QLabel#AIconTextWidget_Text[style-state='pressed'] {
     font-size: 14px;
-    color: #FFFFFF;
+    color: #E1E3E6;
 }
 
 QLabel#AIconTextWidget_Text[style-state='checked'] {
     font-size: 14px;
-    color: #FFFFFF;
+    color: #E1E3E6;
 }
 
 QLabel#AIconTextWidget_Text[style-state='disabled'] {}

@@ -22,22 +22,23 @@ APushButton#OnlyIconButton:disabled {
     background-color: rgba(54, 54, 54, 0.15);
 }
 
- APushButton#FullBGButton_FS15 {
+ APushButton#FullBGButton_FS14 {
     border-radius: 6px;
     background-color: rgba(54, 54, 54, 1);
-    color: rgba(215, 215, 215, 1);
-    font-size: 15px;
+    color: #969799;
+    font-size: 14px;
 }
 
-APushButton#FullBGButton_FS15:hover {
+APushButton#FullBGButton_FS14:hover {
     background-color: rgba(64, 64, 64, 1);
+    color: #E1E3E6;
 }
 
-APushButton#FullBGButton_FS15:pressed {
+APushButton#FullBGButton_FS14:pressed {
     background-color: rgba(64, 64, 64, 0.15);
+    color: #E1E3E6;
 }
 
-APushButton#FullBGButton_FS15:disabled {
+APushButton#FullBGButton_FS14:disabled {
     background-color: rgba(54, 54, 54, 0.15);
 }
-
