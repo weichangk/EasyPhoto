@@ -9,6 +9,7 @@
 #include "inc/conversionmodels.h"
 #include "inc/signals.h"
 #include "inc/models.h"
+#include "inc/settings.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
@@ -116,7 +117,7 @@ void ConversionWindow::createUi() {
     m_ConvToBtn = new APushButton(this);
     m_ConvToBtn->setObjectName("FullBGButton_FS14");
     m_ConvToBtn->setFixedSize(124, 32);
-    m_ConvToBtn->setText("转换为PNG");
+    m_ConvToBtn->setText(QString("%1%2").arg("转换为").arg(SETTINGS->conversionOutFormat().toUpper()));
     m_ConvToBtn->setIconSize(QSize(24, 24));
     m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
     // m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
@@ -170,6 +171,9 @@ void ConversionWindow::sigConnect() {
     });
     connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigOpenConvFileDialog(this);
+    });
+    connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigSatrtConv();
     });
 }
 

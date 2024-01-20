@@ -7,11 +7,17 @@
 
 #include "inc/conversioncontroller.h"
 #include "inc/signals.h"
+#include "inc/settings.h"
+#include "../acore/inc/afoldermgr.h"
+#include "../acore/inc/afilemgr.h"
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <Magick++.h>
 
+using namespace Magick;
 ConversionController::ConversionController() {
     m_ConversionWindow = new ConversionWindow;
+    init();
     sigConnect();
 }
 
@@ -26,9 +32,14 @@ void ConversionController::closeWindow() {
     m_ConversionWindow->close();
 }
 
+void ConversionController::init() {
+    AFolderMgr::addFolder(SETTINGS->conversionOutPath());
+}
+
 void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigOpenConvFileDialog, this, &ConversionController::openConvFileDialog);
     connect(Signals::getInstance(), &Signals::sigDelConvFile, this, &ConversionController::delConvData);
+    connect(Signals::getInstance(), &Signals::sigSatrtConv, this, &ConversionController::satrtConv);
 }
 
 void ConversionController::openConvFileDialog(QWidget *parent) {
@@ -49,6 +60,7 @@ void ConversionController::addConvData(const QStringList filePaths) {
         pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         conversionData.m_Thumbnail = pixmap;
         conversionData.m_DelIcon = QPixmap(":/agui/res/image/delete1-24.png");
+        conversionData.m_IsChecked = true;
         m_ConvDatas.append(conversionData);
     }
     m_ConversionWindow->changeData(m_ConvDatas);
@@ -60,4 +72,19 @@ void ConversionController::delConvData(const QString filePath) {
     };
     m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);
+}
+
+void ConversionController::satrtConv() {
+    Image image;
+    QString filePath;
+    QFileInfo fileInfo;
+    foreach(const auto &data, m_ConvDatas) {
+        fileInfo = AFileMgr::fileInfo(data.m_FilePath);
+        if(fileInfo.exists() && data.m_IsChecked) {
+            filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
+            AFileMgr::renameIfExists(filePath);
+            image.read(data.m_FilePath.toStdString());
+            image.write(filePath.toStdString());
+        }
+    }
 }

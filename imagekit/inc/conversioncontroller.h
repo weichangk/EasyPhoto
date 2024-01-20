@@ -19,11 +19,12 @@ public:
     void closeWindow();
 
 private:
+    void init();
     void sigConnect();
     void openConvFileDialog(QWidget *parent = 0);
-
     void addConvData(const QStringList filePaths);
     void delConvData(const QString filePath);
+    void satrtConv();
 
 private:
     ConversionWindow *m_ConversionWindow = 0;

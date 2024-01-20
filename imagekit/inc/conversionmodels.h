@@ -29,5 +29,6 @@ struct ConversionData {
     ConversionModels::ConversionType m_ConversionType = ConversionModels::ConversionType::None;
     QPixmap m_Thumbnail = QPixmap();
     QPixmap m_DelIcon = QPixmap();
+    bool m_IsChecked = false;
 };
 Q_DECLARE_METATYPE(ConversionData)

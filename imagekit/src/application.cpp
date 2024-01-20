@@ -8,7 +8,10 @@
 #include "inc/application.h"
 #include "inc/startupcontroller.h"
 #include "inc/models.h"
+#include "inc/settings.h"
 #include "../acore/inc/astylemgr.h"
+#include <Magick++.h>
+using namespace Magick;
 
 Application::Application(int argc, char *argv[]) :
     QApplication(argc, argv) {
@@ -19,6 +22,7 @@ Application::Application(int argc, char *argv[]) :
     // setQuitOnLastWindowClosed(false);
     AStyleMgr::setStyleToApp(":/res/style");
     initUi();
+    InitializeMagick(*argv);
 }
 
 void Application::initUi() {
@@ -34,7 +38,7 @@ void Application::initUi() {
     // if (appIcon_.isNull())
     //     appIcon_ = QIcon(icoSysPath);
 
-    m_Settings.load();
+    SETTINGS->load();
 
     m_StartupController = new StartupController;
     // m_StartupWindow->setWindowIcon(appIcon_);
