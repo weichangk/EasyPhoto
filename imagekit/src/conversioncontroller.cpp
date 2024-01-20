@@ -40,6 +40,7 @@ void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigOpenConvFileDialog, this, &ConversionController::openConvFileDialog);
     connect(Signals::getInstance(), &Signals::sigDelConvFile, this, &ConversionController::delConvData);
     connect(Signals::getInstance(), &Signals::sigSatrtConv, this, &ConversionController::satrtConv);
+    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
 }
 
 void ConversionController::openConvFileDialog(QWidget *parent) {
@@ -59,7 +60,15 @@ void ConversionController::addConvData(const QStringList filePaths) {
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         conversionData.m_Thumbnail = pixmap;
-        conversionData.m_DelIcon = QPixmap(":/agui/res/image/delete1-24.png");
+        QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
+        delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        conversionData.m_DelIcon = delIcon;
+        QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
+        checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        conversionData.m_CheckedIcon = checkedIcon;
+        QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
+        unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        conversionData.m_UnCheckedIcon = unCheckedIcon;
         conversionData.m_IsChecked = true;
         m_ConvDatas.append(conversionData);
     }
@@ -87,4 +96,15 @@ void ConversionController::satrtConv() {
             image.write(filePath.toStdString());
         }
     }
+}
+
+void ConversionController::switchChecked(const QString filePath, const bool checked) {
+    auto filePathMatches = [](const ConversionData &cd, QString filePath) {
+        return cd.m_FilePath == filePath;
+    };
+    auto it = std::find_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
+    if (it != m_ConvDatas.end()) {
+        it->m_IsChecked = !it->m_IsChecked;
+    }
+    m_ConversionWindow->changeData(m_ConvDatas);
 }

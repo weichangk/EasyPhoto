@@ -38,10 +38,12 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
     APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
 
-    if(hover)
-    {
-        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 2, borderRect.y() + 2, data.m_DelIcon.width(), data.m_DelIcon.height());
-        APainterHelper::paintPixmap(painter, delIconRect, data.m_DelIcon, 1, 10, true);
+    auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, data.m_CheckedIcon.width(), data.m_CheckedIcon.height());
+    APainterHelper::paintPixmap(painter, checkedconRect, data.m_IsChecked ? data.m_CheckedIcon : data.m_UnCheckedIcon, 1, 0, true);
+
+    if (hover) {
+        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 4, borderRect.y() + 4, data.m_DelIcon.width(), data.m_DelIcon.height());
+        APainterHelper::paintPixmap(painter, delIconRect, data.m_DelIcon, 1, 0, true);
     }
 
     QPen pen(QColor("#1F1F1F"));
@@ -60,13 +62,11 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QString fileName = data.m_FileName;
     auto nameRect = QRect(borderRect.x() + 20, borderRect.y() + borderRect.height() - 24, borderRect.width() - 40, 24);
     QFontMetricsF metrics(font);
-    if(metrics.horizontalAdvance(fileName) > nameRect.width())
-    {
+    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
         fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);
     }
     painter->drawText(nameRect, Qt::PlainText, fileName);
     painter->setPen(Qt::NoPen);
-
 }
 
 bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {

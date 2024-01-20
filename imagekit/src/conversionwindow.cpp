@@ -29,6 +29,15 @@ ConversionWindow::~ConversionWindow() {
 void ConversionWindow::changeData(QList<ConversionData> datas) {
     m_ConversionListView->chageData(datas);
     m_AddGuideBtn->setVisible(m_ConversionListView->count() == 0);
+
+    bool isAllChecked = true;
+    for (const auto &data : datas) {
+        if (!data.m_IsChecked) {
+            isAllChecked = false;
+            break;
+        }
+    }
+    updateCheckAllBtnState(isAllChecked);
 }
 
 void ConversionWindow::createUi() {
@@ -109,7 +118,7 @@ void ConversionWindow::createUi() {
     m_CheckAllBtn->setFixedSize(80, 32);
     m_CheckAllBtn->setText("全选");
     m_CheckAllBtn->setIconSize(QSize(24, 24));
-    m_CheckAllBtn->setIcon(QIcon(":/agui/res/image/checked-24.png"));
+    updateCheckAllBtnState(false);
     bottomLayout->addWidget(m_CheckAllBtn);
 
     bottomLayout->addStretch();
@@ -160,17 +169,32 @@ void ConversionWindow::sigConnect() {
         int posx = m_ConversionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
         QRect borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
-        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 24 - 2, borderRect.y() + 2, 24, 24);
+        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
             emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
         }
+        auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
+        if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
+            && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
+            emit Signals::getInstance()->sigSwitchChecked(data.m_FilePath, data.m_IsChecked);
+        }
+
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigOpenConvFileDialog(this);
     });
     connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigOpenConvFileDialog(this);
+    });
+    connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigDelByChecked();
+    });
+    connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
+        bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
+        bool newChecked = !oldChecked;
+        emit Signals::getInstance()->sigAllChecked(newChecked);
+        updateCheckAllBtnState(newChecked);
     });
     connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigSatrtConv();
@@ -207,4 +231,9 @@ void ConversionWindow::paintEvent(QPaintEvent *event) {
 void ConversionWindow::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
     m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
+}
+
+void ConversionWindow::updateCheckAllBtnState(bool checked) {
+    m_CheckAllBtn->setProperty("is-checked", checked ? "true" : "false");
+    m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
 }

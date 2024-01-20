@@ -65,6 +65,14 @@
     <file>res/image/unchecked-32.png</file>
     <file>res/image/unchecked-48.png</file>
     <file>res/image/unchecked-64.png</file>
+    <file>res/image/checked1-24.png</file>
+    <file>res/image/checked1-32.png</file>
+    <file>res/image/checked1-48.png</file>
+    <file>res/image/checked1-64.png</file>
+    <file>res/image/unchecked1-24.png</file>
+    <file>res/image/unchecked1-32.png</file>
+    <file>res/image/unchecked1-48.png</file>
+    <file>res/image/unchecked1-64.png</file>
     <file>res/image/export-24.png</file>
     <file>res/image/export-32.png</file>
     <file>res/image/export-48.png</file>

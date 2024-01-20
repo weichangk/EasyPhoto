@@ -37,6 +37,9 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
+    void updateCheckAllBtnState(bool checked);
+
+private:
     ATopbar *m_Topbar = 0;
     ALabel *m_LogoLab = 0;
     ALabel *m_NameLab = 0;

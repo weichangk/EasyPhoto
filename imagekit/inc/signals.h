@@ -20,6 +20,9 @@ public:
     //Conversion
     void sigOpenConvFileDialog(QWidget *parent = 0);
     void sigAddConvFile();
-    void sigDelConvFile(const QString path);
+    void sigDelConvFile(const QString filePath);
+    void sigDelByChecked();
     void sigSatrtConv();
+    void sigSwitchChecked(const QString filePath, const bool checked);
+    void sigAllChecked(const bool checked);
 };

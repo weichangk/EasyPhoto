@@ -25,6 +25,7 @@ private:
     void addConvData(const QStringList filePaths);
     void delConvData(const QString filePath);
     void satrtConv();
+    void switchChecked(const QString filePath, const bool checked);
 
 private:
     ConversionWindow *m_ConversionWindow = 0;
