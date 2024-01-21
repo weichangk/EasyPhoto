@@ -30,7 +30,7 @@ void ConversionWindow::changeData(QList<ConversionData> datas) {
     m_ConversionListView->chageData(datas);
     m_AddGuideBtn->setVisible(m_ConversionListView->count() == 0);
 
-    bool isAllChecked = true;
+    bool isAllChecked = datas.count() > 0;
     for (const auto &data : datas) {
         if (!data.m_IsChecked) {
             isAllChecked = false;
@@ -38,6 +38,7 @@ void ConversionWindow::changeData(QList<ConversionData> datas) {
         }
     }
     updateCheckAllBtnState(isAllChecked);
+    updateBtnsEnabledByChangeData(datas);
 }
 
 void ConversionWindow::createUi() {
@@ -57,7 +58,7 @@ void ConversionWindow::createUi() {
     auto logoLayout = new AHBoxLayout();
     logoLayout->setSpacing(4);
     m_LogoLab = new ALabel(this);
-    QPixmap logo(":/agui/res/image/setting-24.png");
+    QPixmap logo(":/agui/res/image/conversion-logo-32.png");
     m_LogoLab->setPixmap(logo);
     logoLayout->addWidget(m_LogoLab);
     m_NameLab = new ALabel(this);
@@ -118,7 +119,6 @@ void ConversionWindow::createUi() {
     m_CheckAllBtn->setFixedSize(80, 32);
     m_CheckAllBtn->setText("全选");
     m_CheckAllBtn->setIconSize(QSize(24, 24));
-    updateCheckAllBtnState(false);
     bottomLayout->addWidget(m_CheckAllBtn);
 
     bottomLayout->addStretch();
@@ -150,6 +150,10 @@ void ConversionWindow::createUi() {
     m_AddGuideBtn->setFixedSize(96 * 3, 96 * 2);
     m_AddGuideBtn->setIconSize(QSize(96, 96));
     m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
+
+    QList<ConversionData> datas;
+    updateBtnsEnabledByChangeData(datas);
+    updateCheckAllBtnState(false);
 }
 
 void ConversionWindow::changeLanguage() {
@@ -179,7 +183,6 @@ void ConversionWindow::sigConnect() {
             && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
             emit Signals::getInstance()->sigSwitchChecked(data.m_FilePath, data.m_IsChecked);
         }
-
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigOpenConvFileDialog(this);
@@ -236,4 +239,20 @@ void ConversionWindow::resizeEvent(QResizeEvent *event) {
 void ConversionWindow::updateCheckAllBtnState(bool checked) {
     m_CheckAllBtn->setProperty("is-checked", checked ? "true" : "false");
     m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
+}
+
+void ConversionWindow::updateBtnsEnabledByChangeData(QList<ConversionData> datas) {
+    auto allUnchecked = [](const QList<ConversionData> &datas) {
+        return std::all_of(datas.begin(), datas.end(), [](const ConversionData &cd) {
+            return cd.m_IsChecked == false;
+        });
+    };
+
+    bool isEnabled = datas.count() > 0;
+    m_CheckAllBtn->setEnabled(isEnabled);
+    m_ConvToBtn->setEnabled(isEnabled);
+
+    isEnabled = !allUnchecked(datas);
+    m_DelFileBtn->setEnabled(isEnabled);
+    m_ConvAllBtn->setEnabled(isEnabled);
 }

@@ -41,6 +41,8 @@ void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigDelConvFile, this, &ConversionController::delConvData);
     connect(Signals::getInstance(), &Signals::sigSatrtConv, this, &ConversionController::satrtConv);
     connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
+    connect(Signals::getInstance(), &Signals::sigAllChecked, this, &ConversionController::allChecked);
+    connect(Signals::getInstance(), &Signals::sigDelByChecked, this, &ConversionController::delByChecked);
 }
 
 void ConversionController::openConvFileDialog(QWidget *parent) {
@@ -106,5 +108,20 @@ void ConversionController::switchChecked(const QString filePath, const bool chec
     if (it != m_ConvDatas.end()) {
         it->m_IsChecked = !it->m_IsChecked;
     }
+    m_ConversionWindow->changeData(m_ConvDatas);
+}
+
+void ConversionController::allChecked(bool checked) {
+    for(auto &data : m_ConvDatas) {
+        data.m_IsChecked = checked;
+    }
+    m_ConversionWindow->changeData(m_ConvDatas);
+}
+
+void ConversionController::delByChecked() {
+    m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), [](const ConversionData &cd) {
+                          return cd.m_IsChecked == true;
+                      }),
+                      m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);
 }

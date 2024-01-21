@@ -38,6 +38,7 @@ protected:
 
 private:
     void updateCheckAllBtnState(bool checked);
+    void updateBtnsEnabledByChangeData(QList<ConversionData> datas);
 
 private:
     ATopbar *m_Topbar = 0;

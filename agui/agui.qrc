@@ -25,6 +25,10 @@
     <file>res/image/image-file-add-96.png</file>
     <file>res/image/loading-48.png</file>
     <file>res/image/loading-96.png</file>
+    <file>res/image/conversion-logo-24.png</file>
+    <file>res/image/conversion-logo-32.png</file>
+    <file>res/image/conversion-logo-48.png</file>
+    <file>res/image/conversion-logo-64.png</file>
     <file>res/image/delete-24.png</file>
     <file>res/image/delete-32.png</file>
     <file>res/image/delete-48.png</file>

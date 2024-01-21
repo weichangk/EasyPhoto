@@ -26,3 +26,7 @@ APushButton#ConversionWindow_m_AddGuideBtn:pressed {
     border-color: #8E9CAE;
     background-color:#252525;
 }
+
+ALabel#ConversionWindow_m_NameLab {
+    font-size: 15px;
+}
