@@ -32,4 +32,5 @@ private:
 private:
     ConversionWindow *m_ConversionWindow = 0;
     QList<ConversionData> m_ConvDatas;
+    QStringList m_FormatDatas;
 };

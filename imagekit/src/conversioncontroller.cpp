@@ -34,6 +34,8 @@ void ConversionController::closeWindow() {
 
 void ConversionController::init() {
     AFolderMgr::addFolder(SETTINGS->conversionOutPath());
+    m_FormatDatas << "PNG" << "JPG";
+    m_ConversionWindow->addFormatListWidgetItems(m_FormatDatas);
 }
 
 void ConversionController::sigConnect() {

@@ -41,6 +41,10 @@ void ConversionWindow::changeData(QList<ConversionData> datas) {
     updateBtnsEnabledByChangeData(datas);
 }
 
+void ConversionWindow::addFormatListWidgetItems(const QStringList items) {
+    m_FormatPopup->addFormatListWidgetItems(items);
+}
+
 void ConversionWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -274,13 +278,106 @@ ConversionFormatPopup::ConversionFormatPopup(QWidget *parent) :
     changeLanguage();
 }
 
+void ConversionFormatPopup::addFormatListWidgetItems(const QStringList items) {
+    m_FormatListWidget->addItems(items);
+}
+
+void ConversionFormatPopup::paintEvent(QPaintEvent *event) {
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    // 背景色透明
+    painter.fillRect(this->rect(), QColor(0, 0, 0, 1));
+
+    // 背景图
+    QPixmap pixmapTemp = QPixmap(this->rect().size());
+    pixmapTemp.fill(QColor("#303338"));
+    pixmapTemp.setDevicePixelRatio(1);
+
+    // 背景图圆角裁剪
+    QPainterPath path;
+    path.addRoundedRect(this->rect(), 10, 10);
+    painter.setClipPath(path);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.drawPixmap(this->rect(), pixmapTemp);
+
+    // 边框
+    QPen pen(QColor(96, 96, 96, 255));
+    pen.setWidth(1);
+    painter.setPen(pen);
+    auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
+    painter.drawRoundedRect(borderRect, 10, 10);
+}
+
 void ConversionFormatPopup::createUi() {
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setObjectName("ConversionFormatPopup");
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup | Qt::NoDropShadowWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
     setFixedSize(440, 260);
+    auto mainLayout = new AHBoxLayout(this);
+    mainLayout->setContentsMargins(12, 12, 12, 12);
+    m_FormatListWidget = new QListWidget(this);
+    mainLayout->addWidget(m_FormatListWidget, 1);
+    auto *delegate = new ConversionFormatListDelegate(this);
+    m_FormatListWidget->setItemDelegate(delegate);
+    m_FormatListWidget->viewport()->installEventFilter(delegate);
+    m_FormatListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_FormatListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_FormatListWidget->setAttribute(Qt::WA_StyledBackground);
+    m_FormatListWidget->setResizeMode(QListView::Adjust);
+    m_FormatListWidget->setViewMode(QListView::IconMode);
+    m_FormatListWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    m_FormatListWidget->setMouseTracking(true);
+    m_FormatListWidget->setStyleSheet("border:0px; background-color:transparent;");
+    m_FormatListWidget->setSpacing(0);
 }
 
 void ConversionFormatPopup::changeLanguage() {
 }
 
 void ConversionFormatPopup::sigConnect() {
+}
+
+ConversionFormatListDelegate::ConversionFormatListDelegate(QObject *parent) :
+    QStyledItemDelegate(parent) {
+}
+
+void ConversionFormatListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+
+    auto data = index.data(Qt::DisplayRole).toString();
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::NoBrush);
+
+    QRect rc = option.rect;
+    bool hover = option.state & QStyle::State_MouseOver;
+    auto borderRect = rc.adjusted(1, 1, -1 - 10, -1 -10);
+
+    painter->setBrush(Qt::NoBrush);
+    QPen pen(QColor("#404040"));
+    pen.setWidth(1);
+    painter->setPen(pen);
+    painter->drawRoundedRect(borderRect, 18, 18);
+    if (hover) {
+        pen.setColor(QColor("#4A4A4A"));
+        painter->setPen(pen);
+        painter->drawRoundedRect(borderRect, 18, 18);
+    }
+    painter->setPen(Qt::NoPen);
+
+    pen.setColor(QColor("#575859"));
+    painter->setPen(pen);
+    QFont font = painter->font();
+    font.setPointSizeF(11);
+    painter->setFont(font);
+    auto nameRect = QRect(borderRect.x(), borderRect.y() + 6, borderRect.width(), 24);
+    painter->drawText(nameRect, Qt::AlignHCenter, data);
+    painter->setPen(Qt::NoPen);
+}
+
+QSize ConversionFormatListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    return QSize(80, 46);
 }

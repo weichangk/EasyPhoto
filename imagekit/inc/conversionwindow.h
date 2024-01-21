@@ -13,6 +13,8 @@
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
 #include "inc/conversionlistview.h"
+#include <QListWidget>
+#include <QStyledItemDelegate>
 
 class ConversionFormatPopup;
 class ConversionWindow : public ABaseWidget {
@@ -29,6 +31,7 @@ public:
     explicit ConversionWindow(QWidget *parent = 0);
     ~ConversionWindow();
     void changeData(QList<ConversionData> datas);
+    void addFormatListWidgetItems(const QStringList items);
 
 protected:
     void createUi() override;
@@ -61,9 +64,24 @@ class ConversionFormatPopup : public ABaseWidget {
     Q_OBJECT
 public:
     explicit ConversionFormatPopup(QWidget *parent = 0);
+    void addFormatListWidgetItems(const QStringList items);
+
+protected:
+    void paintEvent(QPaintEvent *event) override;
 
 protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+
+private:
+    QListWidget *m_FormatListWidget = 0;
+};
+
+class ConversionFormatListDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+public:
+    explicit ConversionFormatListDelegate(QObject *parent);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
