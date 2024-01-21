@@ -151,6 +151,8 @@ void ConversionWindow::createUi() {
     m_AddGuideBtn->setIconSize(QSize(96, 96));
     m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
 
+    m_FormatPopup = new ConversionFormatPopup(this);
+
     QList<ConversionData> datas;
     updateBtnsEnabledByChangeData(datas);
     updateCheckAllBtnState(false);
@@ -202,6 +204,7 @@ void ConversionWindow::sigConnect() {
     connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigSatrtConv();
     });
+    connect(m_ConvToBtn, &APushButton::clicked, this, &ConversionWindow::formatPopup);
 }
 
 void ConversionWindow::paintEvent(QPaintEvent *event) {
@@ -255,4 +258,29 @@ void ConversionWindow::updateBtnsEnabledByChangeData(QList<ConversionData> datas
     isEnabled = !allUnchecked(datas);
     m_DelFileBtn->setEnabled(isEnabled);
     m_ConvAllBtn->setEnabled(isEnabled);
+}
+
+void ConversionWindow::formatPopup() {
+    auto btnPos = m_ConvToBtn->mapToGlobal(QPoint(0,0));
+    auto newPos = btnPos - QPoint(m_FormatPopup->width() - m_ConvToBtn->width(), m_FormatPopup->height() + 8);
+    m_FormatPopup->move(newPos);
+    m_FormatPopup->show();
+}
+
+ConversionFormatPopup::ConversionFormatPopup(QWidget *parent) :
+    ABaseWidget(parent) {
+    createUi();
+    sigConnect();
+    changeLanguage();
+}
+
+void ConversionFormatPopup::createUi() {
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup);
+    setFixedSize(440, 260);
+}
+
+void ConversionFormatPopup::changeLanguage() {
+}
+
+void ConversionFormatPopup::sigConnect() {
 }

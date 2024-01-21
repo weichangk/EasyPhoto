@@ -14,6 +14,7 @@
 #include "../agui/inc/acanmovewidget.h"
 #include "inc/conversionlistview.h"
 
+class ConversionFormatPopup;
 class ConversionWindow : public ABaseWidget {
     Q_OBJECT
 public:
@@ -39,6 +40,7 @@ protected:
 private:
     void updateCheckAllBtnState(bool checked);
     void updateBtnsEnabledByChangeData(QList<ConversionData> datas);
+    void formatPopup();
 
 private:
     ATopbar *m_Topbar = 0;
@@ -52,4 +54,16 @@ private:
     APushButton *m_DelFileBtn = 0;
     APushButton *m_CheckAllBtn = 0;
     APushButton *m_ConvAllBtn = 0;
+    ConversionFormatPopup *m_FormatPopup = 0;
+};
+
+class ConversionFormatPopup : public ABaseWidget {
+    Q_OBJECT
+public:
+    explicit ConversionFormatPopup(QWidget *parent = 0);
+
+protected:
+    void createUi() override;
+    void changeLanguage() override;
+    void sigConnect() override;
 };
