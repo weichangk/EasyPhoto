@@ -7,7 +7,7 @@
 
 QWidget#ConversionWindow_convertListViewBG {
     border-radius: 10px;
-    background-color: #272A30;
+    background-color: #1F1F1F;
 }
 
 APushButton#ConversionWindow_m_AddGuideBtn {

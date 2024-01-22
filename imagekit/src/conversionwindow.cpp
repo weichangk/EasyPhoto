@@ -219,7 +219,7 @@ void ConversionWindow::paintEvent(QPaintEvent *event) {
 
     // 背景图
     QPixmap pixmapTemp = QPixmap(this->rect().size());
-    pixmapTemp.fill(QColor(32, 32, 32, 255));
+    pixmapTemp.fill(QColor("#181818"));
     pixmapTemp.setDevicePixelRatio(1);
 
     // 背景图圆角裁剪
@@ -231,7 +231,7 @@ void ConversionWindow::paintEvent(QPaintEvent *event) {
     painter.drawPixmap(this->rect(), pixmapTemp);
 
     // 边框
-    QPen pen(QColor(96, 96, 96, 255));
+    QPen pen(QColor("#402F38"));
     pen.setWidth(1);
     painter.setPen(pen);
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
@@ -290,7 +290,7 @@ void ConversionFormatPopup::paintEvent(QPaintEvent *event) {
 
     // 背景图
     QPixmap pixmapTemp = QPixmap(this->rect().size());
-    pixmapTemp.fill(QColor("#303338"));
+    pixmapTemp.fill(QColor("#222222"));
     pixmapTemp.setDevicePixelRatio(1);
 
     // 背景图圆角裁剪
@@ -302,7 +302,7 @@ void ConversionFormatPopup::paintEvent(QPaintEvent *event) {
     painter.drawPixmap(this->rect(), pixmapTemp);
 
     // 边框
-    QPen pen(QColor(96, 96, 96, 255));
+    QPen pen(QColor("#313131"));
     pen.setWidth(1);
     painter.setPen(pen);
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);

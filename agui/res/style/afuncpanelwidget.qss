@@ -7,7 +7,7 @@
 
  QWidget#AFuncPanelWidget {
     border-radius: 8;
-    background-color: #303338;
+    background-color: #313131;
  }
 
  QLabel#AFuncPanelWidget_m_Name {
