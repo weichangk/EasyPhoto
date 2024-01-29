@@ -8,6 +8,7 @@
 #include "inc/conversioncontroller.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
+#include "inc/conversionmodels.h"
 #include "../acore/inc/afoldermgr.h"
 #include "../acore/inc/afilemgr.h"
 #include <QFileDialog>
@@ -34,7 +35,8 @@ void ConversionController::closeWindow() {
 
 void ConversionController::init() {
     AFolderMgr::addFolder(SETTINGS->conversionOutPath());
-    m_FormatDatas << "PNG" << "JPG";
+    QString formats = CONV_OUT_FORMATS;
+    m_FormatDatas = formats.split(' ');
     m_ConversionWindow->addFormatListWidgetItems(m_FormatDatas);
 }
 

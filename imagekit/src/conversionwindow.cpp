@@ -365,6 +365,9 @@ void ConversionFormatListDelegate::paint(QPainter *painter, const QStyleOptionVi
         pen.setColor(QColor("#4A4A4A"));
         painter->setPen(pen);
         painter->drawRoundedRect(borderRect, 18, 18);
+        painter->setBrush(QColor(50, 50, 50, 0.75 * 255));
+        painter->drawRoundedRect(borderRect, 18, 18);
+        painter->setBrush(Qt::NoBrush);
     }
     painter->setPen(Qt::NoPen);
 

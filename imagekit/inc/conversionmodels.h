@@ -11,6 +11,8 @@
 #include <QString>
 #include <QPixmap>
 
+#define CONV_OUT_FORMATS "svg ico jpg jpeg webp hdr bmp gif dds cur psd tiff tga rgb avif xpm heic pgm jp2 rgba jfif ppm xbm pcx wbmp exr map jbg heif pnm jpe yuv pbm jif pdb g4 ras g3 pal sgi pict pfm pcd jps uyvy pgx rgf vips six fts xwd fax jbig ipl sun jfi pam viff mng mtv xv pct sixel palm rgbo hrz otb picon"
+
 class ConversionModels : public QObject {
     Q_OBJECT
 public:

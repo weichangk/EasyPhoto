@@ -30,7 +30,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     bool selected_or_hover = selected || hover;
 
     auto borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
-    painter->setBrush(QColor("#303338"));
+    painter->setBrush(QColor("#2F2D2D"));
     painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
 
