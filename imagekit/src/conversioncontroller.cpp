@@ -47,6 +47,7 @@ void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
     connect(Signals::getInstance(), &Signals::sigAllChecked, this, &ConversionController::allChecked);
     connect(Signals::getInstance(), &Signals::sigDelByChecked, this, &ConversionController::delByChecked);
+    connect(Signals::getInstance(), &Signals::sigChangeConvFormat, this, &ConversionController::changeConvFormat);
 }
 
 void ConversionController::openConvFileDialog(QWidget *parent) {
@@ -128,4 +129,9 @@ void ConversionController::delByChecked() {
                       }),
                       m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);
+}
+
+void ConversionController::changeConvFormat(const QString format) {
+    SETTINGS->setConversionOutFormat(format);
+    m_ConversionWindow->changeConvToBtnText(SETTINGS->conversionOutFormat());
 }

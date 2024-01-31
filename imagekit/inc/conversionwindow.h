@@ -32,6 +32,7 @@ public:
     ~ConversionWindow();
     void changeData(QList<ConversionData> datas);
     void addFormatListWidgetItems(const QStringList items);
+    void changeConvToBtnText(const QString format);
 
 protected:
     void createUi() override;
@@ -73,6 +74,9 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+
+private:
+    void formatItemClicked(QListWidgetItem *item);
 
 private:
     QListWidget *m_FormatListWidget = 0;

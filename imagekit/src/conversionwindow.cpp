@@ -45,6 +45,10 @@ void ConversionWindow::addFormatListWidgetItems(const QStringList items) {
     m_FormatPopup->addFormatListWidgetItems(items);
 }
 
+void ConversionWindow::changeConvToBtnText(const QString format) {
+    m_ConvToBtn->setText(QString("%1%2").arg("转换为").arg(format.toUpper()));
+}
+
 void ConversionWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
@@ -130,7 +134,7 @@ void ConversionWindow::createUi() {
     m_ConvToBtn = new APushButton(this);
     m_ConvToBtn->setObjectName("FullBGButton_FS14");
     m_ConvToBtn->setFixedSize(124, 32);
-    m_ConvToBtn->setText(QString("%1%2").arg("转换为").arg(SETTINGS->conversionOutFormat().toUpper()));
+    changeConvToBtnText(SETTINGS->conversionOutFormat());
     m_ConvToBtn->setIconSize(QSize(24, 24));
     m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
     // m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
@@ -313,7 +317,7 @@ void ConversionFormatPopup::createUi() {
     setObjectName("ConversionFormatPopup");
     setWindowFlags(Qt::FramelessWindowHint | Qt::Popup | Qt::NoDropShadowWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(440, 260);
+    setFixedSize(425, 260);
     auto mainLayout = new AHBoxLayout(this);
     mainLayout->setContentsMargins(12, 12, 12, 12);
     m_FormatListWidget = new QListWidget(this);
@@ -336,6 +340,13 @@ void ConversionFormatPopup::changeLanguage() {
 }
 
 void ConversionFormatPopup::sigConnect() {
+    connect(m_FormatListWidget, &QListWidget::itemClicked, this, &ConversionFormatPopup::formatItemClicked);
+}
+
+void ConversionFormatPopup::formatItemClicked(QListWidgetItem *item) {
+    QString fmt = item->data(Qt::DisplayRole).toString();
+    emit Signals::getInstance()->sigChangeConvFormat(fmt);
+    close();
 }
 
 ConversionFormatListDelegate::ConversionFormatListDelegate(QObject *parent) :

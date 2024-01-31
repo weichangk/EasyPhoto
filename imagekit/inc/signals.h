@@ -25,4 +25,5 @@ public:
     void sigSatrtConv();
     void sigSwitchChecked(const QString filePath, const bool checked);
     void sigAllChecked(const bool checked);
+    void sigChangeConvFormat(const QString format);
 };
