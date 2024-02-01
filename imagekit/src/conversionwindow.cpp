@@ -133,7 +133,7 @@ void ConversionWindow::createUi() {
 
     m_ConvToBtn = new APushButton(this);
     m_ConvToBtn->setObjectName("FullBGButton_FS14");
-    m_ConvToBtn->setFixedSize(124, 32);
+    m_ConvToBtn->setFixedSize(136, 32);
     changeConvToBtnText(SETTINGS->conversionOutFormat());
     m_ConvToBtn->setIconSize(QSize(24, 24));
     m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
@@ -143,7 +143,7 @@ void ConversionWindow::createUi() {
 
     m_ConvAllBtn = new APushButton(this);
     m_ConvAllBtn->setObjectName("FullBGButton_FS14");
-    m_ConvAllBtn->setFixedSize(124, 32);
+    m_ConvAllBtn->setFixedSize(136, 32);
     m_ConvAllBtn->setText("开始转换");
     m_ConvAllBtn->setIconSize(QSize(24, 24));
     m_ConvAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
@@ -158,6 +158,10 @@ void ConversionWindow::createUi() {
     m_AddGuideBtn->setFixedSize(96 * 3, 96 * 2);
     m_AddGuideBtn->setIconSize(QSize(96, 96));
     m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
+
+    m_ConvertingWidget = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
+    m_ConvertingWidget->setFixedSize(96, 96);
+    m_ConvertingWidget->start();
 
     m_FormatPopup = new ConversionFormatPopup(this);
 
@@ -245,6 +249,7 @@ void ConversionWindow::paintEvent(QPaintEvent *event) {
 void ConversionWindow::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
     m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
+    m_ConvertingWidget->setGeometry((width() - m_ConvertingWidget->width()) / 2, (height() - m_ConvertingWidget->height()) / 2, m_ConvertingWidget->width(), m_ConvertingWidget->height());
 }
 
 void ConversionWindow::updateCheckAllBtnState(bool checked) {

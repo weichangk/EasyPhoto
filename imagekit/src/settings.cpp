@@ -24,6 +24,7 @@ void Settings::load() {
 
     m_Settings.beginGroup("Conversion");
     m_ConversionOutPath = m_Settings.value(QStringLiteral("ConversionOutPath"), Default::conversionOutPath).toString();
+    m_ConversionOutFormat = m_Settings.value(QStringLiteral("ConversionOutFormat"), Default::conversionOutFormat).toString();
     m_Settings.endGroup();
 }
 

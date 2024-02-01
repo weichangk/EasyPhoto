@@ -33,6 +33,7 @@ AWidgetWithRotatingItem::AWidgetWithRotatingItem(QPixmap pixmap, QWidget *parent
     ABaseWidget(parent) {
     setStyleSheet("background-color:transparent; border:none");
     QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
 
     // 创建 QGraphicsView 和 QGraphicsScene
     QGraphicsView *view = new QGraphicsView(this);

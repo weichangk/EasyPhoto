@@ -12,6 +12,7 @@
 #include "../agui/inc/anavbarwidget.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/acanmovewidget.h"
+#include "../agui/inc/arotatingpixmapwidget.h"
 #include "inc/conversionlistview.h"
 #include <QListWidget>
 #include <QStyledItemDelegate>
@@ -58,6 +59,7 @@ private:
     APushButton *m_DelFileBtn = 0;
     APushButton *m_CheckAllBtn = 0;
     APushButton *m_ConvAllBtn = 0;
+    AWidgetWithRotatingItem *m_ConvertingWidget = 0;
     ConversionFormatPopup *m_FormatPopup = 0;
 };
 
