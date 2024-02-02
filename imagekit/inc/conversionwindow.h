@@ -14,6 +14,7 @@
 #include "../agui/inc/acanmovewidget.h"
 #include "../agui/inc/arotatingpixmapwidget.h"
 #include "inc/conversionlistview.h"
+#include "inc/models.h"
 #include <QListWidget>
 #include <QStyledItemDelegate>
 
@@ -46,6 +47,11 @@ private:
     void updateCheckAllBtnState(bool checked);
     void updateBtnsEnabledByChangeData(QList<ConversionData> datas);
     void formatPopup();
+    void showConverting(bool isShow);
+    void convStatus(Models::ConvStatusEnum state);
+    void startConv();
+    void finishedConv();
+    void cancelConv();
 
 private:
     ATopbar *m_Topbar = 0;

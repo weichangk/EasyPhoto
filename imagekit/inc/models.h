@@ -26,4 +26,12 @@ public:
         ImageSpecialEffect   // 图片特效
     };
     Q_ENUM(Funcs)
+
+    enum ConvStatusEnum {
+        None = 0,
+        Start,
+        Finished,
+        Cancel
+    };
+    Q_ENUM(ConvStatusEnum)
 };

@@ -22,8 +22,10 @@ public:
     void sigAddConvFile();
     void sigDelConvFile(const QString filePath);
     void sigDelByChecked();
-    void sigSatrtConv();
+    void sigConvStatus(Models::ConvStatusEnum state);
     void sigSwitchChecked(const QString filePath, const bool checked);
     void sigAllChecked(const bool checked);
     void sigChangeConvFormat(const QString format);
+
+    void sigConvStatus_v(Models::ConvStatusEnum state);
 };

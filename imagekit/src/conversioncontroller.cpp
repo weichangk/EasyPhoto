@@ -43,11 +43,15 @@ void ConversionController::init() {
 void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigOpenConvFileDialog, this, &ConversionController::openConvFileDialog);
     connect(Signals::getInstance(), &Signals::sigDelConvFile, this, &ConversionController::delConvData);
-    connect(Signals::getInstance(), &Signals::sigSatrtConv, this, &ConversionController::satrtConv);
+    connect(Signals::getInstance(), &Signals::sigConvStatus, this, &ConversionController::convStatus);
     connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
     connect(Signals::getInstance(), &Signals::sigAllChecked, this, &ConversionController::allChecked);
     connect(Signals::getInstance(), &Signals::sigDelByChecked, this, &ConversionController::delByChecked);
     connect(Signals::getInstance(), &Signals::sigChangeConvFormat, this, &ConversionController::changeConvFormat);
+
+    connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, Signals::getInstance(), [=](){
+        emit Signals::getInstance()->sigConvStatus_v(Models::ConvStatusEnum::Finished);
+    });
 }
 
 void ConversionController::openConvFileDialog(QWidget *parent) {
@@ -90,19 +94,46 @@ void ConversionController::delConvData(const QString filePath) {
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
-void ConversionController::satrtConv() {
-    Image image;
-    QString filePath;
-    QFileInfo fileInfo;
-    foreach(const auto &data, m_ConvDatas) {
-        fileInfo = AFileMgr::fileInfo(data.m_FilePath);
-        if(fileInfo.exists() && data.m_IsChecked) {
-            filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
-            AFileMgr::renameIfExists(filePath);
-            image.read(data.m_FilePath.toStdString());
-            image.write(filePath.toStdString());
-        }
+void ConversionController::convStatus(Models::ConvStatusEnum state) {
+    switch (state) {
+    case Models::ConvStatusEnum::None:
+        break;
+    case Models::ConvStatusEnum::Start:
+        startConv();
+        break;
+    case Models::ConvStatusEnum::Finished:
+        finishedConv();
+        break;
+    case Models::ConvStatusEnum::Cancel:
+        cancelConv();
+        break;
     }
+}
+
+void ConversionController::startConv() {
+    auto task = [&]() {
+        Image image;
+        QString filePath;
+        QFileInfo fileInfo;
+        foreach (const auto &data, m_ConvDatas) {
+            fileInfo = AFileMgr::fileInfo(data.m_FilePath);
+            if (fileInfo.exists() && data.m_IsChecked) {
+                filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
+                AFileMgr::renameIfExists(filePath);
+                image.read(data.m_FilePath.toStdString());
+                image.write(filePath.toStdString());
+            }
+        }
+    };
+    m_ConvWatcher.setFuture(QtConcurrent::run(task));
+}
+
+void ConversionController::finishedConv() {
+
+}
+
+void ConversionController::cancelConv() {
+
 }
 
 void ConversionController::switchChecked(const QString filePath, const bool checked) {

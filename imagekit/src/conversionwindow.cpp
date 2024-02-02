@@ -161,7 +161,7 @@ void ConversionWindow::createUi() {
 
     m_ConvertingWidget = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
     m_ConvertingWidget->setFixedSize(96, 96);
-    m_ConvertingWidget->start();
+    showConverting(false);
 
     m_FormatPopup = new ConversionFormatPopup(this);
 
@@ -214,9 +214,11 @@ void ConversionWindow::sigConnect() {
         updateCheckAllBtnState(newChecked);
     });
     connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigSatrtConv();
+        emit Signals::getInstance()->sigConvStatus(Models::ConvStatusEnum::Start);
+        convStatus(Models::ConvStatusEnum::Start);
     });
     connect(m_ConvToBtn, &APushButton::clicked, this, &ConversionWindow::formatPopup);
+    connect(Signals::getInstance(), &Signals::sigConvStatus_v, this, &ConversionWindow::convStatus);
 }
 
 void ConversionWindow::paintEvent(QPaintEvent *event) {
@@ -278,6 +280,43 @@ void ConversionWindow::formatPopup() {
     auto newPos = btnPos - QPoint(m_FormatPopup->width() - m_ConvToBtn->width(), m_FormatPopup->height() + 8);
     m_FormatPopup->move(newPos);
     m_FormatPopup->show();
+}
+
+void ConversionWindow::showConverting(bool isShow) {
+    m_ConvertingWidget->setVisible(isShow);
+    if (isShow) {
+        m_ConvertingWidget->start();
+    } else {
+        m_ConvertingWidget->stop();
+    }
+}
+
+void ConversionWindow::convStatus(Models::ConvStatusEnum state) {
+    switch (state) {
+    case Models::ConvStatusEnum::None:
+        break;
+    case Models::ConvStatusEnum::Start:
+        startConv();
+        break;
+    case Models::ConvStatusEnum::Finished:
+        finishedConv();
+        break;
+    case Models::ConvStatusEnum::Cancel:
+        cancelConv();
+        break;
+    }
+}
+
+void ConversionWindow::startConv() {
+    showConverting(true);
+}
+
+void ConversionWindow::finishedConv() {
+    showConverting(false);
+}
+
+void ConversionWindow::cancelConv() {
+
 }
 
 ConversionFormatPopup::ConversionFormatPopup(QWidget *parent) :
