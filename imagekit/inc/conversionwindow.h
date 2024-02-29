@@ -22,14 +22,6 @@ class ConversionFormatPopup;
 class ConversionWindow : public ABaseWidget {
     Q_OBJECT
 public:
-    enum ConvertOutType {
-        PNG = 0,
-        JPG,
-        JPEG,
-        SVG
-    };
-    Q_ENUM(ConvertOutType)
-
     explicit ConversionWindow(QWidget *parent = 0);
     ~ConversionWindow();
     void changeData(QList<ConversionData> datas);

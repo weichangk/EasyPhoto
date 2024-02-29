@@ -5,9 +5,11 @@
  * @Last Modified time: 2023-12-10 15:04:22
  */
 
-#include "inc/compressionwindow.h "
+#include "inc/compressionwindow.h"
+#include "inc/compressionmodels.h"
 #include "inc/signals.h"
 #include "inc/models.h"
+#include "inc/settings.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ashadoweffect.h"
@@ -24,70 +26,148 @@ CompressionWindow::CompressionWindow(QWidget *parent) :
 CompressionWindow::~CompressionWindow() {
 }
 
+void CompressionWindow::changeData(QList<CompressionData> datas) {
+    m_CompressionListView->chageData(datas);
+    m_AddGuideBtn->setVisible(m_CompressionListView->count() == 0);
+
+    bool isAllChecked = datas.count() > 0;
+    for (const auto &data : datas) {
+        if (!data.m_IsChecked) {
+            isAllChecked = false;
+            break;
+        }
+    }
+    updateCheckAllBtnState(isAllChecked);
+    updateBtnsEnabledByChangeData(datas);
+}
+
+void CompressionWindow::addFormatListWidgetItems(const QStringList items) {
+    m_FormatPopup->addFormatListWidgetItems(items);
+}
+
+void CompressionWindow::changeConvToBtnText(const QString format) {
+    m_ConvToBtn->setText(QString("%1%2").arg("转换为").arg(format.toUpper()));
+}
+
 void CompressionWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(800, 540);
 
-    auto mainLayout = new AHBoxLayout(this);
+    auto mainLayout = new AVBoxLayout(this);
 
-    auto leftLayout = new AVBoxLayout();
-    mainLayout->addLayout(leftLayout);
-
-    auto rightLayout = new AVBoxLayout();
-    mainLayout->addLayout(rightLayout);
-
-    // left
-    m_Navbar = new ACanMoveWidget(this);
-    m_Navbar->setFixedWidth(140);
-    leftLayout->addWidget(m_Navbar, 1);
-
-    auto navbarLayout = new AVBoxLayout(m_Navbar);
-    navbarLayout->setContentsMargins(12, 24, 12, 24);
-    navbarLayout->setSpacing(10);
-
-    auto logoLayout = new AHBoxLayout();
-    logoLayout->setSpacing(6);
-    navbarLayout->addLayout(logoLayout);
-
-    m_LogoBtn = new APushButton(m_Navbar);
-    m_LogoBtn->setObjectName("CompressionWindow_m_LogoBtn");
-    m_LogoBtn->setFixedSize(40, 40);
-    logoLayout->addWidget(m_LogoBtn);
-
-    m_ProductLab = new ALabel(m_Navbar);
-    m_ProductLab->setObjectName("CompressionWindow_m_ProductLab");
-    m_ProductLab->setText("图片压缩");
-    logoLayout->addWidget(m_ProductLab);
-
-    navbarLayout->addSpacing(20);
-
-    QMap<int, QVariantList> navbarDataMap;
-    navbarDataMap.insert(CompressionOutType::PNG, QVariantList() << ":/res/image/icon24_menu_myfuncs.png"
-                                                                 << "转换为PNG");
-    navbarDataMap.insert(CompressionOutType::JPEG, QVariantList() << ":/res/image/icon24_menu_myfiles.png"
-                                                                  << "转换为JPEG");
-    navbarDataMap.insert(CompressionOutType::WEBP, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
-                                                                  << "转换为WEBP");
-    m_Navbarwidget = new ANavbarWidget(navbarDataMap, this);
-    navbarLayout->addWidget(m_Navbarwidget);
-
-    navbarLayout->addStretch();
-
-    // right
     m_Topbar = new ATopbar(this);
     m_Topbar->setCloseBtnTopRight10Radius();
-    rightLayout->addWidget(m_Topbar);
+    mainLayout->addWidget(m_Topbar);
 
-    auto funcLayout = new AVBoxLayout();
-    funcLayout->setContentsMargins(0, 0, 1, 1);
-    rightLayout->addLayout(funcLayout);
+    auto topbarLayout = new AHBoxLayout(m_Topbar->contentWidget());
+    topbarLayout->setSpacing(12);
+    topbarLayout->addSpacing(12);
+    auto logoLayout = new AHBoxLayout();
+    logoLayout->setSpacing(4);
+    m_LogoLab = new ALabel(this);
+    QPixmap logo(":/agui/res/image/Compression-logo-32.png");
+    m_LogoLab->setPixmap(logo);
+    logoLayout->addWidget(m_LogoLab);
+    m_NameLab = new ALabel(this);
+    m_NameLab->setObjectName("CompressionWindow_m_NameLab");
+    m_NameLab->setText("图片格式转换");
+    logoLayout->addWidget(m_NameLab);
+    topbarLayout->addLayout(logoLayout);
+    topbarLayout->addStretch();
+    m_SetingBtn = new APushButton(this);
+    m_SetingBtn->setObjectName("OnlyIconButton");
+    m_SetingBtn->setFixedSize(24, 24);
+    m_SetingBtn->setIconSize(QSize(24, 24));
+    m_SetingBtn->setIcon(QIcon(":/agui/res/image/setting-24.png"));
+    topbarLayout->addWidget(m_SetingBtn);
+    QWidget *topbarSplit = new QWidget(this);
+    topbarSplit->setStyleSheet("background-color:#2F2F2F");
+    topbarSplit->setFixedSize(1, 16);
+    topbarLayout->addWidget(topbarSplit);
+    topbarLayout->addSpacing(12);
 
-    auto convertArea = new AWidget(this);
-    convertArea->setObjectName("CompressionWindow_m_FuncArea");
-    funcLayout->addWidget(convertArea);
+    auto bodyLayout = new AVBoxLayout();
+    bodyLayout->setContentsMargins(25, 0, 25, 0);
+
+    auto convertListViewBG = new AWidget(this);
+    convertListViewBG->setObjectName("CompressionWindow_convertListViewBG");
+    bodyLayout->addWidget(convertListViewBG);
+
+    auto convertListViewBGLayout = new AVBoxLayout(convertListViewBG);
+    m_CompressionListView = new CompressionListView(this);
+    convertListViewBGLayout->addWidget(m_CompressionListView);
+
+    mainLayout->addLayout(bodyLayout);
+
+    auto bottomBG = new AWidget(this);
+    bottomBG->setFixedHeight(64);
+    auto bottomLayout = new AHBoxLayout(bottomBG);
+    bottomLayout->setContentsMargins(25, 0, 25, 0);
+    bottomLayout->setSpacing(12);
+
+    m_AddFileBtn = new APushButton(this);
+    m_AddFileBtn->setObjectName("FullBGButton_FS14");
+    m_AddFileBtn->setFixedSize(80, 32);
+    m_AddFileBtn->setText("导入");
+    m_AddFileBtn->setIconSize(QSize(24, 24));
+    m_AddFileBtn->setIcon(QIcon(":/agui/res/image/add-24.png"));
+    bottomLayout->addWidget(m_AddFileBtn);
+
+    m_DelFileBtn = new APushButton(this);
+    m_DelFileBtn->setObjectName("FullBGButton_FS14");
+    m_DelFileBtn->setFixedSize(80, 32);
+    m_DelFileBtn->setText("删除");
+    m_DelFileBtn->setIconSize(QSize(24, 24));
+    m_DelFileBtn->setIcon(QIcon(":/agui/res/image/delete-24.png"));
+    bottomLayout->addWidget(m_DelFileBtn);
+
+    m_CheckAllBtn = new APushButton(this);
+    m_CheckAllBtn->setObjectName("FullBGButton_FS14");
+    m_CheckAllBtn->setFixedSize(80, 32);
+    m_CheckAllBtn->setText("全选");
+    m_CheckAllBtn->setIconSize(QSize(24, 24));
+    bottomLayout->addWidget(m_CheckAllBtn);
+
+    bottomLayout->addStretch();
+
+    m_ConvToBtn = new APushButton(this);
+    m_ConvToBtn->setObjectName("FullBGButton_FS14");
+    m_ConvToBtn->setFixedSize(136, 32);
+    changeConvToBtnText(SETTINGS->conversionOutFormat());
+    m_ConvToBtn->setIconSize(QSize(24, 24));
+    m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
+    // m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
+
+    bottomLayout->addWidget(m_ConvToBtn);
+
+    m_ConvAllBtn = new APushButton(this);
+    m_ConvAllBtn->setObjectName("FullBGButton_FS14");
+    m_ConvAllBtn->setFixedSize(136, 32);
+    m_ConvAllBtn->setText("开始转换");
+    m_ConvAllBtn->setIconSize(QSize(24, 24));
+    m_ConvAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
+    bottomLayout->addWidget(m_ConvAllBtn);
+
+    mainLayout->addWidget(bottomBG);
 
     auto shadow = new AShadowEffect(this);
+
+    m_AddGuideBtn = new APushButton(this);
+    m_AddGuideBtn->setObjectName("CompressionWindow_m_AddGuideBtn");
+    m_AddGuideBtn->setFixedSize(96 * 3, 96 * 2);
+    m_AddGuideBtn->setIconSize(QSize(96, 96));
+    m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
+
+    m_ConvertingWidget = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
+    m_ConvertingWidget->setFixedSize(96, 96);
+    showConverting(false);
+
+    m_FormatPopup = new CompressionFormatPopup(this);
+
+    QList<CompressionData> datas;
+    updateBtnsEnabledByChangeData(datas);
+    updateCheckAllBtnState(false);
 }
 
 void CompressionWindow::changeLanguage() {
@@ -101,6 +181,44 @@ void CompressionWindow::sigConnect() {
         close();
         emit Signals::getInstance()->sigGotoFunc(Models::Funcs::Startup);
     });
+    connect(m_CompressionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
+        auto data = index.data(Qt::UserRole).value<CompressionData>();
+        QRect rc = m_CompressionListView->visualRect(index);
+        int posx = m_CompressionListView->mapFromGlobal(QCursor::pos()).x();
+        int posy = m_CompressionListView->mapFromGlobal(QCursor::pos()).y();
+        QRect borderRect = rc.adjusted(1 + 8, 1 + 8, -1, -1);
+        QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
+        if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
+            && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
+            emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
+        }
+        auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
+        if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
+            && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
+            emit Signals::getInstance()->sigSwitchChecked(data.m_FilePath, data.m_IsChecked);
+        }
+    });
+    connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigOpenConvFileDialog(this);
+    });
+    connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigOpenConvFileDialog(this);
+    });
+    connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigDelByChecked();
+    });
+    connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
+        bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
+        bool newChecked = !oldChecked;
+        emit Signals::getInstance()->sigAllChecked(newChecked);
+        updateCheckAllBtnState(newChecked);
+    });
+    connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigConvStatus(Models::ConvStatusEnum::Start);
+        convStatus(Models::ConvStatusEnum::Start);
+    });
+    connect(m_ConvToBtn, &APushButton::clicked, this, &CompressionWindow::formatPopup);
+    connect(Signals::getInstance(), &Signals::sigConvStatus_v, this, &CompressionWindow::convStatus);
 }
 
 void CompressionWindow::paintEvent(QPaintEvent *event) {
@@ -111,7 +229,7 @@ void CompressionWindow::paintEvent(QPaintEvent *event) {
 
     // 背景图
     QPixmap pixmapTemp = QPixmap(this->rect().size());
-    pixmapTemp.fill(QColor(32, 32, 32, 255));
+    pixmapTemp.fill(QColor("#181818"));
     pixmapTemp.setDevicePixelRatio(1);
 
     // 背景图圆角裁剪
@@ -123,9 +241,201 @@ void CompressionWindow::paintEvent(QPaintEvent *event) {
     painter.drawPixmap(this->rect(), pixmapTemp);
 
     // 边框
-    QPen pen(QColor(96, 96, 96, 255));
+    QPen pen(QColor("#402F38"));
     pen.setWidth(1);
     painter.setPen(pen);
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
     painter.drawRoundedRect(borderRect, 10, 10);
+}
+
+void CompressionWindow::resizeEvent(QResizeEvent *event) {
+    ABaseWidget::resizeEvent(event);
+    m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
+    m_ConvertingWidget->setGeometry((width() - m_ConvertingWidget->width()) / 2, (height() - m_ConvertingWidget->height()) / 2, m_ConvertingWidget->width(), m_ConvertingWidget->height());
+}
+
+void CompressionWindow::updateCheckAllBtnState(bool checked) {
+    m_CheckAllBtn->setProperty("is-checked", checked ? "true" : "false");
+    m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
+}
+
+void CompressionWindow::updateBtnsEnabledByChangeData(QList<CompressionData> datas) {
+    auto allUnchecked = [](const QList<CompressionData> &datas) {
+        return std::all_of(datas.begin(), datas.end(), [](const CompressionData &cd) {
+            return cd.m_IsChecked == false;
+        });
+    };
+
+    bool isEnabled = datas.count() > 0;
+    m_CheckAllBtn->setEnabled(isEnabled);
+    m_ConvToBtn->setEnabled(isEnabled);
+
+    isEnabled = !allUnchecked(datas);
+    m_DelFileBtn->setEnabled(isEnabled);
+    m_ConvAllBtn->setEnabled(isEnabled);
+}
+
+void CompressionWindow::formatPopup() {
+    auto btnPos = m_ConvToBtn->mapToGlobal(QPoint(0,0));
+    auto newPos = btnPos - QPoint(m_FormatPopup->width() - m_ConvToBtn->width(), m_FormatPopup->height() + 8);
+    m_FormatPopup->move(newPos);
+    m_FormatPopup->show();
+}
+
+void CompressionWindow::showConverting(bool isShow) {
+    m_ConvertingWidget->setVisible(isShow);
+    if (isShow) {
+        m_ConvertingWidget->start();
+    } else {
+        m_ConvertingWidget->stop();
+    }
+}
+
+void CompressionWindow::convStatus(Models::ConvStatusEnum state) {
+    switch (state) {
+    case Models::ConvStatusEnum::None:
+        break;
+    case Models::ConvStatusEnum::Start:
+        startConv();
+        break;
+    case Models::ConvStatusEnum::Finished:
+        finishedConv();
+        break;
+    case Models::ConvStatusEnum::Cancel:
+        cancelConv();
+        break;
+    }
+}
+
+void CompressionWindow::startConv() {
+    showConverting(true);
+}
+
+void CompressionWindow::finishedConv() {
+    showConverting(false);
+}
+
+void CompressionWindow::cancelConv() {
+
+}
+
+CompressionFormatPopup::CompressionFormatPopup(QWidget *parent) :
+    ABaseWidget(parent) {
+    createUi();
+    sigConnect();
+    changeLanguage();
+}
+
+void CompressionFormatPopup::addFormatListWidgetItems(const QStringList items) {
+    m_FormatListWidget->addItems(items);
+}
+
+void CompressionFormatPopup::paintEvent(QPaintEvent *event) {
+    QPainter painter(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+    // 背景色透明
+    painter.fillRect(this->rect(), QColor(0, 0, 0, 1));
+
+    // 背景图
+    QPixmap pixmapTemp = QPixmap(this->rect().size());
+    pixmapTemp.fill(QColor("#222222"));
+    pixmapTemp.setDevicePixelRatio(1);
+
+    // 背景图圆角裁剪
+    QPainterPath path;
+    path.addRoundedRect(this->rect(), 10, 10);
+    painter.setClipPath(path);
+    painter.setRenderHint(QPainter::Antialiasing);
+    painter.setRenderHint(QPainter::SmoothPixmapTransform);
+    painter.drawPixmap(this->rect(), pixmapTemp);
+
+    // 边框
+    QPen pen(QColor("#313131"));
+    pen.setWidth(1);
+    painter.setPen(pen);
+    auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
+    painter.drawRoundedRect(borderRect, 10, 10);
+}
+
+void CompressionFormatPopup::createUi() {
+    setObjectName("CompressionFormatPopup");
+    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup | Qt::NoDropShadowWindowHint);
+    setAttribute(Qt::WA_TranslucentBackground);
+    setFixedSize(425, 260);
+    auto mainLayout = new AHBoxLayout(this);
+    mainLayout->setContentsMargins(12, 12, 12, 12);
+    m_FormatListWidget = new QListWidget(this);
+    mainLayout->addWidget(m_FormatListWidget, 1);
+    auto *delegate = new CompressionFormatListDelegate(this);
+    m_FormatListWidget->setItemDelegate(delegate);
+    m_FormatListWidget->viewport()->installEventFilter(delegate);
+    m_FormatListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_FormatListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_FormatListWidget->setAttribute(Qt::WA_StyledBackground);
+    m_FormatListWidget->setResizeMode(QListView::Adjust);
+    m_FormatListWidget->setViewMode(QListView::IconMode);
+    m_FormatListWidget->setSelectionMode(QAbstractItemView::NoSelection);
+    m_FormatListWidget->setMouseTracking(true);
+    m_FormatListWidget->setStyleSheet("border:0px; background-color:transparent;");
+    m_FormatListWidget->setSpacing(0);
+}
+
+void CompressionFormatPopup::changeLanguage() {
+}
+
+void CompressionFormatPopup::sigConnect() {
+    connect(m_FormatListWidget, &QListWidget::itemClicked, this, &CompressionFormatPopup::formatItemClicked);
+}
+
+void CompressionFormatPopup::formatItemClicked(QListWidgetItem *item) {
+    QString fmt = item->data(Qt::DisplayRole).toString();
+    emit Signals::getInstance()->sigChangeConvFormat(fmt);
+    close();
+}
+
+CompressionFormatListDelegate::CompressionFormatListDelegate(QObject *parent) :
+    QStyledItemDelegate(parent) {
+}
+
+void CompressionFormatListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    painter->setRenderHint(QPainter::Antialiasing);
+    painter->setRenderHint(QPainter::SmoothPixmapTransform);
+
+    auto data = index.data(Qt::DisplayRole).toString();
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::NoBrush);
+
+    QRect rc = option.rect;
+    bool hover = option.state & QStyle::State_MouseOver;
+    auto borderRect = rc.adjusted(1, 1, -1 - 10, -1 -10);
+
+    painter->setBrush(Qt::NoBrush);
+    QPen pen(QColor("#404040"));
+    pen.setWidth(1);
+    painter->setPen(pen);
+    painter->drawRoundedRect(borderRect, 18, 18);
+    if (hover) {
+        pen.setColor(QColor("#4A4A4A"));
+        painter->setPen(pen);
+        painter->drawRoundedRect(borderRect, 18, 18);
+        painter->setBrush(QColor(50, 50, 50, 0.75 * 255));
+        painter->drawRoundedRect(borderRect, 18, 18);
+        painter->setBrush(Qt::NoBrush);
+    }
+    painter->setPen(Qt::NoPen);
+
+    pen.setColor(QColor("#575859"));
+    painter->setPen(pen);
+    QFont font = painter->font();
+    font.setPointSizeF(11);
+    painter->setFont(font);
+    auto nameRect = QRect(borderRect.x(), borderRect.y() + 6, borderRect.width(), 24);
+    painter->drawText(nameRect, Qt::AlignHCenter, data);
+    painter->setPen(Qt::NoPen);
+}
+
+QSize CompressionFormatListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    return QSize(80, 46);
 }
