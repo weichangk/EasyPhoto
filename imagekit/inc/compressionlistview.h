@@ -6,18 +6,15 @@
  */
 
 #pragma once
-#include "compressionmodels.h"
 #include "compressionlistviewmodel.h"
 #include <QListView>
 
-
-using CompressionDatas = QList<CompressionData>;
 class CompressionListView : public QListView {
     Q_OBJECT
 public:
     explicit CompressionListView(QWidget *parent = 0);
-    void chageData(const CompressionDatas &datas);
-    CompressionData data(int i) const;
+    void chageData(const QList<Models::CompressionData> &datas);
+    Models::CompressionData data(int i) const;
     int count() const;
 
 protected:

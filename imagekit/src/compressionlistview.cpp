@@ -27,12 +27,12 @@ CompressionListView::CompressionListView(QWidget *parent) :
     viewport()->installEventFilter(delegate);
 }
 
-void CompressionListView::chageData(const CompressionDatas &datas) {
+void CompressionListView::chageData(const QList<Models::CompressionData> &datas) {
     m_Model->changeModels(datas);
 }
 
-CompressionData CompressionListView::data(int i) const {
-    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<CompressionData>();
+Models::CompressionData CompressionListView::data(int i) const {
+    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<Models::CompressionData>();
 }
 
 int CompressionListView::count() const {

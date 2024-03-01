@@ -2,13 +2,12 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 15:04:22
+ * @Last Modified time: 2024-03-01 23:14:00
  */
 
 #include "inc/compressionwindow.h"
-#include "inc/compressionmodels.h"
-#include "inc/signals.h"
 #include "inc/models.h"
+#include "inc/signals.h"
 #include "inc/settings.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
@@ -26,7 +25,7 @@ CompressionWindow::CompressionWindow(QWidget *parent) :
 CompressionWindow::~CompressionWindow() {
 }
 
-void CompressionWindow::changeData(QList<CompressionData> datas) {
+void CompressionWindow::changeData(QList<Models::CompressionData> datas) {
     m_CompressionListView->chageData(datas);
     m_AddGuideBtn->setVisible(m_CompressionListView->count() == 0);
 
@@ -39,14 +38,6 @@ void CompressionWindow::changeData(QList<CompressionData> datas) {
     }
     updateCheckAllBtnState(isAllChecked);
     updateBtnsEnabledByChangeData(datas);
-}
-
-void CompressionWindow::addFormatListWidgetItems(const QStringList items) {
-    m_FormatPopup->addFormatListWidgetItems(items);
-}
-
-void CompressionWindow::changeConvToBtnText(const QString format) {
-    m_ConvToBtn->setText(QString("%1%2").arg("转换为").arg(format.toUpper()));
 }
 
 void CompressionWindow::createUi() {
@@ -71,7 +62,7 @@ void CompressionWindow::createUi() {
     logoLayout->addWidget(m_LogoLab);
     m_NameLab = new ALabel(this);
     m_NameLab->setObjectName("CompressionWindow_m_NameLab");
-    m_NameLab->setText("图片格式转换");
+    m_NameLab->setText("图片压缩");
     logoLayout->addWidget(m_NameLab);
     topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
@@ -131,23 +122,13 @@ void CompressionWindow::createUi() {
 
     bottomLayout->addStretch();
 
-    m_ConvToBtn = new APushButton(this);
-    m_ConvToBtn->setObjectName("FullBGButton_FS14");
-    m_ConvToBtn->setFixedSize(136, 32);
-    changeConvToBtnText(SETTINGS->conversionOutFormat());
-    m_ConvToBtn->setIconSize(QSize(24, 24));
-    m_ConvToBtn->setIcon(QIcon(":/agui/res/image/export-24.png"));
-    // m_ConvToBtn->setLayoutDirection(Qt::RightToLeft);
-
-    bottomLayout->addWidget(m_ConvToBtn);
-
-    m_ConvAllBtn = new APushButton(this);
-    m_ConvAllBtn->setObjectName("FullBGButton_FS14");
-    m_ConvAllBtn->setFixedSize(136, 32);
-    m_ConvAllBtn->setText("开始转换");
-    m_ConvAllBtn->setIconSize(QSize(24, 24));
-    m_ConvAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
-    bottomLayout->addWidget(m_ConvAllBtn);
+    m_CompressAllBtn = new APushButton(this);
+    m_CompressAllBtn->setObjectName("FullBGButton_FS14");
+    m_CompressAllBtn->setFixedSize(136, 32);
+    m_CompressAllBtn->setText("开始压缩");
+    m_CompressAllBtn->setIconSize(QSize(24, 24));
+    m_CompressAllBtn->setIcon(QIcon(":/agui/res/image/refresh-24.png"));
+    bottomLayout->addWidget(m_CompressAllBtn);
 
     mainLayout->addWidget(bottomBG);
 
@@ -159,13 +140,7 @@ void CompressionWindow::createUi() {
     m_AddGuideBtn->setIconSize(QSize(96, 96));
     m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
 
-    m_ConvertingWidget = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
-    m_ConvertingWidget->setFixedSize(96, 96);
-    showConverting(false);
-
-    m_FormatPopup = new CompressionFormatPopup(this);
-
-    QList<CompressionData> datas;
+    QList<Models::CompressionData> datas;
     updateBtnsEnabledByChangeData(datas);
     updateCheckAllBtnState(false);
 }
@@ -182,7 +157,7 @@ void CompressionWindow::sigConnect() {
         emit Signals::getInstance()->sigGotoFunc(Models::Funcs::Startup);
     });
     connect(m_CompressionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
-        auto data = index.data(Qt::UserRole).value<CompressionData>();
+        auto data = index.data(Qt::UserRole).value<Models::CompressionData>();
         QRect rc = m_CompressionListView->visualRect(index);
         int posx = m_CompressionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_CompressionListView->mapFromGlobal(QCursor::pos()).y();
@@ -190,35 +165,34 @@ void CompressionWindow::sigConnect() {
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
+            emit Signals::getInstance()->sigCompressDelFile(data.m_FilePath);
         }
         auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
         if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
             && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
-            emit Signals::getInstance()->sigSwitchChecked(data.m_FilePath, data.m_IsChecked);
+            emit Signals::getInstance()->sigCompressSwitchChecked(data.m_FilePath, data.m_IsChecked);
         }
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenConvFileDialog(this);
+        emit Signals::getInstance()->sigCompressOpenFileDialog(this);
     });
     connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenConvFileDialog(this);
+        emit Signals::getInstance()->sigCompressOpenFileDialog(this);
     });
     connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigDelByChecked();
+        emit Signals::getInstance()->sigCompressDelByChecked();
     });
     connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
         bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
         bool newChecked = !oldChecked;
-        emit Signals::getInstance()->sigAllChecked(newChecked);
+        emit Signals::getInstance()->sigCompressAllChecked(newChecked);
         updateCheckAllBtnState(newChecked);
     });
-    connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigConvStatus(Models::ConvStatusEnum::Start);
-        convStatus(Models::ConvStatusEnum::Start);
+    connect(m_CompressAllBtn, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigCompressStatus(Models::CompressStatusEnum::Compress_Start);
+        compressStart();
     });
-    connect(m_ConvToBtn, &APushButton::clicked, this, &CompressionWindow::formatPopup);
-    connect(Signals::getInstance(), &Signals::sigConvStatus_v, this, &CompressionWindow::convStatus);
+    connect(Signals::getInstance(), &Signals::sigCompressStatusToView, this, &CompressionWindow::compressStatus);
 }
 
 void CompressionWindow::paintEvent(QPaintEvent *event) {
@@ -251,7 +225,6 @@ void CompressionWindow::paintEvent(QPaintEvent *event) {
 void CompressionWindow::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
     m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
-    m_ConvertingWidget->setGeometry((width() - m_ConvertingWidget->width()) / 2, (height() - m_ConvertingWidget->height()) / 2, m_ConvertingWidget->width(), m_ConvertingWidget->height());
 }
 
 void CompressionWindow::updateCheckAllBtnState(bool checked) {
@@ -259,183 +232,42 @@ void CompressionWindow::updateCheckAllBtnState(bool checked) {
     m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
 }
 
-void CompressionWindow::updateBtnsEnabledByChangeData(QList<CompressionData> datas) {
-    auto allUnchecked = [](const QList<CompressionData> &datas) {
-        return std::all_of(datas.begin(), datas.end(), [](const CompressionData &cd) {
+void CompressionWindow::updateBtnsEnabledByChangeData(QList<Models::CompressionData> datas) {
+    auto allUnchecked = [](const QList<Models::CompressionData> &datas) {
+        return std::all_of(datas.begin(), datas.end(), [](const Models::CompressionData &cd) {
             return cd.m_IsChecked == false;
         });
     };
 
     bool isEnabled = datas.count() > 0;
     m_CheckAllBtn->setEnabled(isEnabled);
-    m_ConvToBtn->setEnabled(isEnabled);
 
     isEnabled = !allUnchecked(datas);
     m_DelFileBtn->setEnabled(isEnabled);
-    m_ConvAllBtn->setEnabled(isEnabled);
+    m_CompressAllBtn->setEnabled(isEnabled);
 }
 
-void CompressionWindow::formatPopup() {
-    auto btnPos = m_ConvToBtn->mapToGlobal(QPoint(0,0));
-    auto newPos = btnPos - QPoint(m_FormatPopup->width() - m_ConvToBtn->width(), m_FormatPopup->height() + 8);
-    m_FormatPopup->move(newPos);
-    m_FormatPopup->show();
-}
-
-void CompressionWindow::showConverting(bool isShow) {
-    m_ConvertingWidget->setVisible(isShow);
-    if (isShow) {
-        m_ConvertingWidget->start();
-    } else {
-        m_ConvertingWidget->stop();
-    }
-}
-
-void CompressionWindow::convStatus(Models::ConvStatusEnum state) {
+void CompressionWindow::compressStatus(Models::CompressStatusEnum state) {
     switch (state) {
-    case Models::ConvStatusEnum::None:
+    case Models::CompressStatusEnum::Compress_None:
         break;
-    case Models::ConvStatusEnum::Start:
-        startConv();
+    case Models::CompressStatusEnum::Compress_Start:
+        compressStart();
         break;
-    case Models::ConvStatusEnum::Finished:
-        finishedConv();
+    case Models::CompressStatusEnum::Compress_Finished:
+        compressFinished();
         break;
-    case Models::ConvStatusEnum::Cancel:
-        cancelConv();
+    case Models::CompressStatusEnum::Compress_Cancel:
+        compressCancel();
         break;
     }
 }
 
-void CompressionWindow::startConv() {
-    showConverting(true);
+void CompressionWindow::compressStart() {
 }
 
-void CompressionWindow::finishedConv() {
-    showConverting(false);
+void CompressionWindow::compressFinished() {
 }
 
-void CompressionWindow::cancelConv() {
-
-}
-
-CompressionFormatPopup::CompressionFormatPopup(QWidget *parent) :
-    ABaseWidget(parent) {
-    createUi();
-    sigConnect();
-    changeLanguage();
-}
-
-void CompressionFormatPopup::addFormatListWidgetItems(const QStringList items) {
-    m_FormatListWidget->addItems(items);
-}
-
-void CompressionFormatPopup::paintEvent(QPaintEvent *event) {
-    QPainter painter(this);
-    painter.setRenderHint(QPainter::Antialiasing);
-    // 背景色透明
-    painter.fillRect(this->rect(), QColor(0, 0, 0, 1));
-
-    // 背景图
-    QPixmap pixmapTemp = QPixmap(this->rect().size());
-    pixmapTemp.fill(QColor("#222222"));
-    pixmapTemp.setDevicePixelRatio(1);
-
-    // 背景图圆角裁剪
-    QPainterPath path;
-    path.addRoundedRect(this->rect(), 10, 10);
-    painter.setClipPath(path);
-    painter.setRenderHint(QPainter::Antialiasing);
-    painter.setRenderHint(QPainter::SmoothPixmapTransform);
-    painter.drawPixmap(this->rect(), pixmapTemp);
-
-    // 边框
-    QPen pen(QColor("#313131"));
-    pen.setWidth(1);
-    painter.setPen(pen);
-    auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
-    painter.drawRoundedRect(borderRect, 10, 10);
-}
-
-void CompressionFormatPopup::createUi() {
-    setObjectName("CompressionFormatPopup");
-    setWindowFlags(Qt::FramelessWindowHint | Qt::Popup | Qt::NoDropShadowWindowHint);
-    setAttribute(Qt::WA_TranslucentBackground);
-    setFixedSize(425, 260);
-    auto mainLayout = new AHBoxLayout(this);
-    mainLayout->setContentsMargins(12, 12, 12, 12);
-    m_FormatListWidget = new QListWidget(this);
-    mainLayout->addWidget(m_FormatListWidget, 1);
-    auto *delegate = new CompressionFormatListDelegate(this);
-    m_FormatListWidget->setItemDelegate(delegate);
-    m_FormatListWidget->viewport()->installEventFilter(delegate);
-    m_FormatListWidget->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_FormatListWidget->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    m_FormatListWidget->setAttribute(Qt::WA_StyledBackground);
-    m_FormatListWidget->setResizeMode(QListView::Adjust);
-    m_FormatListWidget->setViewMode(QListView::IconMode);
-    m_FormatListWidget->setSelectionMode(QAbstractItemView::NoSelection);
-    m_FormatListWidget->setMouseTracking(true);
-    m_FormatListWidget->setStyleSheet("border:0px; background-color:transparent;");
-    m_FormatListWidget->setSpacing(0);
-}
-
-void CompressionFormatPopup::changeLanguage() {
-}
-
-void CompressionFormatPopup::sigConnect() {
-    connect(m_FormatListWidget, &QListWidget::itemClicked, this, &CompressionFormatPopup::formatItemClicked);
-}
-
-void CompressionFormatPopup::formatItemClicked(QListWidgetItem *item) {
-    QString fmt = item->data(Qt::DisplayRole).toString();
-    emit Signals::getInstance()->sigChangeConvFormat(fmt);
-    close();
-}
-
-CompressionFormatListDelegate::CompressionFormatListDelegate(QObject *parent) :
-    QStyledItemDelegate(parent) {
-}
-
-void CompressionFormatListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    painter->setRenderHint(QPainter::Antialiasing);
-    painter->setRenderHint(QPainter::SmoothPixmapTransform);
-
-    auto data = index.data(Qt::DisplayRole).toString();
-    painter->save();
-    painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(Qt::NoBrush);
-
-    QRect rc = option.rect;
-    bool hover = option.state & QStyle::State_MouseOver;
-    auto borderRect = rc.adjusted(1, 1, -1 - 10, -1 -10);
-
-    painter->setBrush(Qt::NoBrush);
-    QPen pen(QColor("#404040"));
-    pen.setWidth(1);
-    painter->setPen(pen);
-    painter->drawRoundedRect(borderRect, 18, 18);
-    if (hover) {
-        pen.setColor(QColor("#4A4A4A"));
-        painter->setPen(pen);
-        painter->drawRoundedRect(borderRect, 18, 18);
-        painter->setBrush(QColor(50, 50, 50, 0.75 * 255));
-        painter->drawRoundedRect(borderRect, 18, 18);
-        painter->setBrush(Qt::NoBrush);
-    }
-    painter->setPen(Qt::NoPen);
-
-    pen.setColor(QColor("#575859"));
-    painter->setPen(pen);
-    QFont font = painter->font();
-    font.setPointSizeF(11);
-    painter->setFont(font);
-    auto nameRect = QRect(borderRect.x(), borderRect.y() + 6, borderRect.width(), 24);
-    painter->drawText(nameRect, Qt::AlignHCenter, data);
-    painter->setPen(Qt::NoPen);
-}
-
-QSize CompressionFormatListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    return QSize(80, 46);
+void CompressionWindow::compressCancel() {
 }

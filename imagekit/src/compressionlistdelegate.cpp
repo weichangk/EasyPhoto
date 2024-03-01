@@ -6,7 +6,7 @@
  */
 
 #include "inc/compressionlistdelegate.h"
-#include "inc/compressionmodels.h"
+#include "inc/models.h"
 #include "../acore/inc/apainterhelper.h"
 #include <QMouseEvent>
 #include <QPainter>
@@ -17,7 +17,7 @@ CompressionListDelegate::CompressionListDelegate(QObject *parent) :
 }
 
 void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<CompressionData>();
+    auto data = index.data(Qt::UserRole).value<Models::CompressionData>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(Qt::NoPen);

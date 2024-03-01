@@ -28,4 +28,16 @@ public:
     void sigChangeConvFormat(const QString format);
 
     void sigConvStatus_v(Models::ConvStatusEnum state);
+
+    //Compress
+    void sigCompressOpenFileDialog(QWidget *parent = 0);
+    void sigCompressAddFile();
+    void sigCompressDelFile(const QString filePath);
+    void sigCompressDelByChecked();
+    void sigCompressStatus(Models::CompressStatusEnum state);
+    void sigCompressStatusToView(Models::CompressStatusEnum state);
+    void sigCompressSwitchChecked(const QString filePath, const bool checked);
+    void sigCompressAllChecked(const bool checked);
+    void sigChangeCompressFormat(const QString format);
+
 };

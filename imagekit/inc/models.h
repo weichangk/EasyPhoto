@@ -7,23 +7,25 @@
 
 #pragma once
 #include <QObject>
+#include <QPixmap>
 
-class Models : public QObject
-{
+#define COMPRESS_OUT_FORMATS "jpg png"
+
+class Models : public QObject {
     Q_OBJECT
 public:
     enum Funcs {
         Startup = 0,
-        ImageConversion, // 图片转换
-        ImageCompression,    // 图片压缩
-        ImageCropping,       // 图片裁剪
-        ImageAmplification,  // 图像放大
-        ImageManipulation,   // 图片抠像
-        ImageErase,          // 图片擦除
-        ImageEnhancement,    // 图像增强
-        ImageRestoration,    // 图像复原
-        ImageEffect,         // 图片效果
-        ImageSpecialEffect   // 图片特效
+        ImageConversion,    // 图片转换
+        ImageCompression,   // 图片压缩
+        ImageCropping,      // 图片裁剪
+        ImageAmplification, // 图像放大
+        ImageManipulation,  // 图片抠像
+        ImageErase,         // 图片擦除
+        ImageEnhancement,   // 图像增强
+        ImageRestoration,   // 图像复原
+        ImageEffect,        // 图片效果
+        ImageSpecialEffect  // 图片特效
     };
     Q_ENUM(Funcs)
 
@@ -34,4 +36,23 @@ public:
         Cancel
     };
     Q_ENUM(ConvStatusEnum)
+
+    enum CompressStatusEnum {
+        Compress_None = 0,
+        Compress_Start,
+        Compress_Finished,
+        Compress_Cancel
+    };
+    Q_ENUM(CompressStatusEnum)
+
+    struct CompressionData {
+        QString m_FileName = "";
+        QString m_FilePath = "";
+        CompressStatusEnum m_CompressState = CompressStatusEnum::Compress_None;
+        QPixmap m_Thumbnail = QPixmap();
+        QPixmap m_DelIcon = QPixmap();
+        QPixmap m_CheckedIcon = QPixmap();
+        QPixmap m_UnCheckedIcon = QPixmap();
+        bool m_IsChecked = false;
+    };
 };

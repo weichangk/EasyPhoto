@@ -6,16 +6,15 @@
  */
 
 #include "inc/compressionlistviewmodel.h"
-#include "inc/compressionmodels.h"
 
 CompressionListViewModel::CompressionListViewModel(QObject *parent) {
 }
-void CompressionListViewModel::changeModels(const CompressionDatas &datas) {
+void CompressionListViewModel::changeModels(const QList<Models::CompressionData> &datas) {
     beginResetModel();
     m_Datas = datas;
     endResetModel();
 }
-void CompressionListViewModel::changeData(int row, const CompressionData &data) {
+void CompressionListViewModel::changeData(int row, const Models::CompressionData &data) {
     beginResetModel();
     m_Datas[row] = data;
     endResetModel();
