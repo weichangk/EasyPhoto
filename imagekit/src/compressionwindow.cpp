@@ -122,6 +122,24 @@ void CompressionWindow::createUi() {
 
     bottomLayout->addStretch();
 
+    QString outQuality = COMPRESS_OUT_QUALITY;
+    auto outQualityList = outQuality.split(' ');
+    m_OutQualityCob = new AComboBox(this);
+    m_OutQualityCob->setObjectName("");
+    m_OutQualityCob->setFixedSize(64, 32);
+    m_OutQualityCob->addItems(outQualityList);
+    m_OutQualityCob->setCurrentText(QString::number(SETTINGS->compressQuality()));
+    bottomLayout->addWidget(m_OutQualityCob);
+
+    QString outFormats = COMPRESS_OUT_FORMATS;
+    auto outFormatsList = outFormats.split(' ');
+    m_OutFormatCob = new AComboBox(this);
+    m_OutFormatCob->setObjectName("");
+    m_OutFormatCob->setFixedSize(64, 32);
+    m_OutFormatCob->addItems(outFormatsList);
+    m_OutFormatCob->setCurrentText(SETTINGS->compressOutPath());
+    bottomLayout->addWidget(m_OutFormatCob);
+
     m_CompressAllBtn = new APushButton(this);
     m_CompressAllBtn->setObjectName("FullBGButton_FS14");
     m_CompressAllBtn->setFixedSize(136, 32);

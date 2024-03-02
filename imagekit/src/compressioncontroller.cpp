@@ -32,6 +32,7 @@ void CompressionController::closeWindow() {
 }
 
 void CompressionController::init() {
+    AFolderMgr::addFolder(SETTINGS->compressOutPath());
 }
 
 void CompressionController::sigConnect() {

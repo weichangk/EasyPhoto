@@ -14,7 +14,10 @@ Settings::Settings() :
                QApplication::applicationDisplayName()),
     m_AutoStart(Default::autoStart),
     m_ConversionOutPath(Default::conversionOutPath),
-    m_ConversionOutFormat(Default::conversionOutFormat) {
+    m_ConversionOutFormat(Default::conversionOutFormat),
+    m_CompressOutFormat(Default::compressOutFormat),
+    m_CompressOutPath(Default::compressOutPath),
+    m_CompressQuality(Default::compressQuality) {
 }
 
 void Settings::load() {
@@ -59,4 +62,28 @@ void Settings::setConversionOutFormat(const QString format) {
     m_Settings.beginGroup("Conversion");
     m_Settings.setValue(QStringLiteral("ConversionOutFormat"), m_ConversionOutFormat);
     m_Settings.endGroup();
+}
+
+QString Settings::compressOutPath() const {
+    return m_CompressOutPath;
+}
+
+void Settings::setCompressOutPath(const QString path) {
+    m_CompressOutPath = path;
+}
+
+QString Settings::compressOutFormat() const {
+    return m_CompressOutFormat;
+}
+
+void Settings::setCompressOutFormat(const QString format) {
+    m_CompressOutFormat = format;
+}
+
+int Settings::compressQuality() const {
+    return m_CompressQuality;
+}
+
+void Settings::setCompressQuality(const int quality) {
+    m_CompressQuality = quality;
 }

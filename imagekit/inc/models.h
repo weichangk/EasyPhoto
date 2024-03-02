@@ -9,7 +9,8 @@
 #include <QObject>
 #include <QPixmap>
 
-#define COMPRESS_OUT_FORMATS "jpg png"
+#define COMPRESS_OUT_FORMATS "sameassource jpg png"
+#define COMPRESS_OUT_QUALITY "10 20 30 40 50 60 70 80 90"
 
 class Models : public QObject {
     Q_OBJECT

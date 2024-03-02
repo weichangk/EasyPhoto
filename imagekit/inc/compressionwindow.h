@@ -8,6 +8,7 @@
 #pragma once
 #include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/alabel.h"
+#include "../awidget/inc/acombobox.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/anavbarwidget.h"
 #include "../agui/inc/atopbar.h"
@@ -52,4 +53,6 @@ private:
     APushButton *m_DelFileBtn = 0;
     APushButton *m_CheckAllBtn = 0;
     APushButton *m_CompressAllBtn = 0;
+    AComboBox *m_OutQualityCob = 0;
+    AComboBox *m_OutFormatCob = 0;
 };
