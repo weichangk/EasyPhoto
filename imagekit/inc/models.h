@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:52:37
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 14:51:10
+ * @Last Modified time: 2024-03-05 22:55:08
  */
 
 #pragma once
@@ -56,4 +56,21 @@ public:
         QPixmap m_UnCheckedIcon = QPixmap();
         bool m_IsChecked = false;
     };
+};
+
+struct CompressParam {
+    int jpeg_quality;
+    int png_quality;
+    int gif_quality;
+    int webp_quality;
+    bool keep_metadata;
+    bool png_force_zopfli;
+    bool optimize;
+    int width;
+    int height;
+};
+
+struct CompressResult {
+    bool success;
+    char *error_message;
 };
