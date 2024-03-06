@@ -31,3 +31,49 @@ private:
 private:
     std::vector<CompressProtocal *> m_CompressProtocals;
 };
+
+class GUEETZLIProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+};
+
+class CJPEGProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+
+private:
+    QString toBitmap(const QString &src);
+};
+
+
+class PNGQUANTProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+};
+
+class OPTIPNGProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+};
+
+class CWEBPProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+};
+
+class GIFSICLEProtocal : public CompressProtocal {
+    Q_OBJECT
+public:
+    bool compressable(const QString &preferredSuffix) override;
+    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+};
