@@ -16,13 +16,10 @@ public:
     virtual CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) = 0;
 };
 
-class CompressManager : public CompressProtocal {
-    Q_OBJECT
+class CompressManager {
 public:
     static CompressManager &instance();
     CompressManager();
-    bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
 
 private:
     void init();

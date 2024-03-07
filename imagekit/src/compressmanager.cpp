@@ -37,28 +37,13 @@ CompressManager::CompressManager() {
     init();
 }
 
-bool CompressManager::compressable(const QString &preferredSuffix) {
-    return preferredSuffix == "jpeg";
-}
-
-CompressResult CompressManager::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
-    QString libPath = QApplication::applicationDirPath() + "/imagelib/guetzli/";
-    libPath = QDir::toNativeSeparators(libPath + "guetzli.exe");
-    if (!QFile::exists(libPath)) {
-        qDebug() << "guetzli.exe not exist!";
-        return result;
-    }
-    QProcess *process = new QProcess(this);
-    QStringList args;
-    args << "-quality" << QString::number(params.jpeg_quality) << src << dst;
-    process->start(libPath, args);
-    process->waitForFinished(300000);
-    result.success = process->exitCode() == QProcess::ExitStatus::NormalExit;
-    return result;
-}
-
 void CompressManager::init() {
+    m_CompressProtocals.push_back(new GUEETZLIProtocal);
+    // m_CompressProtocals.push_back(new CJPEGProtocal);
+    m_CompressProtocals.push_back(new PNGQUANTProtocal);
+    // m_CompressProtocals.push_back(new OPTIPNGProtocal);
+    m_CompressProtocals.push_back(new CWEBPProtocal);
+    m_CompressProtocals.push_back(new GIFSICLEProtocal);
 }
 
 CompressResult CompressManager::doCompress(const QString &src, const QString &dst, const CompressParam &params) {
@@ -91,12 +76,12 @@ CompressResult GUEETZLIProtocal::compress(const QString &src, const QString &dst
         qDebug() << "guetzli.exe not exist!";
         return result;
     }
-    QProcess *process = new QProcess(this);
+    QProcess process(this);
     QStringList args;
     args << "-quality" << QString::number(params.jpeg_quality) << src << dst;
-    process->start(libPath, args);
-    process->waitForFinished(300000);
-    result.success = process->exitCode() == QProcess::ExitStatus::NormalExit;
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     return result;
 }
 
@@ -117,12 +102,12 @@ CompressResult CJPEGProtocal::compress(const QString &src, const QString &dst, c
         qDebug() << "create temp bitmap file failed!";
         return result;
     }
-    QProcess *process = new QProcess(this);
+    QProcess process(this);
     QStringList args;
     args << "-quality" << QString::number(params.jpeg_quality) << "-outfile" << dst << tempBmpFile;
-    process->start(libPath, args);
-    process->waitForFinished(300000);
-    result.success = process->exitCode() == QProcess::ExitStatus::NormalExit;
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     QFile::remove(tempBmpFile);
     if (result.success) {
         result.success = isDestSmallerThanSrc(src, dst);
@@ -154,17 +139,14 @@ CompressResult PNGQUANTProtocal::compress(const QString &src, const QString &dst
         qDebug() << "pngquant.exe not exist!";
         return result;
     }
-    QProcess *process = new QProcess(this);
+    QProcess process(this);
     QStringList args;
     args << "--force"
          << "--skip-if-larger"
-         << "--quality" << QString::number(params.png_quality) << src << "";
-    process->start(libPath, args);
-    process->waitForFinished(300000);
-    int exitCode = process->exitCode();
-    QProcess::ExitStatus state = process->exitStatus();
-    delete process;
-    result.success = 0 == exitCode;
+         << "--quality" << QString::number(params.png_quality) << src << "--output" << dst;
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     return result;
 }
 
@@ -174,6 +156,18 @@ bool OPTIPNGProtocal::compressable(const QString &preferredSuffix) {
 
 CompressResult OPTIPNGProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
     CompressResult result = {0};
+    QString libPath = QApplication::applicationDirPath() + "/imagelib/png/";
+    libPath = QDir::toNativeSeparators(libPath + "optipng.exe");
+    if (!QFile::exists(libPath)) {
+        qDebug() << "optipng.exe not exist!";
+        return result;
+    }
+    QProcess process(this);
+    QStringList args;
+    args << "-ol" << src << "out" << dst;
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     return result;
 }
 
@@ -183,6 +177,18 @@ bool CWEBPProtocal::compressable(const QString &preferredSuffix) {
 
 CompressResult CWEBPProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
     CompressResult result = {0};
+    QString libPath = QApplication::applicationDirPath() + "/imagelib/cwebp/";
+    libPath = QDir::toNativeSeparators(libPath + "cwebp.exe");
+    if (!QFile::exists(libPath)) {
+        qDebug() << "cwebp.exe not exist!";
+        return result;
+    }
+    QProcess process(this);
+    QStringList args;
+    args << "-q" << QString::number(params.webp_quality) << src << "-o" << dst;
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     return result;
 }
 
@@ -192,5 +198,18 @@ bool GIFSICLEProtocal::compressable(const QString &preferredSuffix) {
 
 CompressResult GIFSICLEProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
     CompressResult result = {0};
+    QString libPath = QApplication::applicationDirPath() + "/imagelib/gif/";
+    libPath = QDir::toNativeSeparators(libPath + "gifsicle.exe");
+    if (!QFile::exists(libPath)) {
+        qDebug() << "gifsicle.exe not exist!";
+        return result;
+    }
+    QProcess process(this);
+    QStringList args;
+    QString quality = QString("--lossy=%1").arg(QString::number(params.gif_quality));
+    args << "-02" << quality << src << "-o" << dst << "--verbose";
+    process.start(libPath, args);
+    process.waitForFinished(300000);
+    result.success = process.exitCode() == QProcess::ExitStatus::NormalExit;
     return result;
 }
