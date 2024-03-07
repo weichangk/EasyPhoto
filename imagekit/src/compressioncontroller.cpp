@@ -9,6 +9,7 @@
 #include "inc/signals.h"
 #include "inc/settings.h"
 #include "inc/models.h"
+#include "inc/compressmanager.h"
 #include "../acore/inc/afoldermgr.h"
 #include "../acore/inc/afilemgr.h"
 #include <QFileDialog>
@@ -109,15 +110,12 @@ void CompressionController::compressStart() {
         if (fileInfo.exists() && data.m_IsChecked) {
             filePath = AFileMgr::joinPathAndFileName(SETTINGS->compressOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(fileInfo.completeSuffix()));
             AFileMgr::renameIfExists(filePath);
-            if (fileInfo.completeSuffix() == "png") {
-                compressPNG(data.m_FilePath, filePath, SETTINGS->compressQuality());
-            } else if (fileInfo.completeSuffix() == "jpeg") {
-                compressJPEG(data.m_FilePath, filePath, SETTINGS->compressQuality());
-            } else if (fileInfo.completeSuffix() == "webp") {
-                compressWEBP(data.m_FilePath, filePath, SETTINGS->compressQuality());
-            } else if (fileInfo.completeSuffix() == "gif") {
-                compressGIF(data.m_FilePath, filePath, SETTINGS->compressQuality());
-            }
+            CompressParam param;
+            param.jpeg_quality = SETTINGS->compressQuality();
+            param.png_quality = SETTINGS->compressQuality();
+            param.gif_quality = SETTINGS->compressQuality();
+            param.webp_quality = SETTINGS->compressQuality();
+            CompressManager::instance().doCompress(data.m_FilePath, filePath, param);
         }
     }
 }
@@ -152,40 +150,4 @@ void CompressionController::delByChecked() {
                           }),
                           m_CompressDatas.end());
     m_CompressionWindow->changeData(m_CompressDatas);
-}
-
-void CompressionController::compressPNG(const QString input, const QString out, const int quatily) {
-    QProcess process;
-    QString program = "imagelib/pngquant/pngquant.exe";
-    QStringList arguments;
-    arguments << "--quality=" + QString::number(quatily) + "-" + QString::number(quatily + 20) << input << "--output=" + out;
-    process.start(program, arguments);
-    QObject::connect(&process, &QProcess::finished, [&process]() {
-        qDebug() << "Process finished with exit code:" << process.exitCode();
-    });
-}
-
-void CompressionController::compressJPEG(const QString input, const QString out, const int quatily) {
-    QProcess process;
-    QString program = "imagelib/guetzli/guetzli.exe";
-    QStringList arguments;
-    arguments << "--quality=" + QString::number(quatily) << input << out;
-    process.start(program, arguments);
-    QObject::connect(&process, &QProcess::finished, [&process]() {
-        qDebug() << "Process finished with exit code:" << process.exitCode();
-    });
-}
-
-void CompressionController::compressWEBP(const QString input, const QString out, const int quatily) {
-    QProcess process;
-    QString program = "imagelib/cwebp/cwebp.exe";
-    QStringList arguments;
-    arguments << "-q" << QString::number(quatily) << input << "-o" << out;
-    process.start(program, arguments);
-    QObject::connect(&process, &QProcess::finished, [&process]() {
-        qDebug() << "Process finished with exit code:" << process.exitCode();
-    });
-}
-
-void CompressionController::compressGIF(const QString input, const QString out, const int quatily) {
 }

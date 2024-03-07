@@ -31,13 +31,6 @@ private:
     void switchChecked(const QString filePath, const bool checked);
     void allChecked(bool checked);
     void delByChecked();
-
-    //
-    void compressPNG(const QString input, const QString out, const int quatily);
-    void compressJPEG(const QString input, const QString out, const int quatily);
-    void compressWEBP(const QString input, const QString out, const int quatily);
-    void compressGIF(const QString input, const QString out, const int quatily);
-
 private:
     CompressionWindow *m_CompressionWindow = 0;
     QList<Models::CompressionData> m_CompressDatas;

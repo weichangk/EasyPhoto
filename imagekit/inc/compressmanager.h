@@ -20,10 +20,10 @@ class CompressManager {
 public:
     static CompressManager &instance();
     CompressManager();
+    CompressResult doCompress(const QString &src, const QString &dst, const CompressParam &params);
 
 private:
     void init();
-    CompressResult doCompress(const QString &src, const QString &dst, const CompressParam &params);
 
 private:
     std::vector<CompressProtocal *> m_CompressProtocals;
