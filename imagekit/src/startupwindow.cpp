@@ -108,29 +108,26 @@ void StartupWindow::createUi() {
                                                                << "图片压缩"
                                                                << "高质量压缩图片");
     funcDataMap.insert(Funcs::ImageCropping, QVariantList() << ":/res/image/account_80_vip.png"
-                                                            << "图片裁剪"
-                                                            << "自由裁剪图片");
-    funcDataMap.insert(Funcs::ImageAmplification, QVariantList() << ":/res/image/account_80_vip.png"
-                                                                 << "图片放大"
-                                                                 << "不失真放大图片");
-    funcDataMap.insert(Funcs::ImageManipulation, QVariantList() << ":/res/image/account_80_vip.png"
-                                                                << "图片抠像"
-                                                                << "去除图片背景");
-    funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
-                                                         << "图片擦除"
-                                                         << "去除图片水印");
-    funcDataMap.insert(Funcs::ImageEnhancement, QVariantList() << ":/res/image/account_80_vip.png"
-                                                               << "图片增强"
-                                                               << "图片画质增强");
-    funcDataMap.insert(Funcs::ImageRestoration, QVariantList() << ":/res/image/account_80_vip.png"
-                                                               << "图片复原"
-                                                               << "老照片修复");
-    funcDataMap.insert(Funcs::ImageEffect, QVariantList() << ":/res/image/account_80_vip.png"
-                                                          << "图片效果"
-                                                          << "支持多种图片效果");
+                                                            << "图片编辑"
+                                                            << "裁剪、旋转、饱和度、水印");
     funcDataMap.insert(Funcs::ImageSpecialEffect, QVariantList() << ":/res/image/account_80_vip.png"
-                                                                 << "图片特效"
-                                                                 << "支持多种图片特效");
+                                                         << "GIF生产"
+                                                         << "图片生成GIF");
+    funcDataMap.insert(Funcs::ImageEnhancement, QVariantList() << ":/res/image/account_80_vip.png"
+                                                               << "AI图像增强"
+                                                               << "图片画质增强");
+    funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
+                                                         << "AI图片擦除"
+                                                         << "去除图片水印");
+    // funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
+    //                                                      << "图像修复"
+    //                                                      << "老旧照片修复");
+    // funcDataMap.insert(Funcs::ImageManipulation, QVariantList() << ":/res/image/account_80_vip.png"
+    //                                                             << "AI抠像"
+    //                                                             << "去除图片背景");
+    // funcDataMap.insert(Funcs::ImageSpecialEffect, QVariantList() << ":/res/image/account_80_vip.png"
+    //                                                              << "图片特效"
+    //                                                              << "支持多种图片特效");
     QMap<int, QVariantList>::Iterator iter;
     for (iter = funcDataMap.begin(); iter != funcDataMap.end(); ++iter) {
         auto btn = new AFuncPanelWidget(this, iter.key());
