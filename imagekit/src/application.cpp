@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:58
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 14:56:50
+ * @Last Modified time: 2024-03-23 21:42:27
  */
 
 #include "inc/application.h"
@@ -43,7 +43,7 @@ void Application::initUi() {
     m_StartupController = new StartupController;
     // m_StartupWindow->setWindowIcon(appIcon_);
     // m_StartupWindow->setWindowTitle(applicationDisplayName());
-    m_StartupController->showFunc(Models::Funcs::Startup); // FIXME: crash without this
+    m_StartupController->showFunc(ImageFunc::STARTUP); // FIXME: crash without this
 
     // trayIcon_->setIcon(appIcon_);
     // trayIcon_->setWidget(mainWindow_);

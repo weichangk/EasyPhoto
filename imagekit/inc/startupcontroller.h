@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:29
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-07 23:48:15
+ * @Last Modified time: 2024-03-23 21:17:21
  */
 
 #pragma once
@@ -17,7 +17,7 @@ class StartupController : public QObject {
 public:
     explicit StartupController();
     ~StartupController();
-    void showFunc(Models::Funcs func);
+    void showFunc(ImageFunc func);
 
 private:
     void sigConnect();

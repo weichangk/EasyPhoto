@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-01-07 23:46:03
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-07 23:46:51
+ * @Last Modified time: 2024-03-23 23:14:32
  */
 
 #include "inc/compressioncontroller.h"
@@ -57,46 +57,46 @@ void CompressionController::openCompressFileDialog(QWidget *parent) {
 
 void CompressionController::addCompressData(const QStringList filePaths) {
     for (const QString &filePath : filePaths) {
-        Models::CompressionData compressionData;
-        compressionData.m_FilePath = filePath;
-        compressionData.m_FileName = QFileInfo(filePath).fileName();
+        imagecompression::Data compressionData;
+        compressionData.file_path = filePath;
+        compressionData.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        compressionData.m_Thumbnail = pixmap;
+        compressionData.thumbnail = pixmap;
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        compressionData.m_DelIcon = delIcon;
+        compressionData.delete_icon = delIcon;
         QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
         checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        compressionData.m_CheckedIcon = checkedIcon;
+        compressionData.checked_icon = checkedIcon;
         QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        compressionData.m_UnCheckedIcon = unCheckedIcon;
-        compressionData.m_IsChecked = true;
+        compressionData.unchecked_icon = unCheckedIcon;
+        compressionData.is_checked = true;
         m_CompressDatas.append(compressionData);
     }
     m_CompressionWindow->changeData(m_CompressDatas);
 }
 
 void CompressionController::delCompressData(const QString filePath) {
-    auto filePathMatches = [](const Models::CompressionData &cd, QString filePath) {
-        return cd.m_FilePath == filePath;
+    auto filePathMatches = [](const imagecompression::Data &cd, QString filePath) {
+        return cd.file_path == filePath;
     };
     m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), m_CompressDatas.end());
     m_CompressionWindow->changeData(m_CompressDatas);
 }
 
-void CompressionController::compressStatus(Models::CompressStatusEnum state) {
+void CompressionController::compressStatus(imagecompression::Status state) {
     switch (state) {
-    case Models::ConvStatusEnum::None:
+    case imageconversion::Status::NONE:
         break;
-    case Models::ConvStatusEnum::Start:
+    case imageconversion::Status::START:
         compressStart();
         break;
-    case Models::ConvStatusEnum::Finished:
+    case imageconversion::Status::FINISHED:
         compressFinished();
         break;
-    case Models::ConvStatusEnum::Cancel:
+    case imageconversion::Status::CANCEL:
         compressCancel();
         break;
     }
@@ -106,16 +106,16 @@ void CompressionController::compressStart() {
     QString filePath;
     QFileInfo fileInfo;
     foreach (const auto &data, m_CompressDatas) {
-        fileInfo = AFileMgr::fileInfo(data.m_FilePath);
-        if (fileInfo.exists() && data.m_IsChecked) {
+        fileInfo = AFileMgr::fileInfo(data.file_path);
+        if (fileInfo.exists() && data.is_checked) {
             filePath = AFileMgr::joinPathAndFileName(SETTINGS->compressOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(fileInfo.completeSuffix()));
             AFileMgr::renameIfExists(filePath);
-            CompressParam param;
+            imagecompression::Param param;
             param.jpeg_quality = SETTINGS->compressQuality();
             param.png_quality = SETTINGS->compressQuality();
             param.gif_quality = SETTINGS->compressQuality();
             param.webp_quality = SETTINGS->compressQuality();
-            CompressManager::instance().doCompress(data.m_FilePath, filePath, param);
+            CompressManager::instance().doCompress(data.file_path, filePath, param);
         }
     }
 }
@@ -127,26 +127,26 @@ void CompressionController::compressCancel() {
 }
 
 void CompressionController::switchChecked(const QString filePath, const bool checked) {
-    auto filePathMatches = [](const Models::CompressionData &cd, QString filePath) {
-        return cd.m_FilePath == filePath;
+    auto filePathMatches = [](const imagecompression::Data &cd, QString filePath) {
+        return cd.file_path == filePath;
     };
     auto it = std::find_if(m_CompressDatas.begin(), m_CompressDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
     if (it != m_CompressDatas.end()) {
-        it->m_IsChecked = !it->m_IsChecked;
+        it->is_checked = !it->is_checked;
     }
     m_CompressionWindow->changeData(m_CompressDatas);
 }
 
 void CompressionController::allChecked(bool checked) {
     for (auto &data : m_CompressDatas) {
-        data.m_IsChecked = checked;
+        data.is_checked = checked;
     }
     m_CompressionWindow->changeData(m_CompressDatas);
 }
 
 void CompressionController::delByChecked() {
-    m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), [](const Models::CompressionData &cd) {
-                              return cd.m_IsChecked == true;
+    m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), [](const imagecompression::Data &cd) {
+                              return cd.is_checked == true;
                           }),
                           m_CompressDatas.end());
     m_CompressionWindow->changeData(m_CompressDatas);

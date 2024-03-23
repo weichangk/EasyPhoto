@@ -2,12 +2,11 @@
  * @Author: weick
  * @Date: 2023-12-21 23:43:01
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-07 23:44:26
+ * @Last Modified time: 2024-03-23 23:04:17
  */
 
 #pragma once
 #include "conversionwindow.h"
-#include "conversionmodels.h"
 #include "models.h"
 #include <QWidget>
 #include <QtConcurrent/QtConcurrent>
@@ -27,7 +26,7 @@ private:
     void openConvFileDialog(QWidget *parent = 0);
     void addConvData(const QStringList filePaths);
     void delConvData(const QString filePath);
-    void convStatus(Models::ConvStatusEnum state);
+    void convStatus(imageconversion::Status state);
     void startConv();
     void finishedConv();
     void cancelConv();
@@ -38,7 +37,7 @@ private:
 
 private:
     ConversionWindow *m_ConversionWindow = 0;
-    QList<ConversionData> m_ConvDatas;
+    QList<imageconversion::Data> m_ConvDatas;
     QStringList m_FormatDatas;
 
     QFutureWatcher<void> m_ConvWatcher;

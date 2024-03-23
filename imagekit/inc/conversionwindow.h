@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 23:28:13
+ * @Last Modified time: 2024-03-23 22:57:58
  */
 
 #pragma once
@@ -24,7 +24,7 @@ class ConversionWindow : public ABaseWidget {
 public:
     explicit ConversionWindow(QWidget *parent = 0);
     ~ConversionWindow();
-    void changeData(QList<ConversionData> datas);
+    void changeData(QList<imageconversion::Data> datas);
     void addFormatListWidgetItems(const QStringList items);
     void changeConvToBtnText(const QString format);
 
@@ -37,10 +37,10 @@ protected:
 
 private:
     void updateCheckAllBtnState(bool checked);
-    void updateBtnsEnabledByChangeData(QList<ConversionData> datas);
+    void updateBtnsEnabledByChangeData(QList<imageconversion::Data> datas);
     void formatPopup();
     void showConverting(bool isShow);
-    void convStatus(Models::ConvStatusEnum state);
+    void convStatus(imageconversion::Status state);
     void startConv();
     void finishedConv();
     void cancelConv();

@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 00:23:09
+ * @Last Modified time: 2024-03-23 22:08:37
  */
 
 #pragma once
@@ -25,7 +25,7 @@ class CompressionWindow : public ABaseWidget {
 public:
     explicit CompressionWindow(QWidget *parent = 0);
     ~CompressionWindow();
-    void changeData(QList<Models::CompressionData> datas);
+    void changeData(QList<imagecompression::Data> datas);
 
 protected:
     void createUi() override;
@@ -36,8 +36,8 @@ protected:
 
 private:
     void updateCheckAllBtnState(bool checked);
-    void updateBtnsEnabledByChangeData(QList<Models::CompressionData> datas);
-    void compressStatus(Models::CompressStatusEnum state);
+    void updateBtnsEnabledByChangeData(QList<imagecompression::Data> datas);
+    void compressStatus(imagecompression::Status state);
     void compressStart();
     void compressFinished();
     void compressCancel();

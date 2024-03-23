@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-01-07 23:43:32
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-07 23:48:44
+ * @Last Modified time: 2024-03-23 22:07:34
  */
 
 #pragma once
@@ -24,7 +24,7 @@ private:
     void openCompressFileDialog(QWidget *parent = 0);
     void addCompressData(const QStringList filePaths);
     void delCompressData(const QString filePath);
-    void compressStatus(Models::CompressStatusEnum state);
+    void compressStatus(imagecompression::Status state);
     void compressStart();
     void compressFinished();
     void compressCancel();
@@ -33,5 +33,5 @@ private:
     void delByChecked();
 private:
     CompressionWindow *m_CompressionWindow = 0;
-    QList<Models::CompressionData> m_CompressDatas;
+    QList<imagecompression::Data> m_CompressDatas;
 };

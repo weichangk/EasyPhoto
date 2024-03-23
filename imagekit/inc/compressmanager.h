@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-05 22:54:25
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-05 23:08:34
+ * @Last Modified time: 2024-03-23 23:14:17
  */
 
 #pragma once
@@ -13,14 +13,14 @@ class CompressProtocal : public QObject {
     Q_OBJECT
 public:
     virtual bool compressable(const QString &preferredSuffix) = 0;
-    virtual CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) = 0;
+    virtual imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) = 0;
 };
 
 class CompressManager {
 public:
     static CompressManager &instance();
     CompressManager();
-    CompressResult doCompress(const QString &src, const QString &dst, const CompressParam &params);
+    imagecompression::Result doCompress(const QString &src, const QString &dst, const imagecompression::Param &params);
 
 private:
     void init();
@@ -33,14 +33,14 @@ class GUEETZLIProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 };
 
 class CJPEGProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 
 private:
     QString toBitmap(const QString &src);
@@ -51,26 +51,26 @@ class PNGQUANTProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 };
 
 class OPTIPNGProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 };
 
 class CWEBPProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 };
 
 class GIFSICLEProtocal : public CompressProtocal {
     Q_OBJECT
 public:
     bool compressable(const QString &preferredSuffix) override;
-    CompressResult compress(const QString &src, const QString &dst, const CompressParam &params) override;
+    imagecompression::Result compress(const QString &src, const QString &dst, const imagecompression::Param &params) override;
 };

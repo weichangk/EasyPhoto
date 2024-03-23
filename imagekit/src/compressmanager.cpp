@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-05 23:03:24
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-05 23:27:52
+ * @Last Modified time: 2024-03-23 23:17:18
  */
 
 #include "inc/compressmanager.h"
@@ -46,8 +46,8 @@ void CompressManager::init() {
     m_CompressProtocals.push_back(new GIFSICLEProtocal);
 }
 
-CompressResult CompressManager::doCompress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result CompressManager::doCompress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QMimeDatabase db;
     QMimeType mimeType = db.mimeTypeForFile(src, QMimeDatabase::MatchContent);
     QString name = mimeType.name();
@@ -68,8 +68,8 @@ bool GUEETZLIProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "jpeg";
 }
 
-CompressResult GUEETZLIProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result GUEETZLIProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/guetzli/";
     libPath = QDir::toNativeSeparators(libPath + "guetzli.exe");
     if (!QFile::exists(libPath)) {
@@ -89,8 +89,8 @@ bool CJPEGProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "jpeg";
 }
 
-CompressResult CJPEGProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result CJPEGProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/jpeg/";
     libPath = QDir::toNativeSeparators(libPath + "cjpeg.exe");
     if (!QFile::exists(libPath)) {
@@ -131,8 +131,8 @@ bool PNGQUANTProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "png";
 }
 
-CompressResult PNGQUANTProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result PNGQUANTProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/pngquant/";
     libPath = QDir::toNativeSeparators(libPath + "pngquant.exe");
     if (!QFile::exists(libPath)) {
@@ -154,8 +154,8 @@ bool OPTIPNGProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "png";
 }
 
-CompressResult OPTIPNGProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result OPTIPNGProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/png/";
     libPath = QDir::toNativeSeparators(libPath + "optipng.exe");
     if (!QFile::exists(libPath)) {
@@ -175,8 +175,8 @@ bool CWEBPProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "webp";
 }
 
-CompressResult CWEBPProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result CWEBPProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/cwebp/";
     libPath = QDir::toNativeSeparators(libPath + "cwebp.exe");
     if (!QFile::exists(libPath)) {
@@ -196,8 +196,8 @@ bool GIFSICLEProtocal::compressable(const QString &preferredSuffix) {
     return preferredSuffix == "gif";
 }
 
-CompressResult GIFSICLEProtocal::compress(const QString &src, const QString &dst, const CompressParam &params) {
-    CompressResult result = {0};
+imagecompression::Result GIFSICLEProtocal::compress(const QString &src, const QString &dst, const imagecompression::Param &params) {
+    imagecompression::Result result = {0};
     QString libPath = QApplication::applicationDirPath() + "/imagelib/gif/";
     libPath = QDir::toNativeSeparators(libPath + "gifsicle.exe");
     if (!QFile::exists(libPath)) {

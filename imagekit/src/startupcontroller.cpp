@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:03:58
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-07 23:48:31
+ * @Last Modified time: 2024-03-23 21:42:53
  */
 
 #include "inc/startupcontroller.h"
@@ -19,16 +19,16 @@ StartupController::StartupController() {
 StartupController::~StartupController() {
 }
 
-void StartupController::showFunc(Models::Funcs func) {
+void StartupController::showFunc(ImageFunc func) {
     switch (func) {
-    case Models::Funcs::Startup:
+    case ImageFunc::STARTUP:
         m_StartupWindow->show();
         break;
-    case Models::Funcs::ImageConversion:
+    case ImageFunc::CONVERSION:
         m_StartupWindow->close();
         m_ConversionController->showWindow();
         break;
-    case Models::Funcs::ImageCompression:
+    case ImageFunc::COMPRESSION:
         m_StartupWindow->close();
         m_CompressionController->showWindow();
         break;

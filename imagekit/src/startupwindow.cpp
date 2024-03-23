@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-10 14:40:01
+ * @Last Modified time: 2024-03-23 21:44:03
  */
 
 #include "inc/startupwindow.h"
@@ -15,8 +15,6 @@
 #include "../agui/inc/afuncpanelwidget.h"
 #include <QPainter>
 #include <QPainterPath>
-
-using Funcs = Models::Funcs;
 
 StartupWindow::StartupWindow(QWidget *parent) :
     ABaseWidget(parent) {
@@ -101,31 +99,31 @@ void StartupWindow::createUi() {
 
     auto funcFlowLayout = new AFlowLayout(m_FuncArea, 20, 12, 12);
     QMap<int, QVariantList> funcDataMap;
-    funcDataMap.insert(Funcs::ImageConversion, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::CONVERSION, QVariantList() << ":/res/image/account_80_vip.png"
                                                               << "图片转换"
                                                               << "支持多种格式转换");
-    funcDataMap.insert(Funcs::ImageCompression, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::COMPRESSION, QVariantList() << ":/res/image/account_80_vip.png"
                                                                << "图片压缩"
                                                                << "高质量压缩图片");
-    funcDataMap.insert(Funcs::ImageCropping, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::EDIT, QVariantList() << ":/res/image/account_80_vip.png"
                                                             << "图片编辑"
                                                             << "裁剪、旋转、饱和度、水印");
-    funcDataMap.insert(Funcs::ImageSpecialEffect, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::SPECIALEFFECT, QVariantList() << ":/res/image/account_80_vip.png"
                                                          << "GIF生产"
                                                          << "图片生成GIF");
-    funcDataMap.insert(Funcs::ImageEnhancement, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::ENHANCEMENT, QVariantList() << ":/res/image/account_80_vip.png"
                                                                << "AI图像增强"
                                                                << "图片画质增强");
-    funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::ERASE, QVariantList() << ":/res/image/account_80_vip.png"
                                                          << "AI图片擦除"
                                                          << "去除图片水印");
-    // funcDataMap.insert(Funcs::ImageErase, QVariantList() << ":/res/image/account_80_vip.png"
+    // funcDataMap.insert(ImageFunc::ERASE, QVariantList() << ":/res/image/account_80_vip.png"
     //                                                      << "图像修复"
     //                                                      << "老旧照片修复");
-    // funcDataMap.insert(Funcs::ImageManipulation, QVariantList() << ":/res/image/account_80_vip.png"
+    // funcDataMap.insert(ImageFunc::MANIPULATION, QVariantList() << ":/res/image/account_80_vip.png"
     //                                                             << "AI抠像"
     //                                                             << "去除图片背景");
-    // funcDataMap.insert(Funcs::ImageSpecialEffect, QVariantList() << ":/res/image/account_80_vip.png"
+    // funcDataMap.insert(ImageFunc::SPECIALEFFECT, QVariantList() << ":/res/image/account_80_vip.png"
     //                                                              << "图片特效"
     //                                                              << "支持多种图片特效");
     QMap<int, QVariantList>::Iterator iter;
@@ -138,7 +136,7 @@ void StartupWindow::createUi() {
         btn->getName()->setText(iter.value().at(1).toString());
         btn->getDec()->setText(iter.value().at(2).toString());
         connect(btn, &AFuncPanelWidget::sigClicked, this, [=](int id) {
-            emit Signals::getInstance()->sigGotoFunc((Models::Funcs)id);
+            emit Signals::getInstance()->sigGotoFunc((ImageFunc)id);
         });
         funcFlowLayout->addWidget(btn);
     }

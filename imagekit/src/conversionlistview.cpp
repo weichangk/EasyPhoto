@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-13 23:34:49
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-13 23:36:24
+ * @Last Modified time: 2024-03-23 22:49:38
  */
 
 #include "inc/conversionlistview.h"
@@ -27,12 +27,12 @@ ConversionListView::ConversionListView(QWidget *parent) :
     viewport()->installEventFilter(delegate);
 }
 
-void ConversionListView::chageData(const ConversionDatas &datas) {
+void ConversionListView::chageData(const QList<imageconversion::Data> &datas) {
     m_Model->changeModels(datas);
 }
 
-ConversionData ConversionListView::data(int i) const {
-    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<ConversionData>();
+imageconversion::Data ConversionListView::data(int i) const {
+    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<imageconversion::Data>();
 }
 
 int ConversionListView::count() const {

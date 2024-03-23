@@ -2,19 +2,19 @@
  * @Author: weick
  * @Date: 2023-12-11 23:06:34
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-13 00:00:12
+ * @Last Modified time: 2024-03-23 22:10:49
  */
 
 #include "inc/compressionlistviewmodel.h"
 
 CompressionListViewModel::CompressionListViewModel(QObject *parent) {
 }
-void CompressionListViewModel::changeModels(const QList<Models::CompressionData> &datas) {
+void CompressionListViewModel::changeModels(const QList<imagecompression::Data> &datas) {
     beginResetModel();
     m_Datas = datas;
     endResetModel();
 }
-void CompressionListViewModel::changeData(int row, const Models::CompressionData &data) {
+void CompressionListViewModel::changeData(int row, const imagecompression::Data &data) {
     beginResetModel();
     m_Datas[row] = data;
     endResetModel();

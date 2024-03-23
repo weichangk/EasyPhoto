@@ -2,11 +2,11 @@
  * @Author: weick
  * @Date: 2023-12-12 23:58:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 23:17:23
+ * @Last Modified time: 2024-03-23 23:01:31
  */
 
 #include "inc/conversionlistdelegate.h"
-#include "inc/conversionmodels.h"
+#include "inc/models.h"
 #include "../acore/inc/apainterhelper.h"
 #include <QMouseEvent>
 #include <QPainter>
@@ -17,7 +17,7 @@ ConversionListDelegate::ConversionListDelegate(QObject *parent) :
 }
 
 void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<ConversionData>();
+    auto data = index.data(Qt::UserRole).value<imageconversion::Data>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(Qt::NoPen);
@@ -36,14 +36,14 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 176, 176);
     pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
-    APainterHelper::paintPixmap(painter, pixmapRect, data.m_Thumbnail, 1, 10, true);
+    APainterHelper::paintPixmap(painter, pixmapRect, data.thumbnail, 1, 10, true);
 
-    auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, data.m_CheckedIcon.width(), data.m_CheckedIcon.height());
-    APainterHelper::paintPixmap(painter, checkedconRect, data.m_IsChecked ? data.m_CheckedIcon : data.m_UnCheckedIcon, 1, 0, true);
+    auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, data.checked_icon.width(), data.checked_icon.height());
+    APainterHelper::paintPixmap(painter, checkedconRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
 
     if (hover) {
-        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.m_DelIcon.width() - 4, borderRect.y() + 4, data.m_DelIcon.width(), data.m_DelIcon.height());
-        APainterHelper::paintPixmap(painter, delIconRect, data.m_DelIcon, 1, 0, true);
+        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.delete_icon.width() - 4, borderRect.y() + 4, data.delete_icon.width(), data.delete_icon.height());
+        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
     QPen pen(QColor("#1F1F1F"));
@@ -59,7 +59,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     QFont font = painter->font();
     font.setPointSizeF(11);
     painter->setFont(font);
-    QString fileName = data.m_FileName;
+    QString fileName = data.file_name;
     auto nameRect = QRect(borderRect.x() + 20, borderRect.y() + borderRect.height() - 24, borderRect.width() - 40, 24);
     QFontMetricsF metrics(font);
     if (metrics.horizontalAdvance(fileName) > nameRect.width()) {

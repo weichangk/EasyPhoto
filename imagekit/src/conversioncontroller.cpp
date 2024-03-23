@@ -2,13 +2,12 @@
  * @Author: weick
  * @Date: 2023-12-21 23:57:42
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 23:17:39
+ * @Last Modified time: 2024-03-23 23:06:07
  */
 
 #include "inc/conversioncontroller.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
-#include "inc/conversionmodels.h"
 #include "../acore/inc/afoldermgr.h"
 #include "../acore/inc/afilemgr.h"
 #include <QFileDialog>
@@ -50,7 +49,7 @@ void ConversionController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigChangeConvFormat, this, &ConversionController::changeConvFormat);
 
     connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, Signals::getInstance(), [=](){
-        emit Signals::getInstance()->sigConvStatus_v(Models::ConvStatusEnum::Finished);
+        emit Signals::getInstance()->sigConvStatus_v(imageconversion::Status::FINISHED);
     });
 }
 
@@ -65,46 +64,46 @@ void ConversionController::openConvFileDialog(QWidget *parent) {
 
 void ConversionController::addConvData(const QStringList filePaths) {
     for (const QString &filePath : filePaths) {
-        ConversionData conversionData;
-        conversionData.m_FilePath = filePath;
-        conversionData.m_FileName = QFileInfo(filePath).fileName();
+        imageconversion::Data conversionData;
+        conversionData.file_path = filePath;
+        conversionData.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        conversionData.m_Thumbnail = pixmap;
+        conversionData.thumbnail = pixmap;
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        conversionData.m_DelIcon = delIcon;
+        conversionData.delete_icon = delIcon;
         QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
         checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        conversionData.m_CheckedIcon = checkedIcon;
+        conversionData.checked_icon = checkedIcon;
         QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        conversionData.m_UnCheckedIcon = unCheckedIcon;
-        conversionData.m_IsChecked = true;
+        conversionData.unchecked_icon = unCheckedIcon;
+        conversionData.is_checked = true;
         m_ConvDatas.append(conversionData);
     }
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
 void ConversionController::delConvData(const QString filePath) {
-    auto filePathMatches = [](const ConversionData &cd, QString filePath) {
-        return cd.m_FilePath == filePath;
+    auto filePathMatches = [](const imageconversion::Data &cd, QString filePath) {
+        return cd.file_path == filePath;
     };
     m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
-void ConversionController::convStatus(Models::ConvStatusEnum state) {
+void ConversionController::convStatus(imageconversion::Status state) {
     switch (state) {
-    case Models::ConvStatusEnum::None:
+    case imageconversion::Status::NONE:
         break;
-    case Models::ConvStatusEnum::Start:
+    case imageconversion::Status::START:
         startConv();
         break;
-    case Models::ConvStatusEnum::Finished:
+    case imageconversion::Status::FINISHED:
         finishedConv();
         break;
-    case Models::ConvStatusEnum::Cancel:
+    case imageconversion::Status::CANCEL:
         cancelConv();
         break;
     }
@@ -116,11 +115,11 @@ void ConversionController::startConv() {
         QString filePath;
         QFileInfo fileInfo;
         foreach (const auto &data, m_ConvDatas) {
-            fileInfo = AFileMgr::fileInfo(data.m_FilePath);
-            if (fileInfo.exists() && data.m_IsChecked) {
+            fileInfo = AFileMgr::fileInfo(data.file_path);
+            if (fileInfo.exists() && data.is_checked) {
                 filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
                 AFileMgr::renameIfExists(filePath);
-                image.read(data.m_FilePath.toStdString());
+                image.read(data.file_path.toStdString());
                 image.write(filePath.toStdString());
             }
         }
@@ -137,26 +136,26 @@ void ConversionController::cancelConv() {
 }
 
 void ConversionController::switchChecked(const QString filePath, const bool checked) {
-    auto filePathMatches = [](const ConversionData &cd, QString filePath) {
-        return cd.m_FilePath == filePath;
+    auto filePathMatches = [](const imageconversion::Data &cd, QString filePath) {
+        return cd.file_path == filePath;
     };
     auto it = std::find_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
     if (it != m_ConvDatas.end()) {
-        it->m_IsChecked = !it->m_IsChecked;
+        it->is_checked = !it->is_checked;
     }
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
 void ConversionController::allChecked(bool checked) {
     for(auto &data : m_ConvDatas) {
-        data.m_IsChecked = checked;
+        data.is_checked = checked;
     }
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
 void ConversionController::delByChecked() {
-    m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), [](const ConversionData &cd) {
-                          return cd.m_IsChecked == true;
+    m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), [](const imageconversion::Data &cd) {
+                          return cd.is_checked == true;
                       }),
                       m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);

@@ -2,11 +2,10 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-01-15 23:34:27
+ * @Last Modified time: 2024-03-23 23:07:27
  */
 
 #include "inc/conversionwindow.h"
-#include "inc/conversionmodels.h"
 #include "inc/signals.h"
 #include "inc/models.h"
 #include "inc/settings.h"
@@ -26,13 +25,13 @@ ConversionWindow::ConversionWindow(QWidget *parent) :
 ConversionWindow::~ConversionWindow() {
 }
 
-void ConversionWindow::changeData(QList<ConversionData> datas) {
+void ConversionWindow::changeData(QList<imageconversion::Data> datas) {
     m_ConversionListView->chageData(datas);
     m_AddGuideBtn->setVisible(m_ConversionListView->count() == 0);
 
     bool isAllChecked = datas.count() > 0;
     for (const auto &data : datas) {
-        if (!data.m_IsChecked) {
+        if (!data.is_checked) {
             isAllChecked = false;
             break;
         }
@@ -165,7 +164,7 @@ void ConversionWindow::createUi() {
 
     m_FormatPopup = new ConversionFormatPopup(this);
 
-    QList<ConversionData> datas;
+    QList<imageconversion::Data> datas;
     updateBtnsEnabledByChangeData(datas);
     updateCheckAllBtnState(false);
 }
@@ -179,10 +178,10 @@ void ConversionWindow::sigConnect() {
     connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(m_Topbar, &ATopbar::sigClose, this, [=]() {
         close();
-        emit Signals::getInstance()->sigGotoFunc(Models::Funcs::Startup);
+        emit Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(m_ConversionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
-        auto data = index.data(Qt::UserRole).value<ConversionData>();
+        auto data = index.data(Qt::UserRole).value<imageconversion::Data>();
         QRect rc = m_ConversionListView->visualRect(index);
         int posx = m_ConversionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_ConversionListView->mapFromGlobal(QCursor::pos()).y();
@@ -190,12 +189,12 @@ void ConversionWindow::sigConnect() {
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            emit Signals::getInstance()->sigDelConvFile(data.m_FilePath);
+            emit Signals::getInstance()->sigDelConvFile(data.file_path);
         }
         auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
         if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
             && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
-            emit Signals::getInstance()->sigSwitchChecked(data.m_FilePath, data.m_IsChecked);
+            emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
         }
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
@@ -214,8 +213,8 @@ void ConversionWindow::sigConnect() {
         updateCheckAllBtnState(newChecked);
     });
     connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigConvStatus(Models::ConvStatusEnum::Start);
-        convStatus(Models::ConvStatusEnum::Start);
+        emit Signals::getInstance()->sigConvStatus(imageconversion::Status::START);
+        convStatus(imageconversion::Status::START);
     });
     connect(m_ConvToBtn, &APushButton::clicked, this, &ConversionWindow::formatPopup);
     connect(Signals::getInstance(), &Signals::sigConvStatus_v, this, &ConversionWindow::convStatus);
@@ -259,10 +258,10 @@ void ConversionWindow::updateCheckAllBtnState(bool checked) {
     m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
 }
 
-void ConversionWindow::updateBtnsEnabledByChangeData(QList<ConversionData> datas) {
-    auto allUnchecked = [](const QList<ConversionData> &datas) {
-        return std::all_of(datas.begin(), datas.end(), [](const ConversionData &cd) {
-            return cd.m_IsChecked == false;
+void ConversionWindow::updateBtnsEnabledByChangeData(QList<imageconversion::Data> datas) {
+    auto allUnchecked = [](const QList<imageconversion::Data> &datas) {
+        return std::all_of(datas.begin(), datas.end(), [](const imageconversion::Data &cd) {
+            return cd.is_checked == false;
         });
     };
 
@@ -291,17 +290,17 @@ void ConversionWindow::showConverting(bool isShow) {
     }
 }
 
-void ConversionWindow::convStatus(Models::ConvStatusEnum state) {
+void ConversionWindow::convStatus(imageconversion::Status state) {
     switch (state) {
-    case Models::ConvStatusEnum::None:
+    case imageconversion::Status::NONE:
         break;
-    case Models::ConvStatusEnum::Start:
+    case imageconversion::Status::START:
         startConv();
         break;
-    case Models::ConvStatusEnum::Finished:
+    case imageconversion::Status::FINISHED:
         finishedConv();
         break;
-    case Models::ConvStatusEnum::Cancel:
+    case imageconversion::Status::CANCEL:
         cancelConv();
         break;
     }
