@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:45:45
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:20:15
+ * @Last Modified time: 2024-03-24 20:59:01
  */
 
 #pragma once
@@ -27,18 +27,24 @@ Q_SIGNALS:
     void sigChangeConvFormat(const QString format);
 
     void sigConvStatus_v(imageconversion::Status state);
-
-    // Compress
-    void sigCompressOpenFileDialog(QWidget *parent = 0);
-    void sigCompressAddFile();
-    void sigCompressDelFile(const QString filePath);
-    void sigCompressDelByChecked();
-    void sigCompressStatus(imagecompression::Status state);
-    void sigCompressStatusToView(imagecompression::Status state);
-    void sigCompressSwitchChecked(const QString filePath, const bool checked);
-    void sigCompressAllChecked(const bool checked);
-    void sigChangeCompressFormat(const QString format);
 };
+
+namespace imagecompression {
+class Signals : public QObject, public ASinglton<Signals> {
+    Q_OBJECT
+public:
+Q_SIGNALS:
+    void sigOpenFileDialog(QWidget *parent = 0);
+    void sigAddFile();
+    void sigDeleteFile(const QString filePath);
+    void sigDeleteByChecked();
+    void sigStatus(Status state);
+    void sigStatusToView(Status state);
+    void sigSwitchChecked(const QString filePath, const bool checked);
+    void sigCheckedAll(const bool checked);
+    void sigChangeFormat(const QString format);
+};
+}
 
 namespace imageedit {
 class Signals : public QObject, public ASinglton<Signals> {

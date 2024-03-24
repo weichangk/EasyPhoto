@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-01-07 23:43:32
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:07:34
+ * @Last Modified time: 2024-03-24 20:49:25
  */
 
 #pragma once
@@ -10,6 +10,7 @@
 #include "models.h"
 #include <QWidget>
 
+namespace imagecompression {
 class CompressionController : public QObject {
     Q_OBJECT
 public:
@@ -24,14 +25,16 @@ private:
     void openCompressFileDialog(QWidget *parent = 0);
     void addCompressData(const QStringList filePaths);
     void delCompressData(const QString filePath);
-    void compressStatus(imagecompression::Status state);
+    void compressStatus(Status state);
     void compressStart();
     void compressFinished();
     void compressCancel();
     void switchChecked(const QString filePath, const bool checked);
     void allChecked(bool checked);
     void delByChecked();
+
 private:
     CompressionWindow *m_CompressionWindow = 0;
-    QList<imagecompression::Data> m_CompressDatas;
+    QList<Data> m_CompressDatas;
 };
+} // namespace imagecompression

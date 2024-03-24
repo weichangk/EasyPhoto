@@ -2,13 +2,14 @@
  * @Author: weick
  * @Date: 2023-12-13 23:34:49
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:35:30
+ * @Last Modified time: 2024-03-24 20:49:04
  */
 
 #include "inc/compressionlistview.h"
 #include "inc/compressionlistdelegate.h"
 #include <QMouseEvent>
 
+namespace imagecompression {
 CompressionListView::CompressionListView(QWidget *parent) :
     QListView(parent) {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -27,12 +28,12 @@ CompressionListView::CompressionListView(QWidget *parent) :
     viewport()->installEventFilter(delegate);
 }
 
-void CompressionListView::chageData(const QList<imagecompression::Data> &datas) {
+void CompressionListView::chageData(const QList<Data> &datas) {
     m_Model->changeModels(datas);
 }
 
-imagecompression::Data CompressionListView::data(int i) const {
-    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<imagecompression::Data>();
+Data CompressionListView::data(int i) const {
+    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<Data>();
 }
 
 int CompressionListView::count() const {
@@ -49,3 +50,4 @@ void CompressionListView::mouseMoveEvent(QMouseEvent *event) {
 
 void CompressionListView::currentChanged(const QModelIndex &current, const QModelIndex &previous) {
 }
+} // namespace imagecompression

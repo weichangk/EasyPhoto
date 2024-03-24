@@ -2,13 +2,14 @@
  * @Author: weick
  * @Date: 2023-12-10 23:24:02
  * @Last Modified by: weick
- * @Last Modified time: 2023-12-13 00:00:29
+ * @Last Modified time: 2024-03-24 20:35:10
  */
 
 #pragma once
 #include <QStyledItemDelegate>
 #include <QEvent>
 
+namespace imagecompression {
 class CompressionListDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
@@ -23,3 +24,4 @@ private:
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
 };
+} // namespace imagecompression

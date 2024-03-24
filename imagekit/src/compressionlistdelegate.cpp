@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-12 23:58:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:15:34
+ * @Last Modified time: 2024-03-24 20:49:05
  */
 
 #include "inc/compressionlistdelegate.h"
@@ -12,12 +12,13 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
+namespace imagecompression {
 CompressionListDelegate::CompressionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
 void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<imagecompression::Data>();
+    auto data = index.data(Qt::UserRole).value<Data>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(Qt::NoPen);
@@ -91,3 +92,4 @@ QSize CompressionListDelegate::sizeHint(const QStyleOptionViewItem &option, cons
 void CompressionListDelegate::changeSizeHint(const QSize &size) {
     m_Size = size;
 }
+} // namespace imagecompression

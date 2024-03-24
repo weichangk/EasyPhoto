@@ -2,19 +2,20 @@
  * @Author: weick
  * @Date: 2023-12-11 23:06:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:10:49
+ * @Last Modified time: 2024-03-24 20:48:38
  */
 
 #include "inc/compressionlistviewmodel.h"
 
+namespace imagecompression {
 CompressionListViewModel::CompressionListViewModel(QObject *parent) {
 }
-void CompressionListViewModel::changeModels(const QList<imagecompression::Data> &datas) {
+void CompressionListViewModel::changeModels(const QList<Data> &datas) {
     beginResetModel();
     m_Datas = datas;
     endResetModel();
 }
-void CompressionListViewModel::changeData(int row, const imagecompression::Data &data) {
+void CompressionListViewModel::changeData(int row, const Data &data) {
     beginResetModel();
     m_Datas[row] = data;
     endResetModel();
@@ -34,3 +35,4 @@ QVariant CompressionListViewModel::data(const QModelIndex &index, int role) cons
     }
     return QVariant();
 }
+} // namespace imagecompression

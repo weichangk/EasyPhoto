@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-01-07 23:46:03
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:14:32
+ * @Last Modified time: 2024-03-24 20:59:33
  */
 
 #include "inc/compressioncontroller.h"
@@ -16,6 +16,7 @@
 #include <QStandardPaths>
 #include <QProcess>
 
+namespace imagecompression {
 CompressionController::CompressionController() {
     m_CompressionWindow = new CompressionWindow;
     init();
@@ -38,12 +39,12 @@ void CompressionController::init() {
 }
 
 void CompressionController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigCompressOpenFileDialog, this, &CompressionController::openCompressFileDialog);
-    connect(Signals::getInstance(), &Signals::sigCompressDelFile, this, &CompressionController::delCompressData);
-    connect(Signals::getInstance(), &Signals::sigCompressStatus, this, &CompressionController::compressStatus);
-    connect(Signals::getInstance(), &Signals::sigCompressSwitchChecked, this, &CompressionController::switchChecked);
-    connect(Signals::getInstance(), &Signals::sigCompressAllChecked, this, &CompressionController::allChecked);
-    connect(Signals::getInstance(), &Signals::sigCompressDelByChecked, this, &CompressionController::delByChecked);
+    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &CompressionController::openCompressFileDialog);
+    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &CompressionController::delCompressData);
+    connect(Signals::getInstance(), &Signals::sigStatus, this, &CompressionController::compressStatus);
+    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &CompressionController::switchChecked);
+    connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &CompressionController::allChecked);
+    connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &CompressionController::delByChecked);
 }
 
 void CompressionController::openCompressFileDialog(QWidget *parent) {
@@ -57,7 +58,7 @@ void CompressionController::openCompressFileDialog(QWidget *parent) {
 
 void CompressionController::addCompressData(const QStringList filePaths) {
     for (const QString &filePath : filePaths) {
-        imagecompression::Data compressionData;
+        Data compressionData;
         compressionData.file_path = filePath;
         compressionData.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -79,14 +80,14 @@ void CompressionController::addCompressData(const QStringList filePaths) {
 }
 
 void CompressionController::delCompressData(const QString filePath) {
-    auto filePathMatches = [](const imagecompression::Data &cd, QString filePath) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
     m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), m_CompressDatas.end());
     m_CompressionWindow->changeData(m_CompressDatas);
 }
 
-void CompressionController::compressStatus(imagecompression::Status state) {
+void CompressionController::compressStatus(Status state) {
     switch (state) {
     case imageconversion::Status::NONE:
         break;
@@ -110,7 +111,7 @@ void CompressionController::compressStart() {
         if (fileInfo.exists() && data.is_checked) {
             filePath = AFileMgr::joinPathAndFileName(SETTINGS->compressOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(fileInfo.completeSuffix()));
             AFileMgr::renameIfExists(filePath);
-            imagecompression::Param param;
+            Param param;
             param.jpeg_quality = SETTINGS->compressQuality();
             param.png_quality = SETTINGS->compressQuality();
             param.gif_quality = SETTINGS->compressQuality();
@@ -127,7 +128,7 @@ void CompressionController::compressCancel() {
 }
 
 void CompressionController::switchChecked(const QString filePath, const bool checked) {
-    auto filePathMatches = [](const imagecompression::Data &cd, QString filePath) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
     auto it = std::find_if(m_CompressDatas.begin(), m_CompressDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
@@ -145,9 +146,10 @@ void CompressionController::allChecked(bool checked) {
 }
 
 void CompressionController::delByChecked() {
-    m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), [](const imagecompression::Data &cd) {
+    m_CompressDatas.erase(std::remove_if(m_CompressDatas.begin(), m_CompressDatas.end(), [](const Data &cd) {
                               return cd.is_checked == true;
                           }),
                           m_CompressDatas.end());
     m_CompressionWindow->changeData(m_CompressDatas);
 }
+} // namespace imagecompression

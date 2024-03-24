@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:16:41
+ * @Last Modified time: 2024-03-24 21:00:18
  */
 
 #include "inc/compressionwindow.h"
@@ -15,6 +15,7 @@
 #include <QPainter>
 #include <QPainterPath>
 
+namespace imagecompression {
 CompressionWindow::CompressionWindow(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
@@ -25,7 +26,7 @@ CompressionWindow::CompressionWindow(QWidget *parent) :
 CompressionWindow::~CompressionWindow() {
 }
 
-void CompressionWindow::changeData(QList<imagecompression::Data> datas) {
+void CompressionWindow::changeData(QList<Data> datas) {
     m_CompressionListView->chageData(datas);
     m_AddGuideBtn->setVisible(m_CompressionListView->count() == 0);
 
@@ -158,7 +159,7 @@ void CompressionWindow::createUi() {
     m_AddGuideBtn->setIconSize(QSize(96, 96));
     m_AddGuideBtn->setIcon(QIcon(":/agui/res/image/image-file-add-96.png"));
 
-    QList<imagecompression::Data> datas;
+    QList<Data> datas;
     updateBtnsEnabledByChangeData(datas);
     updateCheckAllBtnState(false);
 }
@@ -172,10 +173,10 @@ void CompressionWindow::sigConnect() {
     connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(m_Topbar, &ATopbar::sigClose, this, [=]() {
         close();
-        emit Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+        emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(m_CompressionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
-        auto data = index.data(Qt::UserRole).value<imagecompression::Data>();
+        auto data = index.data(Qt::UserRole).value<Data>();
         QRect rc = m_CompressionListView->visualRect(index);
         int posx = m_CompressionListView->mapFromGlobal(QCursor::pos()).x();
         int posy = m_CompressionListView->mapFromGlobal(QCursor::pos()).y();
@@ -183,34 +184,34 @@ void CompressionWindow::sigConnect() {
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            emit Signals::getInstance()->sigCompressDelFile(data.file_path);
+            emit Signals::getInstance()->sigDeleteFile(data.file_path);
         }
         auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
         if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
             && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
-            emit Signals::getInstance()->sigCompressSwitchChecked(data.file_path, data.is_checked);
+            emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
         }
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigCompressOpenFileDialog(this);
+        emit Signals::getInstance()->sigOpenFileDialog(this);
     });
     connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigCompressOpenFileDialog(this);
+        emit Signals::getInstance()->sigOpenFileDialog(this);
     });
     connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigCompressDelByChecked();
+        emit Signals::getInstance()->sigDeleteByChecked();
     });
     connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
         bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
         bool newChecked = !oldChecked;
-        emit Signals::getInstance()->sigCompressAllChecked(newChecked);
+        emit Signals::getInstance()->sigCheckedAll(newChecked);
         updateCheckAllBtnState(newChecked);
     });
     connect(m_CompressAllBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigCompressStatus(imagecompression::Status::START);
+        emit Signals::getInstance()->sigStatus(Status::START);
         compressStart();
     });
-    connect(Signals::getInstance(), &Signals::sigCompressStatusToView, this, &CompressionWindow::compressStatus);
+    connect(Signals::getInstance(), &Signals::sigStatusToView, this, &CompressionWindow::compressStatus);
 }
 
 void CompressionWindow::paintEvent(QPaintEvent *event) {
@@ -250,9 +251,9 @@ void CompressionWindow::updateCheckAllBtnState(bool checked) {
     m_CheckAllBtn->setIcon(QIcon(checked ? ":/agui/res/image/checked-24.png" : ":/agui/res/image/unchecked-24.png"));
 }
 
-void CompressionWindow::updateBtnsEnabledByChangeData(QList<imagecompression::Data> datas) {
-    auto allUnchecked = [](const QList<imagecompression::Data> &datas) {
-        return std::all_of(datas.begin(), datas.end(), [](const imagecompression::Data &cd) {
+void CompressionWindow::updateBtnsEnabledByChangeData(QList<Data> datas) {
+    auto allUnchecked = [](const QList<Data> &datas) {
+        return std::all_of(datas.begin(), datas.end(), [](const Data &cd) {
             return cd.is_checked == false;
         });
     };
@@ -265,17 +266,17 @@ void CompressionWindow::updateBtnsEnabledByChangeData(QList<imagecompression::Da
     m_CompressAllBtn->setEnabled(isEnabled);
 }
 
-void CompressionWindow::compressStatus(imagecompression::Status state) {
+void CompressionWindow::compressStatus(Status state) {
     switch (state) {
-    case imagecompression::Status::NONE:
+    case Status::NONE:
         break;
-    case imagecompression::Status::START:
+    case Status::START:
         compressStart();
         break;
-    case imagecompression::Status::FINISHED:
+    case Status::FINISHED:
         compressFinished();
         break;
-    case imagecompression::Status::CANCEL:
+    case Status::CANCEL:
         compressCancel();
         break;
     }
@@ -289,3 +290,4 @@ void CompressionWindow::compressFinished() {
 
 void CompressionWindow::compressCancel() {
 }
+} // namespace imagecompression

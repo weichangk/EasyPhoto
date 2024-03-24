@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:08:37
+ * @Last Modified time: 2024-03-24 20:49:39
  */
 
 #pragma once
@@ -19,13 +19,14 @@
 #include <QListWidget>
 #include <QStyledItemDelegate>
 
+namespace imagecompression {
 class CompressionFormatPopup;
 class CompressionWindow : public ABaseWidget {
     Q_OBJECT
 public:
     explicit CompressionWindow(QWidget *parent = 0);
     ~CompressionWindow();
-    void changeData(QList<imagecompression::Data> datas);
+    void changeData(QList<Data> datas);
 
 protected:
     void createUi() override;
@@ -36,8 +37,8 @@ protected:
 
 private:
     void updateCheckAllBtnState(bool checked);
-    void updateBtnsEnabledByChangeData(QList<imagecompression::Data> datas);
-    void compressStatus(imagecompression::Status state);
+    void updateBtnsEnabledByChangeData(QList<Data> datas);
+    void compressStatus(Status state);
     void compressStart();
     void compressFinished();
     void compressCancel();
@@ -56,3 +57,4 @@ private:
     AComboBox *m_OutQualityCob = 0;
     AComboBox *m_OutFormatCob = 0;
 };
+} // namespace imagecompression
