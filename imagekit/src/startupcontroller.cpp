@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:03:58
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 21:42:53
+ * @Last Modified time: 2024-03-24 12:50:08
  */
 
 #include "inc/startupcontroller.h"
@@ -13,6 +13,7 @@ StartupController::StartupController() {
     m_StartupWindow = new StartupWindow();
     m_ConversionController = new ConversionController();
     m_CompressionController = new CompressionController();
+    edit_controller_ = new imageedit::EditController();
     sigConnect();
 }
 
@@ -31,6 +32,10 @@ void StartupController::showFunc(ImageFunc func) {
     case ImageFunc::COMPRESSION:
         m_StartupWindow->close();
         m_CompressionController->showWindow();
+        break;
+    case ImageFunc::EDIT:
+        m_StartupWindow->close();
+        edit_controller_->showWindow();
         break;
     default:
         break;

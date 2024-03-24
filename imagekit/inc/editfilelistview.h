@@ -2,10 +2,11 @@
  * @Author: weick
  * @Date: 2024-03-23 11:06:40
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 10:22:47
+ * @Last Modified time: 2024-03-24 13:24:36
  */
 
 #pragma once
+#include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
 #include <QListWidget>
 #include <QAbstractItemDelegate>
@@ -33,6 +34,9 @@ protected:
     void sigConnect() override;
 
 private:
-    QListWidget *list_widget = nullptr;
+    APushButton *add_file_button_ = nullptr;
+    APushButton *add_folder_button_ = nullptr;
+    APushButton *delete_file_button_ = nullptr;
+    QListWidget *list_widget_ = nullptr;
 };
 } // namespace imageedit

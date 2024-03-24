@@ -1,0 +1,15 @@
+/*
+ * @Author: weick 
+ * @Date: 2024-03-24 13:10:05 
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-03-24 13:11:27
+ */
+
+ QWidget#edit_window_body_bg {
+    border-radius: 10px;
+    background-color: #1F1F1F;
+}
+
+ALabel#edit_window_name_lable {
+    font-size: 15px;
+}

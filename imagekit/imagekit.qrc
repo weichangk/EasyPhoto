@@ -3,6 +3,7 @@
   <file>res/style/startupwindow.qss</file>
   <file>res/style/conversionwindow.qss</file>
   <file>res/style/compresswindow.qss</file>
+  <file>res/style/editwindow.qss</file>
 
   <file>res/image/account_80.png</file>
   <file>res/image/account_80_vip.png</file>
