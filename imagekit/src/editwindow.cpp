@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:01:48
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 13:52:36
+ * @Last Modified time: 2024-03-24 20:26:11
  */
 
 #include "inc/editwindow.h"
@@ -84,7 +84,7 @@ void EditWindow::sigConnect() {
     connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(topbar_, &ATopbar::sigClose, this, [=]() {
         close();
-        emit Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+        emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
     });
 }
 void EditWindow::paintEvent(QPaintEvent *event) {
