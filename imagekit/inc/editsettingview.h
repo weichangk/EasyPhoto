@@ -8,6 +8,7 @@
 #pragma once
 #include "../agui/inc/abasewidget.h"
 
+namespace imageedit {
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
 public:
@@ -19,3 +20,4 @@ protected:
     void changeLanguage() override;
     void sigConnect() override;
 };
+} // namespace imageedit

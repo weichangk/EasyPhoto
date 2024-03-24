@@ -7,8 +7,10 @@
 
 #include "inc/editcontroller.h"
 
+namespace imageedit {
 EditController::EditController() {
 }
 
 EditController::~EditController() {
 }
+} // namespace imageedit

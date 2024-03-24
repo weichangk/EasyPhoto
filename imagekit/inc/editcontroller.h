@@ -8,9 +8,11 @@
 #pragma once
 #include <QWidget>
 
+namespace imageedit {
 class EditController : public QObject {
     Q_OBJECT
 public:
     explicit EditController();
     ~EditController();
 };
+} // namespace imageedit

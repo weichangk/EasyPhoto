@@ -1,12 +1,13 @@
 /*
- * @Author: weick 
- * @Date: 2024-03-23 11:24:18 
+ * @Author: weick
+ * @Date: 2024-03-23 11:24:18
  * @Last Modified by: weick
  * @Last Modified time: 2024-03-23 11:24:45
  */
 
 #include "inc/editsettingview.h"
 
+namespace imageedit {
 EditSettingView::EditSettingView(QWidget *parent) {
 }
 
@@ -21,3 +22,4 @@ void EditSettingView::changeLanguage() {
 
 void EditSettingView::sigConnect() {
 }
+} // namespace imageedit
