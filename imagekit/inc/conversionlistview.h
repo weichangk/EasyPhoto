@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-13 00:09:55
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:03:45
+ * @Last Modified time: 2024-03-24 21:08:30
  */
 
 #pragma once
@@ -10,12 +10,13 @@
 #include "conversionlistviewmodel.h"
 #include <QListView>
 
+namespace imageconversion {
 class ConversionListView : public QListView {
     Q_OBJECT
 public:
     explicit ConversionListView(QWidget *parent = 0);
-    void chageData(const QList<imageconversion::Data> &datas);
-    imageconversion::Data data(int i) const;
+    void chageData(const QList<Data> &datas);
+    Data data(int i) const;
     int count() const;
 
 protected:
@@ -25,3 +26,4 @@ protected:
 private:
     ConversionListViewModel *m_Model = 0;
 };
+} // namespace imageconversion

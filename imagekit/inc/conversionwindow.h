@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:00:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:57:58
+ * @Last Modified time: 2024-03-24 21:08:40
  */
 
 #pragma once
@@ -18,13 +18,14 @@
 #include <QListWidget>
 #include <QStyledItemDelegate>
 
+namespace imageconversion {
 class ConversionFormatPopup;
 class ConversionWindow : public ABaseWidget {
     Q_OBJECT
 public:
     explicit ConversionWindow(QWidget *parent = 0);
     ~ConversionWindow();
-    void changeData(QList<imageconversion::Data> datas);
+    void changeData(QList<Data> datas);
     void addFormatListWidgetItems(const QStringList items);
     void changeConvToBtnText(const QString format);
 
@@ -37,10 +38,10 @@ protected:
 
 private:
     void updateCheckAllBtnState(bool checked);
-    void updateBtnsEnabledByChangeData(QList<imageconversion::Data> datas);
+    void updateBtnsEnabledByChangeData(QList<Data> datas);
     void formatPopup();
     void showConverting(bool isShow);
-    void convStatus(imageconversion::Status state);
+    void convStatus(Status state);
     void startConv();
     void finishedConv();
     void cancelConv();
@@ -89,3 +90,4 @@ public:
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 };
+} // namespace imageconversion

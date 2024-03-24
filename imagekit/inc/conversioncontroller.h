@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-21 23:43:01
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:04:17
+ * @Last Modified time: 2024-03-24 21:08:24
  */
 
 #pragma once
@@ -12,6 +12,7 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QFutureWatcher>
 
+namespace imageconversion {
 class ConversionController : public QObject {
     Q_OBJECT
 public:
@@ -26,7 +27,7 @@ private:
     void openConvFileDialog(QWidget *parent = 0);
     void addConvData(const QStringList filePaths);
     void delConvData(const QString filePath);
-    void convStatus(imageconversion::Status state);
+    void convStatus(Status state);
     void startConv();
     void finishedConv();
     void cancelConv();
@@ -37,8 +38,9 @@ private:
 
 private:
     ConversionWindow *m_ConversionWindow = 0;
-    QList<imageconversion::Data> m_ConvDatas;
+    QList<Data> m_ConvDatas;
     QStringList m_FormatDatas;
 
     QFutureWatcher<void> m_ConvWatcher;
 };
+} // namespace imageconversion

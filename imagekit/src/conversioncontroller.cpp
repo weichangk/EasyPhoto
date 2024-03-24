@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-21 23:57:42
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:06:07
+ * @Last Modified time: 2024-03-24 21:21:43
  */
 
 #include "inc/conversioncontroller.h"
@@ -15,6 +15,8 @@
 #include <Magick++.h>
 
 using namespace Magick;
+
+namespace imageconversion {
 ConversionController::ConversionController() {
     m_ConversionWindow = new ConversionWindow;
     init();
@@ -40,16 +42,16 @@ void ConversionController::init() {
 }
 
 void ConversionController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenConvFileDialog, this, &ConversionController::openConvFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDelConvFile, this, &ConversionController::delConvData);
-    connect(Signals::getInstance(), &Signals::sigConvStatus, this, &ConversionController::convStatus);
+    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &ConversionController::openConvFileDialog);
+    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &ConversionController::delConvData);
+    connect(Signals::getInstance(), &Signals::sigStatus, this, &ConversionController::convStatus);
     connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
-    connect(Signals::getInstance(), &Signals::sigAllChecked, this, &ConversionController::allChecked);
-    connect(Signals::getInstance(), &Signals::sigDelByChecked, this, &ConversionController::delByChecked);
-    connect(Signals::getInstance(), &Signals::sigChangeConvFormat, this, &ConversionController::changeConvFormat);
+    connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &ConversionController::allChecked);
+    connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &ConversionController::delByChecked);
+    connect(Signals::getInstance(), &Signals::sigChangeFormat, this, &ConversionController::changeConvFormat);
 
-    connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, Signals::getInstance(), [=](){
-        emit Signals::getInstance()->sigConvStatus_v(imageconversion::Status::FINISHED);
+    connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, Signals::getInstance(), [=]() {
+        emit Signals::getInstance()->sigStatus2View(Status::FINISHED);
     });
 }
 
@@ -64,7 +66,7 @@ void ConversionController::openConvFileDialog(QWidget *parent) {
 
 void ConversionController::addConvData(const QStringList filePaths) {
     for (const QString &filePath : filePaths) {
-        imageconversion::Data conversionData;
+        Data conversionData;
         conversionData.file_path = filePath;
         conversionData.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -86,24 +88,24 @@ void ConversionController::addConvData(const QStringList filePaths) {
 }
 
 void ConversionController::delConvData(const QString filePath) {
-    auto filePathMatches = [](const imageconversion::Data &cd, QString filePath) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
     m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), m_ConvDatas.end());
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
-void ConversionController::convStatus(imageconversion::Status state) {
+void ConversionController::convStatus(Status state) {
     switch (state) {
-    case imageconversion::Status::NONE:
+    case Status::NONE:
         break;
-    case imageconversion::Status::START:
+    case Status::START:
         startConv();
         break;
-    case imageconversion::Status::FINISHED:
+    case Status::FINISHED:
         finishedConv();
         break;
-    case imageconversion::Status::CANCEL:
+    case Status::CANCEL:
         cancelConv();
         break;
     }
@@ -128,15 +130,13 @@ void ConversionController::startConv() {
 }
 
 void ConversionController::finishedConv() {
-
 }
 
 void ConversionController::cancelConv() {
-
 }
 
 void ConversionController::switchChecked(const QString filePath, const bool checked) {
-    auto filePathMatches = [](const imageconversion::Data &cd, QString filePath) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
     auto it = std::find_if(m_ConvDatas.begin(), m_ConvDatas.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
@@ -147,14 +147,14 @@ void ConversionController::switchChecked(const QString filePath, const bool chec
 }
 
 void ConversionController::allChecked(bool checked) {
-    for(auto &data : m_ConvDatas) {
+    for (auto &data : m_ConvDatas) {
         data.is_checked = checked;
     }
     m_ConversionWindow->changeData(m_ConvDatas);
 }
 
 void ConversionController::delByChecked() {
-    m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), [](const imageconversion::Data &cd) {
+    m_ConvDatas.erase(std::remove_if(m_ConvDatas.begin(), m_ConvDatas.end(), [](const Data &cd) {
                           return cd.is_checked == true;
                       }),
                       m_ConvDatas.end());
@@ -165,3 +165,4 @@ void ConversionController::changeConvFormat(const QString format) {
     SETTINGS->setConversionOutFormat(format);
     m_ConversionWindow->changeConvToBtnText(SETTINGS->conversionOutFormat());
 }
+} // namespace imageconversion

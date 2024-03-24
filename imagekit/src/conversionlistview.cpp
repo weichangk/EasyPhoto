@@ -2,13 +2,14 @@
  * @Author: weick
  * @Date: 2023-12-13 23:34:49
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 22:49:38
+ * @Last Modified time: 2024-03-24 21:08:52
  */
 
 #include "inc/conversionlistview.h"
 #include "inc/conversionlistdelegate.h"
 #include <QMouseEvent>
 
+namespace imageconversion {
 ConversionListView::ConversionListView(QWidget *parent) :
     QListView(parent) {
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -27,12 +28,12 @@ ConversionListView::ConversionListView(QWidget *parent) :
     viewport()->installEventFilter(delegate);
 }
 
-void ConversionListView::chageData(const QList<imageconversion::Data> &datas) {
+void ConversionListView::chageData(const QList<Data> &datas) {
     m_Model->changeModels(datas);
 }
 
-imageconversion::Data ConversionListView::data(int i) const {
-    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<imageconversion::Data>();
+Data ConversionListView::data(int i) const {
+    return m_Model->data(m_Model->index(i, 0), Qt::UserRole).value<Data>();
 }
 
 int ConversionListView::count() const {
@@ -49,3 +50,4 @@ void ConversionListView::mouseMoveEvent(QMouseEvent *event) {
 
 void ConversionListView::currentChanged(const QModelIndex &current, const QModelIndex &previous) {
 }
+} // namespace imageconversion

@@ -2,20 +2,21 @@
  * @Author: weick
  * @Date: 2023-12-11 23:06:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:06:54
+ * @Last Modified time: 2024-03-24 21:08:56
  */
 
 #include "inc/conversionlistviewmodel.h"
 #include "inc/models.h"
 
+namespace imageconversion {
 ConversionListViewModel::ConversionListViewModel(QObject *parent) {
 }
-void ConversionListViewModel::changeModels(const QList<imageconversion::Data> &datas) {
+void ConversionListViewModel::changeModels(const QList<Data> &datas) {
     beginResetModel();
     m_Datas = datas;
     endResetModel();
 }
-void ConversionListViewModel::changeData(int row, const imageconversion::Data &data) {
+void ConversionListViewModel::changeData(int row, const Data &data) {
     beginResetModel();
     m_Datas[row] = data;
     endResetModel();
@@ -35,3 +36,4 @@ QVariant ConversionListViewModel::data(const QModelIndex &index, int role) const
     }
     return QVariant();
 }
+} // namespace imageconversion

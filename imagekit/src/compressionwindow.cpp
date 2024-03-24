@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 22:47:15
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:00:18
+ * @Last Modified time: 2024-03-24 21:24:45
  */
 
 #include "inc/compressionwindow.h"
@@ -211,7 +211,7 @@ void CompressionWindow::sigConnect() {
         emit Signals::getInstance()->sigStatus(Status::START);
         compressStart();
     });
-    connect(Signals::getInstance(), &Signals::sigStatusToView, this, &CompressionWindow::compressStatus);
+    connect(Signals::getInstance(), &Signals::sigStatus2View, this, &CompressionWindow::compressStatus);
 }
 
 void CompressionWindow::paintEvent(QPaintEvent *event) {

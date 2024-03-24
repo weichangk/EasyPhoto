@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-12 23:58:34
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 23:01:31
+ * @Last Modified time: 2024-03-24 21:08:48
  */
 
 #include "inc/conversionlistdelegate.h"
@@ -12,12 +12,13 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
+namespace imageconversion {
 ConversionListDelegate::ConversionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
 void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<imageconversion::Data>();
+    auto data = index.data(Qt::UserRole).value<Data>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
     painter->setPen(Qt::NoPen);
@@ -91,3 +92,4 @@ QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const
 void ConversionListDelegate::changeSizeHint(const QSize &size) {
     m_Size = size;
 }
+} // namespace imageconversion
