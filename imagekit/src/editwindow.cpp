@@ -24,6 +24,10 @@ EditWindow::EditWindow(QWidget *parent) :
 EditWindow::~EditWindow() {
 }
 
+void EditWindow::changeFileListData(QList<Data> datas) {
+    file_list_view_->changeData(datas);
+}
+
 void EditWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);

@@ -69,7 +69,7 @@ void EditController::addData(const QStringList filePaths) {
         data.is_checked = true;
         datas_.append(data);
     }
-    // m_ConversionWindow->changeData(datas_);
+    window_->changeFileListData(datas_);
 }
 
 void EditController::deleteData(const QString filePath) {
@@ -77,7 +77,7 @@ void EditController::deleteData(const QString filePath) {
         return cd.file_path == filePath;
     };
     datas_.erase(std::remove_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), datas_.end());
-    // m_ConversionWindow->changeData(datas_);
+    window_->changeFileListData(datas_);
 }
 
 void EditController::status(Status state) {
@@ -127,14 +127,14 @@ void EditController::switchChecked(const QString filePath, const bool checked) {
     if (it != datas_.end()) {
         it->is_checked = !it->is_checked;
     }
-    // m_ConversionWindow->changeData(datas_);
+    window_->changeFileListData(datas_);
 }
 
 void EditController::checkedAll(bool checked) {
     for(auto &data : datas_) {
         data.is_checked = checked;
     }
-    // m_ConversionWindow->changeData(datas_);
+    window_->changeFileListData(datas_);
 }
 
 void EditController::deleteByChecked() {
@@ -142,6 +142,6 @@ void EditController::deleteByChecked() {
                           return cd.is_checked == true;
                       }),
                       datas_.end());
-    // m_ConversionWindow->changeData(datas_);
+    window_->changeFileListData(datas_);
 }
 } // namespace imageedit

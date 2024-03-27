@@ -8,18 +8,27 @@
 #pragma once
 #include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
+#include "inc/models.h"
 #include <QListWidget>
-#include <QAbstractItemDelegate>
+#include <QStyledItemDelegate>
+#include <QEvent>
 
 namespace imageedit {
-class EditFileItemDelegate : public QAbstractItemDelegate {
+class EditFileItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    EditFileItemDelegate(QObject *parent = nullptr);
+    explicit EditFileItemDelegate(QObject *parent = nullptr);
     ~EditFileItemDelegate();
 
-    void paint(QPainter *painter, const QStyleOptionViewItem &option,
-               const QModelIndex &index) const override;
+    bool eventFilter(QObject *object, QEvent *event) override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void changeSizeHint(const QSize &size);
+
+private:
+    QSize size_ = QSize(300, 48);
+    int event_type_ = QEvent::None;
+    QPoint curpos_;
 };
 
 class EditFileListView : public ABaseWidget {
@@ -27,6 +36,7 @@ class EditFileListView : public ABaseWidget {
 public:
     explicit EditFileListView(QWidget *parent = nullptr);
     ~EditFileListView();
+    void changeData(QList<Data> datas);
 
 protected:
     void createUi() override;
@@ -38,5 +48,7 @@ private:
     APushButton *add_folder_button_ = nullptr;
     APushButton *delete_file_button_ = nullptr;
     QListWidget *list_widget_ = nullptr;
+
+    QList<Data> datas_;
 };
 } // namespace imageedit

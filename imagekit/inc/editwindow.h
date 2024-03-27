@@ -19,6 +19,7 @@ class EditWindow : public ABaseWidget {
 public:
     explicit EditWindow(QWidget *parent = nullptr);
     ~EditWindow();
+    void changeFileListData(QList<Data> datas);
 
 protected:
     void createUi() override;
