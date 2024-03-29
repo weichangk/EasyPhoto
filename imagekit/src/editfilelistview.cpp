@@ -102,7 +102,7 @@ EditFileListView::~EditFileListView() {
 }
 
 void EditFileListView::changeData(QList<Data> datas) {
-    datas_ = datas;
+    file_list_view_->chageData(datas);
 }
 
 void EditFileListView::createUi() {
@@ -132,28 +132,21 @@ void EditFileListView::createUi() {
     buttonsLayout->addStretch();
     buttonsLayout->addWidget(delete_file_button_);
     
-    list_widget_ = new QListWidget(this);
-    list_widget_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    list_widget_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    list_widget_->setAttribute(Qt::WA_StyledBackground);
-    list_widget_->setResizeMode(QListView::Adjust);
-    list_widget_->setViewMode(QListView::ListMode);
-    list_widget_->setFlow(QListView::TopToBottom);
-    list_widget_->setSelectionMode(QAbstractItemView::SingleSelection);
-    list_widget_->setMouseTracking(true);
-    list_widget_->setStyleSheet("border:0px; background-color:transparent;");
-    list_widget_->setSpacing(0);
-
-    // auto model = new QListWidgetItem(this);
-    // list_widget_->setModel(model);
+    file_list_view_ = new AListView<Data>(this);
+    file_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    file_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    file_list_view_->setResizeMode(QListView::Adjust);
+    file_list_view_->setViewMode(QListView::ListMode);
+    file_list_view_->setFlow(QListView::TopToBottom);
+    file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
 
     auto delegate = new EditFileItemDelegate(this);
-    list_widget_->setItemDelegate(delegate);
-    list_widget_->viewport()->installEventFilter(delegate);
+    file_list_view_->setItemDelegate(delegate);
+    file_list_view_->viewport()->installEventFilter(delegate);
 
     auto mainLayout = new AVBoxLayout(this);
     mainLayout->addWidget(buttonsWidget);
-    mainLayout->addWidget(list_widget_, 1);
+    mainLayout->addWidget(file_list_view_, 1);
 }
 
 void EditFileListView::changeLanguage() {

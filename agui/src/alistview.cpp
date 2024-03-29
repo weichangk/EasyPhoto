@@ -12,20 +12,12 @@
 template <typename T>
 AListView<T>::AListView(QWidget *parent) :
     QListView(parent) {
-    // setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    // setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setAttribute(Qt::WA_StyledBackground);
-    // setResizeMode(QListView::Adjust);
-    // setViewMode(QListView::IconMode);
-    // setSelectionMode(QAbstractItemView::SingleSelection);
     setMouseTracking(true);
     setStyleSheet("border:0px; background-color:transparent;");
     setSpacing(0);
     view_model_ = new AListViewModel<T>(this);
     setModel(view_model_);
-    // auto delegate = new ConversionListDelegate(this);
-    // setItemDelegate(delegate);
-    // viewport()->installEventFilter(delegate);
 }
 
 template <typename T>

@@ -8,6 +8,7 @@
 #pragma once
 #include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
+#include "../agui/inc/alistview.h"
 #include "inc/models.h"
 #include <QListWidget>
 #include <QStyledItemDelegate>
@@ -47,7 +48,7 @@ private:
     APushButton *add_file_button_ = nullptr;
     APushButton *add_folder_button_ = nullptr;
     APushButton *delete_file_button_ = nullptr;
-    QListWidget *list_widget_ = nullptr;
+    AListView<Data> *file_list_view_ = nullptr; 
 
     QList<Data> datas_;
 };
