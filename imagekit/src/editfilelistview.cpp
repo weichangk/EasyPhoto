@@ -2,17 +2,28 @@
  * @Author: weick
  * @Date: 2024-03-23 11:10:19
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 13:54:45
+ * @Last Modified time: 2024-03-29 22:32:20
  */
 
 #include "inc/editfilelistview.h"
 #include "../acore/inc/apainterhelper.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
+#include "inc/signals.h"
 #include <QPainter>
 #include <QMouseEvent>
 
 namespace imageedit {
+inline QRect fileItemCheckedRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + 24, rc.y() + 12, 16, 16);
+}
+
+inline QRect fileItemDeteleRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + rc.width() - 16 - 24, rc.y() + 12, 16, 16);
+}
+
 EditFileItemDelegate::EditFileItemDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
@@ -53,11 +64,11 @@ void EditFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->drawRoundedRect(borderRect, 0, 0);
     painter->setBrush(Qt::NoBrush);
 
-    auto checkedconRect = QRect(borderRect.x() + 24, borderRect.y() + 12, data.checked_icon.width(), data.checked_icon.height());
-    APainterHelper::paintPixmap(painter, checkedconRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
+    auto checkedRect = fileItemCheckedRect(rc);
+    APainterHelper::paintPixmap(painter, checkedRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
 
     if (hover) {
-        auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.delete_icon.width() - 24, borderRect.y() + 12, data.delete_icon.width(), data.delete_icon.height());
+        auto delIconRect = fileItemDeteleRect(rc);
         APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
@@ -103,6 +114,17 @@ EditFileListView::~EditFileListView() {
 
 void EditFileListView::changeData(QList<Data> datas) {
     file_list_view_->chageData(datas);
+
+    bool isAllChecked = datas.count() > 0;
+    for (const auto &data : datas) {
+        if (!data.is_checked) {
+            isAllChecked = false;
+            break;
+        }
+    }
+    if (!is_all_select_button_click) {
+        all_select_button_->setCheck(isAllChecked);
+    }
 }
 
 void EditFileListView::createUi() {
@@ -112,11 +134,8 @@ void EditFileListView::createUi() {
     add_file_button_->setIconSize(QSize(24, 24));
     add_file_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
 
-    add_folder_button_ = new APushButton(this);
-    add_folder_button_->setObjectName("OnlyIconButton");
-    add_folder_button_->setFixedSize(24, 24);
-    add_folder_button_->setIconSize(QSize(24, 24));
-    add_folder_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
+    all_select_button_ = new ACheckedButton(this);
+    all_select_button_->setIconSize(QSize(24, 24));
 
     delete_file_button_ = new APushButton(this);
     delete_file_button_->setObjectName("OnlyIconButton");
@@ -127,11 +146,11 @@ void EditFileListView::createUi() {
     auto buttonsWidget = new AWidget(this);
     buttonsWidget->setFixedHeight(32);
     auto buttonsLayout = new AHBoxLayout(buttonsWidget);
-    buttonsLayout->addWidget(add_file_button_);
-    buttonsLayout->addWidget(add_folder_button_);
+    buttonsLayout->addWidget(all_select_button_);
     buttonsLayout->addStretch();
+    buttonsLayout->addWidget(add_file_button_);
     buttonsLayout->addWidget(delete_file_button_);
-    
+
     file_list_view_ = new AListView<Data>(this);
     file_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     file_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -150,8 +169,36 @@ void EditFileListView::createUi() {
 }
 
 void EditFileListView::changeLanguage() {
-} 
+    all_select_button_->setText("文件名");
+}
 
 void EditFileListView::sigConnect() {
+    connect(all_select_button_, &ACheckedButton::clicked, this, [=](bool isChecked) {
+        is_all_select_button_click = true;
+        emit Signals::getInstance()->sigCheckedAll(isChecked);
+        is_all_select_button_click = false;
+    });
+    connect(add_file_button_, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigOpenFileDialog(this);
+    });
+    connect(delete_file_button_, &APushButton::clicked, this, [=]() {
+        emit Signals::getInstance()->sigDeleteByChecked();
+    });
+    connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {
+        auto data = index.data(Qt::UserRole).value<Data>();
+        QRect rc = file_list_view_->visualRect(index);
+        int posx = file_list_view_->mapFromGlobal(QCursor::pos()).x();
+        int posy = file_list_view_->mapFromGlobal(QCursor::pos()).y();
+        QRect delIconRect = fileItemDeteleRect(rc);
+        if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
+            && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
+            emit Signals::getInstance()->sigDeleteFile(data.file_path);
+        }
+        auto checkedRect = fileItemCheckedRect(rc);
+        if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
+            && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
+            emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
+        }
+    });
 }
 } // namespace imageedit

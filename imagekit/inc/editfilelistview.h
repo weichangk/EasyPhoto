@@ -2,11 +2,12 @@
  * @Author: weick
  * @Date: 2024-03-23 11:06:40
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 13:24:36
+ * @Last Modified time: 2024-03-29 22:31:24
  */
 
 #pragma once
 #include "../awidget/inc/apushbutton.h"
+#include "../agui/inc/acheckedbutton.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/alistview.h"
 #include "inc/models.h"
@@ -45,11 +46,12 @@ protected:
     void sigConnect() override;
 
 private:
+    ACheckedButton *all_select_button_ = nullptr;
     APushButton *add_file_button_ = nullptr;
-    APushButton *add_folder_button_ = nullptr;
     APushButton *delete_file_button_ = nullptr;
     AListView<Data> *file_list_view_ = nullptr; 
 
     QList<Data> datas_;
+    bool is_all_select_button_click = false;
 };
 } // namespace imageedit

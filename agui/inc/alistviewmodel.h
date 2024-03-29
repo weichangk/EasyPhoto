@@ -1,23 +1,47 @@
 /*
- * @Author: weick 
- * @Date: 2024-03-28 07:49:56 
+ * @Author: weick
+ * @Date: 2024-03-28 07:49:56
  * @Last Modified by: weick
  * @Last Modified time: 2024-03-28 08:16:11
  */
 
 #pragma once
-#include "agui_global.h"
 #include <QAbstractListModel>
 
 template <typename T>
-class AGUI_EXPORT AListViewModel : public QAbstractListModel {
-    // Q_OBJECT
+class AListViewModel : public QAbstractListModel {
 public:
-    explicit AListViewModel(QObject *parent = 0);
-    void changeModels(const QList<T> &datas);
-    void changeData(int row, const T &data);
-    int rowCount(const QModelIndex &parent) const override;
-    QVariant data(const QModelIndex &index, int role) const override;
+    AListViewModel(QObject *parent) {
+    }
+
+    void changeModels(const QList<T> &datas) {
+        beginResetModel();
+        datas_ = datas;
+        endResetModel();
+    }
+
+    void changeData(int row, const T &data) {
+        beginResetModel();
+        datas_[row] = data;
+        endResetModel();
+    }
+
+    int rowCount(const QModelIndex &parent) const {
+        return datas_.count();
+    }
+
+    QVariant data(const QModelIndex &index, int role) const {
+        if (!index.isValid()) {
+            return QVariant();
+        }
+        if (index.row() >= datas_.size()) {
+            return QVariant();
+        }
+        if (role == Qt::UserRole) {
+            return QVariant::fromValue(datas_[index.row()]);
+        }
+        return QVariant();
+    }
 
 protected:
     QList<T> datas_;
