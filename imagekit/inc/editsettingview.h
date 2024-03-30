@@ -2,16 +2,20 @@
  * @Author: weick
  * @Date: 2024-03-23 11:23:05
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-30 08:56:45
+ * @Last Modified time: 2024-03-30 22:23:40
  */
 
 #pragma once
 #include "../agui/inc/abasewidget.h"
-#include "../awidget/inc/atabbar.h"
-#include "../awidget/inc/atabwidget.h"
-#include "../awidget/inc/awidget.h"
-#include "../awidget/inc/apushbutton.h"   
 
+class ATabBar;
+class ATabWidget;
+class AWidget;
+class ALabel;
+class APushButton;
+class ACheckBox;
+class ALineEdit;
+class ASlider;
 namespace imageedit {
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
@@ -27,8 +31,34 @@ protected:
 private:
     ATabBar *tab_bar_;
     ATabWidget *tab_widget_;
+
     AWidget *crop_setting_widget_;
+    ALabel *original_ratio_label_;
+    ALabel *original_ratio_value_label_;
+    ACheckBox *equal_ratio_checkbox_;
+    ALabel *crop_ratio_label_;
+    ALineEdit *crop_ratio_width_edit_;
+    ALineEdit *crop_ratio_height_edit_;
+    APushButton *crop_align_center_button_;
+    APushButton *crop_reset_button_;
+
+    AWidget *rotate_setting_widget_;
+    APushButton *rotate_right90_button_;
+    APushButton *rotate_left90_button_;
+    APushButton *rotate_horizontal_flip_button_;
+    APushButton *rotate_vertical_flip_button_;
+    ALabel *rotate_angle_label_;
+    ALineEdit *rotate_angle_edit_;
+    APushButton *rotate_reset_button_;
+
     AWidget *effect_setting_widget_;
+    ALabel *luminance_label_;
+    ASlider *luminance_slider_;
+    ALabel *contrast_label_;
+    ASlider *contrast_slider_;
+    ALabel *saturation_label_;
+    ASlider *saturation_slider_;
+
     AWidget *watermark_setting_widget_;
     APushButton *export_button_;
 };
