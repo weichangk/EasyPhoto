@@ -16,12 +16,21 @@
 namespace imageedit {
 inline QRect fileItemCheckedRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + 24, rc.y() + 12, 16, 16);
+    return QRect(rc.x() + 16, rc.y() + 16, 16, 16);
 }
 
 inline QRect fileItemDeteleRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + rc.width() - 16 - 24, rc.y() + 12, 16, 16);
+    return QRect(rc.x() + rc.width() - 16 - 16, rc.y() + 16, 16, 16);
+}
+
+inline QRect fileItemNameRect(QRect itemRect) {
+    auto rc = itemRect;
+    auto checkedRect = fileItemCheckedRect(rc);
+    auto deleteRect = fileItemDeteleRect(rc);
+    int nameX = checkedRect.x() + checkedRect.width() + 8;
+    int nameWidth = deleteRect.x() - 8 - nameX;
+    return QRect(nameX, rc.y() + 12, nameWidth, 24);
 }
 
 EditFileItemDelegate::EditFileItemDelegate(QObject *parent) :
@@ -86,7 +95,7 @@ void EditFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     font.setPointSizeF(11);
     painter->setFont(font);
     QString fileName = data.file_name;
-    auto nameRect = QRect(borderRect.x() + (24 * 3), borderRect.y() + 12, borderRect.width() - (24 * 6), 24);
+    auto nameRect = fileItemNameRect(rc);
     QFontMetricsF metrics(font);
     if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
         fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);

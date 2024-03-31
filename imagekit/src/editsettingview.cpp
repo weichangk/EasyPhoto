@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:24:18
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-30 22:44:41
+ * @Last Modified time: 2024-03-31 08:33:08
  */
 
 #include "inc/editsettingview.h"
@@ -16,6 +16,7 @@
 #include "../awidget/inc/acheckbox.h"
 #include "../awidget/inc/alineedit.h"
 #include "../awidget/inc/aslider.h"
+#include "../awidget/inc/aradiobutton.h"
 
 namespace imageedit {
 EditSettingView::EditSettingView(QWidget *parent) {
@@ -120,6 +121,40 @@ void EditSettingView::createUi() {
     effect_layout->addLayout(saturation_layout);
     effect_layout->addStretch();
 
+    picture_radio_button_ = new ARadioButton(watermark_setting_widget_);
+    picture_path_edit_ = new ALineEdit(watermark_setting_widget_);
+    picture_select_button_ = new APushButton(watermark_setting_widget_);
+    text_radio_button_ = new ARadioButton(watermark_setting_widget_);
+    text_edit_ = new ALineEdit(watermark_setting_widget_);
+    text_select_button_ = new APushButton(watermark_setting_widget_);
+    mosaic_radio_button_ = new ARadioButton(watermark_setting_widget_);
+    mosaic_type1_button_ = new APushButton(watermark_setting_widget_);
+    mosaic_type2_button_ = new APushButton(watermark_setting_widget_);
+    mosaic_type3_button_ = new APushButton(watermark_setting_widget_);
+    none_radio_button_ = new ARadioButton(watermark_setting_widget_);
+    auto watermark_layout = new AVBoxLayout(watermark_setting_widget_);
+    watermark_layout->addWidget(picture_radio_button_);
+    auto picture_layout = new AHBoxLayout();
+    picture_layout->addWidget(picture_path_edit_);
+    picture_layout->addWidget(picture_select_button_);
+    picture_layout->addStretch();
+    watermark_layout->addLayout(picture_layout);
+    watermark_layout->addWidget(text_radio_button_);
+    auto text_layout = new AHBoxLayout();
+    text_layout->addWidget(text_edit_);
+    text_layout->addWidget(text_select_button_);
+    text_layout->addStretch();
+    watermark_layout->addLayout(text_layout);
+    watermark_layout->addWidget(mosaic_radio_button_);
+    auto mosaic_layout = new AHBoxLayout();
+    mosaic_layout->addWidget(mosaic_type1_button_);
+    mosaic_layout->addWidget(mosaic_type2_button_);
+    mosaic_layout->addWidget(mosaic_type3_button_);
+    mosaic_layout->addStretch();
+    watermark_layout->addLayout(mosaic_layout);
+    watermark_layout->addWidget(none_radio_button_);
+    watermark_layout->addStretch();
+
     export_button_ = new APushButton(this);
     export_button_->setFixedHeight(32);
     mainLayout->addWidget(tab_widget_, 1);
@@ -143,6 +178,11 @@ void EditSettingView::changeLanguage() {
     luminance_label_->setText("Luminance");
     contrast_label_->setText("Contrast");
     saturation_label_->setText("Saturation");
+
+    picture_radio_button_->setText("Picture");
+    text_radio_button_->setText("Text");
+    mosaic_radio_button_->setText("Mosaic");
+    none_radio_button_->setText("None");
     
     export_button_->setText("Export");
 }

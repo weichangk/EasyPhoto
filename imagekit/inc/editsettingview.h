@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:23:05
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-30 22:23:40
+ * @Last Modified time: 2024-03-31 08:18:35
  */
 
 #pragma once
@@ -16,6 +16,7 @@ class APushButton;
 class ACheckBox;
 class ALineEdit;
 class ASlider;
+class ARadioButton;
 namespace imageedit {
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
@@ -60,6 +61,18 @@ private:
     ASlider *saturation_slider_;
 
     AWidget *watermark_setting_widget_;
+    ARadioButton *picture_radio_button_;
+    ALineEdit *picture_path_edit_;
+    APushButton *picture_select_button_;
+    ARadioButton *text_radio_button_;
+    ALineEdit *text_edit_;
+    APushButton *text_select_button_;
+    ARadioButton *mosaic_radio_button_;
+    APushButton *mosaic_type1_button_;
+    APushButton *mosaic_type2_button_;
+    APushButton *mosaic_type3_button_;
+    ARadioButton *none_radio_button_;
+    
     APushButton *export_button_;
 };
 } // namespace imageedit

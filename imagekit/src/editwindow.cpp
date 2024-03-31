@@ -31,7 +31,7 @@ void EditWindow::changeFileListData(QList<Data> datas) {
 void EditWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
-    setMinimumSize(1400, 760);
+    setMinimumSize(1200, 760);
 
     auto mainLayout = new AVBoxLayout(this);
 
@@ -64,14 +64,14 @@ void EditWindow::createUi() {
     auto bodyBgLayout = new AHBoxLayout(bodyBg);
 
     file_list_view_ = new EditFileListView(this);
-    file_list_view_->setFixedWidth(400);
+    file_list_view_->setFixedWidth(260);
     bodyBgLayout->addWidget(file_list_view_);
 
     preview_view_ = new EditPreviewView(this);
     bodyBgLayout->addWidget(preview_view_, 1);
 
     setting_view_ = new EditSettingView(this);
-    setting_view_->setFixedWidth(400);
+    setting_view_->setFixedWidth(300);
     bodyBgLayout->addWidget(setting_view_);
 
     mainLayout->addLayout(bodyLayout, 1);
