@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:24:18
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-31 08:33:08
+ * @Last Modified time: 2024-04-02 07:49:28
  */
 
 #include "inc/editsettingview.h"
@@ -19,7 +19,8 @@
 #include "../awidget/inc/aradiobutton.h"
 
 namespace imageedit {
-EditSettingView::EditSettingView(QWidget *parent) {
+EditSettingView::EditSettingView(QWidget *parent) :
+    ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();

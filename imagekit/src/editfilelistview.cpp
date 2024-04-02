@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:10:19
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-29 22:32:20
+ * @Last Modified time: 2024-04-02 07:49:02
  */
 
 #include "inc/editfilelistview.h"
@@ -112,7 +112,8 @@ void EditFileItemDelegate::changeSizeHint(const QSize &size) {
     size_ = size;
 }
 
-EditFileListView::EditFileListView(QWidget *parent) {
+EditFileListView::EditFileListView(QWidget *parent) :
+    ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();

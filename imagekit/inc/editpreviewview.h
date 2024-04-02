@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:13:21
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 11:14:54
+ * @Last Modified time: 2024-04-02 07:53:39
  */
 
 #pragma once
@@ -11,6 +11,7 @@
 class ALabel;
 class AWidget;
 namespace imageedit {
+class EditCropView;
 class EditPreviewView : public ABaseWidget {
     Q_OBJECT
 public:
@@ -21,6 +22,7 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     ALabel *input_preview_label_;
@@ -29,5 +31,6 @@ private:
     ALabel *output_preview_label_;
     AWidget *output_preview_widget_;
     ALabel *output_preview_pixmap_label_;
+    EditCropView *crop_view_;
 };
 } // namespace imageedit

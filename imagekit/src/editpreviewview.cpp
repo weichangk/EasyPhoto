@@ -2,17 +2,19 @@
  * @Author: weick
  * @Date: 2024-03-23 11:13:49
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 11:15:27
+ * @Last Modified time: 2024-04-02 07:51:19
  */
 
 #include "inc/editpreviewview.h"
+#include "inc/editcropview.h"
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/awidget.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
 
 namespace imageedit {
-EditPreviewView::EditPreviewView(QWidget *parent) {
+EditPreviewView::EditPreviewView(QWidget *parent) :
+    ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
@@ -69,6 +71,8 @@ void EditPreviewView::createUi() {
     output_preview_pixmap_label_->setFixedSize(300, 200);
     output_preview_pixmap_label_->setStyleSheet("background-color: blue;");
 
+    crop_view_ = new EditCropView(this);
+    crop_view_->show();
 }
 
 void EditPreviewView::changeLanguage() {
@@ -77,5 +81,11 @@ void EditPreviewView::changeLanguage() {
 }
 
 void EditPreviewView::sigConnect() {
+}
+
+void EditPreviewView::resizeEvent(QResizeEvent *event) {
+    ABaseWidget::resizeEvent(event);
+    QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
+    crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
 } // namespace imageedit
