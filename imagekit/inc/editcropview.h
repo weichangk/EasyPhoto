@@ -15,14 +15,25 @@ public:
     ~EditCropView();
 
 protected:
+    void resizeEvent(QResizeEvent *event) override;
     void paintEvent(QPaintEvent *event) override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
 
 private:
-    bool selecting_ = false;
-    QPoint start_point_;
-    QPoint end_point_;
+    void resizeSelectionSize(const QPoint &pos);
+    void moveSelection(const QPoint &pos);
+    void updateAnchors();
+    void updateCursor(const QPoint &pos);
+
+private:
+    QRect selectionRect;
+    bool resizing = false;
+    bool moving = false;
+    int resizeMode = 0;
+    QPoint lastPos;
+    QPoint anchorPoints[8];
+    const int anchorSize = 6;
 };
 } // namespace imageedit
