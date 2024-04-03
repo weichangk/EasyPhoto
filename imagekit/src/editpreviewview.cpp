@@ -7,6 +7,7 @@
 
 #include "inc/editpreviewview.h"
 #include "inc/editcropview.h"
+#include "inc/signals.h"
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/awidget.h"
 #include "../awidget/inc/avboxlayout.h"
@@ -72,7 +73,7 @@ void EditPreviewView::createUi() {
     output_preview_pixmap_label_->setStyleSheet("background-color: blue;");
 
     crop_view_ = new EditCropView(this);
-    crop_view_->show();
+    
 }
 
 void EditPreviewView::changeLanguage() {
@@ -81,10 +82,31 @@ void EditPreviewView::changeLanguage() {
 }
 
 void EditPreviewView::sigConnect() {
+    connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
+}
+
+void EditPreviewView::showEvent(QShowEvent *event) {
+    ABaseWidget::showEvent(event);
+    updateCropViewGeometry();
+    crop_view_->show();
+}
+
+void EditPreviewView::hideEvent(QHideEvent *event) {
+    ABaseWidget::hideEvent(event);
+    crop_view_->hide();
 }
 
 void EditPreviewView::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
+    updateCropViewGeometry();
+}
+
+void EditPreviewView::moveEvent(QMoveEvent *event) {
+    ABaseWidget::moveEvent(event);
+    updateCropViewGeometry();
+}
+
+void EditPreviewView::updateCropViewGeometry() {
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }

@@ -22,7 +22,13 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+    void showEvent(QShowEvent *event) override;
+    void hideEvent(QHideEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
+    void moveEvent(QMoveEvent *event) override;
+
+private:
+    void updateCropViewGeometry();
 
 private:
     ALabel *input_preview_label_;

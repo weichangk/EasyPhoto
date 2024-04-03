@@ -26,6 +26,7 @@ protected:
     void changeLanguage() override;
     void sigConnect() override;
     void paintEvent(QPaintEvent *event) override;
+    void moveEvent(QMoveEvent *event) override;
 
 private:
     ATopbar *topbar_ = 0;

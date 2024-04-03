@@ -117,4 +117,9 @@ void EditWindow::paintEvent(QPaintEvent *event) {
     auto borderRect = this->rect(); //.adjusted(1, 1, -1, -1);
     painter.drawRoundedRect(borderRect, 10, 10);
 }
+
+void EditWindow::moveEvent(QMoveEvent *event) {
+    ABaseWidget::moveEvent(event);
+    emit Signals::getInstance()->sigWindowMove();
+}
 } // namespace imageedit

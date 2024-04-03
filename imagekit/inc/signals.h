@@ -56,6 +56,7 @@ class Signals : public QObject, public ASinglton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
+    void sigWindowMove();
     void sigOpenFileDialog(QWidget *parent = nullptr);
     void sigDeleteFile(const QString filePath);
     void sigDeleteByChecked();

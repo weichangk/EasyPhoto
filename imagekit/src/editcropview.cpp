@@ -21,10 +21,10 @@ void EditCropView::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.fillRect(rect(), QColor(0, 0, 0, 1));
 
-    if (selecting_) {
+    // if (selecting_) {
         painter.setPen(QPen(Qt::black, 1, Qt::DashLine));
         painter.drawRect(QRect(start_point_, end_point_));
-    }
+    // }
 }
 void EditCropView::mousePressEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
@@ -43,8 +43,8 @@ void EditCropView::mouseMoveEvent(QMouseEvent *event) {
 void EditCropView::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         selecting_ = false;
-        setMask(QRegion(QRect(start_point_, end_point_)));
-        update();
+        // setMask(QRegion(QRect(start_point_, end_point_)));
+        // update();
     }
 }
 } // namespace imageedit
