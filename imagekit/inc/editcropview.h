@@ -35,5 +35,7 @@ private:
     QPoint lastPos;
     QPoint anchorPoints[8];
     const int anchorSize = 6;
+    const int min_width_ = 48;
+    const int min_height_ = 48;
 };
 } // namespace imageedit

@@ -91,32 +91,104 @@ void EditCropView::mouseReleaseEvent(QMouseEvent *event) {
 }
 
 void EditCropView::resizeSelectionSize(const QPoint &pos) {
+    QPoint newPos = pos;
     QPoint center = anchorPoints[resizeMode];
-
     switch (resizeMode) {
     case 0: // 左上角
-        selectionRect.setTopLeft(pos);
+        if(anchorPoints[4].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchorPoints[4].x() - min_width_);
+        }
+        if(anchorPoints[4].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchorPoints[4].y() - min_height_);
+        }
+        if(newPos.x() < 0) {
+            newPos.setX(0);
+        }
+        if(newPos.y() < 0) {
+            newPos.setY(0);
+        }
+        selectionRect.setTopLeft(newPos);
         break;
     case 1: // 上边
-        selectionRect.setTop(pos.y());
+        if(anchorPoints[5].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchorPoints[5].y() - min_height_);
+        }
+        if(newPos.y() < 0) {
+            newPos.setY(0);
+        }
+        selectionRect.setTop(newPos.y());
         break;
     case 2: // 右上角
-        selectionRect.setTopRight(pos);
+        if(min_width_ + anchorPoints[6].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchorPoints[6].x());
+        }
+        if(anchorPoints[6].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchorPoints[6].y() - min_height_);
+        }
+        if(newPos.x() > width()) {
+            newPos.setX(width());
+        }
+        if(newPos.y() < 0) {
+            newPos.setY(0);
+        }
+        selectionRect.setTopRight(newPos);
         break;
     case 3: // 右边
-        selectionRect.setRight(pos.x());
+        if(min_width_ + anchorPoints[7].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchorPoints[7].x());
+        }
+        if(newPos.x() > width()) {
+            newPos.setX(width());
+        }
+        selectionRect.setRight(newPos.x());
         break;
     case 4: // 右下角
-        selectionRect.setBottomRight(pos);
+        if(min_width_ + anchorPoints[0].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchorPoints[0].x());
+        }
+        if(min_height_ + anchorPoints[0].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchorPoints[0].y());
+        }
+        if(newPos.x() > width()) {
+            newPos.setX(width());
+        }
+        if(newPos.y() > height()) {
+            newPos.setY(height());
+        }
+        selectionRect.setBottomRight(newPos);
         break;
     case 5: // 下边
-        selectionRect.setBottom(pos.y());
+        if(min_height_ + anchorPoints[1].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchorPoints[0].y());
+        }
+        if(newPos.y() > height()) {
+            newPos.setY(height());
+        }
+        selectionRect.setBottom(newPos.y());
         break;
     case 6: // 左下角
-        selectionRect.setBottomLeft(pos);
+        if(anchorPoints[2].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchorPoints[2].x() - min_width_);
+        }
+        if(min_height_ + anchorPoints[2].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchorPoints[2].y());
+        }
+        if(newPos.x() < 0) {
+            newPos.setX(0);
+        }
+        if(newPos.y() > height()) {
+            newPos.setY(height());
+        }
+        selectionRect.setBottomLeft(newPos);
         break;
     case 7: // 左边
-        selectionRect.setLeft(pos.x());
+        if(anchorPoints[3].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchorPoints[3].x() - min_width_);
+        }
+        if(newPos.x() < 0) {
+            newPos.setX(0);
+        }
+        selectionRect.setLeft(newPos.x());
         break;
     }
 
@@ -127,6 +199,18 @@ void EditCropView::resizeSelectionSize(const QPoint &pos) {
 
 void EditCropView::moveSelection(const QPoint &pos) {
     QPoint delta = pos - lastPos;
+    if(delta.x() < 0 && selectionRect.left() + delta.x() < 0) {
+        delta.setX(selectionRect.left());
+    }
+    if(delta.y() < 0 && selectionRect.top() + delta.y() < 0) {
+        delta.setY(selectionRect.top());
+    }
+    if(delta.x() > 0 && selectionRect.right() + delta.x() > width()) {
+        delta.setX(width() - selectionRect.right());
+    }
+    if(delta.y() > 0 && selectionRect.bottom() + delta.y() > height()) {
+        delta.setY(height() - selectionRect.bottom());
+    }
     selectionRect.translate(delta);
     updateAnchors();
     update();
