@@ -83,6 +83,9 @@ void EditPreviewView::changeLanguage() {
 
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
+    
+    // test
+    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &EditPreviewView::loadPreviewPixmap);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -109,5 +112,25 @@ void EditPreviewView::moveEvent(QMoveEvent *event) {
 void EditPreviewView::updateCropViewGeometry() {
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
+}
+
+void EditPreviewView::loadPreviewPixmap(const QString &path) {
+    QPixmap originalPixmap(path);
+    if (originalPixmap.isNull()) {
+        return;
+    }
+
+    // 计算缩放比例，确保图片适应窗口大小
+    qreal widthRatio = static_cast<qreal>(width()) / originalPixmap.width();
+    qreal heightRatio = static_cast<qreal>(height()) / originalPixmap.height();
+    qreal scaleRatio = qMin(widthRatio, heightRatio);
+
+    // 缩放图片
+    QPixmap scaledPixmap = originalPixmap.scaled(originalPixmap.size() * scaleRatio,
+                                                 Qt::KeepAspectRatio,
+                                                 Qt::SmoothTransformation);
+
+    input_preview_pixmap_label_->setFixedSize(scaledPixmap.size());
+    input_preview_pixmap_label_->setPixmap(scaledPixmap);
 }
 } // namespace imageedit

@@ -230,32 +230,34 @@ void EditCropView::updateAnchors() {
 }
 
 void EditCropView::updateCursor(const QPoint &pos) {
-    for (int i = 0; i < 8; ++i) {
-        if (QRect(anchorPoints[i].x() - anchorSize / 2, anchorPoints[i].y() - anchorSize / 2,
-                  anchorSize, anchorSize)
-                .contains(pos)) {
-            switch (i) {
-            case 0:
-            case 4:
-                setCursor(Qt::SizeFDiagCursor);
-                break;
-            case 1:
-            case 5:
-                setCursor(Qt::SizeVerCursor);
-                break;
-            case 2:
-            case 6:
-                setCursor(Qt::SizeBDiagCursor);
-                break;
-            case 3:
-            case 7:
-                setCursor(Qt::SizeHorCursor);
-                break;
+    if (selectionRect.contains(pos)) {
+        setCursor(Qt::SizeAllCursor);
+        for (int i = 0; i < 8; ++i) {
+            if (QRect(anchorPoints[i].x() - anchorSize / 2, anchorPoints[i].y() - anchorSize / 2,
+                      anchorSize, anchorSize)
+                    .contains(pos)) {
+                switch (i) {
+                case 0:
+                case 4:
+                    setCursor(Qt::SizeFDiagCursor);
+                    break;
+                case 1:
+                case 5:
+                    setCursor(Qt::SizeVerCursor);
+                    break;
+                case 2:
+                case 6:
+                    setCursor(Qt::SizeBDiagCursor);
+                    break;
+                case 3:
+                case 7:
+                    setCursor(Qt::SizeHorCursor);
+                    break;
+                }
             }
-            return;
         }
+    } else {
+        setCursor(Qt::ArrowCursor);
     }
-
-    setCursor(Qt::ArrowCursor);
 }
 } // namespace imageedit

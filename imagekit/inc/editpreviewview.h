@@ -29,6 +29,7 @@ protected:
 
 private:
     void updateCropViewGeometry();
+    void loadPreviewPixmap(const QString &path);
 
 private:
     ALabel *input_preview_label_;
