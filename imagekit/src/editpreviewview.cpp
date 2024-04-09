@@ -12,6 +12,7 @@
 #include "../awidget/inc/awidget.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
+#include <QTimer>
 
 namespace imageedit {
 EditPreviewView::EditPreviewView(QWidget *parent) :
@@ -43,8 +44,8 @@ void EditPreviewView::createUi() {
     output_preview_label_->setAlignment(Qt::AlignCenter);
 
     // test
-    input_preview_widget_->setStyleSheet("background-color: #000000;");
-    output_preview_widget_->setStyleSheet("background-color: #000000;");
+    // input_preview_widget_->setStyleSheet("background-color: #000000;");
+    // output_preview_widget_->setStyleSheet("background-color: #000000;");
 
     input_preview_pixmap_label_ = new ALabel(input_preview_widget_);
     auto input_preview_pixmap_label_layout = new AHBoxLayout();
@@ -132,5 +133,11 @@ void EditPreviewView::loadPreviewPixmap(const QString &path) {
 
     input_preview_pixmap_label_->setFixedSize(scaledPixmap.size());
     input_preview_pixmap_label_->setPixmap(scaledPixmap);
+
+    //input_preview_pixmap_label_->setFixedSize 等待布局刷新获取正确坐标
+    QTimer::singleShot(0, [=]() {
+        updateCropViewGeometry();
+    }); 
+    
 }
 } // namespace imageedit

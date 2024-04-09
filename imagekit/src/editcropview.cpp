@@ -13,6 +13,7 @@ namespace imageedit {
 EditCropView::EditCropView(QWidget *parent) :
     ABaseWidget(parent) {
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
+    setAttribute(Qt::WA_TranslucentBackground);
     setMouseTracking(true);
 }
 
