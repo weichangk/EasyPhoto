@@ -68,6 +68,8 @@ void EditPreviewView::createUi() {
     output_preview_widget_layout->addStretch();
 
     // test
+    input_preview_widget_->setStyleSheet("background-color: green;");
+    output_preview_widget_->setStyleSheet("background-color: yellow;");
     input_preview_pixmap_label_->setFixedSize(300, 200);
     input_preview_pixmap_label_->setStyleSheet("background-color: red;");
     output_preview_pixmap_label_->setFixedSize(300, 200);
@@ -86,7 +88,10 @@ void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
     
     // test
-    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &EditPreviewView::loadPreviewPixmap);
+    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, [=](QString path) {
+        loadInputPixmap(path);
+        updateInputPixmapSize();
+    });
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -103,6 +108,7 @@ void EditPreviewView::hideEvent(QHideEvent *event) {
 void EditPreviewView::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
     updateCropViewGeometry();
+    updateInputPixmapSize();
 }
 
 void EditPreviewView::moveEvent(QMoveEvent *event) {
@@ -115,29 +121,32 @@ void EditPreviewView::updateCropViewGeometry() {
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
 
-void EditPreviewView::loadPreviewPixmap(const QString &path) {
-    QPixmap originalPixmap(path);
-    if (originalPixmap.isNull()) {
+void EditPreviewView::loadInputPixmap(const QString &path) {
+    input_pixmap_ = QPixmap(path);
+}
+
+void EditPreviewView::updateInputPixmapSize() {
+    if(input_pixmap_.isNull()) {
         return;
     }
 
     // 计算缩放比例，确保图片适应窗口大小
-    qreal widthRatio = static_cast<qreal>(width()) / originalPixmap.width();
-    qreal heightRatio = static_cast<qreal>(height()) / originalPixmap.height();
+    qreal widthRatio = static_cast<qreal>(input_preview_widget_->width()) / input_pixmap_.width();
+    qreal heightRatio = static_cast<qreal>(input_preview_widget_->height()) / input_pixmap_.height();
     qreal scaleRatio = qMin(widthRatio, heightRatio);
 
     // 缩放图片
-    QPixmap scaledPixmap = originalPixmap.scaled(originalPixmap.size() * scaleRatio,
+    input_pixmap_ = input_pixmap_.scaled(input_pixmap_.size() * scaleRatio,
                                                  Qt::KeepAspectRatio,
                                                  Qt::SmoothTransformation);
 
-    input_preview_pixmap_label_->setFixedSize(scaledPixmap.size());
-    input_preview_pixmap_label_->setPixmap(scaledPixmap);
+    input_preview_pixmap_label_->setFixedSize(input_pixmap_.size());
+    input_preview_pixmap_label_->setPixmap(input_pixmap_);
 
     //input_preview_pixmap_label_->setFixedSize 等待布局刷新获取正确坐标
     QTimer::singleShot(0, [=]() {
         updateCropViewGeometry();
     }); 
-    
 }
+
 } // namespace imageedit

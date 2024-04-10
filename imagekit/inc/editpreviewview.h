@@ -29,7 +29,8 @@ protected:
 
 private:
     void updateCropViewGeometry();
-    void loadPreviewPixmap(const QString &path);
+    void loadInputPixmap(const QString &path);
+    void updateInputPixmapSize();
 
 private:
     ALabel *input_preview_label_;
@@ -39,5 +40,7 @@ private:
     AWidget *output_preview_widget_;
     ALabel *output_preview_pixmap_label_;
     EditCropView *crop_view_;
+
+    QPixmap input_pixmap_;
 };
 } // namespace imageedit
