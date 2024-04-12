@@ -2,13 +2,15 @@
  * @Author: weick
  * @Date: 2024-03-23 10:56:22
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 12:59:13
+ * @Last Modified time: 2024-04-12 07:58:04
  */
 
 #pragma once
 #include "../awidget/inc/alabel.h"
+#include "../awidget/inc/astackedlayout.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/atopbar.h"
+#include "../agui/inc/aimportguide.h"
 #include "editfilelistview.h"
 #include "editpreviewview.h"
 #include "editsettingview.h"
@@ -29,11 +31,13 @@ protected:
     void moveEvent(QMoveEvent *event) override;
 
 private:
-    ATopbar *topbar_ = 0;
-    ALabel *logo_label_ = 0;
-    ALabel *name_label_ = 0;
-    EditFileListView *file_list_view_;
-    EditPreviewView *preview_view_;
-    EditSettingView *setting_view_;
+    ATopbar *topbar_ = nullptr;
+    ALabel *logo_label_ = nullptr;
+    ALabel *name_label_ = nullptr;
+    AStackedLayout *stacked_layout_ = nullptr;
+    AImportGuide *import_guide_ = nullptr;
+    EditFileListView *file_list_view_ = nullptr;
+    EditPreviewView *preview_view_ = nullptr;
+    EditSettingView *setting_view_ = nullptr;
 };
 } // namespace imageedit

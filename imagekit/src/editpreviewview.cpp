@@ -136,16 +136,23 @@ void EditPreviewView::updateInputPixmapSize() {
     qreal scaleRatio = qMin(widthRatio, heightRatio);
 
     // 缩放图片
-    input_pixmap_ = input_pixmap_.scaled(input_pixmap_.size() * scaleRatio,
+    QPixmap pixmap = input_pixmap_.scaled(input_pixmap_.size() * scaleRatio,
                                                  Qt::KeepAspectRatio,
                                                  Qt::SmoothTransformation);
+                                                 qDebug() << "pixmap size:" << pixmap.size();
 
-    input_preview_pixmap_label_->setFixedSize(input_pixmap_.size());
-    input_preview_pixmap_label_->setPixmap(input_pixmap_);
+    input_preview_pixmap_label_->setFixedSize(pixmap.size());
+    input_preview_pixmap_label_->setPixmap(pixmap);
+
+    output_preview_pixmap_label_->setFixedSize(pixmap.size());
+    output_preview_pixmap_label_->setPixmap(pixmap);
 
     //input_preview_pixmap_label_->setFixedSize 等待布局刷新获取正确坐标
-    QTimer::singleShot(0, [=]() {
+    QTimer::singleShot(100, [=]() {
         updateCropViewGeometry();
+        QTimer::singleShot(100, [=]() {
+            updateCropViewGeometry();
+        });
     }); 
 }
 
