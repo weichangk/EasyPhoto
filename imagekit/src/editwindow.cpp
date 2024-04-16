@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:01:48
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-29 22:17:22
+ * @Last Modified time: 2024-04-16 08:04:50
  */
 
 #include "inc/editwindow.h"
@@ -60,19 +60,30 @@ void EditWindow::createUi() {
 
     auto bodyBg = new AWidget(this);
     bodyBg->setObjectName("edit_window_body_bg");
-    bodyLayout->addWidget(bodyBg);
+    bodyLayout->addWidget(bodyBg, 1);
     auto bodyBgLayout = new AHBoxLayout(bodyBg);
+    
+    stacked_widget_ = new AStackedWidget(this);
+    bodyBgLayout->addWidget(stacked_widget_, 1);
 
+    import_guide_ = new AImportGuide(this);
+    stacked_widget_->addWidget(import_guide_);
+
+    auto viewsWidget = new AWidget(this);
+    stacked_widget_->addWidget(viewsWidget);
+
+    auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
+    
     file_list_view_ = new EditFileListView(this);
     file_list_view_->setFixedWidth(260);
-    bodyBgLayout->addWidget(file_list_view_);
+    viewsWidgetLayout->addWidget(file_list_view_);
 
     preview_view_ = new EditPreviewView(this);
-    bodyBgLayout->addWidget(preview_view_, 1);
+    viewsWidgetLayout->addWidget(preview_view_, 1);
 
     setting_view_ = new EditSettingView(this);
     setting_view_->setFixedWidth(300);
-    bodyBgLayout->addWidget(setting_view_);
+    viewsWidgetLayout->addWidget(setting_view_);
 
     mainLayout->addLayout(bodyLayout, 1);
 
@@ -89,6 +100,9 @@ void EditWindow::sigConnect() {
     connect(topbar_, &ATopbar::sigClose, this, [=]() {
         close();
         emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+    });
+    connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
+        stacked_widget_->setCurrentIndex(1);
     });
 }
 void EditWindow::paintEvent(QPaintEvent *event) {

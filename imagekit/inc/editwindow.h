@@ -2,12 +2,12 @@
  * @Author: weick
  * @Date: 2024-03-23 10:56:22
  * @Last Modified by: weick
- * @Last Modified time: 2024-04-12 07:58:04
+ * @Last Modified time: 2024-04-16 07:47:55
  */
 
 #pragma once
 #include "../awidget/inc/alabel.h"
-#include "../awidget/inc/astackedlayout.h"
+#include "../awidget/inc/astackedwidget.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/aimportguide.h"
@@ -34,7 +34,7 @@ private:
     ATopbar *topbar_ = nullptr;
     ALabel *logo_label_ = nullptr;
     ALabel *name_label_ = nullptr;
-    AStackedLayout *stacked_layout_ = nullptr;
+    AStackedWidget *stacked_widget_ = nullptr;
     AImportGuide *import_guide_ = nullptr;
     EditFileListView *file_list_view_ = nullptr;
     EditPreviewView *preview_view_ = nullptr;
