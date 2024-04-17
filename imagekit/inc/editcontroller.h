@@ -32,6 +32,7 @@ private:
     void switchChecked(const QString filePath, const bool checked);
     void checkedAll(bool checked);
     void deleteByChecked();
+    void deleteAll();
 private:
     EditWindow *window_;
     QList<Data> datas_;

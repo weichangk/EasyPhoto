@@ -35,9 +35,10 @@ void EditController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &EditController::openFileDialog);
     connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &EditController::deleteData);
     connect(Signals::getInstance(), &Signals::sigStatus, this, &EditController::status);
-    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &EditController::switchChecked);
-    connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &EditController::checkedAll);
-    connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &EditController::deleteByChecked);
+    // connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &EditController::switchChecked);
+    // connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &EditController::checkedAll);
+    // connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &EditController::deleteByChecked);
+    connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &EditController::deleteAll);
 }
 
 void EditController::openFileDialog(QWidget *parent) {
@@ -60,16 +61,17 @@ void EditController::addData(const QStringList filePaths) {
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
-        QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
-        checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.checked_icon = checkedIcon;
-        QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
-        unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.unchecked_icon = unCheckedIcon;
-        data.is_checked = true;
+        // QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
+        // checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        // data.checked_icon = checkedIcon;
+        // QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
+        // unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        // data.unchecked_icon = unCheckedIcon;
+        // data.is_checked = true;
         datas_.append(data);
     }
     window_->changeFileListData(datas_);
+    window_->setFileListCurrentIndex(datas_.count() - 1);
 }
 
 void EditController::deleteData(const QString filePath) {
@@ -142,6 +144,10 @@ void EditController::deleteByChecked() {
                           return cd.is_checked == true;
                       }),
                       datas_.end());
+    window_->changeFileListData(datas_);
+}
+
+void EditController::deleteAll() {
     window_->changeFileListData(datas_);
 }
 } // namespace imageedit

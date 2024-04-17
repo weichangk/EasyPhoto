@@ -25,7 +25,16 @@ EditWindow::~EditWindow() {
 }
 
 void EditWindow::changeFileListData(QList<Data> datas) {
+    if (datas.count() == 0) {
+        stacked_widget_->setCurrentIndex(0);
+    } else {
+        stacked_widget_->setCurrentIndex(1);
+    }
     file_list_view_->changeData(datas);
+}
+
+void EditWindow::setFileListCurrentIndex(int index) {
+    file_list_view_->setCurrentIndex(index);
 }
 
 void EditWindow::createUi() {
@@ -102,7 +111,7 @@ void EditWindow::sigConnect() {
         emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
-        stacked_widget_->setCurrentIndex(1);
+        emit Signals::getInstance()->sigOpenFileDialog(this);
     });
 }
 void EditWindow::paintEvent(QPaintEvent *event) {

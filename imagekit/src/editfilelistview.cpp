@@ -73,8 +73,8 @@ void EditFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->drawRoundedRect(borderRect, 0, 0);
     painter->setBrush(Qt::NoBrush);
 
-    auto checkedRect = fileItemCheckedRect(rc);
-    APainterHelper::paintPixmap(painter, checkedRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
+    // auto checkedRect = fileItemCheckedRect(rc);
+    // APainterHelper::paintPixmap(painter, checkedRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
 
     if (hover) {
         auto delIconRect = fileItemDeteleRect(rc);
@@ -82,11 +82,18 @@ void EditFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     }
 
     QPen pen(QColor("#1F1F1F"));
-    // pen.setWidth(1);
-    // painter->setPen(pen);
-    // if (hover || pressed) {
-    //     painter->drawRoundedRect(borderRect, 10, 10);
-    // }
+    pen.setWidth(1);
+    painter->setPen(pen);
+    if (hover || pressed) {
+        painter->drawRoundedRect(borderRect, 0, 0);
+    }
+    painter->setPen(Qt::NoPen);
+
+    pen.setColor(Qt::blue);
+    painter->setPen(pen);
+    if (selected) {
+        painter->drawRoundedRect(borderRect, 0, 0);
+    }
     painter->setPen(Qt::NoPen);
 
     pen.setColor(QColor("#575859"));
@@ -135,6 +142,10 @@ void EditFileListView::changeData(QList<Data> datas) {
     if (!is_all_select_button_click) {
         all_select_button_->setCheck(isAllChecked);
     }
+}
+
+void EditFileListView::setCurrentIndex(int index) {
+    file_list_view_->setCurrentIndex(file_list_view_->model()->index(index, 0));
 }
 
 void EditFileListView::createUi() {
@@ -192,7 +203,7 @@ void EditFileListView::sigConnect() {
         emit Signals::getInstance()->sigOpenFileDialog(this);
     });
     connect(delete_file_button_, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigDeleteByChecked();
+        emit Signals::getInstance()->sigDeleteAll();
     });
     connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<Data>();
@@ -204,11 +215,16 @@ void EditFileListView::sigConnect() {
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
             emit Signals::getInstance()->sigDeleteFile(data.file_path);
         }
-        auto checkedRect = fileItemCheckedRect(rc);
-        if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
-            && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
-            emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
-        }
+        // auto checkedRect = fileItemCheckedRect(rc);
+        // if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
+        //     && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
+        //     emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
+        // }
     });
+    
+    // connect(file_list_view_->model(), &QAbstractItemModel::currentChanged, [&listView](const QModelIndex &current, const QModelIndex &previous) {
+    //     // 更新 QListView 的当前选项
+    //     listView.setCurrentIndex(current);
+    // });
 }
 } // namespace imageedit

@@ -87,7 +87,6 @@ void EditPreviewView::changeLanguage() {
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
     
-    // test
     connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, [=](QString path) {
         loadInputPixmap(path);
         updateInputPixmapSize();

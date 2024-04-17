@@ -39,6 +39,7 @@ public:
     explicit EditFileListView(QWidget *parent = nullptr);
     ~EditFileListView();
     void changeData(QList<Data> datas);
+    void setCurrentIndex(int index);
 
 protected:
     void createUi() override;

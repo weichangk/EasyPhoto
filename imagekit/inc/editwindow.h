@@ -22,7 +22,8 @@ public:
     explicit EditWindow(QWidget *parent = nullptr);
     ~EditWindow();
     void changeFileListData(QList<Data> datas);
-
+    void setFileListCurrentIndex(int index);
+    
 protected:
     void createUi() override;
     void changeLanguage() override;
