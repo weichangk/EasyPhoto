@@ -7,7 +7,7 @@
 
 #pragma once
 #include "../awidget/inc/apushbutton.h"
-#include "../agui/inc/acheckedbutton.h"
+#include "../awidget/inc/alabel.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/alistview.h"
 #include "inc/models.h"
@@ -28,7 +28,7 @@ public:
     void changeSizeHint(const QSize &size);
 
 private:
-    QSize size_ = QSize(300, 48);
+    QSize size_ = QSize(260, 48);
     int event_type_ = QEvent::None;
     QPoint curpos_;
 };
@@ -47,12 +47,11 @@ protected:
     void sigConnect() override;
 
 private:
-    ACheckedButton *all_select_button_ = nullptr;
+    ALabel *file_name_label_ = nullptr;
     APushButton *add_file_button_ = nullptr;
     APushButton *delete_file_button_ = nullptr;
     AListView<Data> *file_list_view_ = nullptr; 
 
     QList<Data> datas_;
-    bool is_all_select_button_click = false;
 };
 } // namespace imageedit

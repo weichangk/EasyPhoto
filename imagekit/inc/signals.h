@@ -62,6 +62,7 @@ Q_SIGNALS:
     void sigDeleteByChecked();
     void sigDeleteAll();
     void sigStatus(Status state);
+    void sigFileListItemSelected(Data data);
     void sigSwitchChecked(const QString filePath, const bool checked);
     void sigCheckedAll(const bool checked);
 };

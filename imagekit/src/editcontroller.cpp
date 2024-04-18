@@ -72,6 +72,7 @@ void EditController::addData(const QStringList filePaths) {
     }
     window_->changeFileListData(datas_);
     window_->setFileListCurrentIndex(datas_.count() - 1);
+    emit Signals::getInstance()->sigFileListItemSelected(datas_.last());
 }
 
 void EditController::deleteData(const QString filePath) {
@@ -148,6 +149,7 @@ void EditController::deleteByChecked() {
 }
 
 void EditController::deleteAll() {
+    datas_.clear();
     window_->changeFileListData(datas_);
 }
 } // namespace imageedit

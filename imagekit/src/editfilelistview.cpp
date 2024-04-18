@@ -26,10 +26,9 @@ inline QRect fileItemDeteleRect(QRect itemRect) {
 
 inline QRect fileItemNameRect(QRect itemRect) {
     auto rc = itemRect;
-    auto checkedRect = fileItemCheckedRect(rc);
     auto deleteRect = fileItemDeteleRect(rc);
-    int nameX = checkedRect.x() + checkedRect.width() + 8;
-    int nameWidth = deleteRect.x() - 8 - nameX;
+    int nameX = rc.x() + 16;
+    int nameWidth = deleteRect.x() - 16 - nameX;
     return QRect(nameX, rc.y() + 12, nameWidth, 24);
 }
 
@@ -131,17 +130,6 @@ EditFileListView::~EditFileListView() {
 
 void EditFileListView::changeData(QList<Data> datas) {
     file_list_view_->chageData(datas);
-
-    bool isAllChecked = datas.count() > 0;
-    for (const auto &data : datas) {
-        if (!data.is_checked) {
-            isAllChecked = false;
-            break;
-        }
-    }
-    if (!is_all_select_button_click) {
-        all_select_button_->setCheck(isAllChecked);
-    }
 }
 
 void EditFileListView::setCurrentIndex(int index) {
@@ -149,14 +137,13 @@ void EditFileListView::setCurrentIndex(int index) {
 }
 
 void EditFileListView::createUi() {
+    file_name_label_ = new ALabel(this);
+
     add_file_button_ = new APushButton(this);
     add_file_button_->setObjectName("OnlyIconButton");
     add_file_button_->setFixedSize(24, 24);
     add_file_button_->setIconSize(QSize(24, 24));
     add_file_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
-
-    all_select_button_ = new ACheckedButton(this);
-    all_select_button_->setIconSize(QSize(24, 24));
 
     delete_file_button_ = new APushButton(this);
     delete_file_button_->setObjectName("OnlyIconButton");
@@ -167,7 +154,7 @@ void EditFileListView::createUi() {
     auto buttonsWidget = new AWidget(this);
     buttonsWidget->setFixedHeight(32);
     auto buttonsLayout = new AHBoxLayout(buttonsWidget);
-    buttonsLayout->addWidget(all_select_button_);
+    buttonsLayout->addWidget(file_name_label_);
     buttonsLayout->addStretch();
     buttonsLayout->addWidget(add_file_button_);
     buttonsLayout->addWidget(delete_file_button_);
@@ -190,15 +177,10 @@ void EditFileListView::createUi() {
 }
 
 void EditFileListView::changeLanguage() {
-    all_select_button_->setText("文件名");
+    file_name_label_->setText("文件名");
 }
 
 void EditFileListView::sigConnect() {
-    connect(all_select_button_, &ACheckedButton::clicked, this, [=](bool isChecked) {
-        is_all_select_button_click = true;
-        emit Signals::getInstance()->sigCheckedAll(isChecked);
-        is_all_select_button_click = false;
-    });
     connect(add_file_button_, &APushButton::clicked, this, [=]() {
         emit Signals::getInstance()->sigOpenFileDialog(this);
     });
@@ -207,14 +189,16 @@ void EditFileListView::sigConnect() {
     });
     connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<Data>();
-        QRect rc = file_list_view_->visualRect(index);
+        QRect rc = file_list_view_->visualRect(index); // sizeHint大小，如果布局导致实际大小不是sizeHint大小时下面的位置计算就不对了
         int posx = file_list_view_->mapFromGlobal(QCursor::pos()).x();
         int posy = file_list_view_->mapFromGlobal(QCursor::pos()).y();
         QRect delIconRect = fileItemDeteleRect(rc);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
             emit Signals::getInstance()->sigDeleteFile(data.file_path);
+            return;
         }
+        emit Signals::getInstance()->sigFileListItemSelected(data);
         // auto checkedRect = fileItemCheckedRect(rc);
         // if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
         //     && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {

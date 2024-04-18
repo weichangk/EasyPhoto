@@ -87,8 +87,8 @@ void EditPreviewView::changeLanguage() {
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
     
-    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, [=](QString path) {
-        loadInputPixmap(path);
+    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, [=](Data data) {
+        loadInputPixmap(data.file_path);
         updateInputPixmapSize();
     });
 }
