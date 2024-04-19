@@ -40,6 +40,7 @@ public:
     ~EditFileListView();
     void changeData(QList<Data> datas);
     void setCurrentIndex(int index);
+    int currentIndex();
 
 protected:
     void createUi() override;

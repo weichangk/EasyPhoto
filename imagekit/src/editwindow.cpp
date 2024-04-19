@@ -37,6 +37,10 @@ void EditWindow::setFileListCurrentIndex(int index) {
     file_list_view_->setCurrentIndex(index);
 }
 
+int EditWindow::fileListCurrentIndex() {
+    return file_list_view_->currentIndex();
+}
+
 void EditWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);

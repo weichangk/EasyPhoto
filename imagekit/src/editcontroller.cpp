@@ -35,9 +35,6 @@ void EditController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &EditController::openFileDialog);
     connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &EditController::deleteData);
     connect(Signals::getInstance(), &Signals::sigStatus, this, &EditController::status);
-    // connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &EditController::switchChecked);
-    // connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &EditController::checkedAll);
-    // connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &EditController::deleteByChecked);
     connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &EditController::deleteAll);
 }
 
@@ -61,13 +58,6 @@ void EditController::addData(const QStringList filePaths) {
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
-        // QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
-        // checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        // data.checked_icon = checkedIcon;
-        // QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
-        // unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        // data.unchecked_icon = unCheckedIcon;
-        // data.is_checked = true;
         datas_.append(data);
     }
     window_->changeFileListData(datas_);
@@ -76,11 +66,35 @@ void EditController::addData(const QStringList filePaths) {
 }
 
 void EditController::deleteData(const QString filePath) {
+    int currentIndex = window_->fileListCurrentIndex();
     auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
+
+    // 查找当前选中的数据在 datas_ 中的位置
+    auto it = std::find_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
+    // 如果当前选中的数据存在且被删除，则更新当前索引
+    if (it != datas_.end()) {
+        if (std::distance(datas_.begin(), it) == currentIndex) {
+            currentIndex = -1; // 将当前索引标记为无效，以便后续重新选中
+        }
+    }
+
     datas_.erase(std::remove_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), datas_.end());
     window_->changeFileListData(datas_);
+
+    // 计算删除后的选中索引
+    int n = currentIndex;
+    if (currentIndex == -1) {
+        // 如果删除的是当前选中的数据，则选中索引为原当前索引
+        n = std::min(static_cast<int>(datas_.size()) - 1, currentIndex);
+    }
+
+    window_->setFileListCurrentIndex(n);
+
+    if (n != -1) {
+        emit Signals::getInstance()->sigFileListItemSelected(datas_[n]);
+    }
 }
 
 void EditController::status(Status state) {
@@ -120,32 +134,6 @@ void EditController::start() {
 void EditController::finished() {
 }
 void EditController::cancel() {
-}
-
-void EditController::switchChecked(const QString filePath, const bool checked) {
-    auto filePathMatches = [](const Data &cd, QString filePath) {
-        return cd.file_path == filePath;
-    };
-    auto it = std::find_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
-    if (it != datas_.end()) {
-        it->is_checked = !it->is_checked;
-    }
-    window_->changeFileListData(datas_);
-}
-
-void EditController::checkedAll(bool checked) {
-    for(auto &data : datas_) {
-        data.is_checked = checked;
-    }
-    window_->changeFileListData(datas_);
-}
-
-void EditController::deleteByChecked() {
-    datas_.erase(std::remove_if(datas_.begin(), datas_.end(), [](const Data &cd) {
-                          return cd.is_checked == true;
-                      }),
-                      datas_.end());
-    window_->changeFileListData(datas_);
 }
 
 void EditController::deleteAll() {

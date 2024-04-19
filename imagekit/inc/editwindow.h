@@ -23,6 +23,7 @@ public:
     ~EditWindow();
     void changeFileListData(QList<Data> datas);
     void setFileListCurrentIndex(int index);
+    int fileListCurrentIndex();
     
 protected:
     void createUi() override;

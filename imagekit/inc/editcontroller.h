@@ -29,9 +29,6 @@ private:
     void start();
     void finished();
     void cancel();
-    void switchChecked(const QString filePath, const bool checked);
-    void checkedAll(bool checked);
-    void deleteByChecked();
     void deleteAll();
 private:
     EditWindow *window_;

@@ -59,11 +59,8 @@ Q_SIGNALS:
     void sigWindowMove();
     void sigOpenFileDialog(QWidget *parent = nullptr);
     void sigDeleteFile(const QString filePath);
-    void sigDeleteByChecked();
     void sigDeleteAll();
     void sigStatus(Status state);
     void sigFileListItemSelected(Data data);
-    void sigSwitchChecked(const QString filePath, const bool checked);
-    void sigCheckedAll(const bool checked);
 };
 } // namespace imageedit

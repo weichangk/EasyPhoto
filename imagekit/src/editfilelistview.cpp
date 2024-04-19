@@ -14,11 +14,6 @@
 #include <QMouseEvent>
 
 namespace imageedit {
-inline QRect fileItemCheckedRect(QRect itemRect) {
-    auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + 16, rc.y() + 16, 16, 16);
-}
-
 inline QRect fileItemDeteleRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
     return QRect(rc.x() + rc.width() - 16 - 16, rc.y() + 16, 16, 16);
@@ -71,9 +66,6 @@ void EditFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->setBrush(QColor("#2F2D2D"));
     painter->drawRoundedRect(borderRect, 0, 0);
     painter->setBrush(Qt::NoBrush);
-
-    // auto checkedRect = fileItemCheckedRect(rc);
-    // APainterHelper::paintPixmap(painter, checkedRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
 
     if (hover) {
         auto delIconRect = fileItemDeteleRect(rc);
@@ -134,6 +126,10 @@ void EditFileListView::changeData(QList<Data> datas) {
 
 void EditFileListView::setCurrentIndex(int index) {
     file_list_view_->setCurrentIndex(file_list_view_->model()->index(index, 0));
+}
+
+int EditFileListView::currentIndex() {
+    return file_list_view_->currentIndex().row();
 }
 
 void EditFileListView::createUi() {
@@ -199,16 +195,6 @@ void EditFileListView::sigConnect() {
             return;
         }
         emit Signals::getInstance()->sigFileListItemSelected(data);
-        // auto checkedRect = fileItemCheckedRect(rc);
-        // if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
-        //     && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
-        //     emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
-        // }
     });
-    
-    // connect(file_list_view_->model(), &QAbstractItemModel::currentChanged, [&listView](const QModelIndex &current, const QModelIndex &previous) {
-    //     // 更新 QListView 的当前选项
-    //     listView.setCurrentIndex(current);
-    // });
 }
 } // namespace imageedit
