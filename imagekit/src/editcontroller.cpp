@@ -52,12 +52,11 @@ void EditController::addData(const QStringList filePaths) {
         Data data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
-        QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
+        QImage image(filePath);
+        data.crop_rect = QRectF(0, 0, image.width(), image.height());
         datas_.append(data);
     }
     window_->changeFileListData(datas_);
@@ -66,33 +65,20 @@ void EditController::addData(const QStringList filePaths) {
 }
 
 void EditController::deleteData(const QString filePath) {
+    // 点击删除时已经改变了currentIndex
     int currentIndex = window_->fileListCurrentIndex();
     auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     };
 
-    // 查找当前选中的数据在 datas_ 中的位置
-    auto it = std::find_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath));
-    // 如果当前选中的数据存在且被删除，则更新当前索引
-    if (it != datas_.end()) {
-        if (std::distance(datas_.begin(), it) == currentIndex) {
-            currentIndex = -1; // 将当前索引标记为无效，以便后续重新选中
-        }
-    }
-
     datas_.erase(std::remove_if(datas_.begin(), datas_.end(), std::bind(filePathMatches, std::placeholders::_1, filePath)), datas_.end());
     window_->changeFileListData(datas_);
 
-    // 计算删除后的选中索引
     int n = currentIndex;
-    if (currentIndex == -1) {
-        // 如果删除的是当前选中的数据，则选中索引为原当前索引
-        n = std::min(static_cast<int>(datas_.size()) - 1, currentIndex);
-    }
-
-    window_->setFileListCurrentIndex(n);
+    n = std::min(static_cast<int>(datas_.size()) - 1, currentIndex);
 
     if (n != -1) {
+        window_->setFileListCurrentIndex(n);
         emit Signals::getInstance()->sigFileListItemSelected(datas_[n]);
     }
 }

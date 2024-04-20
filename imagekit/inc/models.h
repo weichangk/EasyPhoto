@@ -108,11 +108,8 @@ struct Data {
     QString file_name = "";
     QString file_path = "";
     Status state = Status::NONE;
-    QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
-    QPixmap checked_icon = QPixmap();
-    QPixmap unchecked_icon = QPixmap();
-    bool is_checked = false;
+    QRectF crop_rect;// TODO 待完善裁剪参数逻辑
 };
 
 } // namespace imageedit

@@ -161,6 +161,7 @@ void EditFileListView::createUi() {
     file_list_view_->setResizeMode(QListView::Adjust);
     file_list_view_->setViewMode(QListView::ListMode);
     file_list_view_->setFlow(QListView::TopToBottom);
+    file_list_view_->setDragEnabled(false);
     file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
 
     auto delegate = new EditFileItemDelegate(this);
