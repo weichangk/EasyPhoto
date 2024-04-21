@@ -90,6 +90,10 @@ void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, [=](Data data) {
         loadInputPixmap(data.file_path);
         updateInputPixmapSize();
+        //等待updateInputPixmapSize()布局刷新input_preview_pixmap_label_->setFixedSize获取正确坐标
+        QTimer::singleShot(100, [=]() {
+            updateCropViewGeometry();
+        }); 
     });
 }
 
@@ -106,8 +110,10 @@ void EditPreviewView::hideEvent(QHideEvent *event) {
 
 void EditPreviewView::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
-    updateCropViewGeometry();
     updateInputPixmapSize();
+    QTimer::singleShot(100, [=]() {
+        updateCropViewGeometry();
+    }); 
 }
 
 void EditPreviewView::moveEvent(QMoveEvent *event) {
@@ -145,14 +151,6 @@ void EditPreviewView::updateInputPixmapSize() {
 
     output_preview_pixmap_label_->setFixedSize(pixmap.size());
     output_preview_pixmap_label_->setPixmap(pixmap);
-
-    //input_preview_pixmap_label_->setFixedSize 等待布局刷新获取正确坐标
-    QTimer::singleShot(100, [=]() {
-        updateCropViewGeometry();
-        QTimer::singleShot(100, [=]() {
-            updateCropViewGeometry();
-        });
-    }); 
 }
 
 } // namespace imageedit
