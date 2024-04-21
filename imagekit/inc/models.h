@@ -109,7 +109,7 @@ struct Data {
     QString file_path = "";
     Status state = Status::NONE;
     QPixmap delete_icon = QPixmap();
-    QRectF crop_rect;// TODO 待完善裁剪参数逻辑
+    QRect crop_rect;
 };
 
 } // namespace imageedit

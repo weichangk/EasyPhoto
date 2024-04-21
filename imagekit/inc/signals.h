@@ -62,5 +62,6 @@ Q_SIGNALS:
     void sigDeleteAll();
     void sigStatus(Status state);
     void sigFileListItemSelected(Data data);
+    void sigDataUpdate(Data data);
 };
 } // namespace imageedit

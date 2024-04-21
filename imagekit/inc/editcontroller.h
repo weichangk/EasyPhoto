@@ -30,6 +30,7 @@ private:
     void finished();
     void cancel();
     void deleteAll();
+    void dataUpdate(Data data);
 private:
     EditWindow *window_;
     QList<Data> datas_;

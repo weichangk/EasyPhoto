@@ -36,6 +36,7 @@ void EditController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &EditController::deleteData);
     connect(Signals::getInstance(), &Signals::sigStatus, this, &EditController::status);
     connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &EditController::deleteAll);
+    connect(Signals::getInstance(), &Signals::sigDataUpdate, this, &EditController::dataUpdate);
 }
 
 void EditController::openFileDialog(QWidget *parent) {
@@ -56,7 +57,7 @@ void EditController::addData(const QStringList filePaths) {
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
         QImage image(filePath);
-        data.crop_rect = QRectF(0, 0, image.width(), image.height());
+        data.crop_rect = QRect(0, 0, 0, 0);
         datas_.append(data);
     }
     window_->changeFileListData(datas_);
@@ -126,4 +127,19 @@ void EditController::deleteAll() {
     datas_.clear();
     window_->changeFileListData(datas_);
 }
+
+void EditController::dataUpdate(Data data) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
+        return cd.file_path == filePath;
+    }; 
+    auto it = std::find_if(datas_.begin(), datas_.end(), [&](const Data& d) {
+        return filePathMatches(d, data.file_path);
+    });
+    if (it != datas_.end()) {
+        Data& foundData = *it;
+        foundData = data;
+        window_->changeFileListData(datas_);
+    }
+}
+
 } // namespace imageedit

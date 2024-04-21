@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../agui/inc/abasewidget.h"
+#include "inc/models.h"
 
 class ALabel;
 class AWidget;
@@ -28,11 +29,15 @@ protected:
     void moveEvent(QMoveEvent *event) override;
 
 private:
+    void preViewDataSelected(Data data);
     void updateCropViewGeometry();
     void loadInputPixmap(const QString &path);
     void updateInputPixmapSize();
+    void selectionRectChanged(const QRect &rect);
 
 private:
+    Data data_;
+
     ALabel *input_preview_label_;
     AWidget *input_preview_widget_;
     ALabel *input_preview_pixmap_label_;

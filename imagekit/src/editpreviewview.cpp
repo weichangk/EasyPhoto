@@ -86,15 +86,8 @@ void EditPreviewView::changeLanguage() {
 
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
-    
-    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, [=](Data data) {
-        loadInputPixmap(data.file_path);
-        updateInputPixmapSize();
-        //等待updateInputPixmapSize()布局刷新input_preview_pixmap_label_->setFixedSize获取正确坐标
-        QTimer::singleShot(100, [=]() {
-            updateCropViewGeometry();
-        }); 
-    });
+    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, &EditPreviewView::preViewDataSelected);
+    connect(crop_view_, &EditCropView::sigSelectionRectChanged, this, &EditPreviewView::selectionRectChanged);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -121,9 +114,23 @@ void EditPreviewView::moveEvent(QMoveEvent *event) {
     updateCropViewGeometry();
 }
 
+void EditPreviewView::preViewDataSelected(Data data) {
+    data_ = data;
+    loadInputPixmap(data.file_path);
+    updateInputPixmapSize();
+    // 等待updateInputPixmapSize()布局刷新input_preview_pixmap_label_->setFixedSize获取正确坐标
+    QTimer::singleShot(100, [=]() {
+        updateCropViewGeometry();
+    });
+}
+
 void EditPreviewView::updateCropViewGeometry() {
+    QRect selectionRect = data_.crop_rect;
+    if(selectionRect.isEmpty()) {
+        selectionRect = QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
+    }
+    crop_view_->setSelectionRect(selectionRect);
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
-    crop_view_->setSelectionRect(QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height()));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
 
@@ -152,6 +159,11 @@ void EditPreviewView::updateInputPixmapSize() {
 
     output_preview_pixmap_label_->setFixedSize(pixmap.size());
     output_preview_pixmap_label_->setPixmap(pixmap);
+}
+
+void EditPreviewView::selectionRectChanged(const QRect &rect) {
+    data_.crop_rect = rect;
+    emit Signals::getInstance()->sigDataUpdate(data_);
 }
 
 } // namespace imageedit
