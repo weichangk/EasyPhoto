@@ -10,9 +10,14 @@
 
 namespace imageedit {
 class EditCropView : public ABaseWidget {
+    Q_OBJECT
 public:
     EditCropView(QWidget *parent = nullptr);
     ~EditCropView();
+    void setSelectionRect(const QRect &rect);
+
+Q_SIGNALS:
+    void sigSelectionRectChanged(const QRect &rect);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;
@@ -28,13 +33,13 @@ private:
     void updateCursor(const QPoint &pos);
 
 private:
-    QRect selectionRect;
-    bool resizing = false;
-    bool moving = false;
-    int resizeMode = 0;
-    QPoint lastPos;
-    QPoint anchorPoints[8];
-    const int anchorSize = 6;
+    QRect selection_rect_;
+    bool resizing_ = false;
+    bool moving_ = false;
+    int resize_mode_ = 0;
+    QPoint last_pos_;
+    QPoint anchor_points_[8];
+    const int anchor_size_ = 6;
     const int min_width_ = 48;
     const int min_height_ = 48;
 };

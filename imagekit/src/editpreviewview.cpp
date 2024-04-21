@@ -123,6 +123,7 @@ void EditPreviewView::moveEvent(QMoveEvent *event) {
 
 void EditPreviewView::updateCropViewGeometry() {
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
+    crop_view_->setSelectionRect(QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height()));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
 
