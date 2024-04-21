@@ -138,7 +138,9 @@ void EditController::dataUpdate(Data data) {
     if (it != datas_.end()) {
         Data& foundData = *it;
         foundData = data;
+        int currentIndex = window_->fileListCurrentIndex();
         window_->changeFileListData(datas_);
+        window_->setFileListCurrentIndex(currentIndex);
     }
 }
 
