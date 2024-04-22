@@ -87,7 +87,10 @@ void EditPreviewView::changeLanguage() {
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
     connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, &EditPreviewView::preViewDataSelected);
-    connect(crop_view_, &EditCropView::sigSelectionRectChanged, this, &EditPreviewView::selectionRectChanged);
+    connect(crop_view_, &EditCropView::sigSelectRectChangedEnd, this, &EditPreviewView::selectRectChangedEnd);
+    connect(crop_view_, &EditCropView::sigSelectRectChanged, this, [=](const QRect &rect) {
+        emit Signals::getInstance()->sigSelectRectChanged(rect);
+    });
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -161,7 +164,7 @@ void EditPreviewView::updateInputPixmapSize() {
     output_preview_pixmap_label_->setPixmap(pixmap);
 }
 
-void EditPreviewView::selectionRectChanged(const QRect &rect) {
+void EditPreviewView::selectRectChangedEnd(const QRect &rect) {
     data_.crop_rect = rect;
     emit Signals::getInstance()->sigDataUpdate(data_);
 }

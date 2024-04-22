@@ -17,7 +17,8 @@ public:
     void setSelectionRect(const QRect &rect);
 
 Q_SIGNALS:
-    void sigSelectionRectChanged(const QRect &rect);
+    void sigSelectRectChanged(const QRect &rect);
+    void sigSelectRectChangedEnd(const QRect &rect);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

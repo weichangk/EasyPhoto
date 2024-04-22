@@ -6,6 +6,7 @@
  */
 
 #include "inc/editsettingview.h"
+#include "inc/signals.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/atabbar.h"
@@ -189,5 +190,19 @@ void EditSettingView::changeLanguage() {
 }
 
 void EditSettingView::sigConnect() {
+    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, &EditSettingView::preViewDataSelected);
+    connect(Signals::getInstance(), &Signals::sigSelectRectChanged, this, &EditSettingView::selectRectChanged);
 }
+
+void EditSettingView::preViewDataSelected(Data data) {
+    data_ = data;
+    crop_ratio_width_edit_->setText(QString::number(data.crop_rect.width()));
+    crop_ratio_height_edit_->setText(QString::number(data.crop_rect.height()));
+}
+
+void EditSettingView::selectRectChanged(const QRect &rect) {
+    crop_ratio_width_edit_->setText(QString::number(rect.width()));
+    crop_ratio_height_edit_->setText(QString::number(rect.height()));
+}
+
 } // namespace imageedit

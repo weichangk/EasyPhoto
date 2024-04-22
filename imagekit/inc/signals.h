@@ -63,5 +63,6 @@ Q_SIGNALS:
     void sigStatus(Status state);
     void sigFileListItemSelected(Data data);
     void sigDataUpdate(Data data);
+    void sigSelectRectChanged(const QRect &rect);
 };
 } // namespace imageedit

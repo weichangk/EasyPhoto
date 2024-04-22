@@ -7,6 +7,7 @@
 
 #pragma once
 #include "../agui/inc/abasewidget.h"
+#include "inc/models.h"
 
 class ATabBar;
 class ATabWidget;
@@ -30,6 +31,12 @@ protected:
     void sigConnect() override;
 
 private:
+    void preViewDataSelected(Data data);
+    void selectRectChanged(const QRect &rect);
+
+private:
+    Data data_;
+
     ATabBar *tab_bar_;
     ATabWidget *tab_widget_;
 

@@ -92,7 +92,7 @@ void EditCropView::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton) {
         resizing_ = false;
         moving_ = false;
-        emit sigSelectionRectChanged(selection_rect_);
+        emit sigSelectRectChangedEnd(selection_rect_);
     }
 }
 
@@ -201,6 +201,7 @@ void EditCropView::resizeSelectionSize(const QPoint &pos) {
     anchor_points_[resize_mode_] = center;
     updateAnchors();
     update();
+    emit sigSelectRectChanged(selection_rect_);
 }
 
 void EditCropView::moveSelection(const QPoint &pos) {
@@ -221,6 +222,7 @@ void EditCropView::moveSelection(const QPoint &pos) {
     updateAnchors();
     update();
     last_pos_ = pos;
+    emit sigSelectRectChanged(selection_rect_);
 }
 
 void EditCropView::updateAnchors() {
