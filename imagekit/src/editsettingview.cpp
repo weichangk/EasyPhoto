@@ -196,8 +196,6 @@ void EditSettingView::sigConnect() {
 
 void EditSettingView::preViewDataSelected(Data data) {
     data_ = data;
-    crop_ratio_width_edit_->setText(QString::number(data.crop_rect.width()));
-    crop_ratio_height_edit_->setText(QString::number(data.crop_rect.height()));
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {

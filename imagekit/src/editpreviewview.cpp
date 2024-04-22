@@ -133,6 +133,7 @@ void EditPreviewView::updateCropViewGeometry() {
         selectionRect = QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
     }
     crop_view_->setSelectionRect(selectionRect);
+    emit Signals::getInstance()->sigSelectRectChanged(selectionRect);
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
