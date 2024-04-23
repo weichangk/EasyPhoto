@@ -25,6 +25,7 @@ private:
     void openFileDialog(QWidget *parent = nullptr);
     void addData(const QStringList filePaths);
     void deleteData(const QString filePath);
+    void clickedData(const QString filePath);
     void status(Status state);
     void start();
     void finished();

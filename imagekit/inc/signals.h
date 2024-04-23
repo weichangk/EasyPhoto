@@ -59,9 +59,10 @@ Q_SIGNALS:
     void sigWindowMove();
     void sigOpenFileDialog(QWidget *parent = nullptr);
     void sigDeleteFile(const QString filePath);
+    void sigClickedFile(const QString filePath);
     void sigDeleteAll();
     void sigStatus(Status state);
-    void sigFileListItemSelected(Data data);
+    void sigListItemDataSelected(Data *data);
     void sigDataUpdate(Data data);
     void sigSelectRectChanged(const QRect &rect);
 };

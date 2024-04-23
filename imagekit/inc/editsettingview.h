@@ -31,11 +31,11 @@ protected:
     void sigConnect() override;
 
 private:
-    void preViewDataSelected(Data data);
+    void preViewDataSelected(Data *data);
     void selectRectChanged(const QRect &rect);
 
 private:
-    Data data_;
+    Data *data_ = nullptr;
 
     ATabBar *tab_bar_;
     ATabWidget *tab_widget_;

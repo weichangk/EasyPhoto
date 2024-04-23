@@ -16,7 +16,7 @@
 
 namespace imageedit {
 EditPreviewView::EditPreviewView(QWidget *parent) :
-    ABaseWidget(parent) {
+    ABaseWidget(parent){
     createUi();
     sigConnect();
     changeLanguage();
@@ -86,7 +86,7 @@ void EditPreviewView::changeLanguage() {
 
 void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
-    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, &EditPreviewView::preViewDataSelected);
+    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditPreviewView::preViewDataSelected);
     connect(crop_view_, &EditCropView::sigSelectRectChangedEnd, this, &EditPreviewView::selectRectChangedEnd);
     connect(crop_view_, &EditCropView::sigSelectRectChanged, this, [=](const QRect &rect) {
         emit Signals::getInstance()->sigSelectRectChanged(rect);
@@ -117,9 +117,9 @@ void EditPreviewView::moveEvent(QMoveEvent *event) {
     updateCropViewGeometry();
 }
 
-void EditPreviewView::preViewDataSelected(Data data) {
+void EditPreviewView::preViewDataSelected(Data *data) {
     data_ = data;
-    loadInputPixmap(data.file_path);
+    loadInputPixmap(data->file_path);
     updateInputPixmapSize();
     // 等待updateInputPixmapSize()布局刷新input_preview_pixmap_label_->setFixedSize获取正确坐标
     QTimer::singleShot(100, [=]() {
@@ -128,7 +128,10 @@ void EditPreviewView::preViewDataSelected(Data data) {
 }
 
 void EditPreviewView::updateCropViewGeometry() {
-    QRect selectionRect = data_.crop_rect;
+    if(!data_) {
+        return;
+    }
+    QRect selectionRect = data_->crop_rect;
     if(selectionRect.isEmpty()) {
         selectionRect = QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
     }
@@ -166,8 +169,7 @@ void EditPreviewView::updateInputPixmapSize() {
 }
 
 void EditPreviewView::selectRectChangedEnd(const QRect &rect) {
-    data_.crop_rect = rect;
-    emit Signals::getInstance()->sigDataUpdate(data_);
+    data_->crop_rect = rect;
 }
 
 } // namespace imageedit

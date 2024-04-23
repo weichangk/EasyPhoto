@@ -190,11 +190,11 @@ void EditSettingView::changeLanguage() {
 }
 
 void EditSettingView::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigFileListItemSelected, this, &EditSettingView::preViewDataSelected);
+    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
     connect(Signals::getInstance(), &Signals::sigSelectRectChanged, this, &EditSettingView::selectRectChanged);
 }
 
-void EditSettingView::preViewDataSelected(Data data) {
+void EditSettingView::preViewDataSelected(Data *data) {
     data_ = data;
 }
 

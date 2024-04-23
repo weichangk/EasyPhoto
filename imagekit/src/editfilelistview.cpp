@@ -195,7 +195,7 @@ void EditFileListView::sigConnect() {
             emit Signals::getInstance()->sigDeleteFile(data.file_path);
             return;
         }
-        emit Signals::getInstance()->sigFileListItemSelected(data);
+        emit Signals::getInstance()->sigClickedFile(data.file_path);
     });
 }
 } // namespace imageedit

@@ -29,14 +29,14 @@ protected:
     void moveEvent(QMoveEvent *event) override;
 
 private:
-    void preViewDataSelected(Data data);
+    void preViewDataSelected(Data *data);
     void updateCropViewGeometry();
     void loadInputPixmap(const QString &path);
     void updateInputPixmapSize();
     void selectRectChangedEnd(const QRect &rect);
 
 private:
-    Data data_;
+    Data *data_ = nullptr;
 
     ALabel *input_preview_label_;
     AWidget *input_preview_widget_;
