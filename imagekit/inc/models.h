@@ -110,6 +110,7 @@ struct Data {
     Status state = Status::NONE;
     QPixmap delete_icon = QPixmap();
     QRect crop_rect;
+    bool is_equal_ratio_crop_ = false;
 };
 
 } // namespace imageedit

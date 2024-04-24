@@ -18,6 +18,7 @@
 #include "../awidget/inc/alineedit.h"
 #include "../awidget/inc/aslider.h"
 #include "../awidget/inc/aradiobutton.h"
+#include <QIntValidator>
 
 namespace imageedit {
 EditSettingView::EditSettingView(QWidget *parent) :
@@ -45,12 +46,16 @@ void EditSettingView::createUi() {
     tab_widget_->addTab(effect_setting_widget_, "Effect");
     tab_widget_->addTab(watermark_setting_widget_, "Watermark");
 
+    QIntValidator *cropRatioEditValidator = new QIntValidator(this);
+
     original_ratio_label_ = new ALabel(crop_setting_widget_);
     original_ratio_value_label_ = new ALabel(crop_setting_widget_);
     equal_ratio_checkbox_ = new ACheckBox(crop_setting_widget_);
     crop_ratio_label_ = new ALabel(crop_setting_widget_);
     crop_ratio_width_edit_ = new ALineEdit(crop_setting_widget_);
     crop_ratio_height_edit_ = new ALineEdit(crop_setting_widget_);
+    crop_ratio_width_edit_->setValidator(cropRatioEditValidator);
+    crop_ratio_height_edit_->setValidator(cropRatioEditValidator);
     crop_align_center_button_ = new APushButton(crop_setting_widget_);
     crop_reset_button_ = new APushButton(crop_setting_widget_);
     auto crop_layout = new AVBoxLayout(crop_setting_widget_);
@@ -192,10 +197,19 @@ void EditSettingView::changeLanguage() {
 void EditSettingView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
     connect(Signals::getInstance(), &Signals::sigSelectRectChanged, this, &EditSettingView::selectRectChanged);
+
+    connect(crop_ratio_width_edit_, &ALineEdit::textEdited, this, [=](const QString text){
+        qDebug() << "textEdited:" << text;
+    });
+    connect(crop_ratio_width_edit_, &ALineEdit::editingFinished, this, [=](){
+        // 删除到空时没有响应
+        qDebug() << "editingFinished:" << crop_ratio_width_edit_->text();
+    });
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
     data_ = data;
+    equal_ratio_checkbox_->setChecked(data_->is_equal_ratio_crop_);
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {

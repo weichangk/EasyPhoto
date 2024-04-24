@@ -133,6 +133,7 @@ void EditPreviewView::updateCropViewGeometry() {
     }
     QRect selectionRect = data_->crop_rect;
     if(selectionRect.isEmpty()) {
+        // 初始化裁剪区域大小
         selectionRect = QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
     }
     crop_view_->setSelectionRect(selectionRect);
