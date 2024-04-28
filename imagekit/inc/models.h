@@ -95,6 +95,8 @@ struct Result {
 } // namespace imagecompression
 
 namespace imageedit {
+static const int kCropRectMinW = 100;
+static const int kCropRectMinH = 100;
 using Status = enum {
     NONE = 0,
     START,

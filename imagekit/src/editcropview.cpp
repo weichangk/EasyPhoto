@@ -6,12 +6,13 @@
  */
 
 #include "inc/editcropview.h"
+#include "inc/models.h"
 #include <QPainter>
 #include <QMouseEvent>
 
 namespace imageedit {
 EditCropView::EditCropView(QWidget *parent) :
-    ABaseWidget(parent) {
+    ABaseWidget(parent), min_width_(kCropRectMinW), min_height_(kCropRectMinH) {
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
     setMouseTracking(true);
