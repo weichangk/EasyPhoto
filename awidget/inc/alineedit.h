@@ -14,4 +14,10 @@ class AWIDGET_EXPORT ALineEdit : public QLineEdit {
 public:
     ALineEdit(QWidget *parent = nullptr);
     ~ALineEdit();
+
+Q_SIGNALS:
+    void sigFocusOut(const QString &);
+
+protected:
+    void focusOutEvent(QFocusEvent *event) override;
 };

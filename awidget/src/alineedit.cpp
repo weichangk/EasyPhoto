@@ -13,3 +13,8 @@ ALineEdit::ALineEdit(QWidget *parent) :
 
 ALineEdit::~ALineEdit() {
 }
+
+void ALineEdit::focusOutEvent(QFocusEvent *event) {
+    QLineEdit::focusOutEvent(event);
+    emit sigFocusOut(text());
+}
