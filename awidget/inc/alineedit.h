@@ -17,7 +17,9 @@ public:
 
 Q_SIGNALS:
     void sigFocusOut(const QString &);
+    void sigEditingConfirm(const QString &);
 
 protected:
+    void keyPressEvent(QKeyEvent *event) override;
     void focusOutEvent(QFocusEvent *event) override;
 };
