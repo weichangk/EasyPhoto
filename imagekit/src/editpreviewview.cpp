@@ -88,9 +88,8 @@ void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditPreviewView::preViewDataSelected);
     connect(crop_view_, &EditCropView::sigSelectRectChangedEnd, this, &EditPreviewView::selectRectChangedEnd);
-    connect(crop_view_, &EditCropView::sigSelectRectChanged, this, [=](const QRect &rect) {
-        emit Signals::getInstance()->sigSelectRectChanged(rect);
-    });
+    connect(crop_view_, &EditCropView::sigSelectRectChanged, Signals::getInstance(), &Signals::sigChangedSelectRect2Setting);
+    connect(Signals::getInstance(), &Signals::sigChangedSelectRect2Preview, this, &EditPreviewView::setCropViewSelectionRect);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -136,8 +135,8 @@ void EditPreviewView::updateCropViewGeometry() {
         // 初始化裁剪区域大小
         selectionRect = QRect(0, 0, input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
     }
-    crop_view_->setSelectionRect(selectionRect);
-    emit Signals::getInstance()->sigSelectRectChanged(selectionRect);
+    setCropViewSelectionRect(selectionRect);
+    emit Signals::getInstance()->sigChangedSelectRect2Setting(selectionRect);
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
@@ -171,6 +170,10 @@ void EditPreviewView::updateInputPixmapSize() {
 
 void EditPreviewView::selectRectChangedEnd(const QRect &rect) {
     data_->crop_rect = rect;
+}
+
+void EditPreviewView::setCropViewSelectionRect(const QRect &rect) {
+    crop_view_->setSelectionRect(rect);
 }
 
 } // namespace imageedit

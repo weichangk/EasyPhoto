@@ -34,6 +34,7 @@ private:
     void loadInputPixmap(const QString &path);
     void updateInputPixmapSize();
     void selectRectChangedEnd(const QRect &rect);
+    void setCropViewSelectionRect(const QRect &rect);
 
 private:
     Data *data_ = nullptr;

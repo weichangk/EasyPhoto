@@ -33,9 +33,12 @@ protected:
 private:
     void preViewDataSelected(Data *data);
     void selectRectChanged(const QRect &rect);
+    void cropWidthEditingConfirm(const QString text);
+    void cropHeightEditingConfirm(const QString text);
 
 private:
     Data *data_ = nullptr;
+    QRect select_rect_;
 
     ATabBar *tab_bar_;
     ATabWidget *tab_widget_;

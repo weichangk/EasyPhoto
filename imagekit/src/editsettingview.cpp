@@ -12,7 +12,7 @@
 #include "../awidget/inc/atabbar.h"
 #include "../awidget/inc/atabwidget.h"
 #include "../awidget/inc/awidget.h"
-#include "../awidget/inc/apushbutton.h"   
+#include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/acheckbox.h"
 #include "../awidget/inc/alineedit.h"
@@ -46,7 +46,10 @@ void EditSettingView::createUi() {
     tab_widget_->addTab(effect_setting_widget_, "Effect");
     tab_widget_->addTab(watermark_setting_widget_, "Watermark");
 
-    QIntValidator *cropRatioEditValidator = new QIntValidator(this);
+    QIntValidator *cropWEditValidator = new QIntValidator(this);
+    QIntValidator *cropHEditValidator = new QIntValidator(this);
+    cropWEditValidator->setRange(kCropRectMinW, 1920);
+    cropHEditValidator->setRange(kCropRectMinH, 1080);
 
     original_ratio_label_ = new ALabel(crop_setting_widget_);
     original_ratio_value_label_ = new ALabel(crop_setting_widget_);
@@ -54,8 +57,8 @@ void EditSettingView::createUi() {
     crop_ratio_label_ = new ALabel(crop_setting_widget_);
     crop_ratio_width_edit_ = new ALineEdit(crop_setting_widget_);
     crop_ratio_height_edit_ = new ALineEdit(crop_setting_widget_);
-    crop_ratio_width_edit_->setValidator(cropRatioEditValidator);
-    crop_ratio_height_edit_->setValidator(cropRatioEditValidator);
+    crop_ratio_width_edit_->setValidator(cropWEditValidator);
+    crop_ratio_height_edit_->setValidator(cropHEditValidator);
     crop_align_center_button_ = new APushButton(crop_setting_widget_);
     crop_reset_button_ = new APushButton(crop_setting_widget_);
     auto crop_layout = new AVBoxLayout(crop_setting_widget_);
@@ -77,7 +80,7 @@ void EditSettingView::createUi() {
     crop_layout->addWidget(crop_align_center_button_);
     crop_layout->addWidget(crop_reset_button_);
     crop_layout->addStretch();
-    
+
     rotate_right90_button_ = new APushButton(rotate_setting_widget_);
     rotate_left90_button_ = new APushButton(rotate_setting_widget_);
     rotate_horizontal_flip_button_ = new APushButton(rotate_setting_widget_);
@@ -190,21 +193,15 @@ void EditSettingView::changeLanguage() {
     text_radio_button_->setText("Text");
     mosaic_radio_button_->setText("Mosaic");
     none_radio_button_->setText("None");
-    
+
     export_button_->setText("Export");
 }
 
 void EditSettingView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
-    connect(Signals::getInstance(), &Signals::sigSelectRectChanged, this, &EditSettingView::selectRectChanged);
-
-    connect(crop_ratio_width_edit_, &ALineEdit::textEdited, this, [=](const QString text){
-        qDebug() << "textEdited:" << text;
-    });
-    connect(crop_ratio_width_edit_, &ALineEdit::editingFinished, this, [=](){
-        // 删除到空时没有响应
-        qDebug() << "editingFinished:" << crop_ratio_width_edit_->text();
-    });
+    connect(Signals::getInstance(), &Signals::sigChangedSelectRect2Setting, this, &EditSettingView::selectRectChanged);
+    connect(crop_ratio_width_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
+    connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -213,8 +210,29 @@ void EditSettingView::preViewDataSelected(Data *data) {
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {
+    select_rect_ = rect;
     crop_ratio_width_edit_->setText(QString::number(rect.width()));
     crop_ratio_height_edit_->setText(QString::number(rect.height()));
+}
+
+void EditSettingView::cropWidthEditingConfirm(const QString text) {
+    if (text.toInt() < kCropRectMinW) {
+        crop_ratio_width_edit_->setText(QString::number(kCropRectMinW));
+    }
+    int w = crop_ratio_width_edit_->text().toInt();
+    data_->crop_rect.setWidth(w);
+    select_rect_.setWidth(w);
+    emit Signals::getInstance()->sigChangedSelectRect2Preview(select_rect_);
+}
+
+void EditSettingView::cropHeightEditingConfirm(const QString text) {
+    if (text.toInt() < kCropRectMinH) {
+        crop_ratio_height_edit_->setText(QString::number(kCropRectMinH));
+    }
+    int h = crop_ratio_height_edit_->text().toInt();
+    data_->crop_rect.setHeight(h);
+    select_rect_.setHeight(h);
+    emit Signals::getInstance()->sigChangedSelectRect2Preview(select_rect_);
 }
 
 } // namespace imageedit
