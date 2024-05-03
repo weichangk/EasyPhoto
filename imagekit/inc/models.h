@@ -111,8 +111,14 @@ struct Data {
     QString file_path = "";
     Status state = Status::NONE;
     QPixmap delete_icon = QPixmap();
+    double preview_ratio = 0;
     QRect crop_rect;
+    QRect origin_crop_rect;
+    QRect latest_crop_rect;
     bool is_equal_ratio_crop_ = false;
 };
+
+QRect CropRect2PreviewRect(QRect rect, double ratio);
+QRect PreviewRect2CropRect(QRect rect, double ratio);
 
 } // namespace imageedit

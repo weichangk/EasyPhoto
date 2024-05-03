@@ -18,6 +18,7 @@ class ACheckBox;
 class ALineEdit;
 class ASlider;
 class ARadioButton;
+class QIntValidator;
 namespace imageedit {
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
@@ -35,6 +36,7 @@ private:
     void selectRectChanged(const QRect &rect);
     void cropWidthEditingConfirm(const QString text);
     void cropHeightEditingConfirm(const QString text);
+    void resetCrop();
 
 private:
     Data *data_ = nullptr;
@@ -52,6 +54,9 @@ private:
     ALineEdit *crop_ratio_height_edit_;
     APushButton *crop_align_center_button_;
     APushButton *crop_reset_button_;
+
+    QIntValidator *crop_w_edit_validator_;
+    QIntValidator *crop_h_edit_validator_;
 
     AWidget *rotate_setting_widget_;
     APushButton *rotate_right90_button_;

@@ -21,6 +21,10 @@
 #include <QIntValidator>
 
 namespace imageedit {
+void cropEditvalidatorRangeChanged(QIntValidator *validator, int min, int max) {
+    validator->setRange(min, max);
+}
+
 EditSettingView::EditSettingView(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
@@ -46,10 +50,11 @@ void EditSettingView::createUi() {
     tab_widget_->addTab(effect_setting_widget_, "Effect");
     tab_widget_->addTab(watermark_setting_widget_, "Watermark");
 
-    QIntValidator *cropWEditValidator = new QIntValidator(this);
-    QIntValidator *cropHEditValidator = new QIntValidator(this);
-    cropWEditValidator->setRange(kCropRectMinW, 1920);
-    cropHEditValidator->setRange(kCropRectMinH, 1080);
+    crop_w_edit_validator_ = new QIntValidator(this);
+    crop_h_edit_validator_ = new QIntValidator(this);
+
+    cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, 1920);
+    cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, 1080);
 
     original_ratio_label_ = new ALabel(crop_setting_widget_);
     original_ratio_value_label_ = new ALabel(crop_setting_widget_);
@@ -57,8 +62,8 @@ void EditSettingView::createUi() {
     crop_ratio_label_ = new ALabel(crop_setting_widget_);
     crop_ratio_width_edit_ = new ALineEdit(crop_setting_widget_);
     crop_ratio_height_edit_ = new ALineEdit(crop_setting_widget_);
-    crop_ratio_width_edit_->setValidator(cropWEditValidator);
-    crop_ratio_height_edit_->setValidator(cropHEditValidator);
+    crop_ratio_width_edit_->setValidator(crop_w_edit_validator_);
+    crop_ratio_height_edit_->setValidator(crop_h_edit_validator_);
     crop_align_center_button_ = new APushButton(crop_setting_widget_);
     crop_reset_button_ = new APushButton(crop_setting_widget_);
     auto crop_layout = new AVBoxLayout(crop_setting_widget_);
@@ -199,13 +204,19 @@ void EditSettingView::changeLanguage() {
 
 void EditSettingView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
-    connect(Signals::getInstance(), &Signals::sigChangedSelectRect2Setting, this, &EditSettingView::selectRectChanged);
+    connect(Signals::getInstance(), &Signals::sigSelectRectPreview2Setting, this, &EditSettingView::selectRectChanged);
     connect(crop_ratio_width_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
     connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
+    connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
     data_ = data;
+
+    original_ratio_value_label_->setText(QString("%1:%2").arg(data_->latest_crop_rect.width()).arg(data_->latest_crop_rect.height()));
+    cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, data_->latest_crop_rect.width());
+    cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, data_->latest_crop_rect.height());
+
     equal_ratio_checkbox_->setChecked(data_->is_equal_ratio_crop_);
 }
 
@@ -222,7 +233,7 @@ void EditSettingView::cropWidthEditingConfirm(const QString text) {
     int w = crop_ratio_width_edit_->text().toInt();
     data_->crop_rect.setWidth(w);
     select_rect_.setWidth(w);
-    emit Signals::getInstance()->sigChangedSelectRect2Preview(select_rect_);
+    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
 }
 
 void EditSettingView::cropHeightEditingConfirm(const QString text) {
@@ -232,7 +243,18 @@ void EditSettingView::cropHeightEditingConfirm(const QString text) {
     int h = crop_ratio_height_edit_->text().toInt();
     data_->crop_rect.setHeight(h);
     select_rect_.setHeight(h);
-    emit Signals::getInstance()->sigChangedSelectRect2Preview(select_rect_);
+    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+}
+
+void EditSettingView::resetCrop() {
+    data_->crop_rect = data_->origin_crop_rect;
+    data_->latest_crop_rect = data_->origin_crop_rect;
+    
+    crop_ratio_width_edit_->setText(QString::number(data_->crop_rect.width()));
+    crop_ratio_height_edit_->setText(QString::number(data_->crop_rect.height()));
+
+    select_rect_ = data_->crop_rect;
+    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
 }
 
 } // namespace imageedit

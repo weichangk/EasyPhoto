@@ -33,6 +33,7 @@ private:
     void updateCropViewGeometry();
     void loadInputPixmap(const QString &path);
     void updateInputPixmapSize();
+    void selectRectChanged(const QRect &rect);
     void selectRectChangedEnd(const QRect &rect);
     void setCropViewSelectionRect(const QRect &rect);
 
