@@ -73,15 +73,11 @@ QString StatusEnum2QString(Status param) {
 }
 
 QRect CropRect2PreviewRect(QRect rect, double ratio) {
-    int width = rect.width();
-    int height = rect.height();
-    return QRect(0, 0, width / ratio, height / ratio);
+    return QRect(rect.x() / ratio, rect.y() / ratio, rect.width() / ratio, rect.height() / ratio);
 }
 
 QRect PreviewRect2CropRect(QRect rect, double ratio) {
-    int width = rect.width();
-    int height = rect.height();
-    return QRect(0, 0, width * ratio, height * ratio);
+    return QRect(rect.x() * ratio, rect.y() * ratio, rect.width() * ratio, rect.height() * ratio);
 }
 
 }

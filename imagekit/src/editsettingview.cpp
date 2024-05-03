@@ -208,14 +208,15 @@ void EditSettingView::sigConnect() {
     connect(crop_ratio_width_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
     connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
     connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
+    connect(crop_align_center_button_, &APushButton::clicked, this, &EditSettingView::alignCenter);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
     data_ = data;
 
-    original_ratio_value_label_->setText(QString("%1:%2").arg(data_->latest_crop_rect.width()).arg(data_->latest_crop_rect.height()));
-    cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, data_->latest_crop_rect.width());
-    cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, data_->latest_crop_rect.height());
+    original_ratio_value_label_->setText(QString("%1:%2").arg(data_->origin_crop_rect.width()).arg(data_->origin_crop_rect.height()));
+    cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, data_->origin_crop_rect.width());
+    cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, data_->origin_crop_rect.height());
 
     equal_ratio_checkbox_->setChecked(data_->is_equal_ratio_crop_);
 }
@@ -248,12 +249,20 @@ void EditSettingView::cropHeightEditingConfirm(const QString text) {
 
 void EditSettingView::resetCrop() {
     data_->crop_rect = data_->origin_crop_rect;
-    data_->latest_crop_rect = data_->origin_crop_rect;
     
     crop_ratio_width_edit_->setText(QString::number(data_->crop_rect.width()));
     crop_ratio_height_edit_->setText(QString::number(data_->crop_rect.height()));
 
     select_rect_ = data_->crop_rect;
+    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+}
+
+void EditSettingView::alignCenter() {
+    int x = (data_->origin_crop_rect.width() - select_rect_.width()) / 2;
+    int y = (data_->origin_crop_rect.height() - select_rect_.height()) / 2;
+    QRect r = QRect(x, y, select_rect_.width(), select_rect_.height());
+    data_->crop_rect = r;
+    select_rect_ = r;
     emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
 }
 

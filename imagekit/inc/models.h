@@ -114,7 +114,6 @@ struct Data {
     double preview_ratio = 0;
     QRect crop_rect;
     QRect origin_crop_rect;
-    QRect latest_crop_rect;
     bool is_equal_ratio_crop_ = false;
 };
 
