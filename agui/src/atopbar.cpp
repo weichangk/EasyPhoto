@@ -38,6 +38,20 @@ void ATopbar::setCloseBtnTopRight10Radius() {
     m_closeBtn->setStyle(m_closeBtn->style());
 }
 
+void ATopbar::setMinVisible(bool visible) {
+    m_minBtn->setVisible(visible);
+    m_minMacBtn->setVisible(visible);
+}
+
+void ATopbar::setMaxVisible(bool visible) {
+    m_maxBtn->setVisible(visible);
+    m_maxMacBtn->setVisible(visible);
+}
+void ATopbar::setCloseVisible(bool visible) {
+    m_closeBtn->setVisible(visible);
+    m_closeMacBtn->setVisible(visible);
+}
+
 void ATopbar::createUi() {
     setFixedHeight(40); // 36
 

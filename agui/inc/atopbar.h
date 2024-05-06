@@ -18,6 +18,9 @@ public:
     QWidget *contentWidget();
     void setNormalVisible(bool visible);
     void setCloseBtnTopRight10Radius();
+    void setMinVisible(bool visible);
+    void setMaxVisible(bool visible);
+    void setCloseVisible(bool visible);
 
 Q_SIGNALS:
     void sigMin();
