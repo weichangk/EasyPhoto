@@ -50,6 +50,8 @@ void EditWindow::createUi() {
 
     topbar_ = new ATopbar(this);
     topbar_->setCloseBtnTopRight10Radius();
+    topbar_->setMinVisible(false);
+    topbar_->setMaxVisible(false);
     mainLayout->addWidget(topbar_);
 
     auto topbarLayout = new AHBoxLayout(topbar_->contentWidget());
