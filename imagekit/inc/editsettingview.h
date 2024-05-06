@@ -38,6 +38,7 @@ private:
     void cropHeightEditingConfirm(const QString text);
     void resetCrop();
     void alignCenter();
+    void equalRatioChanged(int state);
 
 private:
     Data *data_ = nullptr;

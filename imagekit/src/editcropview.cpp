@@ -27,6 +27,14 @@ void EditCropView::setSelectionRect(const QRect &rect) {
     update();
 }
 
+void EditCropView::setAspectRatio(double aspectRatio) {
+    aspect_ratio_ = aspectRatio;
+}
+
+void EditCropView::setUseAspectRatio(bool use) {
+    use_aspect_ratio_ = use;
+}
+
 void EditCropView::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
 }
@@ -75,7 +83,11 @@ void EditCropView::mousePressEvent(QMouseEvent *event) {
 void EditCropView::mouseMoveEvent(QMouseEvent *event) {
     if (resizing_) {
         // 调整选框大小
-        resizeSelectionSize(event->pos());
+        if (use_aspect_ratio_) {
+            resizeSelectionSizeUseAspectRatio(event->pos());
+        } else {
+            resizeSelectionSize(event->pos());
+        }
         return;
     }
 
@@ -196,6 +208,128 @@ void EditCropView::resizeSelectionSize(const QPoint &pos) {
             newPos.setX(0);
         }
         selection_rect_.setLeft(newPos.x());
+        break;
+    }
+
+    anchor_points_[resize_mode_] = center;
+    updateAnchors();
+    update();
+    emit sigSelectRectChanged(selection_rect_);
+}
+
+void EditCropView::resizeSelectionSizeUseAspectRatio(const QPoint &pos) {
+    QPoint newPos = pos;
+    QPoint center = anchor_points_[resize_mode_];
+    switch (resize_mode_) {
+    case 0: // 左上角
+        if(anchor_points_[4].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchor_points_[4].x() - min_width_);
+        }
+        if(anchor_points_[4].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchor_points_[4].y() - min_height_);
+        }
+        if(newPos.x() < 0) {
+            return;
+        }
+        if(newPos.y() < 0) {
+            return;
+        }
+        selection_rect_.setTop(newPos.y());
+        selection_rect_.setWidth(selection_rect_.height() * aspect_ratio_);
+        break;
+    case 1: // 上边
+        if(anchor_points_[5].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchor_points_[5].y() - min_height_);
+        }
+        if(newPos.y() < 0) {
+            return;
+        }
+        selection_rect_.setTop(newPos.y());
+        selection_rect_.setWidth(selection_rect_.height() * aspect_ratio_);
+        break;
+    case 2: // 右上角
+        if(min_width_ + anchor_points_[6].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchor_points_[6].x());
+        }
+        if(anchor_points_[6].y() - min_height_ < newPos.y()) {
+            newPos.setY(anchor_points_[6].y() - min_height_);
+        }
+        if(newPos.x() > width()) {
+            return;
+        }
+        if(newPos.y() < 0) {
+            return;
+        }
+        selection_rect_.setTop(newPos.y());
+        selection_rect_.setWidth(selection_rect_.height() * aspect_ratio_);
+        break;
+    case 3: // 右边
+        if(min_width_ + anchor_points_[7].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchor_points_[7].x());
+        }
+        if(newPos.x() > width()) {
+            return;
+        }
+        selection_rect_.setRight(newPos.x());
+        selection_rect_.setHeight(selection_rect_.width() / aspect_ratio_);
+        break;
+    case 4: // 右下角
+        if(min_width_ + anchor_points_[0].x() > newPos.x()) {
+            newPos.setX(min_width_ + anchor_points_[0].x());
+        }
+        if(min_height_ + anchor_points_[0].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchor_points_[0].y());
+        }
+        if(newPos.x() > width()) {
+            return;
+        }
+        if(newPos.y() > height()) {
+            return;
+        }
+        selection_rect_.setRight(newPos.x());
+        selection_rect_.setHeight(selection_rect_.width() / aspect_ratio_);
+
+        break;
+    case 5: // 下边
+        if(min_height_ + anchor_points_[1].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchor_points_[0].y());
+        }
+        if(newPos.y() > height()) {
+            return;
+        }
+        selection_rect_.setBottom(newPos.y());
+        selection_rect_.setWidth(selection_rect_.height() * aspect_ratio_);
+        break;
+    case 6: // 左下角
+        if(anchor_points_[2].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchor_points_[2].x() - min_width_);
+        }
+        if(min_height_ + anchor_points_[2].y() > newPos.y()) {
+            newPos.setY(min_height_ + anchor_points_[2].y());
+        }
+        if(newPos.x() < 0) {
+            return;
+        }
+        if(newPos.y() > height()) {
+            return;
+        }
+        selection_rect_.setBottom(newPos.y());
+        selection_rect_.setWidth(selection_rect_.height() * aspect_ratio_);
+        break;
+    case 7: // 左边
+        if(anchor_points_[3].x() - min_width_ < newPos.x()) {
+            newPos.setX(anchor_points_[3].x() - min_width_);
+        }
+        if(newPos.x() < 0) {
+            return;
+        }
+        if(selection_rect_.y() + selection_rect_.height() == height()) {
+            newPos.setX(selection_rect_.x());
+            // return;
+            
+        }
+        selection_rect_.setLeft(newPos.x());
+        selection_rect_.setHeight(selection_rect_.width() / aspect_ratio_);
         break;
     }
 

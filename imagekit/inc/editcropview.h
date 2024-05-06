@@ -15,6 +15,8 @@ public:
     EditCropView(QWidget *parent = nullptr);
     ~EditCropView();
     void setSelectionRect(const QRect &rect);
+    void setAspectRatio(double aspectRatio);
+    void setUseAspectRatio(bool use);
 
 Q_SIGNALS:
     void sigSelectRectChanged(const QRect &rect);
@@ -29,12 +31,15 @@ protected:
 
 private:
     void resizeSelectionSize(const QPoint &pos);
+    void resizeSelectionSizeUseAspectRatio(const QPoint &pos);
     void moveSelection(const QPoint &pos);
     void updateAnchors();
     void updateCursor(const QPoint &pos);
 
 private:
     QRect selection_rect_;
+    double aspect_ratio_;
+    bool use_aspect_ratio_ = false;
     bool resizing_ = false;
     bool moving_ = false;
     int resize_mode_ = 0;

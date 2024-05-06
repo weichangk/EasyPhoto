@@ -60,6 +60,7 @@ void EditController::addData(const QStringList filePaths) {
         QImage image(filePath);
         data.crop_rect = QRect(0, 0, image.width(), image.height());
         data.origin_crop_rect = QRect(0, 0, image.width(), image.height());
+        data.aspect_ratio = static_cast<qreal>(image.width()) / image.height();
         datas_.append(data);
     }
     window_->changeFileListData(datas_);

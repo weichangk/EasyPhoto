@@ -85,6 +85,8 @@ void EditSettingView::createUi() {
     crop_layout->addWidget(crop_align_center_button_);
     crop_layout->addWidget(crop_reset_button_);
     crop_layout->addStretch();
+    //
+    equal_ratio_checkbox_->setVisible(false);
 
     rotate_right90_button_ = new APushButton(rotate_setting_widget_);
     rotate_left90_button_ = new APushButton(rotate_setting_widget_);
@@ -209,6 +211,7 @@ void EditSettingView::sigConnect() {
     connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
     connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
     connect(crop_align_center_button_, &APushButton::clicked, this, &EditSettingView::alignCenter);
+    connect(equal_ratio_checkbox_, &ACheckBox::stateChanged, this, &EditSettingView::equalRatioChanged);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -266,4 +269,8 @@ void EditSettingView::alignCenter() {
     emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
 }
 
+void EditSettingView::equalRatioChanged(int state) {
+    data_->is_equal_ratio_crop_ = equal_ratio_checkbox_->isChecked();
+    emit Signals::getInstance()->sigEqualRatioCropSetting2Preview(data_->is_equal_ratio_crop_);
+}
 } // namespace imageedit

@@ -66,5 +66,6 @@ Q_SIGNALS:
     void sigDataUpdate(Data data);
     void sigSelectRectPreview2Setting(const QRect &rect);
     void sigSelectRectSetting2Preview(const QRect &rect);
+    void sigEqualRatioCropSetting2Preview(bool);
 };
 } // namespace imageedit

@@ -36,6 +36,7 @@ private:
     void selectRectChanged(const QRect &rect);
     void selectRectChangedEnd(const QRect &rect);
     void setCropViewSelectionRect(const QRect &rect);
+    void cropUseAspectRatio(bool use);
 
 private:
     Data *data_ = nullptr;
