@@ -116,6 +116,7 @@ struct Data {
     QRect crop_rect;
     QRect origin_crop_rect;
     bool is_equal_ratio_crop_ = false;
+    int rotate_angle = 0;
 };
 
 QRect CropRect2PreviewRect(QRect rect, double ratio);

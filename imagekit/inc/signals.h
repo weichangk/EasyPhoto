@@ -67,5 +67,7 @@ Q_SIGNALS:
     void sigSelectRectPreview2Setting(const QRect &rect);
     void sigSelectRectSetting2Preview(const QRect &rect);
     void sigEqualRatioCropSetting2Preview(bool);
+
+    void sigRotateAngleSetting2Preview(int);
 };
 } // namespace imageedit

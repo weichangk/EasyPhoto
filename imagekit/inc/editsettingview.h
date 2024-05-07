@@ -34,11 +34,18 @@ protected:
 private:
     void preViewDataSelected(Data *data);
     void selectRectChanged(const QRect &rect);
-    void cropWidthEditingConfirm(const QString text);
-    void cropHeightEditingConfirm(const QString text);
+    void cropWidthEditingConfirm(const QString &text);
+    void cropHeightEditingConfirm(const QString &text);
     void resetCrop();
     void alignCenter();
     void equalRatioChanged(int state);
+
+    void rotateAngleEditingConfirm(const QString &text);
+    void resetRotate();
+    void rotateRight90();
+    void rotateLeft90();
+    void rotateHorizontalFlip();
+    void rotateVerticalFlip();
 
 private:
     Data *data_ = nullptr;
@@ -68,6 +75,8 @@ private:
     ALabel *rotate_angle_label_;
     ALineEdit *rotate_angle_edit_;
     APushButton *rotate_reset_button_;
+
+    QIntValidator *rotate_angle_edit_validator_;
 
     AWidget *effect_setting_widget_;
     ALabel *luminance_label_;

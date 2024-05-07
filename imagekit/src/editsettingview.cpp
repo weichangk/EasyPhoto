@@ -52,7 +52,6 @@ void EditSettingView::createUi() {
 
     crop_w_edit_validator_ = new QIntValidator(this);
     crop_h_edit_validator_ = new QIntValidator(this);
-
     cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, 1920);
     cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, 1080);
 
@@ -88,12 +87,16 @@ void EditSettingView::createUi() {
     //
     equal_ratio_checkbox_->setVisible(false);
 
+    rotate_angle_edit_validator_ = new QIntValidator(this);
+    rotate_angle_edit_validator_->setRange(-360, 360);
+
     rotate_right90_button_ = new APushButton(rotate_setting_widget_);
     rotate_left90_button_ = new APushButton(rotate_setting_widget_);
     rotate_horizontal_flip_button_ = new APushButton(rotate_setting_widget_);
     rotate_vertical_flip_button_ = new APushButton(rotate_setting_widget_);
     rotate_angle_label_ = new ALabel(rotate_setting_widget_);
     rotate_angle_edit_ = new ALineEdit(rotate_setting_widget_);
+    rotate_angle_edit_->setValidator(rotate_angle_edit_validator_);
     rotate_reset_button_ = new APushButton(rotate_setting_widget_);
     auto rotate_layout = new AVBoxLayout(rotate_setting_widget_);
     auto rotate_button_layout = new AHBoxLayout();
@@ -212,6 +215,13 @@ void EditSettingView::sigConnect() {
     connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
     connect(crop_align_center_button_, &APushButton::clicked, this, &EditSettingView::alignCenter);
     connect(equal_ratio_checkbox_, &ACheckBox::stateChanged, this, &EditSettingView::equalRatioChanged);
+
+    connect(rotate_angle_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::rotateAngleEditingConfirm);
+    connect(rotate_reset_button_, &APushButton::clicked, this, &EditSettingView::resetRotate);
+    connect(rotate_right90_button_, &APushButton::clicked, this, &EditSettingView::rotateRight90);
+    connect(rotate_left90_button_, &APushButton::clicked, this, &EditSettingView::rotateLeft90);
+    connect(rotate_horizontal_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateHorizontalFlip);
+    connect(rotate_vertical_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateVerticalFlip);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -220,8 +230,9 @@ void EditSettingView::preViewDataSelected(Data *data) {
     original_ratio_value_label_->setText(QString("%1:%2").arg(data_->origin_crop_rect.width()).arg(data_->origin_crop_rect.height()));
     cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, data_->origin_crop_rect.width());
     cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, data_->origin_crop_rect.height());
-
     equal_ratio_checkbox_->setChecked(data_->is_equal_ratio_crop_);
+
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {
@@ -230,7 +241,7 @@ void EditSettingView::selectRectChanged(const QRect &rect) {
     crop_ratio_height_edit_->setText(QString::number(rect.height()));
 }
 
-void EditSettingView::cropWidthEditingConfirm(const QString text) {
+void EditSettingView::cropWidthEditingConfirm(const QString &text) {
     if (text.toInt() < kCropRectMinW) {
         crop_ratio_width_edit_->setText(QString::number(kCropRectMinW));
     }
@@ -240,7 +251,7 @@ void EditSettingView::cropWidthEditingConfirm(const QString text) {
     emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
 }
 
-void EditSettingView::cropHeightEditingConfirm(const QString text) {
+void EditSettingView::cropHeightEditingConfirm(const QString &text) {
     if (text.toInt() < kCropRectMinH) {
         crop_ratio_height_edit_->setText(QString::number(kCropRectMinH));
     }
@@ -272,5 +283,41 @@ void EditSettingView::alignCenter() {
 void EditSettingView::equalRatioChanged(int state) {
     data_->is_equal_ratio_crop_ = equal_ratio_checkbox_->isChecked();
     emit Signals::getInstance()->sigEqualRatioCropSetting2Preview(data_->is_equal_ratio_crop_);
+}
+
+void EditSettingView::rotateAngleEditingConfirm(const QString &text) {
+    int angle = rotate_angle_edit_->text().toInt();
+    data_->rotate_angle = angle;
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::resetRotate() {
+    data_->rotate_angle = 0;
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::rotateRight90() {
+    data_->rotate_angle = 90;
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::rotateLeft90() {
+    data_->rotate_angle = -90;
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::rotateHorizontalFlip() {
+    data_->rotate_angle = 180;
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::rotateVerticalFlip() {
+    data_->rotate_angle = 270;
+    rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 } // namespace imageedit

@@ -38,6 +38,8 @@ private:
     void setCropViewSelectionRect(const QRect &rect);
     void cropUseAspectRatio(bool use);
 
+    void rotateAngleChanged(int angle);
+
 private:
     Data *data_ = nullptr;
 

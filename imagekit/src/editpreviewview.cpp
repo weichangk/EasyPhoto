@@ -91,6 +91,8 @@ void EditPreviewView::sigConnect() {
     connect(crop_view_, &EditCropView::sigSelectRectChanged, this, &EditPreviewView::selectRectChanged);
     connect(Signals::getInstance(), &Signals::sigSelectRectSetting2Preview, this, &EditPreviewView::setCropViewSelectionRect);
     connect(Signals::getInstance(), &Signals::sigEqualRatioCropSetting2Preview, this, &EditPreviewView::cropUseAspectRatio);
+
+    connect(Signals::getInstance(), &Signals::sigRotateAngleSetting2Preview, this, &EditPreviewView::rotateAngleChanged);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -187,6 +189,9 @@ void EditPreviewView::setCropViewSelectionRect(const QRect &rect) {
 
 void EditPreviewView::cropUseAspectRatio(bool use) {
     crop_view_->setUseAspectRatio(use);
+}
+
+void EditPreviewView::rotateAngleChanged(int angle) {
 }
 
 } // namespace imageedit
