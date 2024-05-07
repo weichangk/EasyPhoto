@@ -32,6 +32,7 @@ private:
     void cancel();
     void deleteAll();
     void dataUpdate(Data data);
+    bool checkAddedData(const QString filePath);
 private:
     EditWindow *window_;
     QList<Data> datas_;

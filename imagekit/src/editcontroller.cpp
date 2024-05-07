@@ -50,7 +50,11 @@ void EditController::openFileDialog(QWidget *parent) {
 }
 
 void EditController::addData(const QStringList filePaths) {
+    int oldCout = datas_.count();
     for (const QString &filePath : filePaths) {
+        if(checkAddedData(filePath)) {
+            continue;
+        }
         Data data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
@@ -63,9 +67,11 @@ void EditController::addData(const QStringList filePaths) {
         data.aspect_ratio = static_cast<qreal>(image.width()) / image.height();
         datas_.append(data);
     }
-    window_->changeFileListData(datas_);
-    window_->setFileListCurrentIndex(datas_.count() - 1);
-    emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+    if (oldCout < datas_.count()) {
+        window_->changeFileListData(datas_);
+        window_->setFileListCurrentIndex(datas_.count() - 1);
+        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+    }
 }
 
 void EditController::deleteData(const QString filePath) {
@@ -157,6 +163,19 @@ void EditController::dataUpdate(Data data) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(currentIndex);
     }
+}
+
+bool EditController::checkAddedData(const QString filePath) {
+    auto filePathMatches = [](const Data &cd, QString filePath) {
+        return cd.file_path == filePath;
+    }; 
+    auto it = std::find_if(datas_.begin(), datas_.end(), [&](const Data& d) {
+        return filePathMatches(d, filePath);
+    });
+    if (it != datas_.end()) {
+        return true;
+    }
+    return false;
 }
 
 } // namespace imageedit
