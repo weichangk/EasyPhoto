@@ -118,14 +118,17 @@ void EditSettingView::createUi() {
     luminance_slider_ = new ASlider(effect_setting_widget_);
     luminance_value_ = new ALabel(effect_setting_widget_);
     luminance_slider_->setOrientation(Qt::Horizontal);
+    luminance_slider_->setRange(kLuminanceRangeMin, kLuminanceRangeMax);
     contrast_label_ = new ALabel(effect_setting_widget_);
     contrast_slider_ = new ASlider(effect_setting_widget_);
     contrast_value_ = new ALabel(effect_setting_widget_);
     contrast_slider_->setOrientation(Qt::Horizontal);
+    contrast_slider_->setRange(kContrastRangeMin, kContrastRangeMax);
     saturation_label_ = new ALabel(effect_setting_widget_);
     saturation_slider_ = new ASlider(effect_setting_widget_);
     saturation_value_ = new ALabel(effect_setting_widget_);
     saturation_slider_->setOrientation(Qt::Horizontal);
+    saturation_slider_->setRange(kSaturationRangeMin, kSaturationRangeMax);
     auto effect_layout = new AVBoxLayout(effect_setting_widget_);
     auto luminance_layout = new AHBoxLayout();
     luminance_layout->addWidget(luminance_label_);

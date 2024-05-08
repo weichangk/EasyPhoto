@@ -98,9 +98,16 @@ namespace imageedit {
 static const int kCropRectMinW = 100;
 static const int kCropRectMinH = 100;
 static const int kRotateAngleDefaultValue = 0;
+static const int kLuminanceRangeMin = -100;
+static const int kContrastRangeMin = -100;
+static const int kSaturationRangeMin = -100;
+static const int kLuminanceRangeMax = 100;
+static const int kContrastRangeMax = 100;
+static const int kSaturationRangeMax = 100;
 static const int kLuminanceDefaultValue = 0;
 static const int kContrastDefaultValue = 0;
 static const int kSaturationDefaultValue = 0;
+
 using Status = enum {
     NONE = 0,
     START,
