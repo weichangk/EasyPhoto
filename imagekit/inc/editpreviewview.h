@@ -40,6 +40,10 @@ private:
 
     void rotateAngleChanged(int angle);
 
+    void luminanceChanged(int value);
+    void contrastChanged(int value);
+    void saturationChanged(int value);
+    void effectReset(int luminance, int contrast, int saturation);
 private:
     Data *data_ = nullptr;
 

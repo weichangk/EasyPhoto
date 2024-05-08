@@ -47,6 +47,11 @@ private:
     void rotateHorizontalFlip();
     void rotateVerticalFlip();
 
+    void luminanceChanged();
+    void contrastChanged();
+    void saturationChanged();
+    void resetEffect();
+
 private:
     Data *data_ = nullptr;
     QRect select_rect_;
@@ -81,10 +86,14 @@ private:
     AWidget *effect_setting_widget_;
     ALabel *luminance_label_;
     ASlider *luminance_slider_;
+    ALabel *luminance_value_;
     ALabel *contrast_label_;
     ASlider *contrast_slider_;
+    ALabel *contrast_value_;
     ALabel *saturation_label_;
     ASlider *saturation_slider_;
+    ALabel *saturation_value_;
+    APushButton *effect_reset_button_;
 
     AWidget *watermark_setting_widget_;
     ARadioButton *picture_radio_button_;

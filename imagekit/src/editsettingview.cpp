@@ -116,29 +116,37 @@ void EditSettingView::createUi() {
 
     luminance_label_ = new ALabel(effect_setting_widget_);
     luminance_slider_ = new ASlider(effect_setting_widget_);
+    luminance_value_ = new ALabel(effect_setting_widget_);
     luminance_slider_->setOrientation(Qt::Horizontal);
     contrast_label_ = new ALabel(effect_setting_widget_);
     contrast_slider_ = new ASlider(effect_setting_widget_);
+    contrast_value_ = new ALabel(effect_setting_widget_);
     contrast_slider_->setOrientation(Qt::Horizontal);
     saturation_label_ = new ALabel(effect_setting_widget_);
     saturation_slider_ = new ASlider(effect_setting_widget_);
+    saturation_value_ = new ALabel(effect_setting_widget_);
     saturation_slider_->setOrientation(Qt::Horizontal);
     auto effect_layout = new AVBoxLayout(effect_setting_widget_);
     auto luminance_layout = new AHBoxLayout();
     luminance_layout->addWidget(luminance_label_);
     luminance_layout->addWidget(luminance_slider_);
+    luminance_layout->addWidget(luminance_value_);
     luminance_layout->addStretch();
     effect_layout->addLayout(luminance_layout);
     auto contrast_layout = new AHBoxLayout();
     contrast_layout->addWidget(contrast_label_);
     contrast_layout->addWidget(contrast_slider_);
+    contrast_layout->addWidget(contrast_value_);
     contrast_layout->addStretch();
     effect_layout->addLayout(contrast_layout);
     auto saturation_layout = new AHBoxLayout();
     saturation_layout->addWidget(saturation_label_);
     saturation_layout->addWidget(saturation_slider_);
+    saturation_layout->addWidget(saturation_value_);
     saturation_layout->addStretch();
     effect_layout->addLayout(saturation_layout);
+    effect_reset_button_ = new APushButton(effect_setting_widget_);
+    effect_layout->addWidget(effect_reset_button_);
     effect_layout->addStretch();
 
     picture_radio_button_ = new ARadioButton(watermark_setting_widget_);
@@ -222,6 +230,11 @@ void EditSettingView::sigConnect() {
     connect(rotate_left90_button_, &APushButton::clicked, this, &EditSettingView::rotateLeft90);
     connect(rotate_horizontal_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateHorizontalFlip);
     connect(rotate_vertical_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateVerticalFlip);
+
+    connect(luminance_slider_, &ASlider::valueChanged, this, &EditSettingView::luminanceChanged);
+    connect(contrast_slider_, &ASlider::valueChanged, this, &EditSettingView::contrastChanged);
+    connect(saturation_slider_, &ASlider::valueChanged, this, &EditSettingView::saturationChanged);
+    connect(effect_reset_button_, &APushButton::clicked, this, &EditSettingView::resetEffect);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -233,6 +246,13 @@ void EditSettingView::preViewDataSelected(Data *data) {
     equal_ratio_checkbox_->setChecked(data_->is_equal_ratio_crop_);
 
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
+
+    luminance_value_->setText(QString::number(data_->luminance));
+    luminance_slider_->setValue(data_->luminance);
+    contrast_value_->setText(QString::number(data_->contrast));
+    contrast_slider_->setValue(data_->contrast);
+    saturation_value_->setText(QString::number(data_->saturation));
+    saturation_slider_->setValue(data_->saturation);
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {
@@ -292,7 +312,7 @@ void EditSettingView::rotateAngleEditingConfirm(const QString &text) {
 }
 
 void EditSettingView::resetRotate() {
-    data_->rotate_angle = 0;
+    data_->rotate_angle = kRotateAngleDefaultValue;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
     emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
@@ -319,5 +339,36 @@ void EditSettingView::rotateVerticalFlip() {
     data_->rotate_angle = 270;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
     emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+}
+
+void EditSettingView::luminanceChanged() {
+    data_->luminance = luminance_slider_->value();
+    luminance_value_->setText(QString::number(data_->luminance));
+    emit Signals::getInstance()->sigLuminanceSetting2Preview(data_->luminance);
+}
+
+void EditSettingView::contrastChanged() {
+    data_->contrast = contrast_slider_->value();
+    contrast_value_->setText(QString::number(data_->contrast));
+    emit Signals::getInstance()->sigContrastSetting2Preview(data_->contrast);
+}
+
+void EditSettingView::saturationChanged() {
+    data_->saturation = saturation_slider_->value();
+    saturation_value_->setText(QString::number(data_->saturation));
+    emit Signals::getInstance()->sigSaturationSetting2Preview(data_->saturation);
+}
+
+void EditSettingView::resetEffect() {
+    data_->luminance = kLuminanceDefaultValue;
+    data_->contrast = kContrastDefaultValue;
+    data_->saturation = kSaturationDefaultValue;
+    luminance_slider_->setValue(data_->luminance);
+    contrast_slider_->setValue(data_->contrast);
+    saturation_slider_->setValue(data_->saturation);
+    luminance_value_->setText(QString::number(data_->luminance));
+    contrast_value_->setText(QString::number(data_->contrast));
+    saturation_value_->setText(QString::number(data_->saturation));
+    emit Signals::getInstance()->sigEffectResetSetting2Preview(data_->luminance, data_->contrast, data_->saturation);
 }
 } // namespace imageedit

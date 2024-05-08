@@ -93,6 +93,11 @@ void EditPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigEqualRatioCropSetting2Preview, this, &EditPreviewView::cropUseAspectRatio);
 
     connect(Signals::getInstance(), &Signals::sigRotateAngleSetting2Preview, this, &EditPreviewView::rotateAngleChanged);
+
+    connect(Signals::getInstance(), &Signals::sigLuminanceSetting2Preview, this, &EditPreviewView::luminanceChanged);
+    connect(Signals::getInstance(), &Signals::sigContrastSetting2Preview, this, &EditPreviewView::contrastChanged);
+    connect(Signals::getInstance(), &Signals::sigSaturationSetting2Preview, this, &EditPreviewView::saturationChanged);
+    connect(Signals::getInstance(), &Signals::sigEffectResetSetting2Preview, this, &EditPreviewView::effectReset);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -194,4 +199,12 @@ void EditPreviewView::cropUseAspectRatio(bool use) {
 void EditPreviewView::rotateAngleChanged(int angle) {
 }
 
+void EditPreviewView::luminanceChanged(int value) {
+}
+void EditPreviewView::contrastChanged(int value) {
+}
+void EditPreviewView::saturationChanged(int value) {
+}
+void EditPreviewView::effectReset(int luminance, int contrast, int saturation) {
+}
 } // namespace imageedit

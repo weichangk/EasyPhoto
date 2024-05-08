@@ -69,5 +69,10 @@ Q_SIGNALS:
     void sigEqualRatioCropSetting2Preview(bool);
 
     void sigRotateAngleSetting2Preview(int);
+
+    void sigLuminanceSetting2Preview(int);
+    void sigContrastSetting2Preview(int);
+    void sigSaturationSetting2Preview(int);
+    void sigEffectResetSetting2Preview(int, int, int);
 };
 } // namespace imageedit

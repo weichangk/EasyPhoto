@@ -97,6 +97,10 @@ struct Result {
 namespace imageedit {
 static const int kCropRectMinW = 100;
 static const int kCropRectMinH = 100;
+static const int kRotateAngleDefaultValue = 0;
+static const int kLuminanceDefaultValue = 0;
+static const int kContrastDefaultValue = 0;
+static const int kSaturationDefaultValue = 0;
 using Status = enum {
     NONE = 0,
     START,
@@ -117,6 +121,9 @@ struct Data {
     QRect origin_crop_rect;
     bool is_equal_ratio_crop_ = false;
     int rotate_angle = 0;
+    int luminance = 0;
+    int contrast = 0;
+    int saturation = 0;
 };
 
 QRect CropRect2PreviewRect(QRect rect, double ratio);
