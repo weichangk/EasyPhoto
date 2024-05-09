@@ -107,6 +107,9 @@ static const int kSaturationRangeMax = 100;
 static const int kLuminanceDefaultValue = 0;
 static const int kContrastDefaultValue = 0;
 static const int kSaturationDefaultValue = 0;
+static const int kPictureAlphaRangeMin = 0;
+static const int kPictureAlphaRangeMax = 100;
+static const int kPictureAlphaRangeDefault = 0;
 
 using Status = enum {
     NONE = 0,
@@ -116,6 +119,17 @@ using Status = enum {
 };
 
 QString StatusEnum2QString(Status param);
+
+struct ImageWatermarkData {
+    QString file_path = "";
+    QRect geometry;
+    int alpha;
+};
+
+struct TextWatermarkData {
+    QString text = "";
+    QRect geometry;
+};
 
 struct Data {
     QString file_name = "";
@@ -131,6 +145,8 @@ struct Data {
     int luminance = 0;
     int contrast = 0;
     int saturation = 0;
+    QList<ImageWatermarkData> image_watermark_datas;
+    QList<TextWatermarkData> text_watermark_datas;
 };
 
 QRect CropRect2PreviewRect(QRect rect, double ratio);

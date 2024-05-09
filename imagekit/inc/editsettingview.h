@@ -52,6 +52,8 @@ private:
     void saturationChanged();
     void resetEffect();
 
+    void pictureAlphaChanged();
+
 private:
     Data *data_ = nullptr;
     QRect select_rect_;
@@ -96,18 +98,15 @@ private:
     APushButton *effect_reset_button_;
 
     AWidget *watermark_setting_widget_;
-    ARadioButton *picture_radio_button_;
-    ALineEdit *picture_path_edit_;
-    APushButton *picture_select_button_;
-    ARadioButton *text_radio_button_;
-    ALineEdit *text_edit_;
-    APushButton *text_select_button_;
-    ARadioButton *mosaic_radio_button_;
-    APushButton *mosaic_type1_button_;
-    APushButton *mosaic_type2_button_;
-    APushButton *mosaic_type3_button_;
-    ARadioButton *none_radio_button_;
-    
+    ALabel *picture_label_;
+    APushButton *picture_add_button_;
+    ALabel *text_label_;
+    APushButton *text_add_button_;
+    ALabel *picture_alpha_label_;
+    ASlider *picture_alpha_slider_;
+    ALabel *picture_alpha_value_;
+    APushButton *clear_button_;
+
     APushButton *export_button_;
 };
 } // namespace imageedit

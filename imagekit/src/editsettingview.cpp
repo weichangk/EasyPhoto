@@ -152,38 +152,35 @@ void EditSettingView::createUi() {
     effect_layout->addWidget(effect_reset_button_);
     effect_layout->addStretch();
 
-    picture_radio_button_ = new ARadioButton(watermark_setting_widget_);
-    picture_path_edit_ = new ALineEdit(watermark_setting_widget_);
-    picture_select_button_ = new APushButton(watermark_setting_widget_);
-    text_radio_button_ = new ARadioButton(watermark_setting_widget_);
-    text_edit_ = new ALineEdit(watermark_setting_widget_);
-    text_select_button_ = new APushButton(watermark_setting_widget_);
-    mosaic_radio_button_ = new ARadioButton(watermark_setting_widget_);
-    mosaic_type1_button_ = new APushButton(watermark_setting_widget_);
-    mosaic_type2_button_ = new APushButton(watermark_setting_widget_);
-    mosaic_type3_button_ = new APushButton(watermark_setting_widget_);
-    none_radio_button_ = new ARadioButton(watermark_setting_widget_);
+    picture_label_ = new ALabel(watermark_setting_widget_);
+    picture_add_button_ = new APushButton(watermark_setting_widget_);
+    text_label_ = new ALabel(watermark_setting_widget_);
+    text_add_button_ = new APushButton(watermark_setting_widget_);
     auto watermark_layout = new AVBoxLayout(watermark_setting_widget_);
-    watermark_layout->addWidget(picture_radio_button_);
     auto picture_layout = new AHBoxLayout();
-    picture_layout->addWidget(picture_path_edit_);
-    picture_layout->addWidget(picture_select_button_);
+    picture_layout->addWidget(picture_label_);
     picture_layout->addStretch();
+    picture_layout->addWidget(picture_add_button_);
     watermark_layout->addLayout(picture_layout);
-    watermark_layout->addWidget(text_radio_button_);
+    picture_alpha_label_ = new ALabel(watermark_setting_widget_);
+    picture_alpha_slider_ = new ASlider(watermark_setting_widget_);
+    picture_alpha_slider_->setOrientation(Qt::Horizontal);
+    picture_alpha_slider_->setRange(kPictureAlphaRangeMin, kPictureAlphaRangeMax);
+    picture_alpha_value_ = new ALabel(watermark_setting_widget_);
+    auto picture_alpha_layout = new AHBoxLayout();
+    picture_alpha_layout->addWidget(picture_alpha_label_);
+    picture_alpha_layout->addWidget(picture_alpha_slider_);
+    picture_alpha_layout->addWidget(picture_alpha_value_);
+    picture_alpha_layout->addStretch();
+    watermark_layout->addLayout(picture_alpha_layout);
+
     auto text_layout = new AHBoxLayout();
-    text_layout->addWidget(text_edit_);
-    text_layout->addWidget(text_select_button_);
+    text_layout->addWidget(text_label_);
     text_layout->addStretch();
+    text_layout->addWidget(text_add_button_);
     watermark_layout->addLayout(text_layout);
-    watermark_layout->addWidget(mosaic_radio_button_);
-    auto mosaic_layout = new AHBoxLayout();
-    mosaic_layout->addWidget(mosaic_type1_button_);
-    mosaic_layout->addWidget(mosaic_type2_button_);
-    mosaic_layout->addWidget(mosaic_type3_button_);
-    mosaic_layout->addStretch();
-    watermark_layout->addLayout(mosaic_layout);
-    watermark_layout->addWidget(none_radio_button_);
+    clear_button_ = new APushButton(watermark_setting_widget_);
+    watermark_layout->addWidget(clear_button_);
     watermark_layout->addStretch();
 
     export_button_ = new APushButton(this);
@@ -210,10 +207,10 @@ void EditSettingView::changeLanguage() {
     contrast_label_->setText("Contrast");
     saturation_label_->setText("Saturation");
 
-    picture_radio_button_->setText("Picture");
-    text_radio_button_->setText("Text");
-    mosaic_radio_button_->setText("Mosaic");
-    none_radio_button_->setText("None");
+    picture_label_->setText("Picture");
+    picture_alpha_label_->setText("Alpha");
+    text_label_->setText("Text");
+    clear_button_->setText("Clear");
 
     export_button_->setText("Export");
 }
@@ -238,6 +235,8 @@ void EditSettingView::sigConnect() {
     connect(contrast_slider_, &ASlider::valueChanged, this, &EditSettingView::contrastChanged);
     connect(saturation_slider_, &ASlider::valueChanged, this, &EditSettingView::saturationChanged);
     connect(effect_reset_button_, &APushButton::clicked, this, &EditSettingView::resetEffect);
+
+    connect(picture_alpha_slider_, &ASlider::valueChanged, this, &EditSettingView::pictureAlphaChanged);
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -256,6 +255,7 @@ void EditSettingView::preViewDataSelected(Data *data) {
     contrast_slider_->setValue(data_->contrast);
     saturation_value_->setText(QString::number(data_->saturation));
     saturation_slider_->setValue(data_->saturation);
+    picture_alpha_slider_->setValue(data_->image_watermark_datas.count() == 0 ? 0 : data_->image_watermark_datas.first().alpha);
 }
 
 void EditSettingView::selectRectChanged(const QRect &rect) {
@@ -373,5 +373,12 @@ void EditSettingView::resetEffect() {
     contrast_value_->setText(QString::number(data_->contrast));
     saturation_value_->setText(QString::number(data_->saturation));
     emit Signals::getInstance()->sigEffectResetSetting2Preview(data_->luminance, data_->contrast, data_->saturation);
+}
+
+void EditSettingView::pictureAlphaChanged() {
+    for (auto &item : data_->image_watermark_datas) {
+        item.alpha = picture_alpha_slider_->value();
+    }
+    picture_alpha_value_->setText(QString::number(picture_alpha_slider_->value()));
 }
 } // namespace imageedit
