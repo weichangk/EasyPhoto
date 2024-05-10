@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:58
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 21:42:27
+ * @Last Modified time: 2024-05-11 07:47:26
  */
 
 #include "inc/application.h"
@@ -15,9 +15,9 @@ using namespace Magick;
 
 Application::Application(int argc, char *argv[]) :
     QApplication(argc, argv) {
-    setOrganizationName(ORGANIZATION_NAME);
-    setOrganizationDomain(ORGANIZATION_DOMAIN);
-    setApplicationName(APPLICATION_NAME);
+    setOrganizationName(APPLICATION_ORGANIZATION_NAME);
+    setOrganizationDomain(APPLICATION_ORGANIZATION_DOMAIN);
+    setApplicationName(APPLICATION_ID);
     setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
     // setQuitOnLastWindowClosed(false);
     AStyleMgr::setStyleToApp(":/res/style");
