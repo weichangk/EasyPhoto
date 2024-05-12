@@ -7,7 +7,9 @@
 
 #pragma once
 #include "../agui/inc/abasewidget.h"
+#include "../agui/inc/alistview.h"
 #include "inc/models.h"
+#include <QStyledItemDelegate>
 
 class ATabBar;
 class ATabWidget;
@@ -20,6 +22,23 @@ class ASlider;
 class ARadioButton;
 class QIntValidator;
 namespace imageedit {
+class ImageWatermarkSettingItemDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+public:
+    explicit ImageWatermarkSettingItemDelegate(QObject *parent = nullptr);
+    ~ImageWatermarkSettingItemDelegate();
+
+    bool eventFilter(QObject *object, QEvent *event) override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void changeSizeHint(const QSize &size);
+
+private:
+    QSize size_ = QSize(100, 80);
+    int event_type_ = QEvent::None;
+    QPoint curpos_;
+};
+
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
 public:
@@ -53,6 +72,12 @@ private:
     void resetEffect();
 
     void pictureAlphaChanged();
+    void changeImageWatermarkSettingData(const QList<ImageWatermarkSettingData> &datas);
+    void loadImageWatermarkSettingData();
+    void addImageWatermarkPictureOpenFileDialog();
+    void imageWatermarkListItemClicked(const QModelIndex &index);
+    void addImageWatermarkPicture(const QList<ImageWatermarkSettingData> &datas);
+    void deleteImageWatermarkPicture(const QList<QString> &filePathsToDelete);
 
 private:
     Data *data_ = nullptr;
@@ -100,6 +125,7 @@ private:
     AWidget *watermark_setting_widget_;
     ALabel *picture_label_;
     APushButton *picture_add_button_;
+    AListView<ImageWatermarkSettingData> *image_watermark_setting_list_view_;
     ALabel *text_label_;
     APushButton *text_add_button_;
     ALabel *picture_alpha_label_;

@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:52:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 10:11:02
+ * @Last Modified time: 2024-05-11 08:05:24
  */
 
 #pragma once
@@ -124,6 +124,13 @@ struct ImageWatermarkData {
     QString file_path = "";
     QRect geometry;
     int alpha;
+};
+
+struct ImageWatermarkSettingData {
+    QString file_path = "";
+    QString file_name = "";
+    QPixmap thumbnail = QPixmap();
+    QPixmap delete_icon = QPixmap();
 };
 
 struct TextWatermarkData {
