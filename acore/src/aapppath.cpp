@@ -34,7 +34,7 @@ QString AAppPath::appLogPath() {
 
 QString AAppPath::appProgramDataPath() {
     Q_ASSERT(!app_name_.isEmpty());
-    QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+    QString path = "C:/ProgramData";// QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
     path = QDir(path).filePath(app_name_);
     QDir().mkpath(path);
     return path;
