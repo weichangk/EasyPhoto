@@ -434,7 +434,7 @@ void EditSettingView::createUi() {
     image_watermark_setting_list_view_->setViewMode(QListView::IconMode);
     image_watermark_setting_list_view_->setDragEnabled(false);
     image_watermark_setting_list_view_->setSelectionMode(QAbstractItemView::NoSelection);
-    image_watermark_setting_list_view_->setSpacing(4);
+    image_watermark_setting_list_view_->setSpacing(kImageWatermarkSettingItemSpacing);
     auto editFileItemDelegate = new ImageWatermarkSettingItemDelegate(this);
     image_watermark_setting_list_view_->setItemDelegate(editFileItemDelegate);
     image_watermark_setting_list_view_->viewport()->installEventFilter(editFileItemDelegate);
@@ -663,6 +663,8 @@ void EditSettingView::pictureAlphaChanged() {
 
 void EditSettingView::changeImageWatermarkSettingData(const QList<ImageWatermarkSettingData> &datas) {
     image_watermark_setting_list_view_->chageData(datas);
+    imageWatermarkSettingListViewAdjustHeight(datas.count());
+    alphaWidgetVisible(datas.count() > 0);
 }
 
 void EditSettingView::loadImageWatermarkSettingData() {
@@ -718,5 +720,18 @@ void EditSettingView::deleteImageWatermarkPicture(const QList<QString> &filePath
             changeImageWatermarkSettingData(newDatas);
         }
     });
+}
+
+void EditSettingView::alphaWidgetVisible(bool visible) {
+    picture_alpha_label_->setVisible(visible);
+    picture_alpha_slider_->setVisible(visible);
+    picture_alpha_value_->setVisible(visible);
+}
+
+void EditSettingView::imageWatermarkSettingListViewAdjustHeight(int listCount) {
+    image_watermark_setting_list_view_->setFixedHeight(100);
+    listCount = listCount > 4 ? 4 : listCount;
+    int row = listCount / 2 + (listCount % 2 > 0 ? 1 : 0);
+    image_watermark_setting_list_view_->setFixedHeight(row * (kImageWatermarkSettingItemSpacing + kImageWatermarkSettingItemHeight) + 4);
 }
 } // namespace imageedit

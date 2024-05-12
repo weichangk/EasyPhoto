@@ -34,7 +34,7 @@ public:
     void changeSizeHint(const QSize &size);
 
 private:
-    QSize size_ = QSize(100, 80);
+    QSize size_ = QSize(kImageWatermarkSettingItemWidth, kImageWatermarkSettingItemHeight);
     int event_type_ = QEvent::None;
     QPoint curpos_;
 };
@@ -78,6 +78,8 @@ private:
     void imageWatermarkListItemClicked(const QModelIndex &index);
     void addImageWatermarkPicture(const QList<ImageWatermarkSettingData> &datas);
     void deleteImageWatermarkPicture(const QList<QString> &filePathsToDelete);
+    void alphaWidgetVisible(bool visible);
+    void imageWatermarkSettingListViewAdjustHeight(int listCount);
 
 private:
     Data *data_ = nullptr;

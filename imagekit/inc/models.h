@@ -110,7 +110,9 @@ static const int kSaturationDefaultValue = 0;
 static const int kPictureAlphaRangeMin = 0;
 static const int kPictureAlphaRangeMax = 100;
 static const int kPictureAlphaRangeDefault = 0;
-
+static const int kImageWatermarkSettingItemWidth = 100;
+static const int kImageWatermarkSettingItemHeight = 80;
+static const int kImageWatermarkSettingItemSpacing = 4;
 using Status = enum {
     NONE = 0,
     START,
