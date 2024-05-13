@@ -39,6 +39,34 @@ private:
     QPoint curpos_;
 };
 
+class TextWatermarkSettingItemDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+public:
+    explicit TextWatermarkSettingItemDelegate(QObject *parent = nullptr);
+    ~TextWatermarkSettingItemDelegate();
+
+    bool eventFilter(QObject *object, QEvent *event) override;
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    void changeSizeHint(const QSize &size);
+
+    QWidget *createEditor(QWidget *parent,
+                          const QStyleOptionViewItem &option,
+                          const QModelIndex &index) const override;
+    void setEditorData(QWidget *editor, const QModelIndex &index) const override;
+    void setModelData(QWidget *editor,
+                      QAbstractItemModel *model,
+                      const QModelIndex &index) const override;
+    void updateEditorGeometry(QWidget *editor,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const override;
+
+private:
+    QSize size_ = QSize(kTextWatermarkSettingItemWidth, kTextWatermarkSettingItemHeight);
+    int event_type_ = QEvent::None;
+    QPoint curpos_;
+};
+
 class EditSettingView : public ABaseWidget {
     Q_OBJECT
 public:
@@ -80,7 +108,14 @@ private:
     void deleteImageWatermarkPicture(const QList<QString> &filePathsToDelete);
     void alphaWidgetVisible(bool visible);
     void imageWatermarkSettingListViewAdjustHeight(int listCount);
-
+    void changeTextWatermarkSettingData(const QList<TextWatermarkSettingData> &datas);
+    void loadTextWatermarkSettingData();
+    void addEmptyTextWatermark();
+    void textWatermarkListItemClicked(const QModelIndex &index);
+    void addTextWatermarkSettingItem(const QList<TextWatermarkSettingData> &datas);
+    void deleteTextWatermarkSettingItem(const QList<QString> &idsToDelete);
+    void fontWidgetVisible(bool visible);
+    void textWatermarkSettingListViewAdjustHeight(int listCount);
 private:
     Data *data_ = nullptr;
     QRect select_rect_;

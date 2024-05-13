@@ -33,6 +33,7 @@
 
 namespace imageedit {
 const static QString imageWatermarkConfigName = "imageWatermarkConfig.json";
+const static QString textWatermarkConfigName = "textWatermarkConfig.json";
 
 inline void cropEditvalidatorRangeChanged(QIntValidator *validator, int min, int max) {
     validator->setRange(min, max);
@@ -60,6 +61,16 @@ inline QRect imageWatermarkSettingItemNameRect(QRect itemRect) {
 
 inline QPixmap createImageWatermarkThumbnail(const QString &path) {
     return QPixmap(path).scaled(QSize(100, 56), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+}
+
+inline QRect textWatermarkSettingItemBorderRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return rc;
+}
+
+inline QRect textWatermarkSettingItemDeteleRect(QRect itemRect) {
+    auto rc = itemRect;
+    return QRect(rc.x() + rc.width() - 16 - 4, rc.y() + 4, 16, 16);
 }
 
 QList<ImageWatermarkSettingData> getImageWatermarkSettingDatas() {
@@ -206,6 +217,147 @@ bool deleteImageWatermarkSettingData(const QList<QString> &filePathsToDelete, QL
     return true;
 }
 
+QList<TextWatermarkSettingData> getTextWatermarkSettingDatas() {
+    QList<TextWatermarkSettingData> datas;
+
+    QDir baseDir(AAppPath::appProgramDataPath());
+    QString cfgFile = baseDir.filePath(textWatermarkConfigName);
+    QFile f(cfgFile);
+
+    if (!f.open(QFile::ReadOnly)) {
+        qDebug() << "Failed to open" << cfgFile << "for reading.";
+        return datas;
+    }
+
+    QJsonParseError jsonError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(f.readAll(), &jsonError);
+    f.close();
+
+    if (jsonError.error != QJsonParseError::NoError) {
+        qDebug() << "Error parsing JSON:" << jsonError.errorString();
+        return datas;
+    }
+
+    QJsonArray jsonArray = jsonDoc.object()["list"].toArray();
+
+    for (const auto &item : jsonArray) {
+        QJsonObject jsonObject = item.toObject();
+        TextWatermarkSettingData data;
+        data.id = jsonObject["id"].toString();
+        data.text = jsonObject["text"].toString();
+        data.delete_icon = QPixmap(":/agui/res/image/delete1-24.png");
+        datas.append(data);
+    }
+
+    return datas;
+}
+
+bool addTextWatermarkSettingData(const QList<TextWatermarkSettingData> &newDatas, QList<TextWatermarkSettingData> &datas) {
+    QDir baseDir(AAppPath::appProgramDataPath());
+    QString cfgFile = baseDir.filePath(textWatermarkConfigName);
+    QFile f(cfgFile);
+
+    if (!f.open(QFile::ReadWrite | QFile::Text)) {
+        qDebug() << "Failed to open" << cfgFile << "for writing.";
+        return false;
+    }
+
+    QJsonParseError jsonError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(f.readAll(), &jsonError);
+    f.close();
+
+    if (jsonError.error != QJsonParseError::NoError && jsonError.error !=QJsonParseError::IllegalValue) {
+        qDebug() << "Error parsing JSON:" << jsonError.errorString();
+        return false;
+    }
+
+    QJsonObject jsonObj = jsonDoc.object();
+    QJsonArray jsonArray = jsonObj["list"].toArray();
+
+    foreach(const auto &newData, newDatas) {
+        QJsonObject newDataObject;
+        newDataObject["id"] = newData.id;
+        newDataObject["text"] = newData.text;
+        jsonArray.append(newDataObject);
+    }
+
+    jsonObj["list"] = jsonArray;
+
+    jsonDoc.setObject(jsonObj);
+
+    if (!f.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
+        qDebug() << "Failed to open" << cfgFile << "for writing.";
+        return false;
+    }
+
+    f.write(jsonDoc.toJson());
+    f.close();
+
+    for (const auto &item : jsonArray) {
+        QJsonObject jsonObject = item.toObject();
+        TextWatermarkSettingData data;
+        data.id = jsonObject["id"].toString();
+        data.text = jsonObject["text"].toString();
+        data.delete_icon = QPixmap(":/agui/res/image/delete1-24.png");
+        datas.append(data);
+    }
+
+    return true;
+}
+
+bool deleteTextWatermarkSettingData(const QList<QString> &idsToDelete, QList<TextWatermarkSettingData> &datas) {
+    QDir baseDir(AAppPath::appProgramDataPath());
+    QString cfgFile = baseDir.filePath(textWatermarkConfigName);
+    QFile f(cfgFile);
+
+    if (!f.open(QFile::ReadWrite | QFile::Text)) {
+        qDebug() << "Failed to open" << cfgFile << "for writing.";
+        return false;
+    }
+
+    QJsonParseError jsonError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(f.readAll(), &jsonError);
+    f.close();
+
+    if (jsonError.error != QJsonParseError::NoError) {
+        qDebug() << "Error parsing JSON:" << jsonError.errorString();
+        return false;
+    }
+
+    QJsonObject jsonObj = jsonDoc.object();
+    QJsonArray jsonArray = jsonObj["list"].toArray();
+
+    for (int i = jsonArray.size() - 1; i >= 0; --i) {
+        QJsonObject obj = jsonArray[i].toObject();
+        QString id = obj["id"].toString();
+        if (idsToDelete.contains(id)) {
+            jsonArray.removeAt(i);
+        }
+    }
+
+    jsonObj["list"] = jsonArray;
+    jsonDoc.setObject(jsonObj);
+
+    if (!f.open(QFile::WriteOnly | QFile::Truncate | QFile::Text)) {
+        qDebug() << "Failed to open" << cfgFile << "for writing.";
+        return false;
+    }
+
+    f.write(jsonDoc.toJson());
+    f.close();
+
+    for (const auto &item : jsonArray) {
+        QJsonObject jsonObject = item.toObject();
+        TextWatermarkSettingData data;
+        data.id = jsonObject["id"].toString();
+        data.text = jsonObject["text"].toString();
+        data.delete_icon = QPixmap(":/agui/res/image/delete1-24.png");
+        datas.append(data);
+    }
+
+    return true;
+}
+
 ImageWatermarkSettingItemDelegate::ImageWatermarkSettingItemDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
@@ -286,12 +438,119 @@ void ImageWatermarkSettingItemDelegate::changeSizeHint(const QSize &size) {
     size_ = size;
 }
 
+TextWatermarkSettingItemDelegate::TextWatermarkSettingItemDelegate(QObject *parent) :
+    QStyledItemDelegate(parent) {
+}
+
+TextWatermarkSettingItemDelegate::~TextWatermarkSettingItemDelegate() {
+}
+
+bool TextWatermarkSettingItemDelegate::eventFilter(QObject *object, QEvent *event) {
+    int type = event->type();
+    if (type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
+        event_type_ = type;
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (mouseEvent) {
+            QPoint pos = mouseEvent->pos();
+            curpos_ = pos;
+            QWidget *curWidget = static_cast<QWidget *>(object);
+            curWidget->update();
+        }
+    }
+    return QStyledItemDelegate::eventFilter(object, event);
+}
+
+void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
+    painter->save();
+    painter->setRenderHint(QPainter::Antialiasing, true);
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(Qt::NoBrush);
+
+    QRect rc = option.rect;
+    bool pressed = event_type_ == QEvent::MouseButtonPress && rc.contains(curpos_);
+    bool selected = option.state & QStyle::State_Selected;
+    bool hover = option.state & QStyle::State_MouseOver;
+    bool selected_or_hover = selected || hover;
+
+    auto borderRect = textWatermarkSettingItemBorderRect(rc);
+    QPen pen(QColor("#2F2D2D"));
+    pen.setWidth(1);
+    painter->setPen(pen);
+    painter->drawRoundedRect(borderRect, 0, 0);
+    painter->setPen(Qt::NoPen);
+
+    if (hover) {
+        auto delIconRect = textWatermarkSettingItemDeteleRect(rc);
+        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+    }
+
+    painter->setPen(QColor("#1F1F1F"));
+    pen.setWidth(1);
+    if (hover || pressed) {
+        painter->drawRoundedRect(borderRect, 0, 0);
+    }
+    painter->setPen(Qt::NoPen);
+
+    // pen.setColor(QColor("#575859"));
+    // painter->setPen(pen);
+    // QFont font = painter->font();
+    // font.setPointSizeF(11);
+    // painter->setFont(font);
+    // QString fileName = data.file_name;
+    // auto nameRect = imageWatermarkSettingItemNameRect(rc);
+    // QFontMetricsF metrics(font);
+    // if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
+    //     fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);
+    // }
+    // painter->drawText(nameRect, Qt::PlainText, fileName);
+    // painter->setPen(Qt::NoPen);
+}
+
+QSize TextWatermarkSettingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    return size_;
+}
+
+void TextWatermarkSettingItemDelegate::changeSizeHint(const QSize &size) {
+    size_ = size;
+}
+
+QWidget *TextWatermarkSettingItemDelegate::createEditor(QWidget *parent,
+                                                        const QStyleOptionViewItem &option,
+                                                        const QModelIndex &index) const {
+    QLineEdit *editor = new QLineEdit(parent);
+    editor->setMaxLength(kTextWatermarkSettingItemEditWidth);
+    return editor;
+}
+
+void TextWatermarkSettingItemDelegate::setEditorData(QWidget *editor,
+                                                     const QModelIndex &index) const {
+    // QString value = index.model()->data(index, Qt::EditRole).toString();
+    auto data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
+    QLineEdit *lineEdit = static_cast<QLineEdit *>(editor);
+    lineEdit->setText(data.text);
+}
+
+void TextWatermarkSettingItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                                    const QModelIndex &index) const {
+    QLineEdit *lineEdit = static_cast<QLineEdit *>(editor);
+    QString value = lineEdit->text();
+    model->setData(index, value, Qt::UserRole);
+}
+
+void TextWatermarkSettingItemDelegate::updateEditorGeometry(QWidget *editor,
+                                                            const QStyleOptionViewItem &option,
+                                                            const QModelIndex &index) const {
+    editor->setGeometry(option.rect);
+}
+
 EditSettingView::EditSettingView(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
     loadImageWatermarkSettingData();
+    loadTextWatermarkSettingData();
 }
 
 EditSettingView::~EditSettingView() {
@@ -516,6 +775,8 @@ void EditSettingView::sigConnect() {
     connect(picture_add_button_, &APushButton::clicked, this, &EditSettingView::addImageWatermarkPictureOpenFileDialog);
     connect(image_watermark_setting_list_view_, &QListView::clicked, this, &EditSettingView::imageWatermarkListItemClicked);
     connect(picture_alpha_slider_, &ASlider::valueChanged, this, &EditSettingView::pictureAlphaChanged);
+    connect(text_add_button_, &APushButton::clicked, this, &EditSettingView::addEmptyTextWatermark);
+    
 }
 
 void EditSettingView::preViewDataSelected(Data *data) {
@@ -734,4 +995,45 @@ void EditSettingView::imageWatermarkSettingListViewAdjustHeight(int listCount) {
     int row = listCount / 2 + (listCount % 2 > 0 ? 1 : 0);
     image_watermark_setting_list_view_->setFixedHeight(row * (kImageWatermarkSettingItemSpacing + kImageWatermarkSettingItemHeight) + 4);
 }
+
+void EditSettingView::changeTextWatermarkSettingData(const QList<TextWatermarkSettingData> &datas) {
+}
+
+void EditSettingView::loadTextWatermarkSettingData() {
+    QTimer::singleShot(0, [=]() {
+        auto datas = getTextWatermarkSettingDatas();
+        changeTextWatermarkSettingData(datas);
+    });
+}
+
+void EditSettingView::addEmptyTextWatermark() {
+}
+
+void EditSettingView::textWatermarkListItemClicked(const QModelIndex &index) {
+}
+
+void EditSettingView::addTextWatermarkSettingItem(const QList<TextWatermarkSettingData> &datas) {
+    QTimer::singleShot(0, [=]() {
+        QList<TextWatermarkSettingData> newDatas;
+        if (addTextWatermarkSettingData(datas, newDatas)) {
+            changeTextWatermarkSettingData(newDatas);
+        }
+    });
+}
+
+void EditSettingView::deleteTextWatermarkSettingItem(const QList<QString> &idsToDelete) {
+    QTimer::singleShot(0, [=]() {
+        QList<TextWatermarkSettingData> newDatas;
+        if (deleteTextWatermarkSettingData(idsToDelete, newDatas)) {
+            changeTextWatermarkSettingData(newDatas);
+        }
+    });
+}
+
+void EditSettingView::fontWidgetVisible(bool visible) {
+}
+
+void EditSettingView::textWatermarkSettingListViewAdjustHeight(int listCount) {
+}
+
 } // namespace imageedit

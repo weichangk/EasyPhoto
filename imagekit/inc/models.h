@@ -113,6 +113,10 @@ static const int kPictureAlphaRangeDefault = 0;
 static const int kImageWatermarkSettingItemWidth = 100;
 static const int kImageWatermarkSettingItemHeight = 80;
 static const int kImageWatermarkSettingItemSpacing = 4;
+static const int kTextWatermarkSettingItemEditWidth = 300;
+static const int kTextWatermarkSettingItemWidth = 360;
+static const int kTextWatermarkSettingItemHeight = 32;
+static const int kTextWatermarkSettingItemSpacing = 4;
 using Status = enum {
     NONE = 0,
     START,
@@ -138,6 +142,12 @@ struct ImageWatermarkSettingData {
 struct TextWatermarkData {
     QString text = "";
     QRect geometry;
+};
+
+struct TextWatermarkSettingData {
+    QString id = "";
+    QString text = "";
+    QPixmap delete_icon = QPixmap();
 };
 
 struct Data {
