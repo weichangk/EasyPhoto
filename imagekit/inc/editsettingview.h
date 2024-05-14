@@ -163,13 +163,13 @@ private:
     ALabel *picture_label_;
     APushButton *picture_add_button_;
     AListView<ImageWatermarkSettingData> *image_watermark_setting_list_view_;
-    ALabel *text_label_;
-    APushButton *text_add_button_;
     ALabel *picture_alpha_label_;
     ASlider *picture_alpha_slider_;
     ALabel *picture_alpha_value_;
     APushButton *clear_button_;
-
+    ALabel *text_label_;
+    APushButton *text_add_button_;
+    AListView<TextWatermarkSettingData> *text_watermark_setting_list_view_;
     APushButton *export_button_;
 };
 } // namespace imageedit

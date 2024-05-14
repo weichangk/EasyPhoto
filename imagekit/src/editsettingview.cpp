@@ -694,9 +694,9 @@ void EditSettingView::createUi() {
     image_watermark_setting_list_view_->setDragEnabled(false);
     image_watermark_setting_list_view_->setSelectionMode(QAbstractItemView::NoSelection);
     image_watermark_setting_list_view_->setSpacing(kImageWatermarkSettingItemSpacing);
-    auto editFileItemDelegate = new ImageWatermarkSettingItemDelegate(this);
-    image_watermark_setting_list_view_->setItemDelegate(editFileItemDelegate);
-    image_watermark_setting_list_view_->viewport()->installEventFilter(editFileItemDelegate);
+    auto imakeWatermarkItemDelegate = new ImageWatermarkSettingItemDelegate(this);
+    image_watermark_setting_list_view_->setItemDelegate(imakeWatermarkItemDelegate);
+    image_watermark_setting_list_view_->viewport()->installEventFilter(imakeWatermarkItemDelegate);
     watermark_layout->addWidget(image_watermark_setting_list_view_);
     picture_alpha_label_ = new ALabel(watermark_setting_widget_);
     picture_alpha_slider_ = new ASlider(watermark_setting_widget_);
@@ -715,6 +715,19 @@ void EditSettingView::createUi() {
     text_layout->addStretch();
     text_layout->addWidget(text_add_button_);
     watermark_layout->addLayout(text_layout);
+    text_watermark_setting_list_view_ = new AListView<TextWatermarkSettingData>(this);
+    text_watermark_setting_list_view_->setEditTriggers(QAbstractItemView::DoubleClicked);
+    text_watermark_setting_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    text_watermark_setting_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    text_watermark_setting_list_view_->setResizeMode(QListView::Adjust);
+    text_watermark_setting_list_view_->setViewMode(QListView::IconMode);
+    text_watermark_setting_list_view_->setDragEnabled(false);
+    text_watermark_setting_list_view_->setSelectionMode(QAbstractItemView::NoSelection);
+    text_watermark_setting_list_view_->setSpacing(kTextWatermarkSettingItemSpacing);
+    auto textWatermarkItemDelegate = new TextWatermarkSettingItemDelegate(this);
+    text_watermark_setting_list_view_->setItemDelegate(textWatermarkItemDelegate);
+    text_watermark_setting_list_view_->viewport()->installEventFilter(textWatermarkItemDelegate);
+    watermark_layout->addWidget(text_watermark_setting_list_view_);
     clear_button_ = new APushButton(watermark_setting_widget_);
     watermark_layout->addWidget(clear_button_);
     watermark_layout->addStretch();
@@ -776,6 +789,7 @@ void EditSettingView::sigConnect() {
     connect(image_watermark_setting_list_view_, &QListView::clicked, this, &EditSettingView::imageWatermarkListItemClicked);
     connect(picture_alpha_slider_, &ASlider::valueChanged, this, &EditSettingView::pictureAlphaChanged);
     connect(text_add_button_, &APushButton::clicked, this, &EditSettingView::addEmptyTextWatermark);
+    connect(text_watermark_setting_list_view_, &QListView::clicked, this, &EditSettingView::textWatermarkListItemClicked);
     
 }
 
@@ -997,6 +1011,9 @@ void EditSettingView::imageWatermarkSettingListViewAdjustHeight(int listCount) {
 }
 
 void EditSettingView::changeTextWatermarkSettingData(const QList<TextWatermarkSettingData> &datas) {
+    text_watermark_setting_list_view_->chageData(datas);
+    textWatermarkSettingListViewAdjustHeight(datas.count());
+    fontWidgetVisible(datas.count() > 0);
 }
 
 void EditSettingView::loadTextWatermarkSettingData() {
@@ -1007,9 +1024,22 @@ void EditSettingView::loadTextWatermarkSettingData() {
 }
 
 void EditSettingView::addEmptyTextWatermark() {
+    TextWatermarkSettingData data{QUuid::createUuid().toString(), "mask"};
+    addTextWatermarkSettingItem(QList<TextWatermarkSettingData>() << data);
 }
 
 void EditSettingView::textWatermarkListItemClicked(const QModelIndex &index) {
+    auto data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
+    QRect rc = text_watermark_setting_list_view_->visualRect(index);
+    int posx = text_watermark_setting_list_view_->mapFromGlobal(QCursor::pos()).x();
+    int posy = text_watermark_setting_list_view_->mapFromGlobal(QCursor::pos()).y();
+    QRect delIconRect = textWatermarkSettingItemDeteleRect(rc);
+    if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
+        && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
+        deleteTextWatermarkSettingItem(QList<QString>() << data.id);
+        return;
+    }
+    // emit Signals::getInstance()->sigxxx(data.file_path);
 }
 
 void EditSettingView::addTextWatermarkSettingItem(const QList<TextWatermarkSettingData> &datas) {
@@ -1034,6 +1064,8 @@ void EditSettingView::fontWidgetVisible(bool visible) {
 }
 
 void EditSettingView::textWatermarkSettingListViewAdjustHeight(int listCount) {
+    int row = listCount > 4 ? 4 : listCount;
+    text_watermark_setting_list_view_->setFixedHeight(row * (kTextWatermarkSettingItemSpacing + kTextWatermarkSettingItemHeight) + 4);
 }
 
 } // namespace imageedit
