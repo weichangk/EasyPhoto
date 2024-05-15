@@ -43,6 +43,11 @@ public:
         return QVariant();
     }
 
+    Qt::ItemFlags flags(const QModelIndex &index) const {
+        if (!index.isValid())
+            return Qt::NoItemFlags;
+        return Qt::ItemIsEditable | QAbstractListModel::flags(index);
+    }
 protected:
     QList<T> datas_;
 };
