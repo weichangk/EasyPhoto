@@ -61,6 +61,9 @@ public:
                               const QStyleOptionViewItem &option,
                               const QModelIndex &index) const override;
 
+Q_SIGNALS:
+    void sigEditCommitData(const TextWatermarkSettingData &data);
+
 private:
     QSize size_ = QSize(kTextWatermarkSettingItemWidth, kTextWatermarkSettingItemHeight);
     int event_type_ = QEvent::None;
@@ -116,6 +119,7 @@ private:
     void deleteTextWatermarkSettingItem(const QList<QString> &idsToDelete);
     void fontWidgetVisible(bool visible);
     void textWatermarkSettingListViewAdjustHeight(int listCount);
+    void textWatermarkSettingItemEditCommitData(const TextWatermarkSettingData &data);
 private:
     Data *data_ = nullptr;
     QRect select_rect_;

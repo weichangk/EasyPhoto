@@ -525,7 +525,6 @@ QWidget *TextWatermarkSettingItemDelegate::createEditor(QWidget *parent,
 
 void TextWatermarkSettingItemDelegate::setEditorData(QWidget *editor,
                                                      const QModelIndex &index) const {
-    // QString value = index.model()->data(index, Qt::EditRole).toString();
     auto data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
     QLineEdit *lineEdit = static_cast<QLineEdit *>(editor);
     lineEdit->setText(data.text);
@@ -535,7 +534,11 @@ void TextWatermarkSettingItemDelegate::setModelData(QWidget *editor, QAbstractIt
                                                     const QModelIndex &index) const {
     QLineEdit *lineEdit = static_cast<QLineEdit *>(editor);
     QString value = lineEdit->text();
-    model->setData(index, value, Qt::UserRole);
+    TextWatermarkSettingData data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
+    data.text = value;
+    emit const_cast<TextWatermarkSettingItemDelegate*>(this)->sigEditCommitData(data);
+    // QVariant variant = QVariant::fromValue(data);
+    // model->setData(index, variant, Qt::UserRole);
 }
 
 void TextWatermarkSettingItemDelegate::updateEditorGeometry(QWidget *editor,
@@ -727,6 +730,7 @@ void EditSettingView::createUi() {
     auto textWatermarkItemDelegate = new TextWatermarkSettingItemDelegate(this);
     text_watermark_setting_list_view_->setItemDelegate(textWatermarkItemDelegate);
     text_watermark_setting_list_view_->viewport()->installEventFilter(textWatermarkItemDelegate);
+    connect(textWatermarkItemDelegate, &TextWatermarkSettingItemDelegate::sigEditCommitData, this, &EditSettingView::textWatermarkSettingItemEditCommitData);
     watermark_layout->addWidget(text_watermark_setting_list_view_);
     clear_button_ = new APushButton(watermark_setting_widget_);
     watermark_layout->addWidget(clear_button_);
@@ -1066,6 +1070,16 @@ void EditSettingView::fontWidgetVisible(bool visible) {
 void EditSettingView::textWatermarkSettingListViewAdjustHeight(int listCount) {
     int row = listCount > 4 ? 4 : listCount;
     text_watermark_setting_list_view_->setFixedHeight(row * (kTextWatermarkSettingItemSpacing + kTextWatermarkSettingItemHeight) + 4);
+}
+
+void EditSettingView::textWatermarkSettingItemEditCommitData(const TextWatermarkSettingData &data) {
+    auto datas = getTextWatermarkSettingDatas();
+    for (int i = 0; i < datas.count(); i++) {
+        if (datas[i].id == data.id) {
+            datas[i].text = data.text;
+        }
+    }
+    text_watermark_setting_list_view_->chageData(datas);
 }
 
 } // namespace imageedit
