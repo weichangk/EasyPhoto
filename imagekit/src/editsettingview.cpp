@@ -73,6 +73,11 @@ inline QRect textWatermarkSettingItemDeteleRect(QRect itemRect) {
     return QRect(rc.x() + rc.width() - 16 - 4, rc.y() + 4, 16, 16);
 }
 
+inline QRect textWatermarkSettingItemTextRect(QRect itemRect) {
+    auto rc = itemRect;
+    return QRect(rc.x() + 4, rc.y() + 4, rc.width() - 24, rc.height() - 8);
+}
+
 QList<ImageWatermarkSettingData> getImageWatermarkSettingDatas() {
     QList<ImageWatermarkSettingData> datas;
 
@@ -472,6 +477,7 @@ void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpti
     bool selected = option.state & QStyle::State_Selected;
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
+    bool editing = option.state & QStyle::State_Editing;
 
     auto borderRect = textWatermarkSettingItemBorderRect(rc);
     QPen pen(QColor("#2F2D2D"));
@@ -492,19 +498,19 @@ void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpti
     }
     painter->setPen(Qt::NoPen);
 
-    // pen.setColor(QColor("#575859"));
-    // painter->setPen(pen);
-    // QFont font = painter->font();
-    // font.setPointSizeF(11);
-    // painter->setFont(font);
-    // QString fileName = data.file_name;
-    // auto nameRect = imageWatermarkSettingItemNameRect(rc);
-    // QFontMetricsF metrics(font);
-    // if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-    //     fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);
-    // }
-    // painter->drawText(nameRect, Qt::PlainText, fileName);
-    // painter->setPen(Qt::NoPen);
+    pen.setColor(QColor("#575859"));
+    painter->setPen(pen);
+    QFont font = painter->font();
+    font.setPointSizeF(11);
+    painter->setFont(font);
+    QString text = data.text;
+    auto textRect = textWatermarkSettingItemTextRect(rc);
+    QFontMetricsF metrics(font);
+    if (metrics.horizontalAdvance(text) > textRect.width()) {
+        text = metrics.elidedText(text, Qt::ElideMiddle, textRect.width(), Qt::TextShowMnemonic);
+    }
+    painter->drawText(textRect, Qt::PlainText, text);
+    painter->setPen(Qt::NoPen);
 }
 
 QSize TextWatermarkSettingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -544,7 +550,7 @@ void TextWatermarkSettingItemDelegate::setModelData(QWidget *editor, QAbstractIt
 void TextWatermarkSettingItemDelegate::updateEditorGeometry(QWidget *editor,
                                                             const QStyleOptionViewItem &option,
                                                             const QModelIndex &index) const {
-    editor->setGeometry(option.rect);
+    editor->setGeometry(textWatermarkSettingItemTextRect(option.rect));
 }
 
 EditSettingView::EditSettingView(QWidget *parent) :
