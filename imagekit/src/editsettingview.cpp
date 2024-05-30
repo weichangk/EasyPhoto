@@ -477,7 +477,6 @@ void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpti
     bool selected = option.state & QStyle::State_Selected;
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
-    bool editing = option.state & QStyle::State_Editing;
 
     auto borderRect = textWatermarkSettingItemBorderRect(rc);
     QPen pen(QColor("#2F2D2D"));
@@ -498,19 +497,21 @@ void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpti
     }
     painter->setPen(Qt::NoPen);
 
-    pen.setColor(QColor("#575859"));
-    painter->setPen(pen);
-    QFont font = painter->font();
-    font.setPointSizeF(11);
-    painter->setFont(font);
-    QString text = data.text;
-    auto textRect = textWatermarkSettingItemTextRect(rc);
-    QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(text) > textRect.width()) {
-        text = metrics.elidedText(text, Qt::ElideMiddle, textRect.width(), Qt::TextShowMnemonic);
+    if (!data.editor_visible) {
+        pen.setColor(QColor("#575859"));
+        painter->setPen(pen);
+        QFont font = painter->font();
+        font.setPointSizeF(11);
+        painter->setFont(font);
+        QString text = data.text;
+        auto textRect = textWatermarkSettingItemTextRect(rc);
+        QFontMetricsF metrics(font);
+        if (metrics.horizontalAdvance(text) > textRect.width()) {
+            text = metrics.elidedText(text, Qt::ElideMiddle, textRect.width(), Qt::TextShowMnemonic);
+        }
+        painter->drawText(textRect, Qt::PlainText, text);
+        painter->setPen(Qt::NoPen);
     }
-    painter->drawText(textRect, Qt::PlainText, text);
-    painter->setPen(Qt::NoPen);
 }
 
 QSize TextWatermarkSettingItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
@@ -524,6 +525,10 @@ void TextWatermarkSettingItemDelegate::changeSizeHint(const QSize &size) {
 QWidget *TextWatermarkSettingItemDelegate::createEditor(QWidget *parent,
                                                         const QStyleOptionViewItem &option,
                                                         const QModelIndex &index) const {
+    TextWatermarkSettingData data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
+    data.editor_visible = true;
+    emit const_cast<TextWatermarkSettingItemDelegate*>(this)->sigEditCommitData(data);
+
     QLineEdit *editor = new QLineEdit(parent);
     editor->setMaxLength(kTextWatermarkSettingItemEditWidth);
     return editor;
@@ -542,6 +547,7 @@ void TextWatermarkSettingItemDelegate::setModelData(QWidget *editor, QAbstractIt
     QString value = lineEdit->text();
     TextWatermarkSettingData data = index.data(Qt::UserRole).value<TextWatermarkSettingData>();
     data.text = value;
+    data.editor_visible = false;
     emit const_cast<TextWatermarkSettingItemDelegate*>(this)->sigEditCommitData(data);
     // QVariant variant = QVariant::fromValue(data);
     // model->setData(index, variant, Qt::UserRole);
@@ -1083,6 +1089,7 @@ void EditSettingView::textWatermarkSettingItemEditCommitData(const TextWatermark
     for (int i = 0; i < datas.count(); i++) {
         if (datas[i].id == data.id) {
             datas[i].text = data.text;
+            datas[i].editor_visible = data.editor_visible;
         }
     }
     text_watermark_setting_list_view_->chageData(datas);

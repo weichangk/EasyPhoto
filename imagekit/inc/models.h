@@ -148,6 +148,7 @@ struct TextWatermarkSettingData {
     QString id = "";
     QString text = "";
     QPixmap delete_icon = QPixmap();
+    bool editor_visible = false;
 };
 
 struct Data {
