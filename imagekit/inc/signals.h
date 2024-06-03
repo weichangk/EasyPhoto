@@ -91,3 +91,18 @@ Q_SIGNALS:
     void sigListItemDataSelected(Data *data);
 };
 } // namespace image2gif
+
+namespace imageerase {
+class Signals : public QObject, public ASinglton<Signals> {
+    Q_OBJECT
+public:
+Q_SIGNALS:
+    void sigWindowMove();
+    void sigOpenFileDialog(QWidget *parent = nullptr);
+    void sigDeleteFile(const QString filePath);
+    void sigClickedFile(const QString filePath);
+    void sigDeleteAll();
+    void sigStatus(Status state);
+    void sigListItemDataSelected(Data *data);
+};
+} // namespace imageerase

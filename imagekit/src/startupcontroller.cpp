@@ -15,6 +15,7 @@ StartupController::StartupController() {
     compression_controller_ = new imagecompression::CompressionController();
     edit_controller_ = new imageedit::EditController();
     image2gif_controller_ = new image2gif::Image2GifController();
+    imageerase_controller_ = new imageerase::ImageEraseController();
     sigConnect();
 }
 
@@ -41,6 +42,11 @@ void StartupController::showFunc(ImageFunc func) {
     case ImageFunc::IMAGE2GIF:
         m_StartupWindow->close();
         image2gif_controller_->showWindow();
+        break;
+    case ImageFunc::ERASE:
+        m_StartupWindow->close();
+        imageerase_controller_->showWindow();
+        m_StartupWindow->close();
     default:
         break;
     }

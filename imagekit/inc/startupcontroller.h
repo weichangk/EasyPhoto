@@ -12,6 +12,7 @@
 #include "compressioncontroller.h"
 #include "editcontroller.h"
 #include "image2gifcontroller.h"
+#include "imageerasecontroller.h"
 #include <QObject>
 
 class StartupController : public QObject {
@@ -30,4 +31,5 @@ private:
     imagecompression::CompressionController *compression_controller_ = nullptr;
     imageedit::EditController *edit_controller_ = nullptr;
     image2gif::Image2GifController *image2gif_controller_ = nullptr;
+    imageerase::ImageEraseController *imageerase_controller_ = nullptr;
 };
