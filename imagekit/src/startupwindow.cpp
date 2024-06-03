@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-23 21:44:03
+ * @Last Modified time: 2024-06-03 08:05:05
  */
 
 #include "inc/startupwindow.h"
@@ -108,7 +108,7 @@ void StartupWindow::createUi() {
     funcDataMap.insert(ImageFunc::EDIT, QVariantList() << ":/res/image/account_80_vip.png"
                                                             << "图片编辑"
                                                             << "裁剪、旋转、饱和度、水印");
-    funcDataMap.insert(ImageFunc::SPECIALEFFECT, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::IMAGE2GIF, QVariantList() << ":/res/image/account_80_vip.png"
                                                          << "GIF生产"
                                                          << "图片生成GIF");
     funcDataMap.insert(ImageFunc::ENHANCEMENT, QVariantList() << ":/res/image/account_80_vip.png"

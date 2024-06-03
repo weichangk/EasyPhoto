@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:52:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-05-11 08:05:24
+ * @Last Modified time: 2024-06-03 08:04:05
  */
 
 #pragma once
@@ -26,7 +26,8 @@ using ImageFunc = enum {
     ENHANCEMENT,   // 图像增强
     RESTORATION,   // 图像复原
     EFFECT,        // 图片效果
-    SPECIALEFFECT  // 图片特效
+    SPECIALEFFECT,  // 图片特效
+    IMAGE2GIF
 };
 
 QString ImageFuncEnum2QString(ImageFunc param);
@@ -173,3 +174,20 @@ QRect CropRect2PreviewRect(QRect rect, double ratio);
 QRect PreviewRect2CropRect(QRect rect, double ratio);
 
 } // namespace imageedit
+
+namespace image2gif {
+using Status = enum {
+    NONE = 0,
+    START,
+    FINISHED,
+    CANCEL
+};
+
+struct Data {
+    QString file_name = "";
+    QString file_path = "";
+    Status state = Status::NONE;
+    QPixmap thumbnail = QPixmap();
+    QPixmap delete_icon = QPixmap();
+};
+} // namespace image2gif

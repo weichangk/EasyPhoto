@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:02:29
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:09:27
+ * @Last Modified time: 2024-06-03 08:02:55
  */
 
 #pragma once
@@ -11,6 +11,7 @@
 #include "conversioncontroller.h"
 #include "compressioncontroller.h"
 #include "editcontroller.h"
+#include "image2gifcontroller.h"
 #include <QObject>
 
 class StartupController : public QObject {
@@ -28,4 +29,5 @@ private:
     imageconversion::ConversionController *conversion_Controller_ = nullptr;
     imagecompression::CompressionController *compression_controller_ = nullptr;
     imageedit::EditController *edit_controller_ = nullptr;
+    image2gif::Image2GifController *image2gif_controller_ = nullptr;
 };

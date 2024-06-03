@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-24 10:06:40
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 10:11:32
+ * @Last Modified time: 2024-06-03 08:05:39
  */
 
 #include "inc/models.h"
@@ -17,6 +17,8 @@ QString ImageFuncEnum2QString(ImageFunc param) {
         return "COMPRESSION";
     case ImageFunc::EDIT:
         return "EDIT";
+    case ImageFunc::IMAGE2GIF:
+        return "IMAGE2GIF";
     default:
         return "UNKNOWN";
     }
