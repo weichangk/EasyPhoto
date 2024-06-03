@@ -65,7 +65,7 @@ void Image2GifWindow::createUi() {
     logoLayout->addWidget(logo_label_);
     name_label_ = new ALabel(this);
     name_label_->setObjectName("edit_window_name_lable");
-    name_label_->setText("图片编辑");
+    name_label_->setText("生成GIF");
     logoLayout->addWidget(name_label_);
     topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
@@ -151,4 +151,4 @@ void Image2GifWindow::moveEvent(QMoveEvent *event) {
     ABaseWidget::moveEvent(event);
     emit Signals::getInstance()->sigWindowMove();
 }
-} // namespace imageedit
+} // namespace image2gif

@@ -109,7 +109,7 @@ void StartupWindow::createUi() {
                                                             << "图片编辑"
                                                             << "裁剪、旋转、饱和度、水印");
     funcDataMap.insert(ImageFunc::IMAGE2GIF, QVariantList() << ":/res/image/account_80_vip.png"
-                                                         << "GIF生产"
+                                                         << "生成GIF"
                                                          << "图片生成GIF");
     funcDataMap.insert(ImageFunc::ENHANCEMENT, QVariantList() << ":/res/image/account_80_vip.png"
                                                                << "AI图像增强"

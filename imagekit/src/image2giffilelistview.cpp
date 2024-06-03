@@ -198,4 +198,4 @@ void Image2GifFileListView::sigConnect() {
         emit Signals::getInstance()->sigClickedFile(data.file_path);
     });
 }
-} // namespace imageimage2gif
+} // namespace image2gif
