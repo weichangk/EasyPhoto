@@ -32,12 +32,11 @@ void Image2GifController::init() {
 }
 
 void Image2GifController::sigConnect() {
-    // connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &Image2GifController::openFileDialog);
-    // connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &Image2GifController::deleteData);
-    // connect(Signals::getInstance(), &Signals::sigClickedFile, this, &Image2GifController::clickedData);
-    // connect(Signals::getInstance(), &Signals::sigStatus, this, &Image2GifController::status);
-    // connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
-    // connect(Signals::getInstance(), &Signals::sigDataUpdate, this, &Image2GifController::dataUpdate);
+    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &Image2GifController::openFileDialog);
+    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &Image2GifController::deleteData);
+    connect(Signals::getInstance(), &Signals::sigClickedFile, this, &Image2GifController::clickedData);
+    connect(Signals::getInstance(), &Signals::sigStatus, this, &Image2GifController::status);
+    connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -61,16 +60,12 @@ void Image2GifController::addData(const QStringList filePaths) {
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
-        // QImage image(filePath);
-        // data.crop_rect = QRect(0, 0, image.width(), image.height());
-        // data.origin_crop_rect = QRect(0, 0, image.width(), image.height());
-        // data.aspect_ratio = static_cast<qreal>(image.width()) / image.height();
         datas_.append(data);
     }
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(datas_.count() - 1);
-        // emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
     }
 }
 
@@ -89,7 +84,7 @@ void Image2GifController::deleteData(const QString filePath) {
 
     if (n != -1) {
         window_->setFileListCurrentIndex(n);
-        // emit Signals::getInstance()->sigListItemDataSelected(&datas_[n]);
+        emit Signals::getInstance()->sigListItemDataSelected(&datas_[n]);
     }
 }
 
@@ -101,7 +96,7 @@ void Image2GifController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        // emit Signals::getInstance()->sigListItemDataSelected(it);
+        emit Signals::getInstance()->sigListItemDataSelected(it);
     }
 }
 
@@ -122,25 +117,11 @@ void Image2GifController::status(Status state) {
 }
 
 void Image2GifController::start() {
-    // auto task = [&]() {
-    //     Image image;
-    //     QString filePath;
-    //     QFileInfo fileInfo;
-    //     foreach (const auto &data, m_ConvDatas) {
-    //         fileInfo = AFileMgr::fileInfo(data.file_path);
-    //         if (fileInfo.exists() && data.is_checked) {
-    //             filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
-    //             AFileMgr::renameIfExists(filePath);
-    //             image.read(data.file_path.toStdString());
-    //             image.write(filePath.toStdString());
-    //         }
-    //     }
-    // };
-    // m_ConvWatcher.setFuture(QtConcurrent::run(task));
 }
 
 void Image2GifController::finished() {
 }
+
 void Image2GifController::cancel() {
 }
 

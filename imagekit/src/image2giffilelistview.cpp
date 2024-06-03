@@ -179,10 +179,10 @@ void Image2GifFileListView::changeLanguage() {
 
 void Image2GifFileListView::sigConnect() {
     connect(add_file_button_, &APushButton::clicked, this, [=]() {
-        // emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit Signals::getInstance()->sigOpenFileDialog(this);
     });
     connect(delete_file_button_, &APushButton::clicked, this, [=]() {
-        // emit Signals::getInstance()->sigDeleteAll();
+        emit Signals::getInstance()->sigDeleteAll();
     });
     connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<Data>();
@@ -192,10 +192,10 @@ void Image2GifFileListView::sigConnect() {
         QRect delIconRect = fileItemDeteleRect(rc);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            // emit Signals::getInstance()->sigDeleteFile(data.file_path);
+            emit Signals::getInstance()->sigDeleteFile(data.file_path);
             return;
         }
-        // emit Signals::getInstance()->sigClickedFile(data.file_path);
+        emit Signals::getInstance()->sigClickedFile(data.file_path);
     });
 }
 } // namespace imageimage2gif

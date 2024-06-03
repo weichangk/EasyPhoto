@@ -75,4 +75,19 @@ Q_SIGNALS:
     void sigSaturationSetting2Preview(int);
     void sigEffectResetSetting2Preview(int, int, int);
 };
-} // namespace imageedit
+} // namespace image2gif
+
+namespace image2gif {
+class Signals : public QObject, public ASinglton<Signals> {
+    Q_OBJECT
+public:
+Q_SIGNALS:
+    void sigWindowMove();
+    void sigOpenFileDialog(QWidget *parent = nullptr);
+    void sigDeleteFile(const QString filePath);
+    void sigClickedFile(const QString filePath);
+    void sigDeleteAll();
+    void sigStatus(Status state);
+    void sigListItemDataSelected(Data *data);
+};
+} // namespace image2gif

@@ -117,7 +117,7 @@ void Image2GifWindow::sigConnect() {
         emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
-        // emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit Signals::getInstance()->sigOpenFileDialog(this);
     });
 }
 void Image2GifWindow::paintEvent(QPaintEvent *event) {
@@ -149,6 +149,6 @@ void Image2GifWindow::paintEvent(QPaintEvent *event) {
 
 void Image2GifWindow::moveEvent(QMoveEvent *event) {
     ABaseWidget::moveEvent(event);
-    // emit Signals::getInstance()->sigWindowMove();
+    emit Signals::getInstance()->sigWindowMove();
 }
 } // namespace imageedit
