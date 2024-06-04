@@ -208,3 +208,20 @@ struct Data {
     QPixmap delete_icon = QPixmap();
 };
 } // namespace imageerase
+
+namespace imageenhancement {
+using Status = enum {
+    NONE = 0,
+    START,
+    FINISHED,
+    CANCEL
+};
+
+struct Data {
+    QString file_name = "";
+    QString file_path = "";
+    Status state = Status::NONE;
+    QPixmap thumbnail = QPixmap();
+    QPixmap delete_icon = QPixmap();
+};
+} // namespace imageenhancement
