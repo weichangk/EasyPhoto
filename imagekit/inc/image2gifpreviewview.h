@@ -26,4 +26,4 @@ private:
 private:
 
 };
-} // namespace imageedit
+} // namespace image2gif

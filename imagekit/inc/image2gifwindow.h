@@ -42,4 +42,4 @@ private:
     Image2GifPreviewView *preview_view_ = nullptr;
     Image2GifSettingView *setting_view_ = nullptr;
 };
-} // namespace imageedit
+} // namespace image2gif
