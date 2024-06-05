@@ -90,15 +90,18 @@ void Image2GifWindow::createUi() {
     auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
     
     file_list_view_ = new Image2GifFileListView(this);
-    file_list_view_->setFixedWidth(260);
+    file_list_view_->setFixedWidth(400);
     viewsWidgetLayout->addWidget(file_list_view_);
 
+    auto viewsWidgetRightLayout = new AVBoxLayout();
+    viewsWidgetLayout->addLayout(viewsWidgetRightLayout, 1);
+
     preview_view_ = new Image2GifPreviewView(this);
-    viewsWidgetLayout->addWidget(preview_view_, 1);
+    viewsWidgetRightLayout->addWidget(preview_view_, 1);
 
     setting_view_ = new Image2GifSettingView(this);
-    setting_view_->setFixedWidth(300);
-    viewsWidgetLayout->addWidget(setting_view_);
+    setting_view_->setFixedHeight(70);
+    viewsWidgetRightLayout->addWidget(setting_view_);
 
     mainLayout->addLayout(bodyLayout, 1);
 
