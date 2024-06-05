@@ -6,6 +6,11 @@
  */
 
 #include "inc/image2gifsettingview.h"
+#include "../awidget/inc/avboxlayout.h"
+#include "../awidget/inc/ahboxlayout.h"
+#include "../awidget/inc/alabel.h"
+#include "../awidget/inc/alineedit.h"
+#include "../awidget/inc/acombobox.h"
 
 namespace image2gif {
 
@@ -20,9 +25,50 @@ Image2GifSettingView::~Image2GifSettingView() {
 }
 
 void Image2GifSettingView::createUi() {
+    auto mainLayout = new AVBoxLayout(this);
+
+    out_size_label_ = new ALabel(this);
+
+    mainLayout->addWidget(out_size_label_);
+
+    auto out_size_layout = new AHBoxLayout();
+
+    out_w_edit_validator_ = new QIntValidator(this);
+    out_w_edit_validator_->setRange(1, 10000);
+
+    out_w_edit_ = new ALineEdit(this);
+    out_w_edit_->setValidator(out_w_edit_validator_);
+
+    out_h_edit_validator_ = new QIntValidator(this);
+    out_h_edit_validator_->setRange(1, 10000);
+
+    out_h_edit_ = new ALineEdit(this);
+    out_h_edit_->setValidator(out_h_edit_validator_);
+
+    ALabel *out_size_x_label_ = new ALabel(this);
+    out_size_x_label_->setText("x");
+
+    out_size_layout->addWidget(out_w_edit_);
+    out_size_layout->addWidget(out_size_x_label_);
+    out_size_layout->addWidget(out_h_edit_);
+    out_size_layout->addStretch();
+
+    mainLayout->addLayout(out_size_layout);
+
+    out_fps_label_ = new ALabel(this);
+    out_fps_combo_ = new AComboBox(this);
+    
+    mainLayout->addWidget(out_fps_label_);
+    mainLayout->addWidget(out_fps_combo_);
+
+    mainLayout->addStretch();
 }
 
 void Image2GifSettingView::changeLanguage() {
+    out_size_label_->setText("输出大小");
+    out_w_edit_->setText("1080");
+    out_h_edit_->setText("960");
+    out_fps_label_->setText("帧率");
 }
 
 void Image2GifSettingView::sigConnect() {

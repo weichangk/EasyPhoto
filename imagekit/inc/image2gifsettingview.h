@@ -8,6 +8,11 @@
 #pragma once
 #include "../agui/inc/abasewidget.h"
 
+class ALabel;
+class ALineEdit;
+class QIntValidator;
+class ALineEdit;
+class AComboBox;
 namespace image2gif {
 class Image2GifSettingView : public ABaseWidget {
     Q_OBJECT
@@ -19,5 +24,14 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+
+private:
+    ALabel *out_size_label_;
+    ALineEdit *out_w_edit_;
+    ALineEdit *out_h_edit_;
+    QIntValidator *out_w_edit_validator_;
+    QIntValidator *out_h_edit_validator_;
+    ALabel *out_fps_label_;
+    AComboBox *out_fps_combo_;
 };
 } // namespace image2gif
