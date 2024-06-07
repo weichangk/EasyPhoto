@@ -57,6 +57,9 @@ void Image2GifController::addData(const QStringList filePaths) {
         Data data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
+        QPixmap pixmap = QPixmap(filePath);
+        pixmap = pixmap.scaled(QSize(120, 90), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.thumbnail = pixmap;
         QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;

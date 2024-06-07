@@ -28,7 +28,7 @@ public:
     void changeSizeHint(const QSize &size);
 
 private:
-    QSize size_ = QSize(260, 48);
+    QSize size_ = QSize(120, 90);
     int event_type_ = QEvent::None;
     QPoint curpos_;
 };

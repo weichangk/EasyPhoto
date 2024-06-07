@@ -14,17 +14,22 @@
 #include <QMouseEvent>
 
 namespace image2gif {
-inline QRect fileItemDeteleRect(QRect itemRect) {
-    auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + rc.width() - 16 - 16, rc.y() + 16, 16, 16);
+inline QRect fileItemBorderRect(QRect itemRect) {
+    return itemRect.adjusted(1, 1, -1, -1);
 }
 
-inline QRect fileItemNameRect(QRect itemRect) {
-    auto rc = itemRect;
-    auto deleteRect = fileItemDeteleRect(rc);
-    int nameX = rc.x() + 16;
-    int nameWidth = deleteRect.x() - 16 - nameX;
-    return QRect(nameX, rc.y() + 12, nameWidth, 24);
+inline QRect fileItemThumbnailRect(QRect itemRect) {
+    return itemRect.adjusted(1, 1, -1, -1);
+}
+
+inline QRect fileItemDeteleRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + rc.width() - 16 - 4, rc.y() + 4, 16, 16);
+}
+
+inline QRect fileItemIndexRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + 4, rc.y() + 4, rc.width() - 4, 24);
 }
 
 Image2GifFileItemDelegate::Image2GifFileItemDelegate(QObject *parent) :
@@ -62,10 +67,13 @@ void Image2GifFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
 
-    auto borderRect = rc.adjusted(1, 1, -1, -1);
+    auto borderRect = fileItemBorderRect(rc);
     painter->setBrush(QColor("#2F2D2D"));
-    painter->drawRoundedRect(borderRect, 0, 0);
+    painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
+
+    auto pixmapRect = fileItemThumbnailRect(rc);
+    APainterHelper::paintPixmap(painter, pixmapRect, data.thumbnail, 1, 10, true);
 
     if (hover) {
         auto delIconRect = fileItemDeteleRect(rc);
@@ -92,13 +100,8 @@ void Image2GifFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     QFont font = painter->font();
     font.setPointSizeF(11);
     painter->setFont(font);
-    QString fileName = data.file_name;
-    auto nameRect = fileItemNameRect(rc);
-    QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width(), Qt::TextShowMnemonic);
-    }
-    painter->drawText(nameRect, Qt::PlainText, fileName);
+    auto indexRect = fileItemIndexRect(rc);
+    painter->drawText(indexRect, Qt::PlainText, QString::number(index.row() + 1));
     painter->setPen(Qt::NoPen);
 }
 
@@ -159,8 +162,7 @@ void Image2GifFileListView::createUi() {
     file_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     file_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     file_list_view_->setResizeMode(QListView::Adjust);
-    file_list_view_->setViewMode(QListView::ListMode);
-    file_list_view_->setFlow(QListView::TopToBottom);
+    file_list_view_->setViewMode(QListView::IconMode);
     file_list_view_->setDragEnabled(false);
     file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
 
