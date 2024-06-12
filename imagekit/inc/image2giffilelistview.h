@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-06-03 07:36:53
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:38:23
+ * @Last Modified time: 2024-06-11 07:52:09
  */
 
 #pragma once
@@ -11,11 +11,47 @@
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/alistview.h"
 #include "inc/models.h"
-#include <QListWidget>
+#include <QAbstractListModel>
+#include <QMimeData>
 #include <QStyledItemDelegate>
+#include <QListView>
+#include <QMouseEvent>
 #include <QEvent>
-
 namespace image2gif {
+class Image2GifFileListModel : public QAbstractListModel {
+    Q_OBJECT
+public:
+    Image2GifFileListModel(QObject *parent);
+    void changeModels(const QList<Data> &datas);
+    void changeData(int row, const Data &data);
+    int rowCount(const QModelIndex &parent) const;
+    QVariant data(const QModelIndex &index, int role) const;
+    Qt::ItemFlags flags(const QModelIndex &index) const override;
+    QStringList mimeTypes() const override;
+    QMimeData *mimeData(const QModelIndexList &indexes) const override;
+    bool dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) override;
+    Qt::DropActions supportedDropActions() const override;
+
+protected:
+    QList<Data> datas_;
+};
+
+class Image2GifFilesView : public QListView {
+    Q_OBJECT
+public:
+    Image2GifFilesView(QWidget *parent);
+    void chageData(const QList<Data> &datas);
+    Data data(int i) const;
+    int count() const;
+
+protected:
+    void mouseMoveEvent(QMouseEvent *event);
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+
+private:
+    Image2GifFileListModel *view_model_ = 0;
+};
+
 class Image2GifFileItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
@@ -51,7 +87,7 @@ private:
     ALabel *file_name_label_ = nullptr;
     APushButton *add_file_button_ = nullptr;
     APushButton *delete_file_button_ = nullptr;
-    AListView<Data> *file_list_view_ = nullptr;
+    Image2GifFilesView *file_list_view_ = nullptr;
 
     QList<Data> datas_;
 };

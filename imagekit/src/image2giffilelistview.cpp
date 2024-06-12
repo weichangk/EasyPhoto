@@ -1,8 +1,8 @@
 /*
- * @Author: weick 
- * @Date: 2024-06-03 07:46:59 
+ * @Author: weick
+ * @Date: 2024-06-03 07:46:59
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:48:46
+ * @Last Modified time: 2024-06-11 07:55:16
  */
 
 #include "inc/image2giffilelistview.h"
@@ -30,6 +30,139 @@ inline QRect fileItemDeteleRect(QRect itemRect) {
 inline QRect fileItemIndexRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
     return QRect(rc.x() + 4, rc.y() + 4, rc.width() - 4, 24);
+}
+
+Image2GifFileListModel::Image2GifFileListModel(QObject *parent) {
+}
+
+void Image2GifFileListModel::changeModels(const QList<Data> &datas) {
+    beginResetModel();
+    datas_ = datas;
+    endResetModel();
+}
+
+void Image2GifFileListModel::changeData(int row, const Data &data) {
+    beginResetModel();
+    datas_[row] = data;
+    endResetModel();
+}
+
+int Image2GifFileListModel::rowCount(const QModelIndex &parent) const {
+    return datas_.count();
+}
+
+QVariant Image2GifFileListModel::data(const QModelIndex &index, int role) const {
+    if (!index.isValid()) {
+        return QVariant();
+    }
+    if (index.row() >= datas_.size()) {
+        return QVariant();
+    }
+    if (role == Qt::UserRole) {
+        return QVariant::fromValue(datas_[index.row()]);
+    }
+    return QVariant();
+}
+
+Qt::ItemFlags Image2GifFileListModel::flags(const QModelIndex &index) const {
+    Qt::ItemFlags defaultFlags = QAbstractListModel::flags(index);
+    if (index.isValid()) {
+        return Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled | defaultFlags;
+    }
+    return Qt::ItemIsDropEnabled | defaultFlags;
+}
+
+QStringList Image2GifFileListModel::mimeTypes() const {
+    return {"application/x-myitemlist"};
+}
+
+QMimeData *Image2GifFileListModel::mimeData(const QModelIndexList &indexes) const {
+    QMimeData *mimeData = new QMimeData();
+    QByteArray encodedData;
+    QDataStream stream(&encodedData, QIODevice::WriteOnly);
+
+    foreach (const QModelIndex &index, indexes) {
+        if (index.isValid()) {
+            Data item = datas_.at(index.row());
+            stream << item.file_name << item.file_path << item.state << item.thumbnail << item.delete_icon;
+        }
+    }
+
+    mimeData->setData("application/x-myitemlist", encodedData);
+    return mimeData;
+}
+
+bool Image2GifFileListModel::dropMimeData(const QMimeData *data, Qt::DropAction action, int row, int column, const QModelIndex &parent) {
+    if (action == Qt::IgnoreAction)
+        return true;
+
+    if (!data->hasFormat("application/x-myitemlist"))
+        return false;
+
+    if (row < 0 || row > datas_.size())
+        row = datas_.size();
+
+    QByteArray encodedData = data->data("application/x-myitemlist");
+    QDataStream stream(&encodedData, QIODevice::ReadOnly);
+    QList<Data> newItems;
+
+    while (!stream.atEnd()) {
+        Data item;
+        stream >> item.file_name >> item.file_path >> item.state >> item.thumbnail >> item.delete_icon;
+        newItems << item;
+    }
+
+    foreach (const Data &item, newItems) {
+        beginInsertRows(QModelIndex(), row, row);
+        datas_.insert(row, item);
+        endInsertRows();
+        row++;
+    }
+
+    return true;
+}
+
+Qt::DropActions Image2GifFileListModel::supportedDropActions() const {
+    return Qt::CopyAction | Qt::MoveAction;
+}
+
+Image2GifFilesView::Image2GifFilesView(QWidget *parent) :
+    QListView(parent) {
+    setAttribute(Qt::WA_StyledBackground);
+    // setMouseTracking(true);
+    setStyleSheet("border:0px; background-color:transparent;");
+    setSpacing(0);
+
+    // setAcceptDrops(true);
+    // setDragEnabled(true);
+    // setDropIndicatorShown(true);
+    // setDragDropMode(QAbstractItemView::InternalMove);
+
+    view_model_ = new Image2GifFileListModel(this);
+    setModel(view_model_);
+}
+
+void Image2GifFilesView::chageData(const QList<Data> &datas) {
+    view_model_->changeModels(datas);
+}
+
+Data Image2GifFilesView::data(int i) const {
+    return view_model_->data(view_model_->index(i, 0), Qt::UserRole).value<Data>();
+}
+
+int Image2GifFilesView::count() const {
+    return view_model_->rowCount(QModelIndex());
+}
+
+void Image2GifFilesView::mouseMoveEvent(QMouseEvent *event) {
+    if (indexAt(event->pos()).row() != -1) {
+        setCursor(Qt::PointingHandCursor);
+    } else {
+        setCursor(Qt::ArrowCursor);
+    }
+}
+
+void Image2GifFilesView::currentChanged(const QModelIndex &current, const QModelIndex &previous) {
 }
 
 Image2GifFileItemDelegate::Image2GifFileItemDelegate(QObject *parent) :
@@ -158,13 +291,18 @@ void Image2GifFileListView::createUi() {
     buttonsLayout->addWidget(add_file_button_);
     buttonsLayout->addWidget(delete_file_button_);
 
-    file_list_view_ = new AListView<Data>(this);
+    file_list_view_ = new Image2GifFilesView(this);
     file_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     file_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     file_list_view_->setResizeMode(QListView::Adjust);
     file_list_view_->setViewMode(QListView::IconMode);
-    file_list_view_->setDragEnabled(false);
     file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
+    // 设置拖放属性
+    file_list_view_->setDragEnabled(true);
+    file_list_view_->setAcceptDrops(true);
+    file_list_view_->setDropIndicatorShown(true);
+    file_list_view_->setDefaultDropAction(Qt::MoveAction);
+    file_list_view_->setDragDropMode(QAbstractItemView::InternalMove);
 
     auto delegate = new Image2GifFileItemDelegate(this);
     file_list_view_->setItemDelegate(delegate);
