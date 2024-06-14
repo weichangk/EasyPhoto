@@ -45,11 +45,23 @@ public:
     int count() const;
 
 protected:
-    void mouseMoveEvent(QMouseEvent *event);
-    void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void mousePressEvent(QMouseEvent* event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
+    void mouseReleaseEvent(QMouseEvent* event) override;
+    void startDrag(Qt::DropActions supportedActions) override;
+    void dragMoveEvent(QDragMoveEvent* event) override;
+    void dragLeaveEvent(QDragLeaveEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
+    void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
+
+private:
+    void autoScroll();
 
 private:
     Image2GifFileListModel *view_model_ = 0;
+
+    QPoint mouse_pos_;
+    QTimer* autoscroll_timer_;
 };
 
 class Image2GifFileItemDelegate : public QStyledItemDelegate {

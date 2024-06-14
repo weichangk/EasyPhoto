@@ -12,7 +12,8 @@
 #include "inc/signals.h"
 #include <QPainter>
 #include <QMouseEvent>
-
+#include <QTimer>
+#include <QScrollBar>
 namespace image2gif {
 inline QRect fileItemBorderRect(QRect itemRect) {
     return itemRect.adjusted(1, 1, -1, -1);
@@ -133,13 +134,17 @@ Image2GifFilesView::Image2GifFilesView(QWidget *parent) :
     setStyleSheet("border:0px; background-color:transparent;");
     setSpacing(0);
 
-    // setAcceptDrops(true);
-    // setDragEnabled(true);
-    // setDropIndicatorShown(true);
+    setAcceptDrops(true);
+    setDragEnabled(true);
+    setDropIndicatorShown(true);
     // setDragDropMode(QAbstractItemView::InternalMove);
 
     view_model_ = new Image2GifFileListModel(this);
     setModel(view_model_);
+
+    autoscroll_timer_ = new QTimer(this);
+    autoscroll_timer_->setInterval(50);
+    connect(autoscroll_timer_, &QTimer::timeout, this, &Image2GifFilesView::autoScroll);
 }
 
 void Image2GifFilesView::chageData(const QList<Data> &datas) {
@@ -154,7 +159,12 @@ int Image2GifFilesView::count() const {
     return view_model_->rowCount(QModelIndex());
 }
 
+void Image2GifFilesView::mousePressEvent(QMouseEvent* event) {
+    QListView::mousePressEvent(event);
+}
+
 void Image2GifFilesView::mouseMoveEvent(QMouseEvent *event) {
+    QListView::mouseMoveEvent(event);
     if (indexAt(event->pos()).row() != -1) {
         setCursor(Qt::PointingHandCursor);
     } else {
@@ -162,7 +172,52 @@ void Image2GifFilesView::mouseMoveEvent(QMouseEvent *event) {
     }
 }
 
+void Image2GifFilesView::mouseReleaseEvent(QMouseEvent* event) {
+    QListView::mouseReleaseEvent(event);
+}
+
+void Image2GifFilesView::startDrag(Qt::DropActions supportedActions) {
+    autoscroll_timer_->start();
+    QListView::startDrag(supportedActions);
+}
+
+void Image2GifFilesView::dragMoveEvent(QDragMoveEvent *event) {
+    mouse_pos_ = event->pos();
+    QListView::dragMoveEvent(event);
+}
+
+void Image2GifFilesView::dragLeaveEvent(QDragLeaveEvent *event) {
+    autoscroll_timer_->stop();
+    QListView::dragLeaveEvent(event);
+}
+
+void Image2GifFilesView::dropEvent(QDropEvent *event) {
+    autoscroll_timer_->stop();
+    QListView::dropEvent(event);
+}
+
 void Image2GifFilesView::currentChanged(const QModelIndex &current, const QModelIndex &previous) {
+}
+
+void Image2GifFilesView::autoScroll() {
+    const int margin = 20;     // 鼠标距离边缘的距离阈值
+    const int scrollSpeed = 5; // 滚动速度
+
+    if (mouse_pos_.y() < margin) {
+        // 向上滚动
+        verticalScrollBar()->setValue(verticalScrollBar()->value() - scrollSpeed);
+    } else if (mouse_pos_.y() > height() - margin) {
+        // 向下滚动
+        verticalScrollBar()->setValue(verticalScrollBar()->value() + scrollSpeed);
+    }
+
+    if (mouse_pos_.x() < margin) {
+        // 向左滚动
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() - scrollSpeed);
+    } else if (mouse_pos_.x() > width() - margin) {
+        // 向右滚动
+        horizontalScrollBar()->setValue(horizontalScrollBar()->value() + scrollSpeed);
+    }
 }
 
 Image2GifFileItemDelegate::Image2GifFileItemDelegate(QObject *parent) :
