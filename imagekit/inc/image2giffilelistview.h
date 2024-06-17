@@ -51,7 +51,7 @@ protected:
     // void startDrag(Qt::DropActions supportedActions) override;
     // void dragMoveEvent(QDragMoveEvent* event) override;
     // void dragLeaveEvent(QDragLeaveEvent* event) override;
-    // void dropEvent(QDropEvent* event) override;
+    void dropEvent(QDropEvent* event) override;
     void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
 
 private:

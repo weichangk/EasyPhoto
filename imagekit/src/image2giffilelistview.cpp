@@ -156,10 +156,10 @@ Image2GifFilesView::Image2GifFilesView(QWidget *parent) :
     setMouseTracking(true);
     setStyleSheet("border:0px; background-color:transparent;");
     setSpacing(0);
-
     setAcceptDrops(true);
     setDragEnabled(true);
     setDropIndicatorShown(true);
+    setDefaultDropAction(Qt::MoveAction);
     setDragDropMode(QAbstractItemView::InternalMove);
 
     view_model_ = new Image2GifFileListModel(this);
@@ -214,10 +214,18 @@ void Image2GifFilesView::mouseReleaseEvent(QMouseEvent* event) {
 //     QListView::dragLeaveEvent(event);
 // }
 
-// void Image2GifFilesView::dropEvent(QDropEvent *event) {
-//     autoscroll_timer_->stop();
-//     QListView::dropEvent(event);
-// }
+void Image2GifFilesView::dropEvent(QDropEvent *event) {
+    // 获取当前放置位置
+    QModelIndex index = indexAt(event->pos());
+    if (!index.isValid()) {
+        // 如果放置位置无效，则忽略掉放置操作
+        event->ignore();
+        return;
+    }
+
+    // autoscroll_timer_->stop();
+    QListView::dropEvent(event);
+}
 
 void Image2GifFilesView::currentChanged(const QModelIndex &current, const QModelIndex &previous) {
 }
@@ -375,12 +383,6 @@ void Image2GifFileListView::createUi() {
     file_list_view_->setResizeMode(QListView::Adjust);
     file_list_view_->setViewMode(QListView::IconMode);
     file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
-    // 设置拖放属性
-    file_list_view_->setDragEnabled(true);
-    file_list_view_->setAcceptDrops(true);
-    file_list_view_->setDropIndicatorShown(true);
-    file_list_view_->setDefaultDropAction(Qt::MoveAction);
-    file_list_view_->setDragDropMode(QAbstractItemView::InternalMove);
 
     auto delegate = new Image2GifFileItemDelegate(this);
     file_list_view_->setItemDelegate(delegate);
