@@ -189,6 +189,8 @@ struct Data {
     Status state = Status::NONE;
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
+    QPixmap before_add_icon = QPixmap();
+    QPixmap after_add_icon = QPixmap();
 };
 } // namespace image2gif
 

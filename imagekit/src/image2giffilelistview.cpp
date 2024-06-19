@@ -33,6 +33,31 @@ inline QRect fileItemIndexRect(QRect itemRect) {
     return QRect(rc.x() + 4, rc.y() + 4, rc.width() - 4, 24);
 }
 
+inline QRect fileItemBeforeAddRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + 4, rc.y() + (rc.width() / 2) - 12, 24, 24);
+}
+
+inline QRect fileItemAfterAddRect(QRect itemRect) {
+    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    return QRect(rc.x() + rc.width() - 24 - 4, rc.y() + (rc.width() / 2) - 12, 24, 24);
+}
+
+inline int isFileItemLeftOrRightRect(QRect itemRect, const QStyleOptionViewItem &option) {
+    auto rc = itemRect;
+    QPoint globalMousePos = QCursor::pos();
+    const QAbstractItemView* view = qobject_cast<const QAbstractItemView*>(option.widget);
+    if (view) {
+        QPoint viewMousePos = view->viewport()->mapFromGlobal(globalMousePos);
+        if (rc.adjusted(0, 0, 0 - rc.width() / 2, 0).contains(viewMousePos)) {
+            return 1;
+        } else if (rc.adjusted(0 + rc.width() / 2, 0, 0, 0).contains(viewMousePos)) {
+            return 2;
+        }
+    }
+    return 0;
+}
+
 Image2GifFileListModel::Image2GifFileListModel(QObject *parent) {
 }
 
@@ -285,6 +310,7 @@ void Image2GifFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     bool selected = option.state & QStyle::State_Selected;
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
+    int isLeftOrRight = isFileItemLeftOrRightRect(rc, option);
 
     auto borderRect = fileItemBorderRect(rc);
     painter->setBrush(QColor("#2F2D2D"));
@@ -297,6 +323,15 @@ void Image2GifFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     if (hover) {
         auto delIconRect = fileItemDeteleRect(rc);
         APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+    }
+
+    if(isLeftOrRight == 1) {
+        auto beforAddIconRect = fileItemBeforeAddRect(rc);
+        APainterHelper::paintPixmap(painter, beforAddIconRect, data.before_add_icon, 1, 0, true);
+    }
+    if(isLeftOrRight == 2) {
+        auto afterAddIconRect = fileItemAfterAddRect(rc);
+        APainterHelper::paintPixmap(painter, afterAddIconRect, data.after_add_icon, 1, 0, true);
     }
 
     QPen pen(QColor("#1F1F1F"));
