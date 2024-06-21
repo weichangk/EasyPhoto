@@ -285,7 +285,7 @@ Image2GifFileItemDelegate::~Image2GifFileItemDelegate() {
 
 bool Image2GifFileItemDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
-    if (type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
+    if (type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease || type == QEvent::MouseMove) {
         event_type_ = type;
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         if (mouseEvent) {
