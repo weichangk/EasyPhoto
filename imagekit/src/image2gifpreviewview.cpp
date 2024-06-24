@@ -25,12 +25,63 @@ Image2GifPreviewView::~Image2GifPreviewView() {
 }
 
 void Image2GifPreviewView::createUi() {
+    auto mainLay = new AVBoxLayout(this);
+
+    preview_widget_ = new AWidget(this);
+    mainLay->addWidget(preview_widget_, 1);
+
+    preview_pixmap_label_ = new ALabel(preview_widget_);
+    preview_pixmap_label_->setScaledContents(false);
+    auto preview_pixmap_label_layout = new AHBoxLayout();
+    preview_pixmap_label_layout->addStretch();
+    preview_pixmap_label_layout->addWidget(preview_pixmap_label_);
+    preview_pixmap_label_layout->addStretch();
+    auto preview_widget_layout = new AVBoxLayout(preview_widget_);
+    preview_widget_layout->addStretch();
+    preview_widget_layout->addLayout(preview_pixmap_label_layout);
+    preview_widget_layout->addStretch();
+
 }
 
 void Image2GifPreviewView::changeLanguage() {
 }
 
 void Image2GifPreviewView::sigConnect() {
+    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
 }
 
+void Image2GifPreviewView::preViewDataSelected(Data *data) {
+    if (data == nullptr) {
+        return;
+    }
+    loadSelectedPixmap(data->file_path);
+    updateSelectedPixmapSize();
+}
+
+void Image2GifPreviewView::loadSelectedPixmap(const QString &path) {
+    if (path.isEmpty()) {
+        return;
+    }
+    QPixmap pixmap(path);
+    if (pixmap.isNull()) {
+        return;
+    }
+    preview_pixmap_ = pixmap;
+    // preview_pixmap_label_->setPixmap(pixmap);
+}
+
+void Image2GifPreviewView::updateSelectedPixmapSize() {
+    if (preview_pixmap_.isNull()) {
+        return;
+    }
+
+    QSize labelSize = preview_widget_->size();
+    QSize pixmapSize = preview_pixmap_.size();
+
+    if (pixmapSize.width() > labelSize.width() || pixmapSize.height() > labelSize.height()) {
+        preview_pixmap_ = preview_pixmap_.scaled(labelSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    }
+
+    preview_pixmap_label_->setPixmap(preview_pixmap_);
+}
 } // namespace image2gif

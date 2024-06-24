@@ -6,6 +6,9 @@
  */
 
 #pragma once
+#include "../awidget/inc/awidget.h"
+#include "../awidget/inc/alabel.h"
+#include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
 #include "inc/models.h"
 
@@ -22,8 +25,17 @@ protected:
     void sigConnect() override;
 
 private:
+    void preViewDataSelected(Data *data);
+    void loadSelectedPixmap(const QString &path);
+    void updateSelectedPixmapSize();
 
 private:
+    Data *data_ = nullptr;
 
+    AWidget *preview_widget_;
+    ALabel *preview_pixmap_label_;
+    QPixmap preview_pixmap_;
+    QMovie *preview_movie_;
+    APushButton *preview_button_;
 };
 } // namespace image2gif
