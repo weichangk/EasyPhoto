@@ -16,31 +16,31 @@
 #include <QScrollBar>
 namespace image2gif {
 inline QRect fileItemBorderRect(QRect itemRect) {
-    return itemRect.adjusted(1, 1, -1, -1);
+    return itemRect.adjusted(5, 3, -5, -3);
 }
 
 inline QRect fileItemThumbnailRect(QRect itemRect) {
-    return itemRect.adjusted(1, 1, -1, -1);
+    return itemRect.adjusted(5, 3, -5, -3);
 }
 
 inline QRect fileItemDeteleRect(QRect itemRect) {
-    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    auto rc = fileItemBorderRect(itemRect);
     return QRect(rc.x() + rc.width() - 16 - 4, rc.y() + 4, 16, 16);
 }
 
 inline QRect fileItemIndexRect(QRect itemRect) {
-    auto rc = itemRect.adjusted(1, 1, -1, -1);
+    auto rc = fileItemBorderRect(itemRect);
     return QRect(rc.x() + 4, rc.y() + 4, rc.width() - 4, 24);
 }
 
 inline QRect fileItemBeforeAddRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + 4, rc.y() + (rc.width() / 2) - 12, 24, 24);
+    return QRect(rc.x(), rc.y() + (rc.height() / 2) - 4, 4, 8);
 }
 
 inline QRect fileItemAfterAddRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + rc.width() - 24 - 4, rc.y() + (rc.width() / 2) - 12, 24, 24);
+    return QRect(rc.x() + rc.width() - 4, rc.y() + (rc.height() / 2) - 4, 4, 8);
 }
 
 inline int isFileItemLeftOrRightRect(QRect itemRect, const QStyleOptionViewItem &option) {
@@ -448,6 +448,18 @@ void Image2GifFileListView::sigConnect() {
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
             emit Signals::getInstance()->sigDeleteFile(data.file_path);
+            return;
+        }
+        QRect beforeAddRect = fileItemBeforeAddRect(rc);
+        if (posx >= beforeAddRect.x() && posx <= beforeAddRect.x() + beforeAddRect.width()
+            && posy >= beforeAddRect.y() && posy <= beforeAddRect.y() + beforeAddRect.height()) {
+            emit Signals::getInstance()->sigListItemBeforeOrAfterAdd(index.row(), true, this);
+            return;
+        }
+        QRect afterAddRect = fileItemAfterAddRect(rc);
+        if (posx >= afterAddRect.x() && posx <= afterAddRect.x() + afterAddRect.width()
+            && posy >= afterAddRect.y() && posy <= afterAddRect.y() + afterAddRect.height()) {
+            emit Signals::getInstance()->sigListItemBeforeOrAfterAdd(index.row(), false, this);
             return;
         }
         emit Signals::getInstance()->sigClickedFile(data.file_path);

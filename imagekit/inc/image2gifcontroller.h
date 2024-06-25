@@ -23,7 +23,8 @@ private:
     void init();
     void sigConnect();
     void openFileDialog(QWidget *parent = nullptr);
-    void addData(const QStringList filePaths);
+    void appendData(const QStringList filePaths);
+    void insertData(int index, const QStringList filePaths);
     void deleteData(const QString filePath);
     void clickedData(const QString filePath);
     void status(Status state);
@@ -33,6 +34,7 @@ private:
     void deleteAll();
     void dataUpdate(Data data);
     bool checkAddedData(const QString filePath);
+    void listItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
 private:
     Image2GifWindow *window_;
     QList<Data> datas_;

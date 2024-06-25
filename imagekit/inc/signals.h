@@ -89,6 +89,7 @@ Q_SIGNALS:
     void sigDeleteAll();
     void sigStatus(Status state);
     void sigListItemDataSelected(Data *data);
+    void sigListItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
 };
 } // namespace image2gif
 
