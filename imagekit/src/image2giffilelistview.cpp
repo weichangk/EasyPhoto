@@ -35,12 +35,12 @@ inline QRect fileItemIndexRect(QRect itemRect) {
 
 inline QRect fileItemBeforeAddRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x(), rc.y() + (rc.height() / 2) - 4, 4, 8);
+    return QRect(rc.x(), rc.y() + (rc.height() / 2) - 8, 16, 16);
 }
 
 inline QRect fileItemAfterAddRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
-    return QRect(rc.x() + rc.width() - 4, rc.y() + (rc.height() / 2) - 4, 4, 8);
+    return QRect(rc.x() + rc.width() - 16, rc.y() + (rc.height() / 2) - 8, 16, 16);
 }
 
 inline int isFileItemLeftOrRightRect(QRect itemRect, const QStyleOptionViewItem &option) {
@@ -313,7 +313,7 @@ void Image2GifFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewI
     int isLeftOrRight = isFileItemLeftOrRightRect(rc, option);
 
     auto borderRect = fileItemBorderRect(rc);
-    painter->setBrush(QColor("#2F2D2D"));
+    // painter->setBrush(QColor("#2F2D2D"));
     painter->drawRoundedRect(borderRect, 10, 10);
     painter->setBrush(Qt::NoBrush);
 

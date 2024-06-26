@@ -81,5 +81,8 @@
     <file>res/image/export-32.png</file>
     <file>res/image/export-48.png</file>
     <file>res/image/export-64.png</file>
+    <file>res/image/export-64.png</file>
+    <file>res/image/first-1-16.png</file>
+    <file>res/image/last-1-16.png</file>
   </qresource>
 </RCC>

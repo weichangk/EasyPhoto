@@ -96,10 +96,10 @@ void Image2GifController::insertData(int index, const QStringList filePaths) {
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
         QPixmap beforeAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        beforeAddIcon = beforeAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        beforeAddIcon = beforeAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.before_add_icon = beforeAddIcon;
         QPixmap afterAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        afterAddIcon = afterAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        afterAddIcon = afterAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.after_add_icon = afterAddIcon;
         datas.append(data);
     }
@@ -216,7 +216,7 @@ void Image2GifController::listItemBeforeOrAfterAdd(int index, bool isBefore, QWi
     QString directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QStringList selectedFiles = QFileDialog::getOpenFileNames(parent, title, directory, "All Files (*)");
     if (!selectedFiles.isEmpty()) {
-        insertData(isBefore ? index - 1 : index, selectedFiles);
+        insertData(isBefore ? index : index + 1, selectedFiles);
     }
 }
 } // namespace image2gif
