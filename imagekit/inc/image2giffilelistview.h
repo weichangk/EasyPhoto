@@ -101,6 +101,5 @@ private:
     APushButton *delete_file_button_ = nullptr;
     Image2GifFilesView *file_list_view_ = nullptr;
 
-    QList<Data> datas_;
 };
 } // namespace image2gif

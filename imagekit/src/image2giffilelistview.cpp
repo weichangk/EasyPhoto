@@ -166,6 +166,7 @@ bool Image2GifFileListModel::dropMimeData(const QMimeData *data, Qt::DropAction 
         beginMoveRows(QModelIndex(), originalRow, originalRow, parent, row);
         datas_.swapItemsAt(originalRow, targetRow);
         endMoveRows();
+        emit Signals::getInstance()->sigListItemSwapedDatas(datas_);
     }
 
     return true;

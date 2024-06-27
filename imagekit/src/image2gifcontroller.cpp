@@ -38,6 +38,7 @@ void Image2GifController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigStatus, this, &Image2GifController::status);
     connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
     connect(Signals::getInstance(), &Signals::sigListItemBeforeOrAfterAdd, this, &Image2GifController::listItemBeforeOrAfterAdd);
+    connect(Signals::getInstance(), &Signals::sigListItemSwapedDatas, this, &Image2GifController::listItemSwapedUpdateDatas);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -116,8 +117,9 @@ void Image2GifController::insertData(int index, const QStringList filePaths) {
 
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
-        window_->setFileListCurrentIndex(datas_.count() - 1);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+        int iindex = index + datas.size() - 1;
+        window_->setFileListCurrentIndex(iindex);
+        emit Signals::getInstance()->sigListItemDataSelected(&datas_[iindex]);
     }
 }
 
@@ -218,5 +220,9 @@ void Image2GifController::listItemBeforeOrAfterAdd(int index, bool isBefore, QWi
     if (!selectedFiles.isEmpty()) {
         insertData(isBefore ? index : index + 1, selectedFiles);
     }
+}
+
+void Image2GifController::listItemSwapedUpdateDatas(const QList<Data> &datas) {
+    datas_ = datas;
 }
 } // namespace image2gif

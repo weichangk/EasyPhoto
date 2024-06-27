@@ -90,6 +90,7 @@ Q_SIGNALS:
     void sigStatus(Status state);
     void sigListItemDataSelected(Data *data);
     void sigListItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
+    void sigListItemSwapedDatas(const QList<Data> &datas);
 };
 } // namespace image2gif
 
