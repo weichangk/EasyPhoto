@@ -23,6 +23,7 @@ protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
+    bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
     void preViewDataSelected(Data *data);

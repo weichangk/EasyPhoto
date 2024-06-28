@@ -12,6 +12,7 @@
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include <QTimer>
+#include <QEvent>
 
 namespace image2gif {
 Image2GifPreviewView::Image2GifPreviewView(QWidget *parent) :
@@ -28,6 +29,8 @@ void Image2GifPreviewView::createUi() {
     auto mainLay = new AVBoxLayout(this);
 
     preview_widget_ = new AWidget(this);
+    // preview_widget_->setMouseTracking(true);
+    preview_widget_->installEventFilter(this);
     mainLay->addWidget(preview_widget_, 1);
 
     preview_pixmap_label_ = new ALabel(preview_widget_);
@@ -50,6 +53,17 @@ void Image2GifPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
 }
 
+bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == preview_widget_) {
+        if (event->type() == QEvent::Enter) {
+            Signals::getInstance()->sigPreviewWidgetHoverEnter();
+        }
+        else if (event->type() == QEvent::Leave) {
+            Signals::getInstance()->sigPreviewWidgetHoverLeave();
+        }
+    }
+    return ABaseWidget::eventFilter(watched, event);
+}
 void Image2GifPreviewView::preViewDataSelected(Data *data) {
     if (data == nullptr) {
         return;

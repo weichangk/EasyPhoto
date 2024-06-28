@@ -7,10 +7,12 @@
 
 #pragma once
 #include "../awidget/inc/alabel.h"
+#include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/astackedwidget.h"
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/aimportguide.h"
+#include "../agui/inc/arotatingpixmapwidget.h"
 #include "image2giffilelistview.h"
 #include "image2gifpreviewview.h"
 #include "image2gifsettingview.h"
@@ -31,6 +33,12 @@ protected:
     void sigConnect() override;
     void paintEvent(QPaintEvent *event) override;
     void moveEvent(QMoveEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
+
+private:
+    void loadingWidgetVisible(bool visible);
+    void generatingWidgetVisible(bool visible);
+    void previewButtonVisible(bool visible);
 
 private:
     ATopbar *topbar_ = nullptr;
@@ -41,5 +49,9 @@ private:
     Image2GifFileListView *file_list_view_ = nullptr;
     Image2GifPreviewView *preview_view_ = nullptr;
     Image2GifSettingView *setting_view_ = nullptr;
+    AWidgetWithRotatingItem *loading_Widget_ = nullptr;
+    AWidgetWithRotatingItem *generating_widget_ = nullptr;
+    APushButton *preview_button_ = nullptr;
+
 };
 } // namespace image2gif
