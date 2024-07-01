@@ -38,7 +38,7 @@ protected:
 private:
     void loadingWidgetVisible(bool visible);
     void generatingWidgetVisible(bool visible);
-    void previewButtonVisible(bool visible);
+    void previewButtonVisible(bool visible, QPoint globalPos = QPoint(0, 0));
 
 private:
     ATopbar *topbar_ = nullptr;

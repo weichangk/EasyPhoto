@@ -9,6 +9,7 @@
 #include "../acore/inc/asinglton.h"
 #include "models.h"
 #include <QWidget>
+#include <QPoint>
 
 class Signals : public QObject, public ASinglton<Signals> {
     Q_OBJECT
@@ -91,8 +92,11 @@ Q_SIGNALS:
     void sigListItemDataSelected(Data *data);
     void sigListItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
     void sigListItemSwapedDatas(const QList<Data> &datas);
-    void sigPreviewWidgetHoverEnter();
-    void sigPreviewWidgetHoverLeave();
+    void sigPreviewPixmapEnter(QPoint globalPos);
+    void sigPreviewPixmapLeave();
+    void sigListItemDataStartImport();
+    void sigListItemDataEndImport();
+
 };
 } // namespace image2gif
 

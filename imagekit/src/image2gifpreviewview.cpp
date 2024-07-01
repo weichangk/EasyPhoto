@@ -13,6 +13,8 @@
 #include "../awidget/inc/ahboxlayout.h"
 #include <QTimer>
 #include <QEvent>
+#include <QMouseEvent>
+#include <QPoint>
 
 namespace image2gif {
 Image2GifPreviewView::Image2GifPreviewView(QWidget *parent) :
@@ -27,13 +29,10 @@ Image2GifPreviewView::~Image2GifPreviewView() {
 
 void Image2GifPreviewView::createUi() {
     auto mainLay = new AVBoxLayout(this);
-
     preview_widget_ = new AWidget(this);
-    // preview_widget_->setMouseTracking(true);
-    preview_widget_->installEventFilter(this);
     mainLay->addWidget(preview_widget_, 1);
-
     preview_pixmap_label_ = new ALabel(preview_widget_);
+    preview_pixmap_label_->installEventFilter(this);
     preview_pixmap_label_->setScaledContents(false);
     auto preview_pixmap_label_layout = new AHBoxLayout();
     preview_pixmap_label_layout->addStretch();
@@ -54,12 +53,17 @@ void Image2GifPreviewView::sigConnect() {
 }
 
 bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
-    if (watched == preview_widget_) {
+    if (watched == preview_pixmap_label_) {
         if (event->type() == QEvent::Enter) {
-            Signals::getInstance()->sigPreviewWidgetHoverEnter();
+            QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+            if (mouseEvent) {
+                QPoint localPoint(0, 0);
+                QPoint pos = preview_pixmap_label_->mapToGlobal(localPoint);
+                Signals::getInstance()->sigPreviewPixmapEnter(pos + QPoint(preview_pixmap_label_->width() / 2, preview_pixmap_label_->height() / 2));
+            }
         }
         else if (event->type() == QEvent::Leave) {
-            Signals::getInstance()->sigPreviewWidgetHoverLeave();
+            Signals::getInstance()->sigPreviewPixmapLeave();
         }
     }
     return ABaseWidget::eventFilter(watched, event);

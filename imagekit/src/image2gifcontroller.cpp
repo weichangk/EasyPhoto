@@ -51,6 +51,8 @@ void Image2GifController::openFileDialog(QWidget *parent) {
 }
 
 void Image2GifController::appendData(const QStringList filePaths) {
+    emit Signals::getInstance()->sigListItemDataStartImport();
+
     int oldCout = datas_.count();
     for (const QString &filePath : filePaths) {
         if(checkAddedData(filePath)) {
@@ -78,6 +80,8 @@ void Image2GifController::appendData(const QStringList filePaths) {
         window_->setFileListCurrentIndex(datas_.count() - 1);
         emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
     }
+
+    emit Signals::getInstance()->sigListItemDataEndImport();
 }
 
 void Image2GifController::insertData(int index, const QStringList filePaths) {

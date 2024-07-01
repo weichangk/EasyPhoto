@@ -88,7 +88,7 @@ void Image2GifWindow::createUi() {
     stacked_widget_->addWidget(viewsWidget);
 
     auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
-    
+
     file_list_view_ = new Image2GifFileListView(this);
     file_list_view_->setFixedWidth(400);
     viewsWidgetLayout->addWidget(file_list_view_);
@@ -105,7 +105,7 @@ void Image2GifWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout, 1);
 
-    loading_Widget_ = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), file_list_view_);
+    loading_Widget_ = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
     loading_Widget_->setFixedSize(96, 96);
     loading_Widget_->setVisible(false);
 
@@ -137,11 +137,17 @@ void Image2GifWindow::sigConnect() {
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
         emit Signals::getInstance()->sigOpenFileDialog(this);
     });
-    connect(Signals::getInstance(), &Signals::sigPreviewWidgetHoverEnter, this, [=]() {
-        previewButtonVisible(true);
+    connect(Signals::getInstance(), &Signals::sigPreviewPixmapEnter, this, [=](QPoint globalPos) {
+        previewButtonVisible(true, globalPos);
     });
-    connect(Signals::getInstance(), &Signals::sigPreviewWidgetHoverLeave, this, [=]() {
+    connect(Signals::getInstance(), &Signals::sigPreviewPixmapLeave, this, [=]() {
         previewButtonVisible(false);
+    });
+    connect(Signals::getInstance(), &Signals::sigListItemDataStartImport, this, [=]() {
+        loadingWidgetVisible(true);
+    });
+    connect(Signals::getInstance(), &Signals::sigListItemDataEndImport, this, [=]() {
+        loadingWidgetVisible(false);
     });
 }
 void Image2GifWindow::paintEvent(QPaintEvent *event) {
@@ -188,8 +194,8 @@ void Image2GifWindow::resizeEvent(QResizeEvent *event) {
                                     generating_widget_->height());
     preview_button_->setGeometry((preview_view_->width() - preview_button_->width()) / 2,
                                     (preview_view_->height() - preview_button_->height()) / 2,
-                                    preview_button_->width(),
-                                    preview_button_->height());
+                                 preview_button_->width(),
+                                 preview_button_->height());
 }
 
 void Image2GifWindow::loadingWidgetVisible(bool visible) {
@@ -210,7 +216,10 @@ void Image2GifWindow::generatingWidgetVisible(bool visible) {
     }
 }
 
-void Image2GifWindow::previewButtonVisible(bool visible) {
+void Image2GifWindow::previewButtonVisible(bool visible, QPoint globalPos) {
     preview_button_->setVisible(visible);
+    if(visible) {
+        preview_button_->move(globalPos);
+    }
 }
 } // namespace image2gif
