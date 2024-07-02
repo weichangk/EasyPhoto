@@ -6,6 +6,8 @@
  */
 
 #include "inc/apreviewbutton.h"
+#include <QEvent>
+#include <QMouseEvent>
 
 APreviewButton::APreviewButton(QWidget *parent) :
     AWidget(parent) {
@@ -20,11 +22,13 @@ QPixmap &APreviewButton::normalIcon() {
 }
 
 void APreviewButton::setNormalIcon(const QPixmap &icon) {
-    // if (icon != normal_icon_) {
-    //     normal_icon_ = icon;
-    //     emit sigNormalIconChanged();
-    //     update();
-    // }
+    QImage img1 = icon.toImage();
+    QImage img2 = normal_icon_.toImage();
+    if (img1 != img2) {
+        normal_icon_ = icon;
+        emit sigNormalIconChanged(normal_icon_);
+        update();
+    }
 }
 
 QPixmap &APreviewButton::hoverIcon() {
@@ -32,7 +36,13 @@ QPixmap &APreviewButton::hoverIcon() {
 }
 
 void APreviewButton::setHoverIcon(const QPixmap &icon) {
-
+    QImage img1 = icon.toImage();
+    QImage img2 = hover_icon_.toImage();
+    if (img1 != img2) {
+        hover_icon_ = icon;
+        emit sigNormalIconChanged(hover_icon_);
+        update();
+    }
 }
 
 QPixmap &APreviewButton::pressedIcon() {
@@ -40,6 +50,13 @@ QPixmap &APreviewButton::pressedIcon() {
 }
 
 void APreviewButton::setPressedIcon(const QPixmap &icon) {
+    QImage img1 = icon.toImage();
+    QImage img2 = pressed_icon_.toImage();
+    if (img1 != img2) {
+        pressed_icon_ = icon;
+        emit sigNormalIconChanged(pressed_icon_);
+        update();
+    }
 }
 
 bool APreviewButton::eventFilter(QObject *watched, QEvent *event) {
@@ -47,4 +64,17 @@ bool APreviewButton::eventFilter(QObject *watched, QEvent *event) {
 }
 
 void APreviewButton::paintEvent(QPaintEvent *event) {
+}
+
+void APreviewButton::changeEvent(QEvent *event) {
+    if (event->type() == QEvent::StyleChange) {
+        update();
+    }
+    AWidget::changeEvent(event);
+}
+
+void APreviewButton::mousePressEvent(QMouseEvent *event) {
+    if (event->button() == Qt::LeftButton) {
+        emit sigClicked();
+    }
 }
