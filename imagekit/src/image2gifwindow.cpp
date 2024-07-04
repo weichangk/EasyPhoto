@@ -113,13 +113,6 @@ void Image2GifWindow::createUi() {
     generating_widget_->setFixedSize(96, 96);
     generating_widget_->setVisible(false);
 
-    preview_button_ = new APushButton(this);
-    preview_button_->setObjectName("OnlyIconButton");
-    preview_button_->setFixedSize(24, 24);
-    preview_button_->setIconSize(QSize(24, 24));
-    preview_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
-    preview_button_->setVisible(false);
-
     auto shadow = new AShadowEffect(this);
 }
 
@@ -136,12 +129,6 @@ void Image2GifWindow::sigConnect() {
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
         emit Signals::getInstance()->sigOpenFileDialog(this);
-    });
-    connect(Signals::getInstance(), &Signals::sigPreviewPixmapEnter, this, [=](QPoint globalPos) {
-        previewButtonVisible(true, globalPos);
-    });
-    connect(Signals::getInstance(), &Signals::sigPreviewPixmapLeave, this, [=]() {
-        previewButtonVisible(false);
     });
     connect(Signals::getInstance(), &Signals::sigListItemDataStartImport, this, [=]() {
         loadingWidgetVisible(true);
@@ -192,10 +179,6 @@ void Image2GifWindow::resizeEvent(QResizeEvent *event) {
                                     (preview_view_->height() - generating_widget_->height()) / 2,
                                     generating_widget_->width(),
                                     generating_widget_->height());
-    preview_button_->setGeometry((preview_view_->width() - preview_button_->width()) / 2,
-                                    (preview_view_->height() - preview_button_->height()) / 2,
-                                 preview_button_->width(),
-                                 preview_button_->height());
 }
 
 void Image2GifWindow::loadingWidgetVisible(bool visible) {
@@ -213,13 +196,6 @@ void Image2GifWindow::generatingWidgetVisible(bool visible) {
         generating_widget_->start();
     } else {
         generating_widget_->stop();
-    }
-}
-
-void Image2GifWindow::previewButtonVisible(bool visible, QPoint globalPos) {
-    preview_button_->setVisible(visible);
-    if(visible) {
-        preview_button_->move(globalPos);
     }
 }
 } // namespace image2gif

@@ -43,6 +43,11 @@ void Image2GifPreviewView::createUi() {
     preview_widget_layout->addLayout(preview_pixmap_label_layout);
     preview_widget_layout->addStretch();
 
+    preview_button_ = new APreviewButton();
+    preview_button_->installEventFilter(this);
+    preview_button_->setFixedSize(96, 96);
+    preview_button_->setIconSize(QSize(96, 96));
+    preview_button_->setNormalIcon(QPixmap(":/agui/res/image/loading-96.png"));
 }
 
 void Image2GifPreviewView::changeLanguage() {
@@ -53,17 +58,18 @@ void Image2GifPreviewView::sigConnect() {
 }
 
 bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
-    if (watched == preview_pixmap_label_) {
+    if (watched == preview_pixmap_label_ || watched == preview_button_) {
         if (event->type() == QEvent::Enter) {
             QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
             if (mouseEvent) {
                 QPoint localPoint(0, 0);
-                QPoint pos = preview_pixmap_label_->mapToGlobal(localPoint);
-                Signals::getInstance()->sigPreviewPixmapEnter(pos + QPoint(preview_pixmap_label_->width() / 2, preview_pixmap_label_->height() / 2));
+                QPoint pos = preview_pixmap_label_->mapToGlobal(localPoint) + QPoint((preview_pixmap_label_->width() - preview_button_->width()) / 2, (preview_pixmap_label_->height() - preview_button_->height()) / 2);
+                preview_button_->move(pos);
+                preview_button_->setVisible(true);
             }
         }
         else if (event->type() == QEvent::Leave) {
-            Signals::getInstance()->sigPreviewPixmapLeave();
+            preview_button_->setVisible(false);
         }
     }
     return ABaseWidget::eventFilter(watched, event);

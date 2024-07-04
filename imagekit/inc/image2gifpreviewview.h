@@ -10,6 +10,7 @@
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/apushbutton.h"
 #include "../agui/inc/abasewidget.h"
+#include "../agui/inc/apreviewbutton.h"
 #include "inc/models.h"
 
 namespace image2gif {
@@ -37,6 +38,6 @@ private:
     ALabel *preview_pixmap_label_;
     QPixmap preview_pixmap_;
     QMovie *preview_movie_;
-    APushButton *preview_button_;
+    APreviewButton *preview_button_ = nullptr;
 };
 } // namespace image2gif

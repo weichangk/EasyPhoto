@@ -38,7 +38,6 @@ protected:
 private:
     void loadingWidgetVisible(bool visible);
     void generatingWidgetVisible(bool visible);
-    void previewButtonVisible(bool visible, QPoint globalPos = QPoint(0, 0));
 
 private:
     ATopbar *topbar_ = nullptr;
@@ -51,7 +50,6 @@ private:
     Image2GifSettingView *setting_view_ = nullptr;
     AWidgetWithRotatingItem *loading_Widget_ = nullptr;
     AWidgetWithRotatingItem *generating_widget_ = nullptr;
-    APushButton *preview_button_ = nullptr;
 
 };
 } // namespace image2gif
