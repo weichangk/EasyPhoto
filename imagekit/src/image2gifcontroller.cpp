@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 10:53:08
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 08:02:10
+ * @Last Modified time: 2024-07-06 16:38:15
  */
 
 #include "inc/image2gifcontroller.h"
@@ -51,8 +51,6 @@ void Image2GifController::openFileDialog(QWidget *parent) {
 }
 
 void Image2GifController::appendData(const QStringList filePaths) {
-    emit Signals::getInstance()->sigListItemDataStartImport();
-
     int oldCout = datas_.count();
     for (const QString &filePath : filePaths) {
         if(checkAddedData(filePath)) {
@@ -80,8 +78,6 @@ void Image2GifController::appendData(const QStringList filePaths) {
         window_->setFileListCurrentIndex(datas_.count() - 1);
         emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
     }
-
-    emit Signals::getInstance()->sigListItemDataEndImport();
 }
 
 void Image2GifController::insertData(int index, const QStringList filePaths) {

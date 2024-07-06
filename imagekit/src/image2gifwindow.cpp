@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2024-03-23 11:01:48
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:59:25
+ * @Last Modified time: 2024-07-06 16:37:59
  */
 
 #include "inc/image2gifwindow.h"
@@ -105,10 +105,6 @@ void Image2GifWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout, 1);
 
-    loading_Widget_ = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), this);
-    loading_Widget_->setFixedSize(96, 96);
-    loading_Widget_->setVisible(false);
-
     generating_widget_ = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), preview_view_);
     generating_widget_->setFixedSize(96, 96);
     generating_widget_->setVisible(false);
@@ -129,12 +125,6 @@ void Image2GifWindow::sigConnect() {
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
         emit Signals::getInstance()->sigOpenFileDialog(this);
-    });
-    connect(Signals::getInstance(), &Signals::sigListItemDataStartImport, this, [=]() {
-        loadingWidgetVisible(true);
-    });
-    connect(Signals::getInstance(), &Signals::sigListItemDataEndImport, this, [=]() {
-        loadingWidgetVisible(false);
     });
 }
 void Image2GifWindow::paintEvent(QPaintEvent *event) {
@@ -171,23 +161,10 @@ void Image2GifWindow::moveEvent(QMoveEvent *event) {
 
 void Image2GifWindow::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
-    loading_Widget_->setGeometry((file_list_view_->width() - loading_Widget_->width()) / 2,
-                                 (file_list_view_->height() - loading_Widget_->height()) / 2,
-                                 loading_Widget_->width(),
-                                 loading_Widget_->height());
     generating_widget_->setGeometry((preview_view_->width() - generating_widget_->width()) / 2,
                                     (preview_view_->height() - generating_widget_->height()) / 2,
                                     generating_widget_->width(),
                                     generating_widget_->height());
-}
-
-void Image2GifWindow::loadingWidgetVisible(bool visible) {
-    loading_Widget_->setVisible(visible);
-    if (visible) {
-        loading_Widget_->start();
-    } else {
-        loading_Widget_->stop();
-    }
 }
 
 void Image2GifWindow::generatingWidgetVisible(bool visible) {

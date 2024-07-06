@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:45:45
  * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:23:44
+ * @Last Modified time: 2024-07-06 16:36:08
  */
 
 #pragma once
@@ -92,8 +92,6 @@ Q_SIGNALS:
     void sigListItemDataSelected(Data *data);
     void sigListItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
     void sigListItemSwapedDatas(const QList<Data> &datas);
-    void sigListItemDataStartImport();
-    void sigListItemDataEndImport();
 
 };
 } // namespace image2gif

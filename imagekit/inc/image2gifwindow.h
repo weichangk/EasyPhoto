@@ -2,7 +2,7 @@
  * @Author: weick 
  * @Date: 2024-06-03 07:30:58 
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:58:07
+ * @Last Modified time: 2024-07-06 16:37:27
  */
 
 #pragma once
@@ -36,7 +36,6 @@ protected:
     void resizeEvent(QResizeEvent *event) override;
 
 private:
-    void loadingWidgetVisible(bool visible);
     void generatingWidgetVisible(bool visible);
 
 private:
@@ -48,7 +47,6 @@ private:
     Image2GifFileListView *file_list_view_ = nullptr;
     Image2GifPreviewView *preview_view_ = nullptr;
     Image2GifSettingView *setting_view_ = nullptr;
-    AWidgetWithRotatingItem *loading_Widget_ = nullptr;
     AWidgetWithRotatingItem *generating_widget_ = nullptr;
 
 };
