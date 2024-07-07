@@ -12,11 +12,11 @@
 #include "../awidget/inc/aprogressbar.h"
 #include <QThread>
 
-class ImportWorker : public QThread {
+class LoadingWorker : public QThread {
     Q_OBJECT
 public:
-    explicit ImportWorker(QObject *parent = nullptr);
-    ~ImportWorker();
+    explicit LoadingWorker(QObject *parent = nullptr);
+    ~LoadingWorker();
     void run() override;
     void setDoWork(std::function<void()> work);
 
@@ -24,12 +24,12 @@ private:
     std::function<void()> do_work_ = nullptr;
 };
 
-class AGUI_EXPORT AImportDialog : public ABaseDialog {
+class AGUI_EXPORT ALoadingDialog : public ABaseDialog {
     Q_OBJECT
 
 public:
-    explicit AImportDialog(QDialog *parent = nullptr);
-    ~AImportDialog();
+    explicit ALoadingDialog(QDialog *parent = nullptr);
+    ~ALoadingDialog();
     void setDoWork(std::function<void()> work);
 
 public:
@@ -43,5 +43,5 @@ protected:
 private:
     AProgressBar *progress_bar_ = nullptr;
     APushButton *cancel_btn_ = nullptr;
-    ImportWorker *import_worker_ = nullptr;
+    LoadingWorker *loading_worker_ = nullptr;
 };
