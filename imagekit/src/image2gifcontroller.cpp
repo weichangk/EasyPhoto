@@ -2,11 +2,12 @@
  * @Author: weick
  * @Date: 2024-03-23 10:53:08
  * @Last Modified by: weick
- * @Last Modified time: 2024-07-06 16:38:15
+ * @Last Modified time: 2024-07-06 21:38:16
  */
 
 #include "inc/image2gifcontroller.h"
 #include "inc/signals.h"
+#include "../agui/inc/aloadingdialog.h"
 #include <QFileDialog>
 #include <QStandardPaths>
 
@@ -52,68 +53,83 @@ void Image2GifController::openFileDialog(QWidget *parent) {
 
 void Image2GifController::appendData(const QStringList filePaths) {
     int oldCout = datas_.count();
-    for (const QString &filePath : filePaths) {
-        if(checkAddedData(filePath)) {
-            continue;
+
+    std::function<void()> work = [&]() {
+        for (const QString &filePath : filePaths) {
+            if (checkAddedData(filePath)) {
+                continue;
+            }
+            Data data;
+            data.file_path = filePath;
+            data.file_name = QFileInfo(filePath).fileName();
+            QPixmap pixmap = QPixmap(filePath);
+            pixmap = pixmap.scaled(QSize(120, 90), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.thumbnail = pixmap;
+            QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.delete_icon = delIcon;
+            QPixmap beforeAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            beforeAddIcon = beforeAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.before_add_icon = beforeAddIcon;
+            QPixmap afterAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            afterAddIcon = afterAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.after_add_icon = afterAddIcon;
+            datas_.append(data);
         }
-        Data data;
-        data.file_path = filePath;
-        data.file_name = QFileInfo(filePath).fileName();
-        QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(120, 90), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
-        QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.delete_icon = delIcon;
-        QPixmap beforeAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        beforeAddIcon = beforeAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.before_add_icon = beforeAddIcon;
-        QPixmap afterAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        afterAddIcon = afterAddIcon.scaled(QSize(4, 8), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.after_add_icon = afterAddIcon;
-        datas_.append(data);
-    }
+    };
+
+    ALoadingDialog loadingDialog;
+    loadingDialog.setDoWork(work);
+    loadingDialog.exec();
+
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(datas_.count() - 1);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+        emit Signals::getInstance() -> sigListItemDataSelected(&datas_.last());
     }
 }
 
 void Image2GifController::insertData(int index, const QStringList filePaths) {
     QList<Data> datas;
     int oldCout = datas_.count();
-    for (const QString &filePath : filePaths) {
-        if(checkAddedData(filePath)) {
-            continue;
-        }
-        Data data;
-        data.file_path = filePath;
-        data.file_name = QFileInfo(filePath).fileName();
-        QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(120, 90), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
-        QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.delete_icon = delIcon;
-        QPixmap beforeAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        beforeAddIcon = beforeAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.before_add_icon = beforeAddIcon;
-        QPixmap afterAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        afterAddIcon = afterAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.after_add_icon = afterAddIcon;
-        datas.append(data);
-    }
 
-    // 在索引 index 位置插入新数据集合
-    if (index >= 0 && index <= datas_.size()) {
-        datas_.reserve(datas_.size() + datas.size());  // 预留空间以优化性能
-
-        // 从后向前插入，以避免覆盖原有数据
-        for (int i = datas.size() - 1; i >= 0; --i) {
-            datas_.insert(index, datas.at(i));
+    std::function<void()> work = [&]() {
+        for (const QString &filePath : filePaths) {
+            if (checkAddedData(filePath)) {
+                continue;
+            }
+            Data data;
+            data.file_path = filePath;
+            data.file_name = QFileInfo(filePath).fileName();
+            QPixmap pixmap = QPixmap(filePath);
+            pixmap = pixmap.scaled(QSize(120, 90), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.thumbnail = pixmap;
+            QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.delete_icon = delIcon;
+            QPixmap beforeAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            beforeAddIcon = beforeAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.before_add_icon = beforeAddIcon;
+            QPixmap afterAddIcon = QPixmap(":/agui/res/image/delete1-24.png");
+            afterAddIcon = afterAddIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            data.after_add_icon = afterAddIcon;
+            datas.append(data);
         }
-    }
+
+        // 在索引 index 位置插入新数据集合
+        if (index >= 0 && index <= datas_.size()) {
+            datas_.reserve(datas_.size() + datas.size()); // 预留空间以优化性能
+
+            // 从后向前插入，以避免覆盖原有数据
+            for (int i = datas.size() - 1; i >= 0; --i) {
+                datas_.insert(index, datas.at(i));
+            }
+        }
+    };
+
+    ALoadingDialog loadingDialog;
+    loadingDialog.setDoWork(work);
+    loadingDialog.exec();
 
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);

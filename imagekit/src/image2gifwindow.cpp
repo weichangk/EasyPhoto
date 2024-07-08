@@ -105,10 +105,6 @@ void Image2GifWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout, 1);
 
-    generating_widget_ = new AWidgetWithRotatingItem(QPixmap(":agui/res/image/loading-96.png"), preview_view_);
-    generating_widget_->setFixedSize(96, 96);
-    generating_widget_->setVisible(false);
-
     auto shadow = new AShadowEffect(this);
 }
 
@@ -161,18 +157,5 @@ void Image2GifWindow::moveEvent(QMoveEvent *event) {
 
 void Image2GifWindow::resizeEvent(QResizeEvent *event) {
     ABaseWidget::resizeEvent(event);
-    generating_widget_->setGeometry((preview_view_->width() - generating_widget_->width()) / 2,
-                                    (preview_view_->height() - generating_widget_->height()) / 2,
-                                    generating_widget_->width(),
-                                    generating_widget_->height());
-}
-
-void Image2GifWindow::generatingWidgetVisible(bool visible) {
-    generating_widget_->setVisible(visible);
-    if (visible) {
-        generating_widget_->start();
-    } else {
-        generating_widget_->stop();
-    }
 }
 } // namespace image2gif

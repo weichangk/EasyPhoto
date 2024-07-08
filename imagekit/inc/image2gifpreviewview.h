@@ -30,6 +30,7 @@ private:
     void preViewDataSelected(Data *data);
     void loadSelectedPixmap(const QString &path);
     void updateSelectedPixmapSize();
+    void slotPreviewButtonClicked();
 
 private:
     Data *data_ = nullptr;

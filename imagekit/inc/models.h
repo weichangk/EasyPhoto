@@ -32,6 +32,51 @@ using ImageFunc = enum {
 
 QString ImageFuncEnum2QString(ImageFunc param);
 
+using OutQuality = enum {
+    Low = 0,
+    Medium,
+    High,
+};
+
+using OutResolution = enum {
+// 标清分辨率（SD，Standard Definition）
+
+// 640×480 (VGA)
+// 720×480 (NTSC)
+// 720×576 (PAL)
+// 高清分辨率（HD，High Definition）
+
+// 1280×720 (720p)
+// 1366×768 (WXGA)
+// 全高清分辨率（Full HD）
+
+// 1920×1080 (1080p)
+// 超高清分辨率（UHD，Ultra High Definition）
+
+// 2560×1440 (1440p，2K)
+// 3840×2160 (2160p，4K)
+// 5120×2880 (5K)
+// 7680×4320 (4320p，8K)
+// 宽屏分辨率
+
+// 1280×800 (WXGA)
+// 1440×900 (WXGA+)
+// 1680×1050 (WSXGA+)
+// 1920×1200 (WUXGA)
+// 2560×1080 (UWHD)
+// 3440×1440 (UWQHD)
+// 3840×1600 (WQHD+)
+// 移动设备常见分辨率
+
+// 1136×640 (iPhone 5/5S/5C, iPhone SE)
+// 1334×750 (iPhone 6/6S/7/8)
+// 1920×1080 (iPhone 6 Plus/6S Plus/7 Plus/8 Plus)
+// 2436×1125 (iPhone X/XS/11 Pro)
+// 2688×1242 (iPhone XS Max/11 Pro Max)
+// 1170×2532 (iPhone 12/13/14)
+// 1284×2778 (iPhone 12/13/14 Pro Max)
+};
+
 namespace imageconversion {
 using Status = enum {
     NONE = 0,
@@ -191,6 +236,15 @@ struct Data {
     QPixmap delete_icon = QPixmap();
     QPixmap before_add_icon = QPixmap();
     QPixmap after_add_icon = QPixmap();
+};
+
+struct Param {
+    int fps;
+    int quality;
+    QString resolution;
+    int width;
+    int height;
+    bool loop;
 };
 } // namespace image2gif
 

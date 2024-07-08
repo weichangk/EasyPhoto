@@ -12,6 +12,7 @@
 #include "../awidget/inc/alineedit.h"
 #include "../awidget/inc/acombobox.h"
 #include "../awidget/inc/apushbutton.h"
+#include "../awidget/inc/aradiobutton.h"
 
 namespace image2gif {
 
@@ -61,6 +62,10 @@ void Image2GifSettingView::createUi() {
     mainLayout->addWidget(out_fps_label_);
     mainLayout->addWidget(out_fps_combo_);
 
+    out_loop_radio_ = new ARadioButton(this);
+    out_loop_radio_->setFixedWidth(70);
+    mainLayout->addWidget(out_loop_radio_);
+
     mainLayout->addStretch();
 
     export_button_ = new APushButton(this);
@@ -69,11 +74,12 @@ void Image2GifSettingView::createUi() {
 }
 
 void Image2GifSettingView::changeLanguage() {
-    out_size_label_->setText("输出大小");
+    out_size_label_->setText(tr("Size"));
     out_w_edit_->setText("1080");
     out_h_edit_->setText("960");
-    out_fps_label_->setText("帧率");
-    export_button_->setText("导出");
+    out_fps_label_->setText(tr("Frame Rate"));
+    out_loop_radio_->setText(tr("Loop"));
+    export_button_->setText("Export");
 }
 
 void Image2GifSettingView::sigConnect() {

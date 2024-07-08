@@ -14,6 +14,7 @@ class QIntValidator;
 class ALineEdit;
 class AComboBox;
 class APushButton;
+class ARadioButton;
 namespace image2gif {
 class Image2GifSettingView : public ABaseWidget {
     Q_OBJECT
@@ -34,6 +35,7 @@ private:
     QIntValidator *out_h_edit_validator_;
     ALabel *out_fps_label_;
     AComboBox *out_fps_combo_;
+    ARadioButton *out_loop_radio_;
     APushButton *export_button_;
 };
 } // namespace image2gif

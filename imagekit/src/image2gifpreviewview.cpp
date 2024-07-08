@@ -55,6 +55,7 @@ void Image2GifPreviewView::changeLanguage() {
 
 void Image2GifPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
+    connect(preview_button_, &APreviewButton::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
 }
 
 bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
@@ -107,5 +108,10 @@ void Image2GifPreviewView::updateSelectedPixmapSize() {
     }
 
     preview_pixmap_label_->setPixmap(preview_pixmap_);
+}
+
+void Image2GifPreviewView::slotPreviewButtonClicked() {
+    // preview_button_->setVisible(false);
+    // preview_pixmap_label_->setVisible(true);
 }
 } // namespace image2gif
