@@ -9,6 +9,55 @@
 #include <QApplication>
 #include <QSettings>
 
+static QString defOutPath(const QString &folderName) {
+    QString fullPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+    QString picturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (!picturesFolder.isEmpty()) {
+        // QString folderName = "convert";
+        QDir additionalFolder(picturesFolder);
+        additionalFolder.mkpath(folderName);
+        fullPath = additionalFolder.filePath(folderName);
+    }
+    return fullPath;
+}
+
+namespace Default {
+// Common
+static constexpr bool autoStart = false;
+
+// Convert
+static QString conversionOutPath = defOutPath("convert");
+static QString conversionOutFormat = "png";
+
+// Compress
+static QString compressOutPath = defOutPath("compress");
+static QString compressOutFormat = "sameassource";
+static int compressQuality = 60;
+}
+
+namespace Limits {
+static constexpr int zoomMax = 5;
+}
+
+namespace image2gif {
+static const QString kGifKey = "gif";
+static const QString kGifFpsKey = "gif/gif_fps";
+static const QString kGifQualityKey = "gif/gif_quality";
+static const QString kGifResolutionKey = "gif/gif_resolution";
+static const QString kGifWidthKey = "gif/gif_width";
+static const QString kGifHeightKey = "gif/gif_height";
+static const QString kGifRepeatKey = "gif/gif_repeat";
+static const QString kGifOutpathKey = "gif/gif_outpath";
+
+static const int kGifFpsDefValue = 25;
+static const int kGifQualityDefValue = 1;
+static const int kGifResolutionDefValue = 0;
+static const int kGifWidthDefValue = 640;
+static const int kGifHeightDefValue = 480;
+static const bool kGifRepeatDefValue = true;
+static const QString kGifOutpathDefValue = defOutPath("gif");
+} // namespace image2gif
+
 Settings::Settings() :
     m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
                QApplication::applicationDisplayName()),
@@ -86,4 +135,67 @@ int Settings::compressQuality() const {
 
 void Settings::setCompressQuality(const int quality) {
     m_CompressQuality = quality;
+}
+
+int Settings::gifFps() const {
+    return gif_fps_;
+}
+
+void Settings::setGifFps(const int fps) {
+    gif_fps_ = fps;
+    m_Settings.setValue(image2gif::kGifFpsKey, gif_fps_);
+}
+
+int Settings::gifQuality() const {
+    return gif_quality_;
+}
+
+void Settings::setGifQuality(const int quality) {
+    gif_quality_ = quality;
+    m_Settings.setValue(image2gif::kGifQualityKey, gif_quality_);
+}
+
+int Settings::gifResolution() const {
+    return gif_resolution_;
+}
+
+void Settings::setGifResolution(const int resolution) {
+    gif_resolution_ = resolution;
+    m_Settings.setValue(image2gif::kGifResolutionKey, gif_resolution_);
+}
+
+int Settings::gifWidth() const {
+    return gif_width_;
+}
+
+void Settings::setGifWidth(const int width) {
+    gif_width_ = width;
+    m_Settings.setValue(image2gif::kGifWidthKey, gif_width_);
+}
+
+int Settings::gifHeight() const {
+    return gif_height_;
+}
+
+void Settings::setGifHeight(const int height) {
+    gif_height_ = height;
+    m_Settings.setValue(image2gif::kGifHeightKey, gif_height_);
+}
+
+bool Settings::gifRepeat() const {
+    return gif_repeat_;
+}
+
+void Settings::setGifRepeat(const bool repeat) {
+    gif_repeat_ = repeat;
+    m_Settings.setValue(image2gif::kGifRepeatKey, gif_repeat_);
+}
+
+QString Settings::gifOutpath() const {
+    return gif_outpath_;
+}
+
+void Settings::setGifOutpath(const QString path) {
+    gif_outpath_ = path;
+    m_Settings.setValue(image2gif::kGifOutpathKey, gif_outpath_);
 }

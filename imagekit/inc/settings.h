@@ -11,48 +11,6 @@
 #include <QDir>
 #include <QStandardPaths>
 
-static QString defConversionOutPath() {
-    QString fullPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
-    QString picturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    if (!picturesFolder.isEmpty()) {
-        QString folderName = "convert";
-        QDir additionalFolder(picturesFolder);
-        additionalFolder.mkpath(folderName);
-        fullPath = additionalFolder.filePath(folderName);
-    }
-    return fullPath;
-}
-
-static QString defCompressOutPath() {
-    QString fullPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
-    QString picturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
-    if (!picturesFolder.isEmpty()) {
-        QString folderName = "compress";
-        QDir additionalFolder(picturesFolder);
-        additionalFolder.mkpath(folderName);
-        fullPath = additionalFolder.filePath(folderName);
-    }
-    return fullPath;
-}
-
-namespace Default {
-// Common
-static constexpr bool autoStart = false;
-
-// Convert
-static QString conversionOutPath = defConversionOutPath();
-static QString conversionOutFormat = "png";
-
-// Compress
-static QString compressOutPath = defCompressOutPath();
-static QString compressOutFormat = "sameassource";
-static int compressQuality = 60;
-}
-
-namespace Limits {
-static constexpr int zoomMax = 5;
-}
-
 class Settings: public ASinglton<Settings> {
 public:
     Settings();
@@ -74,6 +32,22 @@ public:
     int compressQuality() const;
     void setCompressQuality(const int quality);
 
+    // 2gif
+    int gifFps() const;
+    void setGifFps(const int fps);
+    int gifQuality() const;
+    void setGifQuality(const int quality);
+    int gifResolution() const;
+    void setGifResolution(const int resolution);
+    int gifWidth() const;
+    void setGifWidth(const int width);
+    int gifHeight() const;
+    void setGifHeight(const int height);
+    bool gifRepeat() const;
+    void setGifRepeat(const bool repeat);
+    QString gifOutpath() const;
+    void setGifOutpath(const QString path);
+
 private:
     QSettings m_Settings;
     // Common
@@ -87,6 +61,15 @@ private:
     QString m_CompressOutPath;
     QString m_CompressOutFormat;
     int m_CompressQuality;
+
+    // 2gif
+    int gif_fps_;
+    int gif_quality_;
+    int gif_resolution_;
+    int gif_width_;
+    int gif_height_;
+    bool gif_repeat_;
+    QString gif_outpath_;
 };
 
 #define SETTINGS Settings::getInstance()

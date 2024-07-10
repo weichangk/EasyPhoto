@@ -298,7 +298,7 @@ struct Param {
     ImageResolution resolution;
     int width;
     int height;
-    bool loop;
+    bool repeat;
 };
 } // namespace image2gif
 
