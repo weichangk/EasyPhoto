@@ -39,9 +39,24 @@ using ImageQuality = enum {
     High,
 };
 
+using GifFps = enum {
+    FPS_10 = 10,
+    FPS_15 = 15,
+    FPS_20 = 20,
+    FPS_25 = 25,
+    FPS_30 = 30,
+    FPS_35 = 35,
+    FPS_40 = 40,
+    FPS_45 = 45,
+    FPS_50 = 50,
+    FPS_55 = 55,
+    FPS_60 = 60,
+};
+
 using ImageResolution = enum {
+    Custom = 0,
     // 标清分辨率（SD，Standard Definition）
-    VGA = 0, // 640×480 (VGA)
+    VGA, // 640×480 (VGA)
     NTSC,    // 720×480 (NTSC)
     PAL,     // 720×576 (PAL)
 
@@ -78,31 +93,40 @@ using ImageResolution = enum {
 };
 
 static const QMap<ImageResolution, QString> ImageResolutionDesMap = {
-    {VGA, "640×480"},
-    {NTSC, "720×480"},
-    {PAL, "720×576"},
-    {_720p, "1280×720"},
-    {WXGAHD, "1366×768"},
-    {_1080p, "1920×1080"},
-    {_2K, "2560×1440"},
-    {_4K, "3840×2160"},
-    {_5K, "5120×2880"},
-    {_8K, "7680×4320"},
-    {WXGA, "1280×800"},
-    {WXGAPRO, "1440×900"},
-    {WSXGAPRO, "1680×1050"},
-    {WUXGA, "1920×1200"},
-    {UWHD, "2560×1080"},
-    {UWQHD, "3440×1440"},
-    {WQHDPRO, "3840×1600"},
-    {iPhone5, "1136×640"},
-    {iPhone6, "1334×750"},
-    {iPhone6Plus, "1920×1080"},
-    {iPhoneX, "2436×1125"},
-    {iPhoneXS, "2688×1242"},
-    {iPhone121314, "1170×2532"},
-    {iPhone121314Pro, "1284×2778"}
+    {VGA, "640×480 (VGA)"},
+    {NTSC, "720×480 (NTSC)"},
+    {PAL, "720×576 (PAL)"},
+    {_720p, "1280×720 (720p)"},
+    {WXGAHD, "1366×768 (WXGA)"},
+    {_1080p, "1920×1080 (1080p)"},
+    {_2K, "2560×1440 (1440p 2K)"},
+    {_4K, "3840×2160 (2160p 4K)"},
+    {_5K, "5120×2880 (2880p 5K)"},
+    {_8K, "7680×4320 (4320p 8K)"},
+    {WXGA, "1280×800 (WXGA)"},
+    {WXGAPRO, "1440×900 (WXGA+)"},
+    {WSXGAPRO, "1680×1050 (WSXGA+)"},
+    {WUXGA, "1920×1200 (WUXGA)"},
+    {UWHD, "2560×1080 (UWHD)"},
+    {UWQHD, "3440×1440 (UWQHD)"},
+    {WQHDPRO, "3840×1600 (WQHD+)"},
+    {iPhone5, "1136×640 (iPhone 5/5S/5C, iPhone SE)"},
+    {iPhone6, "1334×750 (iPhone 6/6S/7/8)"},
+    {iPhone6Plus, "1920×1080 (iPhone 6 Plus/6S Plus/7 Plus/8 Plus)"},
+    {iPhoneX, "2436×1125 (iPhone X/XS/11 Pro)"},
+    {iPhoneXS, "2688×1242 (iPhone XS Max/11 Pro Max)"},
+    {iPhone121314, "1170×2532 (iPhone 12/13/14)"},
+    {iPhone121314Pro, "1284×2778 (iPhone 12/13/14 Pro Max)"}
 };
+
+static QStringList ImageResolutionDesList() {
+    QStringList list;
+    list << "Custom";
+    for (auto it = ImageResolutionDesMap.constBegin(); it != ImageResolutionDesMap.constEnd(); ++it) {
+        list << it.value();
+    }
+    return list;
+}
 
 static const QMap<ImageResolution, QSize> ImageResolutionSizeMap = {
     {VGA, QSize(640, 480)},
@@ -293,7 +317,7 @@ struct Data {
 };
 
 struct Param {
-    int fps;
+    GifFps fps;
     ImageQuality quality;
     ImageResolution resolution;
     int width;

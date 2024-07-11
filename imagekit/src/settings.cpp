@@ -51,7 +51,7 @@ static const QString kGifOutpathKey = "gif/gif_outpath";
 
 static const int kGifFpsDefValue = 25;
 static const int kGifQualityDefValue = 1;
-static const int kGifResolutionDefValue = 0;
+static const int kGifResolutionDefValue = 1;
 static const int kGifWidthDefValue = 640;
 static const int kGifHeightDefValue = 480;
 static const bool kGifRepeatDefValue = true;
@@ -66,7 +66,14 @@ Settings::Settings() :
     m_ConversionOutFormat(Default::conversionOutFormat),
     m_CompressOutFormat(Default::compressOutFormat),
     m_CompressOutPath(Default::compressOutPath),
-    m_CompressQuality(Default::compressQuality) {
+    m_CompressQuality(Default::compressQuality),
+    gif_fps_(image2gif::kGifFpsDefValue),
+    gif_quality_(image2gif::kGifQualityDefValue),
+    gif_resolution_(image2gif::kGifResolutionDefValue),
+    gif_width_(image2gif::kGifWidthDefValue),
+    gif_height_(image2gif::kGifHeightDefValue),
+    gif_repeat_(image2gif::kGifRepeatDefValue),
+    gif_outpath_(image2gif::kGifOutpathDefValue) {
 }
 
 void Settings::load() {
@@ -78,6 +85,14 @@ void Settings::load() {
     m_ConversionOutPath = m_Settings.value(QStringLiteral("ConversionOutPath"), Default::conversionOutPath).toString();
     m_ConversionOutFormat = m_Settings.value(QStringLiteral("ConversionOutFormat"), Default::conversionOutFormat).toString();
     m_Settings.endGroup();
+
+    gif_fps_ = m_Settings.value(image2gif::kGifFpsKey, image2gif::kGifFpsDefValue).toInt();
+    gif_quality_ = m_Settings.value(image2gif::kGifQualityKey, image2gif::kGifQualityDefValue).toInt();
+    gif_resolution_ = m_Settings.value(image2gif::kGifResolutionKey, image2gif::kGifResolutionDefValue).toInt();
+    gif_width_ = m_Settings.value(image2gif::kGifWidthKey, image2gif::kGifWidthDefValue).toInt();
+    gif_height_ = m_Settings.value(image2gif::kGifHeightKey, image2gif::kGifHeightDefValue).toInt();
+    gif_repeat_ = m_Settings.value(image2gif::kGifRepeatKey, image2gif::kGifRepeatDefValue).toBool();
+    gif_outpath_ = m_Settings.value(image2gif::kGifOutpathKey, image2gif::kGifOutpathDefValue).toString();
 }
 
 bool Settings::autoStart() const {

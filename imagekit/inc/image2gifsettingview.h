@@ -28,6 +28,11 @@ protected:
     void sigConnect() override;
 
 private:
+    void init();
+
+private:
+    ALabel *out_resolution_label_;
+    AComboBox *out_resolution_combo_;
     ALabel *out_size_label_;
     ALineEdit *out_w_edit_;
     ALineEdit *out_h_edit_;
@@ -35,6 +40,8 @@ private:
     QIntValidator *out_h_edit_validator_;
     ALabel *out_fps_label_;
     AComboBox *out_fps_combo_;
+    ALabel *out_quality_label_;
+    AComboBox *out_quality_combo_;
     ARadioButton *out_loop_radio_;
     APushButton *export_button_;
 };

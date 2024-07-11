@@ -13,12 +13,14 @@
 #include "../awidget/inc/acombobox.h"
 #include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/aradiobutton.h"
+#include "inc/models.h"
 
 namespace image2gif {
 
 Image2GifSettingView::Image2GifSettingView(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
+    init();
     sigConnect();
     changeLanguage();
 }
@@ -28,6 +30,13 @@ Image2GifSettingView::~Image2GifSettingView() {
 
 void Image2GifSettingView::createUi() {
     auto mainLayout = new AHBoxLayout(this);
+
+    out_resolution_label_ = new ALabel(this);
+    out_resolution_combo_ = new AComboBox(this);
+    out_resolution_combo_->setFixedWidth(70);
+
+    mainLayout->addWidget(out_resolution_label_);
+    mainLayout->addWidget(out_resolution_combo_);
 
     out_size_label_ = new ALabel(this);
 
@@ -62,6 +71,13 @@ void Image2GifSettingView::createUi() {
     mainLayout->addWidget(out_fps_label_);
     mainLayout->addWidget(out_fps_combo_);
 
+    out_quality_label_ = new ALabel(this);
+    out_quality_combo_ = new AComboBox(this);
+    out_quality_combo_->setFixedWidth(70);
+
+    mainLayout->addWidget(out_quality_label_);
+    mainLayout->addWidget(out_quality_combo_);
+
     out_loop_radio_ = new ARadioButton(this);
     out_loop_radio_->setFixedWidth(70);
     mainLayout->addWidget(out_loop_radio_);
@@ -70,6 +86,7 @@ void Image2GifSettingView::createUi() {
 
     export_button_ = new APushButton(this);
     export_button_->setFixedHeight(32);
+
     mainLayout->addWidget(export_button_);
 }
 
@@ -78,10 +95,15 @@ void Image2GifSettingView::changeLanguage() {
     out_w_edit_->setText("1080");
     out_h_edit_->setText("960");
     out_fps_label_->setText(tr("Frame Rate"));
+    out_quality_label_->setText(tr("Quality"));
     out_loop_radio_->setText(tr("Loop"));
     export_button_->setText("Export");
 }
 
 void Image2GifSettingView::sigConnect() {
+}
+
+void Image2GifSettingView::init() {
+    out_resolution_combo_->addItems(ImageResolutionDesList());
 }
 } // namespace image2gif
