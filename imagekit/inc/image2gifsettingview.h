@@ -42,7 +42,7 @@ private:
     AComboBox *out_fps_combo_;
     ALabel *out_quality_label_;
     AComboBox *out_quality_combo_;
-    ARadioButton *out_loop_radio_;
+    ARadioButton *out_repeat_radio_;
     APushButton *export_button_;
 };
 } // namespace image2gif

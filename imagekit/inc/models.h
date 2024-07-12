@@ -39,19 +39,55 @@ using ImageQuality = enum {
     High,
 };
 
-using GifFps = enum {
-    FPS_10 = 10,
-    FPS_15 = 15,
-    FPS_20 = 20,
-    FPS_25 = 25,
-    FPS_30 = 30,
-    FPS_35 = 35,
-    FPS_40 = 40,
-    FPS_45 = 45,
-    FPS_50 = 50,
-    FPS_55 = 55,
-    FPS_60 = 60,
+static const QMap<ImageQuality, QString> ImageQualityDesMap = {
+    {ImageQuality::Low, "Low"},
+    {ImageQuality::Medium, "Medium"},
+    {ImageQuality::High, "High"},
 };
+
+static QStringList ImageQualityDesList() {
+    QStringList list;
+    for (auto it = ImageQualityDesMap.constBegin(); it != ImageQualityDesMap.constEnd(); ++it) {
+        list << it.value();
+    }
+    return list;
+}
+
+using GifFps = enum {
+    FPS_10 = 0,
+    FPS_15,
+    FPS_20,
+    FPS_25,
+    FPS_30,
+    FPS_35,
+    FPS_40,
+    FPS_45,
+    FPS_50,
+    FPS_55,
+    FPS_60,
+};
+
+static const QMap<GifFps, QString> GifFpsDesMap = {
+    {GifFps::FPS_10, "10"},
+    {GifFps::FPS_15, "15"},
+    {GifFps::FPS_20, "20"},
+    {GifFps::FPS_25, "25"},
+    {GifFps::FPS_30, "30"},
+    {GifFps::FPS_35, "35"},
+    {GifFps::FPS_40, "40"},
+    {GifFps::FPS_45, "45"},
+    {GifFps::FPS_50, "50"},
+    {GifFps::FPS_55, "55"},
+    {GifFps::FPS_60, "60"},
+};
+
+static QStringList GifFpsDesList() {
+    QStringList list;
+    for (auto it = GifFpsDesMap.constBegin(); it != GifFpsDesMap.constEnd(); ++it) {
+        list << it.value();
+    }
+    return list;
+}
 
 using ImageResolution = enum {
     Custom = 0,
@@ -93,6 +129,7 @@ using ImageResolution = enum {
 };
 
 static const QMap<ImageResolution, QString> ImageResolutionDesMap = {
+    {Custom, "Custom"},
     {VGA, "640×480 (VGA)"},
     {NTSC, "720×480 (NTSC)"},
     {PAL, "720×576 (PAL)"},
@@ -121,7 +158,6 @@ static const QMap<ImageResolution, QString> ImageResolutionDesMap = {
 
 static QStringList ImageResolutionDesList() {
     QStringList list;
-    list << "Custom";
     for (auto it = ImageResolutionDesMap.constBegin(); it != ImageResolutionDesMap.constEnd(); ++it) {
         list << it.value();
     }
@@ -129,6 +165,7 @@ static QStringList ImageResolutionDesList() {
 }
 
 static const QMap<ImageResolution, QSize> ImageResolutionSizeMap = {
+    {Custom, QSize(640, 480)},
     {VGA, QSize(640, 480)},
     {NTSC, QSize(720, 480)},
     {PAL, QSize(720, 576)},

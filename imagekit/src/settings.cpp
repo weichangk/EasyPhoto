@@ -6,6 +6,7 @@
  */
 
 #include "inc/settings.h"
+#include "inc/models.h"
 #include <QApplication>
 #include <QSettings>
 
@@ -49,7 +50,7 @@ static const QString kGifHeightKey = "gif/gif_height";
 static const QString kGifRepeatKey = "gif/gif_repeat";
 static const QString kGifOutpathKey = "gif/gif_outpath";
 
-static const int kGifFpsDefValue = 25;
+static const int kGifFpsDefValue = 3;
 static const int kGifQualityDefValue = 1;
 static const int kGifResolutionDefValue = 1;
 static const int kGifWidthDefValue = 640;
@@ -180,7 +181,10 @@ void Settings::setGifResolution(const int resolution) {
 }
 
 int Settings::gifWidth() const {
-    return gif_width_;
+    if(gif_resolution_ == ImageResolution::Custom)
+        return gif_width_;
+    else
+        return ImageResolutionSizeMap[(ImageResolution)gif_resolution_].width();
 }
 
 void Settings::setGifWidth(const int width) {
@@ -189,7 +193,10 @@ void Settings::setGifWidth(const int width) {
 }
 
 int Settings::gifHeight() const {
-    return gif_height_;
+    if(gif_resolution_ == ImageResolution::Custom)
+        return gif_height_;
+    else
+        return ImageResolutionSizeMap[(ImageResolution)gif_resolution_].height();
 }
 
 void Settings::setGifHeight(const int height) {

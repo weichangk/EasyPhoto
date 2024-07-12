@@ -14,6 +14,7 @@
 #include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/aradiobutton.h"
 #include "inc/models.h"
+#include "inc/settings.h"
 
 namespace image2gif {
 
@@ -33,7 +34,7 @@ void Image2GifSettingView::createUi() {
 
     out_resolution_label_ = new ALabel(this);
     out_resolution_combo_ = new AComboBox(this);
-    out_resolution_combo_->setFixedWidth(70);
+    out_resolution_combo_->setFixedWidth(150);
 
     mainLayout->addWidget(out_resolution_label_);
     mainLayout->addWidget(out_resolution_combo_);
@@ -46,14 +47,14 @@ void Image2GifSettingView::createUi() {
     out_w_edit_validator_->setRange(1, 10000);
 
     out_w_edit_ = new ALineEdit(this);
-    out_w_edit_->setFixedWidth(100);
+    out_w_edit_->setFixedWidth(50);
     out_w_edit_->setValidator(out_w_edit_validator_);
 
     out_h_edit_validator_ = new QIntValidator(this);
     out_h_edit_validator_->setRange(1, 10000);
 
     out_h_edit_ = new ALineEdit(this);
-    out_h_edit_->setFixedWidth(100);
+    out_h_edit_->setFixedWidth(50);
     out_h_edit_->setValidator(out_h_edit_validator_);
 
     ALabel *out_size_x_label_ = new ALabel(this);
@@ -66,21 +67,20 @@ void Image2GifSettingView::createUi() {
 
     out_fps_label_ = new ALabel(this);
     out_fps_combo_ = new AComboBox(this);
-    out_fps_combo_->setFixedWidth(70);
+    out_fps_combo_->setFixedWidth(50);
     
     mainLayout->addWidget(out_fps_label_);
     mainLayout->addWidget(out_fps_combo_);
 
     out_quality_label_ = new ALabel(this);
     out_quality_combo_ = new AComboBox(this);
-    out_quality_combo_->setFixedWidth(70);
+    out_quality_combo_->setFixedWidth(50);
 
     mainLayout->addWidget(out_quality_label_);
     mainLayout->addWidget(out_quality_combo_);
 
-    out_loop_radio_ = new ARadioButton(this);
-    out_loop_radio_->setFixedWidth(70);
-    mainLayout->addWidget(out_loop_radio_);
+    out_repeat_radio_ = new ARadioButton(this);
+    mainLayout->addWidget(out_repeat_radio_);
 
     mainLayout->addStretch();
 
@@ -92,11 +92,9 @@ void Image2GifSettingView::createUi() {
 
 void Image2GifSettingView::changeLanguage() {
     out_size_label_->setText(tr("Size"));
-    out_w_edit_->setText("1080");
-    out_h_edit_->setText("960");
     out_fps_label_->setText(tr("Frame Rate"));
     out_quality_label_->setText(tr("Quality"));
-    out_loop_radio_->setText(tr("Loop"));
+    out_repeat_radio_->setText(tr("Repeat"));
     export_button_->setText("Export");
 }
 
@@ -104,6 +102,14 @@ void Image2GifSettingView::sigConnect() {
 }
 
 void Image2GifSettingView::init() {
+    out_w_edit_->setText(QString::number(SETTINGS->gifWidth()));
+    out_h_edit_->setText(QString::number(SETTINGS->gifHeight()));
     out_resolution_combo_->addItems(ImageResolutionDesList());
+    out_resolution_combo_->setCurrentText(ImageResolutionDesMap[(ImageResolution)SETTINGS->gifResolution()]);
+    out_fps_combo_->addItems(GifFpsDesList());
+    out_fps_combo_->setCurrentText(GifFpsDesMap[(GifFps)SETTINGS->gifFps()]);
+    out_quality_combo_->addItems(ImageQualityDesList());
+    out_quality_combo_->setCurrentText(ImageQualityDesMap[(ImageQuality)SETTINGS->gifQuality()]);
+    out_repeat_radio_->setChecked(SETTINGS->gifRepeat());
 }
 } // namespace image2gif
