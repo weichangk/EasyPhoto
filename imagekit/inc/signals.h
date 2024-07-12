@@ -92,7 +92,7 @@ Q_SIGNALS:
     void sigListItemDataSelected(Data *data);
     void sigListItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
     void sigListItemSwapedDatas(const QList<Data> &datas);
-
+    void sigExport();
 };
 } // namespace image2gif
 

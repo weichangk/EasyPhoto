@@ -15,6 +15,7 @@
 #include "../awidget/inc/aradiobutton.h"
 #include "inc/models.h"
 #include "inc/settings.h"
+#include "inc/signals.h"
 
 namespace image2gif {
 
@@ -99,6 +100,13 @@ void Image2GifSettingView::changeLanguage() {
 }
 
 void Image2GifSettingView::sigConnect() {
+    // connect(out_resolution_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutResolutionComboCurrentTextChanged);
+    // connect(out_w_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotOutWEditTextChanged);
+    // connect(out_h_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotOutHEditTextChanged);
+    // connect(out_fps_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutFpsComboCurrentTextChanged);
+    // connect(out_quality_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutQualityComboCurrentTextChanged);
+    // connect(out_repeat_radio_, &QRadioButton::toggled, this, &Image2GifSettingView::slotOutRepeatRadioToggled);
+    connect(export_button_, &APushButton::clicked, this, &Image2GifSettingView::slotExportButtonClicked);
 }
 
 void Image2GifSettingView::init() {
@@ -111,5 +119,9 @@ void Image2GifSettingView::init() {
     out_quality_combo_->addItems(ImageQualityDesList());
     out_quality_combo_->setCurrentText(ImageQualityDesMap[(ImageQuality)SETTINGS->gifQuality()]);
     out_repeat_radio_->setChecked(SETTINGS->gifRepeat());
+}
+
+void Image2GifSettingView::slotExportButtonClicked() {
+    emit Signals::getInstance()->sigExport();
 }
 } // namespace image2gif

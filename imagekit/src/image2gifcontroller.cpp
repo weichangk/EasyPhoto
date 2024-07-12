@@ -7,9 +7,12 @@
 
 #include "inc/image2gifcontroller.h"
 #include "inc/signals.h"
+#include "inc/settings.h"
+#include "../acore/inc/afilemgr.h"
 #include "../agui/inc/aloadingdialog.h"
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <Magick++.h>
 
 namespace image2gif {
 Image2GifController::Image2GifController() {
@@ -40,6 +43,7 @@ void Image2GifController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
     connect(Signals::getInstance(), &Signals::sigListItemBeforeOrAfterAdd, this, &Image2GifController::listItemBeforeOrAfterAdd);
     connect(Signals::getInstance(), &Signals::sigListItemSwapedDatas, this, &Image2GifController::listItemSwapedUpdateDatas);
+    connect(Signals::getInstance(), &Signals::sigExport, this, &Image2GifController::slotExport);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -241,4 +245,53 @@ void Image2GifController::listItemBeforeOrAfterAdd(int index, bool isBefore, QWi
 void Image2GifController::listItemSwapedUpdateDatas(const QList<Data> &datas) {
     datas_ = datas;
 }
+
+void Image2GifController::slotExport() {
+    generate();
+}
+
+void Image2GifController::generate() {
+    std::vector<std::string> imageFiles;
+    foreach(const auto &data,  datas_) {
+        imageFiles.push_back(data.file_path.toStdString());
+    }
+    std::vector<Magick::Image> images;
+
+    if (imageFiles.size() > 0) {
+    } else {
+    }
+
+    try {
+        for (const auto& file : imageFiles) {
+            Magick::Image img;
+            img.read(file);
+
+            // 调整图像大小
+            img.resize(Magick::Geometry(SETTINGS->gifWidth(), SETTINGS->gifHeight()));
+
+            // 设置图像质量值为0-100，值越大质量越高
+            img.quality(ImageQualityValueMap[(ImageQuality)SETTINGS->gifQuality()]);
+
+            // 设置每帧之间的延迟时间
+            img.animationDelay(1000 / GifFpsValueMap[(GifFps)SETTINGS->gifFps()]);
+
+            images.push_back(img);
+        }
+
+        // 设置GIF循环次数
+        for (auto& img : images) {
+            // 无限循环
+            img.animationIterations(SETTINGS->gifRepeat() ? 0 : 1); 
+        }
+
+        // 写入GIF文件
+        QString filePath = AFileMgr::joinPathAndFileName(SETTINGS->gifOutpath(), QString("%1.%2").arg(QDateTime::currentDateTime().toString("MMddHHmmss")).arg("gif"));
+        AFileMgr::renameIfExists(filePath);
+        Magick::writeImages(images.begin(), images.end(), filePath.toStdString());
+    }
+    catch (Magick::Exception &error_) {
+        qDebug() << "Image2GifController::generate error: " << error_.what();
+    }
+}
+
 } // namespace image2gif

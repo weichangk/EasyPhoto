@@ -29,6 +29,7 @@ protected:
 
 private:
     void init();
+    void slotExportButtonClicked();
 
 private:
     ALabel *out_resolution_label_;

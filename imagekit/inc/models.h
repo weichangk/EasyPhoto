@@ -45,6 +45,12 @@ static const QMap<ImageQuality, QString> ImageQualityDesMap = {
     {ImageQuality::High, "High"},
 };
 
+static const QMap<ImageQuality, int> ImageQualityValueMap = {
+    {ImageQuality::Low, 60},
+    {ImageQuality::Medium, 80},
+    {ImageQuality::High, 100},
+};
+
 static QStringList ImageQualityDesList() {
     QStringList list;
     for (auto it = ImageQualityDesMap.constBegin(); it != ImageQualityDesMap.constEnd(); ++it) {
@@ -79,6 +85,20 @@ static const QMap<GifFps, QString> GifFpsDesMap = {
     {GifFps::FPS_50, "50"},
     {GifFps::FPS_55, "55"},
     {GifFps::FPS_60, "60"},
+};
+
+static const QMap<GifFps, int> GifFpsValueMap = {
+    {GifFps::FPS_10, 10},
+    {GifFps::FPS_15, 15},
+    {GifFps::FPS_20, 20},
+    {GifFps::FPS_25, 25},
+    {GifFps::FPS_30, 30},
+    {GifFps::FPS_35, 35},
+    {GifFps::FPS_40, 40},
+    {GifFps::FPS_45, 45},
+    {GifFps::FPS_50, 50},
+    {GifFps::FPS_55, 55},
+    {GifFps::FPS_60, 60},
 };
 
 static QStringList GifFpsDesList() {
