@@ -36,8 +36,11 @@ private:
     bool checkAddedData(const QString filePath);
     void listItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
     void listItemSwapedUpdateDatas(const QList<Data> &datas);
-    void slotExport();
-    void generate();
+    void generate(bool isExport);
+    void slotExportStart();
+    void slotExportEnd(bool state, const QString &filePath, const QString &error);
+    void slotPreviewStart();
+    void slotPreviewEnd(bool state, const QString &filePath, const QString &error);
 private:
     Image2GifWindow *window_;
     QList<Data> datas_;

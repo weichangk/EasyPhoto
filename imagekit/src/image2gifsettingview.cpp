@@ -122,6 +122,6 @@ void Image2GifSettingView::init() {
 }
 
 void Image2GifSettingView::slotExportButtonClicked() {
-    emit Signals::getInstance()->sigExport();
+    emit Signals::getInstance()->sigExportStart();
 }
 } // namespace image2gif

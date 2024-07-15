@@ -15,6 +15,7 @@
 #include <QEvent>
 #include <QMouseEvent>
 #include <QPoint>
+#include <QMessageBox>
 
 namespace image2gif {
 Image2GifPreviewView::Image2GifPreviewView(QWidget *parent) :
@@ -56,6 +57,7 @@ void Image2GifPreviewView::changeLanguage() {
 void Image2GifPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
     connect(preview_button_, &APreviewButton::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
+    connect(Signals::getInstance(), &Signals::sigPreviewEnd, this, &Image2GifPreviewView::slotPreviewEnd);
 }
 
 bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
@@ -111,7 +113,22 @@ void Image2GifPreviewView::updateSelectedPixmapSize() {
 }
 
 void Image2GifPreviewView::slotPreviewButtonClicked() {
-    // preview_button_->setVisible(false);
-    // preview_pixmap_label_->setVisible(true);
+    preview_button_->setVisible(false);
+    emit Signals::getInstance()->sigPreviewStart();
 }
+
+void Image2GifPreviewView::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
+    if (state) {
+        auto movie = new QMovie(filePath);
+        preview_pixmap_label_->setMovie(movie);
+        connect(movie, &QMovie::finished, this, [=]() {
+            movie->stop();
+            preview_pixmap_label_->setMovie(nullptr);
+        });
+        movie->start();
+    } else {
+        QMessageBox::information(this, "Message Box", "预览失败!", QMessageBox::StandardButton::Ok);
+    }
+}
+
 } // namespace image2gif

@@ -12,6 +12,8 @@
 #include "../agui/inc/aloadingdialog.h"
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QDesktopServices>
+#include <QMessageBox>
 #include <Magick++.h>
 
 namespace image2gif {
@@ -43,7 +45,9 @@ void Image2GifController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
     connect(Signals::getInstance(), &Signals::sigListItemBeforeOrAfterAdd, this, &Image2GifController::listItemBeforeOrAfterAdd);
     connect(Signals::getInstance(), &Signals::sigListItemSwapedDatas, this, &Image2GifController::listItemSwapedUpdateDatas);
-    connect(Signals::getInstance(), &Signals::sigExport, this, &Image2GifController::slotExport);
+    connect(Signals::getInstance(), &Signals::sigExportStart, this, &Image2GifController::slotExportStart);
+    connect(Signals::getInstance(), &Signals::sigExportEnd, this, &Image2GifController::slotExportEnd);
+    connect(Signals::getInstance(), &Signals::sigPreviewStart, this, &Image2GifController::slotPreviewStart);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -246,19 +250,16 @@ void Image2GifController::listItemSwapedUpdateDatas(const QList<Data> &datas) {
     datas_ = datas;
 }
 
-void Image2GifController::slotExport() {
-    generate();
-}
-
-void Image2GifController::generate() {
+void Image2GifController::generate(bool isExport) {
     std::vector<std::string> imageFiles;
     foreach(const auto &data,  datas_) {
         imageFiles.push_back(data.file_path.toStdString());
     }
     std::vector<Magick::Image> images;
 
-    if (imageFiles.size() > 0) {
-    } else {
+    if (imageFiles.size() < 2) {
+        QMessageBox::information(window_, "Message Box", "最少需要两种图!", QMessageBox::StandardButton::Ok);
+        return;
     }
 
     try {
@@ -288,9 +289,53 @@ void Image2GifController::generate() {
         QString filePath = AFileMgr::joinPathAndFileName(SETTINGS->gifOutpath(), QString("%1.%2").arg(QDateTime::currentDateTime().toString("MMddHHmmss")).arg("gif"));
         AFileMgr::renameIfExists(filePath);
         Magick::writeImages(images.begin(), images.end(), filePath.toStdString());
+
+        if (isExport) {
+            emit Signals::getInstance() -> sigExportEnd(true, filePath, "");
+        } else {
+            emit Signals::getInstance() -> sigPreviewEnd(true, filePath, "");
+        }
+
     }
     catch (Magick::Exception &error_) {
         qDebug() << "Image2GifController::generate error: " << error_.what();
+        if (isExport) {
+            emit Signals::getInstance()->sigExportEnd(false, "", error_.what());
+        } else {
+            emit Signals::getInstance()->sigPreviewEnd(false, "", error_.what());
+        }
+    }
+}
+
+void Image2GifController::slotExportStart() {
+    std::function<void()> work = [&]() {
+        generate(true);
+    };
+    ALoadingDialog loadingDialog;
+    loadingDialog.setDoWork(work);
+    loadingDialog.exec();
+}
+
+void Image2GifController::slotExportEnd(bool state, const QString &filePath, const QString &error) {
+    if (state) {
+        QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
+    } else {
+        QMessageBox::information(window_, "Message Box", "导出失败!", QMessageBox::StandardButton::Ok);
+    }
+}
+
+void Image2GifController::slotPreviewStart() {
+    std::function<void()> work = [&]() {
+        generate(false);
+    };
+    ALoadingDialog loadingDialog;
+    loadingDialog.setDoWork(work);
+    loadingDialog.exec();
+}
+
+void Image2GifController::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
+    if (state) {
+    } else {
     }
 }
 

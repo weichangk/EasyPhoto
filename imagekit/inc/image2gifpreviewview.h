@@ -12,6 +12,7 @@
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/apreviewbutton.h"
 #include "inc/models.h"
+#include <QMovie>
 
 namespace image2gif {
 class Image2GifPreviewView : public ABaseWidget {
@@ -31,6 +32,7 @@ private:
     void loadSelectedPixmap(const QString &path);
     void updateSelectedPixmapSize();
     void slotPreviewButtonClicked();
+    void slotPreviewEnd(bool state, const QString &filePath, const QString &error);
 
 private:
     Data *data_ = nullptr;
