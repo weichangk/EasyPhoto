@@ -47,6 +47,10 @@ public:
     void setGifRepeat(const bool repeat);
     QString gifOutpath() const;
     void setGifOutpath(const QString path);
+    QString gifGenerateFile() const;
+    void setGifGenerateFile(const QString file);
+    QString gifGenerateParams() const;
+    void setGifGenerateParams(const QString json);
 
 private:
     QSettings m_Settings;
@@ -70,6 +74,8 @@ private:
     int gif_height_;
     bool gif_repeat_;
     QString gif_outpath_;
+    QString gif_generate_file_;
+    QString gif_generate_params_;
 };
 
 #define SETTINGS Settings::getInstance()

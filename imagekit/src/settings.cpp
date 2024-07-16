@@ -57,6 +57,9 @@ static const int kGifWidthDefValue = 640;
 static const int kGifHeightDefValue = 480;
 static const bool kGifRepeatDefValue = true;
 static const QString kGifOutpathDefValue = defOutPath("gif");
+static const QString kGifGenerateFile = "";
+static const QString kGifGenerateParams = "";
+
 } // namespace image2gif
 
 Settings::Settings() :
@@ -74,7 +77,9 @@ Settings::Settings() :
     gif_width_(image2gif::kGifWidthDefValue),
     gif_height_(image2gif::kGifHeightDefValue),
     gif_repeat_(image2gif::kGifRepeatDefValue),
-    gif_outpath_(image2gif::kGifOutpathDefValue) {
+    gif_outpath_(image2gif::kGifOutpathDefValue),
+    gif_generate_file_(image2gif::kGifGenerateFile),
+    gif_generate_params_(image2gif::kGifGenerateParams) {
 }
 
 void Settings::load() {
@@ -220,4 +225,20 @@ QString Settings::gifOutpath() const {
 void Settings::setGifOutpath(const QString path) {
     gif_outpath_ = path;
     m_Settings.setValue(image2gif::kGifOutpathKey, gif_outpath_);
+}
+
+QString Settings::gifGenerateFile() const {
+    return gif_generate_file_;
+}
+
+void Settings::setGifGenerateFile(const QString file) {
+    gif_generate_file_ = file;
+}
+
+QString Settings::gifGenerateParams() const {
+    return gif_generate_params_;
+}
+
+void Settings::setGifGenerateParams(const QString json) {
+    gif_generate_params_ = json;
 }

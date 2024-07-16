@@ -37,10 +37,10 @@ private:
 private:
     Data *data_ = nullptr;
 
-    AWidget *preview_widget_;
-    ALabel *preview_pixmap_label_;
+    AWidget *preview_widget_ = nullptr;
+    ALabel *preview_pixmap_label_ = nullptr;
     QPixmap preview_pixmap_;
-    QMovie *preview_movie_;
+    QMovie *preview_movie_ = nullptr;
     APreviewButton *preview_button_ = nullptr;
 };
 } // namespace image2gif

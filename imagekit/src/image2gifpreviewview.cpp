@@ -114,18 +114,21 @@ void Image2GifPreviewView::updateSelectedPixmapSize() {
 
 void Image2GifPreviewView::slotPreviewButtonClicked() {
     preview_button_->setVisible(false);
-    emit Signals::getInstance()->sigPreviewStart();
+    if (preview_movie_) {
+        preview_pixmap_label_->setMovie(nullptr);
+        preview_movie_->stop();
+        delete preview_movie_;
+        preview_movie_ = nullptr;
+    } else {
+        emit Signals::getInstance() -> sigPreviewStart();
+    }
 }
 
 void Image2GifPreviewView::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
-        auto movie = new QMovie(filePath);
-        preview_pixmap_label_->setMovie(movie);
-        connect(movie, &QMovie::finished, this, [=]() {
-            movie->stop();
-            preview_pixmap_label_->setMovie(nullptr);
-        });
-        movie->start();
+        preview_movie_ = new QMovie(filePath);
+        preview_pixmap_label_->setMovie(preview_movie_);
+        preview_movie_->start();
     } else {
         QMessageBox::information(this, "Message Box", "预览失败!", QMessageBox::StandardButton::Ok);
     }

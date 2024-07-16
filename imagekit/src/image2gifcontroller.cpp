@@ -17,6 +17,22 @@
 #include <Magick++.h>
 
 namespace image2gif {
+
+QString collectGenerateParams(QList<Data> datas) {
+    QString params = "";
+    foreach(const auto data, datas) {
+        params += data.file_path + ";";
+    }
+    params += SETTINGS->gifFps() + ";";
+    params += SETTINGS->gifQuality() + ";";
+    params += SETTINGS->gifResolution() + ";";
+    params += SETTINGS->gifWidth() + ";";
+    params += SETTINGS->gifHeight() + ";";
+    params += SETTINGS->gifRepeat() + ";";
+
+    return params;
+}
+
 Image2GifController::Image2GifController() {
     init();
     sigConnect();
@@ -48,6 +64,7 @@ void Image2GifController::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigExportStart, this, &Image2GifController::slotExportStart);
     connect(Signals::getInstance(), &Signals::sigExportEnd, this, &Image2GifController::slotExportEnd);
     connect(Signals::getInstance(), &Signals::sigPreviewStart, this, &Image2GifController::slotPreviewStart);
+    connect(Signals::getInstance(), &Signals::sigPreviewEnd, this, &Image2GifController::slotPreviewEnd);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -318,6 +335,8 @@ void Image2GifController::slotExportStart() {
 
 void Image2GifController::slotExportEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
+        SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
+        SETTINGS->setGifGenerateFile(filePath);
         QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
     } else {
         QMessageBox::information(window_, "Message Box", "导出失败!", QMessageBox::StandardButton::Ok);
@@ -335,6 +354,8 @@ void Image2GifController::slotPreviewStart() {
 
 void Image2GifController::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
+        SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
+        SETTINGS->setGifGenerateFile(filePath);
     } else {
     }
 }
