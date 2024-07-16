@@ -36,7 +36,8 @@ private:
     bool checkAddedData(const QString filePath);
     void listItemBeforeOrAfterAdd(int index, bool isBefore, QWidget *parent = nullptr);
     void listItemSwapedUpdateDatas(const QList<Data> &datas);
-    void generate(bool isExport);
+    bool generateVerify(QList<QString> &files);
+    void generate(bool isExport, const QList<QString> &files);
     void slotExportStart();
     void slotExportEnd(bool state, const QString &filePath, const QString &error);
     void slotPreviewStart();

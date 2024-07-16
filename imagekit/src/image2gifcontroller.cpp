@@ -267,22 +267,23 @@ void Image2GifController::listItemSwapedUpdateDatas(const QList<Data> &datas) {
     datas_ = datas;
 }
 
-void Image2GifController::generate(bool isExport) {
-    std::vector<std::string> imageFiles;
+bool Image2GifController::generateVerify(QList<QString> &files) {
     foreach(const auto &data,  datas_) {
-        imageFiles.push_back(data.file_path.toStdString());
+        files.push_back(data.file_path);
     }
-    std::vector<Magick::Image> images;
-
-    if (imageFiles.size() < 2) {
+    if (files.size() < 2) {
         QMessageBox::information(window_, "Message Box", "最少需要两种图!", QMessageBox::StandardButton::Ok);
-        return;
+        return false;
     }
+    return true;
+}
 
+void Image2GifController::generate(bool isExport, const QList<QString> &files) {
+    std::vector<Magick::Image> images;
     try {
-        for (const auto& file : imageFiles) {
+        for (const auto& file : files) {
             Magick::Image img;
-            img.read(file);
+            img.read(file.toStdString());
 
             // 调整图像大小
             img.resize(Magick::Geometry(SETTINGS->gifWidth(), SETTINGS->gifHeight()));
@@ -307,6 +308,9 @@ void Image2GifController::generate(bool isExport) {
         AFileMgr::renameIfExists(filePath);
         Magick::writeImages(images.begin(), images.end(), filePath.toStdString());
 
+        SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
+        SETTINGS->setGifGenerateFile(filePath);
+
         if (isExport) {
             emit Signals::getInstance() -> sigExportEnd(true, filePath, "");
         } else {
@@ -325,18 +329,29 @@ void Image2GifController::generate(bool isExport) {
 }
 
 void Image2GifController::slotExportStart() {
-    std::function<void()> work = [&]() {
-        generate(true);
-    };
-    ALoadingDialog loadingDialog;
-    loadingDialog.setDoWork(work);
-    loadingDialog.exec();
+    QList<QString> files;
+    bool verify = generateVerify(files);
+    if (verify) {
+        QString newParams = collectGenerateParams(datas_);
+        QString oldParams = SETTINGS->gifGenerateParams();
+        if (newParams == oldParams) {
+            QString file = SETTINGS->gifGenerateFile();
+            if(QFile::exists(file)) {
+                QDesktopServices::openUrl(QUrl::fromLocalFile(file));
+            }
+        } else {
+            std::function<void()> work = [&]() {
+                generate(true, files);
+            };
+            ALoadingDialog loadingDialog;
+            loadingDialog.setDoWork(work);
+            loadingDialog.exec();
+        }
+    }
 }
 
 void Image2GifController::slotExportEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
-        SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
-        SETTINGS->setGifGenerateFile(filePath);
         QDesktopServices::openUrl(QUrl::fromLocalFile(filePath));
     } else {
         QMessageBox::information(window_, "Message Box", "导出失败!", QMessageBox::StandardButton::Ok);
@@ -344,18 +359,29 @@ void Image2GifController::slotExportEnd(bool state, const QString &filePath, con
 }
 
 void Image2GifController::slotPreviewStart() {
-    std::function<void()> work = [&]() {
-        generate(false);
-    };
-    ALoadingDialog loadingDialog;
-    loadingDialog.setDoWork(work);
-    loadingDialog.exec();
+    QList<QString> files;
+    bool verify = generateVerify(files);
+    if (verify) {
+        QString newParams = collectGenerateParams(datas_);
+        QString oldParams = SETTINGS->gifGenerateParams();
+        if (newParams == oldParams) {
+            QString file = SETTINGS->gifGenerateFile();
+            if(QFile::exists(file)) {
+                emit Signals::getInstance() -> sigPreviewEnd(true, file, "");
+            }
+        } else {
+            std::function<void()> work = [&]() {
+                generate(false, files);
+            };
+            ALoadingDialog loadingDialog;
+            loadingDialog.setDoWork(work);
+            loadingDialog.exec();
+        }
+    }
 }
 
 void Image2GifController::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
-        SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
-        SETTINGS->setGifGenerateFile(filePath);
     } else {
     }
 }
