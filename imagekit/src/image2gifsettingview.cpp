@@ -1,11 +1,12 @@
 /*
  * @Author: weick 
  * @Date: 2024-06-03 07:46:21 
- * @Last Modified by:   weick 
- * @Last Modified time: 2024-06-03 07:46:21 
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-07-18 07:45:22
  */
 
 #include "inc/image2gifsettingview.h"
+#include "../acore/inc/aobjecthelper.h"
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/alabel.h"
@@ -114,6 +115,7 @@ void Image2GifSettingView::init() {
     h_edit_->setText(QString::number(SETTINGS->gifHeight()));
     resolution_combo_->addItems(ImageResolutionDesList());
     resolution_combo_->setCurrentText(ImageResolutionDesMap[(ImageResolution)SETTINGS->gifResolution()]);
+    setWHEditEnabled(SETTINGS->gifResolution() == ImageResolution::Custom);
     fps_combo_->addItems(GifFpsDesList());
     fps_combo_->setCurrentText(GifFpsDesMap[(GifFps)SETTINGS->gifFps()]);
     quality_combo_->addItems(ImageQualityDesList());
@@ -121,12 +123,25 @@ void Image2GifSettingView::init() {
     repeat_radio_->setChecked(SETTINGS->gifRepeat());
 }
 
+void Image2GifSettingView::setWHEditEnabled(bool enable) {
+    w_edit_->setEnabled(enable);
+    h_edit_->setEnabled(enable);
+}
+
 void Image2GifSettingView::slotExportButtonClicked() {
     emit Signals::getInstance()->sigExportStart();
 }
 
 void Image2GifSettingView::slotResolutionComboCurrentTextChanged(const QString &text) {
-    SETTINGS->setGifResolution(ImageResolutionDesMap.key(text));
+    auto resolution = ImageResolutionDesMap.key(text);
+    SETTINGS->setGifResolution(resolution);
+    setWHEditEnabled(resolution == ImageResolution::Custom);
+    if(resolution != ImageResolution::Custom) {
+        SETTINGS->setGifWidth(ImageResolutionSizeMap.value(resolution).width());
+        SETTINGS->setGifHeight(ImageResolutionSizeMap.value(resolution).height());
+        blockSignalsFunc(w_edit_, [&] { w_edit_->setText(QString::number(SETTINGS->gifWidth())); });
+        blockSignalsFunc(h_edit_, [&] { h_edit_->setText(QString::number(SETTINGS->gifHeight())); });
+    }
 }
 
 void Image2GifSettingView::slotWEditTextChanged(const QString &text) {

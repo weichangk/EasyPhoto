@@ -2,7 +2,7 @@
  * @Author: weick 
  * @Date: 2024-06-03 07:39:05 
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:43:08
+ * @Last Modified time: 2024-07-18 07:42:40
  */
 
 #pragma once
@@ -29,6 +29,7 @@ protected:
 
 private:
     void init();
+    void setWHEditEnabled(bool enable);
     void slotExportButtonClicked();
     void slotResolutionComboCurrentTextChanged(const QString &text);
     void slotWEditTextChanged(const QString &text);
