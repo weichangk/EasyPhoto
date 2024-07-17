@@ -30,20 +30,26 @@ protected:
 private:
     void init();
     void slotExportButtonClicked();
-
+    void slotResolutionComboCurrentTextChanged(const QString &text);
+    void slotWEditTextChanged(const QString &text);
+    void slotHEditTextChanged(const QString &text);
+    void slotFpsComboCurrentTextChanged(const QString &text);
+    void slotQualityComboCurrentTextChanged(const QString &text);
+    void slotRepeatRadioToggled(bool checked);
+    
 private:
-    ALabel *out_resolution_label_;
-    AComboBox *out_resolution_combo_;
-    ALabel *out_size_label_;
-    ALineEdit *out_w_edit_;
-    ALineEdit *out_h_edit_;
-    QIntValidator *out_w_edit_validator_;
-    QIntValidator *out_h_edit_validator_;
-    ALabel *out_fps_label_;
-    AComboBox *out_fps_combo_;
-    ALabel *out_quality_label_;
-    AComboBox *out_quality_combo_;
-    ARadioButton *out_repeat_radio_;
+    ALabel *resolution_label_;
+    AComboBox *resolution_combo_;
+    ALabel *size_label_;
+    ALineEdit *w_edit_;
+    ALineEdit *h_edit_;
+    QIntValidator *w_edit_validator_;
+    QIntValidator *h_edit_validator_;
+    ALabel *fps_label_;
+    AComboBox *fps_combo_;
+    ALabel *quality_label_;
+    AComboBox *quality_combo_;
+    ARadioButton *repeat_radio_;
     APushButton *export_button_;
 };
 } // namespace image2gif

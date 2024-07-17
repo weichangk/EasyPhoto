@@ -33,55 +33,55 @@ Image2GifSettingView::~Image2GifSettingView() {
 void Image2GifSettingView::createUi() {
     auto mainLayout = new AHBoxLayout(this);
 
-    out_resolution_label_ = new ALabel(this);
-    out_resolution_combo_ = new AComboBox(this);
-    out_resolution_combo_->setFixedWidth(150);
+    resolution_label_ = new ALabel(this);
+    resolution_combo_ = new AComboBox(this);
+    resolution_combo_->setFixedWidth(150);
 
-    mainLayout->addWidget(out_resolution_label_);
-    mainLayout->addWidget(out_resolution_combo_);
+    mainLayout->addWidget(resolution_label_);
+    mainLayout->addWidget(resolution_combo_);
 
-    out_size_label_ = new ALabel(this);
+    size_label_ = new ALabel(this);
 
-    mainLayout->addWidget(out_size_label_);
+    mainLayout->addWidget(size_label_);
 
-    out_w_edit_validator_ = new QIntValidator(this);
-    out_w_edit_validator_->setRange(1, 10000);
+    w_edit_validator_ = new QIntValidator(this);
+    w_edit_validator_->setRange(1, 10000);
 
-    out_w_edit_ = new ALineEdit(this);
-    out_w_edit_->setFixedWidth(50);
-    out_w_edit_->setValidator(out_w_edit_validator_);
+    w_edit_ = new ALineEdit(this);
+    w_edit_->setFixedWidth(50);
+    w_edit_->setValidator(w_edit_validator_);
 
-    out_h_edit_validator_ = new QIntValidator(this);
-    out_h_edit_validator_->setRange(1, 10000);
+    h_edit_validator_ = new QIntValidator(this);
+    h_edit_validator_->setRange(1, 10000);
 
-    out_h_edit_ = new ALineEdit(this);
-    out_h_edit_->setFixedWidth(50);
-    out_h_edit_->setValidator(out_h_edit_validator_);
+    h_edit_ = new ALineEdit(this);
+    h_edit_->setFixedWidth(50);
+    h_edit_->setValidator(h_edit_validator_);
 
-    ALabel *out_size_x_label_ = new ALabel(this);
-    out_size_x_label_->setText("x");
+    ALabel *size_x_label_ = new ALabel(this);
+    size_x_label_->setText("x");
 
-    mainLayout->addWidget(out_w_edit_);
-    mainLayout->addWidget(out_size_x_label_);
-    mainLayout->addWidget(out_h_edit_);
+    mainLayout->addWidget(w_edit_);
+    mainLayout->addWidget(size_x_label_);
+    mainLayout->addWidget(h_edit_);
     mainLayout->addSpacing(24);
 
-    out_fps_label_ = new ALabel(this);
-    out_fps_combo_ = new AComboBox(this);
-    out_fps_combo_->setFixedWidth(50);
+    fps_label_ = new ALabel(this);
+    fps_combo_ = new AComboBox(this);
+    fps_combo_->setFixedWidth(50);
     
-    mainLayout->addWidget(out_fps_label_);
-    mainLayout->addWidget(out_fps_combo_);
+    mainLayout->addWidget(fps_label_);
+    mainLayout->addWidget(fps_combo_);
 
-    out_quality_label_ = new ALabel(this);
-    out_quality_combo_ = new AComboBox(this);
-    out_quality_combo_->setFixedWidth(50);
+    quality_label_ = new ALabel(this);
+    quality_combo_ = new AComboBox(this);
+    quality_combo_->setFixedWidth(50);
 
-    mainLayout->addWidget(out_quality_label_);
-    mainLayout->addWidget(out_quality_combo_);
+    mainLayout->addWidget(quality_label_);
+    mainLayout->addWidget(quality_combo_);
 
-    out_repeat_radio_ = new ARadioButton(this);
-    mainLayout->addWidget(out_repeat_radio_);
+    repeat_radio_ = new ARadioButton(this);
+    mainLayout->addWidget(repeat_radio_);
 
     mainLayout->addStretch();
 
@@ -92,36 +92,60 @@ void Image2GifSettingView::createUi() {
 }
 
 void Image2GifSettingView::changeLanguage() {
-    out_size_label_->setText(tr("Size"));
-    out_fps_label_->setText(tr("Frame Rate"));
-    out_quality_label_->setText(tr("Quality"));
-    out_repeat_radio_->setText(tr("Repeat"));
+    size_label_->setText(tr("Size"));
+    fps_label_->setText(tr("Frame Rate"));
+    quality_label_->setText(tr("Quality"));
+    repeat_radio_->setText(tr("Repeat"));
     export_button_->setText("Export");
 }
 
 void Image2GifSettingView::sigConnect() {
-    // connect(out_resolution_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutResolutionComboCurrentTextChanged);
-    // connect(out_w_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotOutWEditTextChanged);
-    // connect(out_h_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotOutHEditTextChanged);
-    // connect(out_fps_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutFpsComboCurrentTextChanged);
-    // connect(out_quality_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotOutQualityComboCurrentTextChanged);
-    // connect(out_repeat_radio_, &QRadioButton::toggled, this, &Image2GifSettingView::slotOutRepeatRadioToggled);
+    connect(resolution_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotResolutionComboCurrentTextChanged);
+    connect(w_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotWEditTextChanged);
+    connect(h_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotHEditTextChanged);
+    connect(fps_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotFpsComboCurrentTextChanged);
+    connect(quality_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotQualityComboCurrentTextChanged);
+    connect(repeat_radio_, &QRadioButton::toggled, this, &Image2GifSettingView::slotRepeatRadioToggled);
     connect(export_button_, &APushButton::clicked, this, &Image2GifSettingView::slotExportButtonClicked);
 }
 
 void Image2GifSettingView::init() {
-    out_w_edit_->setText(QString::number(SETTINGS->gifWidth()));
-    out_h_edit_->setText(QString::number(SETTINGS->gifHeight()));
-    out_resolution_combo_->addItems(ImageResolutionDesList());
-    out_resolution_combo_->setCurrentText(ImageResolutionDesMap[(ImageResolution)SETTINGS->gifResolution()]);
-    out_fps_combo_->addItems(GifFpsDesList());
-    out_fps_combo_->setCurrentText(GifFpsDesMap[(GifFps)SETTINGS->gifFps()]);
-    out_quality_combo_->addItems(ImageQualityDesList());
-    out_quality_combo_->setCurrentText(ImageQualityDesMap[(ImageQuality)SETTINGS->gifQuality()]);
-    out_repeat_radio_->setChecked(SETTINGS->gifRepeat());
+    w_edit_->setText(QString::number(SETTINGS->gifWidth()));
+    h_edit_->setText(QString::number(SETTINGS->gifHeight()));
+    resolution_combo_->addItems(ImageResolutionDesList());
+    resolution_combo_->setCurrentText(ImageResolutionDesMap[(ImageResolution)SETTINGS->gifResolution()]);
+    fps_combo_->addItems(GifFpsDesList());
+    fps_combo_->setCurrentText(GifFpsDesMap[(GifFps)SETTINGS->gifFps()]);
+    quality_combo_->addItems(ImageQualityDesList());
+    quality_combo_->setCurrentText(ImageQualityDesMap[(ImageQuality)SETTINGS->gifQuality()]);
+    repeat_radio_->setChecked(SETTINGS->gifRepeat());
 }
 
 void Image2GifSettingView::slotExportButtonClicked() {
     emit Signals::getInstance()->sigExportStart();
+}
+
+void Image2GifSettingView::slotResolutionComboCurrentTextChanged(const QString &text) {
+    SETTINGS->setGifResolution(ImageResolutionDesMap.key(text));
+}
+
+void Image2GifSettingView::slotWEditTextChanged(const QString &text) {
+    SETTINGS->setGifWidth(text.toInt());
+}
+
+void Image2GifSettingView::slotHEditTextChanged(const QString &text) {
+    SETTINGS->setGifHeight(text.toInt());
+}
+
+void Image2GifSettingView::slotFpsComboCurrentTextChanged(const QString &text) {
+    SETTINGS->setGifFps(GifFpsDesMap.key(text));
+}
+
+void Image2GifSettingView::slotQualityComboCurrentTextChanged(const QString &text) {
+    SETTINGS->setGifQuality(ImageQualityDesMap.key(text));
+}
+
+void Image2GifSettingView::slotRepeatRadioToggled(bool checked) {
+    SETTINGS->setGifRepeat(checked);
 }
 } // namespace image2gif
