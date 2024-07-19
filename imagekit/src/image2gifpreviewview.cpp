@@ -44,6 +44,8 @@ void Image2GifPreviewView::createUi() {
     preview_widget_layout->addLayout(preview_pixmap_label_layout);
     preview_widget_layout->addStretch();
 
+    preview_movie_ = new QMovie();
+
     preview_button_ = new APreviewButton();
     preview_button_->installEventFilter(this);
     preview_button_->setFixedSize(96, 96);
@@ -58,6 +60,7 @@ void Image2GifPreviewView::sigConnect() {
     connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
     connect(preview_button_, &APreviewButton::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
     connect(Signals::getInstance(), &Signals::sigPreviewEnd, this, &Image2GifPreviewView::slotPreviewEnd);
+    connect(preview_movie_, &QMovie::finished, this, &Image2GifPreviewView::slotPreviewMovieFinished);
 }
 
 bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
@@ -114,11 +117,9 @@ void Image2GifPreviewView::updateSelectedPixmapSize() {
 
 void Image2GifPreviewView::slotPreviewButtonClicked() {
     preview_button_->setVisible(false);
-    if (preview_movie_) {
+    if (preview_movie_->state() == QMovie::Running) {
         preview_pixmap_label_->setMovie(nullptr);
         preview_movie_->stop();
-        delete preview_movie_;
-        preview_movie_ = nullptr;
     } else {
         emit Signals::getInstance() -> sigPreviewStart();
     }
@@ -126,7 +127,7 @@ void Image2GifPreviewView::slotPreviewButtonClicked() {
 
 void Image2GifPreviewView::slotPreviewEnd(bool state, const QString &filePath, const QString &error) {
     if (state) {
-        preview_movie_ = new QMovie(filePath);
+        preview_movie_->setFileName(filePath);
         preview_pixmap_label_->setMovie(preview_movie_);
         preview_movie_->start();
     } else {
@@ -134,4 +135,7 @@ void Image2GifPreviewView::slotPreviewEnd(bool state, const QString &filePath, c
     }
 }
 
+void Image2GifPreviewView::slotPreviewMovieFinished() {
+
+}
 } // namespace image2gif

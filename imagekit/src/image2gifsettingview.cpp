@@ -2,7 +2,7 @@
  * @Author: weick 
  * @Date: 2024-06-03 07:46:21 
  * @Last Modified by: weick
- * @Last Modified time: 2024-07-18 07:45:22
+ * @Last Modified time: 2024-07-18 08:02:32
  */
 
 #include "inc/image2gifsettingview.h"
@@ -102,8 +102,8 @@ void Image2GifSettingView::changeLanguage() {
 
 void Image2GifSettingView::sigConnect() {
     connect(resolution_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotResolutionComboCurrentTextChanged);
-    connect(w_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotWEditTextChanged);
-    connect(h_edit_, &QLineEdit::textChanged, this, &Image2GifSettingView::slotHEditTextChanged);
+    connect(w_edit_, &ALineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotWEditingConfirm);
+    connect(h_edit_, &ALineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotHEditingConfirm);
     connect(fps_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotFpsComboCurrentTextChanged);
     connect(quality_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotQualityComboCurrentTextChanged);
     connect(repeat_radio_, &QRadioButton::toggled, this, &Image2GifSettingView::slotRepeatRadioToggled);
@@ -136,20 +136,30 @@ void Image2GifSettingView::slotResolutionComboCurrentTextChanged(const QString &
     auto resolution = ImageResolutionDesMap.key(text);
     SETTINGS->setGifResolution(resolution);
     setWHEditEnabled(resolution == ImageResolution::Custom);
-    if(resolution != ImageResolution::Custom) {
-        SETTINGS->setGifWidth(ImageResolutionSizeMap.value(resolution).width());
-        SETTINGS->setGifHeight(ImageResolutionSizeMap.value(resolution).height());
-        blockSignalsFunc(w_edit_, [&] { w_edit_->setText(QString::number(SETTINGS->gifWidth())); });
-        blockSignalsFunc(h_edit_, [&] { h_edit_->setText(QString::number(SETTINGS->gifHeight())); });
+    blockSignalsFunc(w_edit_, [&] { w_edit_->setText(QString::number(SETTINGS->gifWidth())); });
+    blockSignalsFunc(h_edit_, [&] { h_edit_->setText(QString::number(SETTINGS->gifHeight())); });
+}
+
+void Image2GifSettingView::slotWEditingConfirm(const QString &text) {
+    int value = text.toInt();
+    if (text.toInt() < 1) {
+        value = 1;
+    } else if (text.toInt() > 640) {
+        value = 640;
     }
+    blockSignalsFunc(w_edit_, [&] { w_edit_->setText(QString::number(value)); });
+    SETTINGS->setGifWidth(value);
 }
 
-void Image2GifSettingView::slotWEditTextChanged(const QString &text) {
-    SETTINGS->setGifWidth(text.toInt());
-}
-
-void Image2GifSettingView::slotHEditTextChanged(const QString &text) {
-    SETTINGS->setGifHeight(text.toInt());
+void Image2GifSettingView::slotHEditingConfirm(const QString &text) {
+    int value = text.toInt();
+    if (text.toInt() < 1) {
+        value = 1;
+    } else if (text.toInt() > 480) {
+        value = 480;
+    }
+    blockSignalsFunc(h_edit_, [&] { h_edit_->setText(QString::number(value)); });
+    SETTINGS->setGifHeight(value);
 }
 
 void Image2GifSettingView::slotFpsComboCurrentTextChanged(const QString &text) {

@@ -32,8 +32,8 @@ private:
     void setWHEditEnabled(bool enable);
     void slotExportButtonClicked();
     void slotResolutionComboCurrentTextChanged(const QString &text);
-    void slotWEditTextChanged(const QString &text);
-    void slotHEditTextChanged(const QString &text);
+    void slotWEditingConfirm(const QString &text);
+    void slotHEditingConfirm(const QString &text);
     void slotFpsComboCurrentTextChanged(const QString &text);
     void slotQualityComboCurrentTextChanged(const QString &text);
     void slotRepeatRadioToggled(bool checked);

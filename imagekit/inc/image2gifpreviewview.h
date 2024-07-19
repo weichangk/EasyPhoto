@@ -33,7 +33,7 @@ private:
     void updateSelectedPixmapSize();
     void slotPreviewButtonClicked();
     void slotPreviewEnd(bool state, const QString &filePath, const QString &error);
-
+    void slotPreviewMovieFinished();
 private:
     Data *data_ = nullptr;
 
