@@ -32,11 +32,11 @@ void ImageEnhancementController::init() {
 }
 
 void ImageEnhancementController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &ImageEnhancementController::openFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &ImageEnhancementController::deleteData);
-    connect(Signals::getInstance(), &Signals::sigClickedFile, this, &ImageEnhancementController::clickedData);
-    connect(Signals::getInstance(), &Signals::sigStatus, this, &ImageEnhancementController::status);
-    connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &ImageEnhancementController::deleteAll);
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &ImageEnhancementController::openFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &ImageEnhancementController::deleteData);
+    connect(SIGNALS, &Signals::sigClickedFile, this, &ImageEnhancementController::clickedData);
+    connect(SIGNALS, &Signals::sigStatus, this, &ImageEnhancementController::status);
+    connect(SIGNALS, &Signals::sigDeleteAll, this, &ImageEnhancementController::deleteAll);
 }
 
 void ImageEnhancementController::openFileDialog(QWidget *parent) {
@@ -65,7 +65,7 @@ void ImageEnhancementController::addData(const QStringList filePaths) {
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(datas_.count() - 1);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+        emit SIGNALS->sigListItemDataSelected(&datas_.last());
     }
 }
 
@@ -84,7 +84,7 @@ void ImageEnhancementController::deleteData(const QString filePath) {
 
     if (n != -1) {
         window_->setFileListCurrentIndex(n);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_[n]);
+        emit SIGNALS->sigListItemDataSelected(&datas_[n]);
     }
 }
 
@@ -96,7 +96,7 @@ void ImageEnhancementController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        emit Signals::getInstance()->sigListItemDataSelected(it);
+        emit SIGNALS->sigListItemDataSelected(it);
     }
 }
 

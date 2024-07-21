@@ -33,6 +33,8 @@ Q_SIGNALS:
     void sigCheckedAll(const bool checked);
     void sigChangeFormat(const QString format);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace imageconversion
 
 namespace imagecompression {
@@ -50,6 +52,8 @@ Q_SIGNALS:
     void sigCheckedAll(const bool checked);
     void sigChangeFormat(const QString format);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace imagecompression
 
 namespace imageedit {
@@ -76,6 +80,8 @@ Q_SIGNALS:
     void sigSaturationSetting2Preview(int);
     void sigEffectResetSetting2Preview(int, int, int);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace image2gif
 
 namespace image2gif {
@@ -98,6 +104,8 @@ Q_SIGNALS:
     void sigPreviewStart();
     void sigPreviewEnd(bool state, const QString &filePath, const QString &error);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace image2gif
 
 namespace imageerase {
@@ -113,6 +121,8 @@ Q_SIGNALS:
     void sigStatus(Status state);
     void sigListItemDataSelected(Data *data);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace imageerase
 
 namespace imageenhancement {
@@ -128,4 +138,6 @@ Q_SIGNALS:
     void sigStatus(Status state);
     void sigListItemDataSelected(Data *data);
 };
+
+#define SIGNALS Signals::getInstance()
 } // namespace imageenhancement

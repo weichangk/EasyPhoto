@@ -57,9 +57,9 @@ void Image2GifPreviewView::changeLanguage() {
 }
 
 void Image2GifPreviewView::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
+    connect(SIGNALS, &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
     connect(preview_button_, &APreviewButton::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
-    connect(Signals::getInstance(), &Signals::sigPreviewEnd, this, &Image2GifPreviewView::slotPreviewEnd);
+    connect(SIGNALS, &Signals::sigPreviewEnd, this, &Image2GifPreviewView::slotPreviewEnd);
     connect(preview_movie_, &QMovie::finished, this, &Image2GifPreviewView::slotPreviewMovieFinished);
 }
 
@@ -121,7 +121,7 @@ void Image2GifPreviewView::slotPreviewButtonClicked() {
         preview_pixmap_label_->setMovie(nullptr);
         preview_movie_->stop();
     } else {
-        emit Signals::getInstance() -> sigPreviewStart();
+        emit SIGNALS -> sigPreviewStart();
     }
 }
 

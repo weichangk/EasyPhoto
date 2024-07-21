@@ -117,10 +117,10 @@ void Image2GifWindow::sigConnect() {
     connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(topbar_, &ATopbar::sigClose, this, [=]() {
         close();
-        emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+        emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit SIGNALS->sigOpenFileDialog(this);
     });
 }
 void Image2GifWindow::paintEvent(QPaintEvent *event) {
@@ -152,7 +152,7 @@ void Image2GifWindow::paintEvent(QPaintEvent *event) {
 
 void Image2GifWindow::moveEvent(QMoveEvent *event) {
     ABaseWidget::moveEvent(event);
-    emit Signals::getInstance()->sigWindowMove();
+    emit SIGNALS->sigWindowMove();
 }
 
 void Image2GifWindow::resizeEvent(QResizeEvent *event) {

@@ -54,17 +54,17 @@ void Image2GifController::init() {
 }
 
 void Image2GifController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &Image2GifController::openFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &Image2GifController::deleteData);
-    connect(Signals::getInstance(), &Signals::sigClickedFile, this, &Image2GifController::clickedData);
-    connect(Signals::getInstance(), &Signals::sigStatus, this, &Image2GifController::status);
-    connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
-    connect(Signals::getInstance(), &Signals::sigListItemBeforeOrAfterAdd, this, &Image2GifController::listItemBeforeOrAfterAdd);
-    connect(Signals::getInstance(), &Signals::sigListItemSwapedDatas, this, &Image2GifController::listItemSwapedUpdateDatas);
-    connect(Signals::getInstance(), &Signals::sigExportStart, this, &Image2GifController::slotExportStart);
-    connect(Signals::getInstance(), &Signals::sigExportEnd, this, &Image2GifController::slotExportEnd);
-    connect(Signals::getInstance(), &Signals::sigPreviewStart, this, &Image2GifController::slotPreviewStart);
-    connect(Signals::getInstance(), &Signals::sigPreviewEnd, this, &Image2GifController::slotPreviewEnd);
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &Image2GifController::openFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &Image2GifController::deleteData);
+    connect(SIGNALS, &Signals::sigClickedFile, this, &Image2GifController::clickedData);
+    connect(SIGNALS, &Signals::sigStatus, this, &Image2GifController::status);
+    connect(SIGNALS, &Signals::sigDeleteAll, this, &Image2GifController::deleteAll);
+    connect(SIGNALS, &Signals::sigListItemBeforeOrAfterAdd, this, &Image2GifController::listItemBeforeOrAfterAdd);
+    connect(SIGNALS, &Signals::sigListItemSwapedDatas, this, &Image2GifController::listItemSwapedUpdateDatas);
+    connect(SIGNALS, &Signals::sigExportStart, this, &Image2GifController::slotExportStart);
+    connect(SIGNALS, &Signals::sigExportEnd, this, &Image2GifController::slotExportEnd);
+    connect(SIGNALS, &Signals::sigPreviewStart, this, &Image2GifController::slotPreviewStart);
+    connect(SIGNALS, &Signals::sigPreviewEnd, this, &Image2GifController::slotPreviewEnd);
 }
 
 void Image2GifController::openFileDialog(QWidget *parent) {
@@ -110,7 +110,7 @@ void Image2GifController::appendData(const QStringList filePaths) {
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(datas_.count() - 1);
-        emit Signals::getInstance() -> sigListItemDataSelected(&datas_.last());
+        emit SIGNALS -> sigListItemDataSelected(&datas_.last());
     }
 }
 
@@ -160,7 +160,7 @@ void Image2GifController::insertData(int index, const QStringList filePaths) {
         window_->changeFileListData(datas_);
         int iindex = index + datas.size() - 1;
         window_->setFileListCurrentIndex(iindex);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_[iindex]);
+        emit SIGNALS->sigListItemDataSelected(&datas_[iindex]);
     }
 }
 
@@ -179,7 +179,7 @@ void Image2GifController::deleteData(const QString filePath) {
 
     if (n != -1) {
         window_->setFileListCurrentIndex(n);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_[n]);
+        emit SIGNALS->sigListItemDataSelected(&datas_[n]);
     }
 }
 
@@ -191,7 +191,7 @@ void Image2GifController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        emit Signals::getInstance()->sigListItemDataSelected(it);
+        emit SIGNALS->sigListItemDataSelected(it);
     }
 }
 
@@ -312,18 +312,18 @@ void Image2GifController::generate(bool isExport, const QList<QString> &files) {
         SETTINGS->setGifGenerateFile(filePath);
 
         if (isExport) {
-            emit Signals::getInstance() -> sigExportEnd(true, filePath, "");
+            emit SIGNALS -> sigExportEnd(true, filePath, "");
         } else {
-            emit Signals::getInstance() -> sigPreviewEnd(true, filePath, "");
+            emit SIGNALS -> sigPreviewEnd(true, filePath, "");
         }
 
     }
     catch (Magick::Exception &error_) {
         qDebug() << "Image2GifController::generate error: " << error_.what();
         if (isExport) {
-            emit Signals::getInstance()->sigExportEnd(false, "", error_.what());
+            emit SIGNALS->sigExportEnd(false, "", error_.what());
         } else {
-            emit Signals::getInstance()->sigPreviewEnd(false, "", error_.what());
+            emit SIGNALS->sigPreviewEnd(false, "", error_.what());
         }
     }
 }
@@ -367,7 +367,7 @@ void Image2GifController::slotPreviewStart() {
         if (newParams == oldParams) {
             QString file = SETTINGS->gifGenerateFile();
             if(QFile::exists(file)) {
-                emit Signals::getInstance() -> sigPreviewEnd(true, file, "");
+                emit SIGNALS -> sigPreviewEnd(true, file, "");
             }
         } else {
             std::function<void()> work = [&]() {

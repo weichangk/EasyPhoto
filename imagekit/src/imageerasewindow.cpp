@@ -114,10 +114,10 @@ void ImageEraseWindow::sigConnect() {
     connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(topbar_, &ATopbar::sigClose, this, [=]() {
         close();
-        emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+        emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit SIGNALS->sigOpenFileDialog(this);
     });
 }
 void ImageEraseWindow::paintEvent(QPaintEvent *event) {
@@ -149,6 +149,6 @@ void ImageEraseWindow::paintEvent(QPaintEvent *event) {
 
 void ImageEraseWindow::moveEvent(QMoveEvent *event) {
     ABaseWidget::moveEvent(event);
-    emit Signals::getInstance()->sigWindowMove();
+    emit SIGNALS->sigWindowMove();
 }
 } // namespace imageerase

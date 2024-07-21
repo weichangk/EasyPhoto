@@ -136,7 +136,7 @@ void StartupWindow::createUi() {
         btn->getName()->setText(iter.value().at(1).toString());
         btn->getDec()->setText(iter.value().at(2).toString());
         connect(btn, &AFuncPanelWidget::sigClicked, this, [=](int id) {
-            emit Signals::getInstance()->sigGotoFunc((ImageFunc)id);
+            emit SIGNALS->sigGotoFunc((ImageFunc)id);
         });
         funcFlowLayout->addWidget(btn);
     }

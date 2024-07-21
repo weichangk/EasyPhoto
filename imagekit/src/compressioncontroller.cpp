@@ -39,12 +39,12 @@ void CompressionController::init() {
 }
 
 void CompressionController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &CompressionController::openCompressFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &CompressionController::delCompressData);
-    connect(Signals::getInstance(), &Signals::sigStatus, this, &CompressionController::compressStatus);
-    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &CompressionController::switchChecked);
-    connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &CompressionController::allChecked);
-    connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &CompressionController::delByChecked);
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &CompressionController::openCompressFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &CompressionController::delCompressData);
+    connect(SIGNALS, &Signals::sigStatus, this, &CompressionController::compressStatus);
+    connect(SIGNALS, &Signals::sigSwitchChecked, this, &CompressionController::switchChecked);
+    connect(SIGNALS, &Signals::sigCheckedAll, this, &CompressionController::allChecked);
+    connect(SIGNALS, &Signals::sigDeleteByChecked, this, &CompressionController::delByChecked);
 }
 
 void CompressionController::openCompressFileDialog(QWidget *parent) {

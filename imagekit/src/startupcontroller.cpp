@@ -58,5 +58,5 @@ void StartupController::showFunc(ImageFunc func) {
 }
 
 void StartupController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigGotoFunc, this, &StartupController::showFunc);
+    connect(SIGNALS, &Signals::sigGotoFunc, this, &StartupController::showFunc);
 }

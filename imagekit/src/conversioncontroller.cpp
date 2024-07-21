@@ -42,16 +42,16 @@ void ConversionController::init() {
 }
 
 void ConversionController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &ConversionController::openConvFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &ConversionController::delConvData);
-    connect(Signals::getInstance(), &Signals::sigStatus, this, &ConversionController::convStatus);
-    connect(Signals::getInstance(), &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
-    connect(Signals::getInstance(), &Signals::sigCheckedAll, this, &ConversionController::allChecked);
-    connect(Signals::getInstance(), &Signals::sigDeleteByChecked, this, &ConversionController::delByChecked);
-    connect(Signals::getInstance(), &Signals::sigChangeFormat, this, &ConversionController::changeConvFormat);
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &ConversionController::openConvFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &ConversionController::delConvData);
+    connect(SIGNALS, &Signals::sigStatus, this, &ConversionController::convStatus);
+    connect(SIGNALS, &Signals::sigSwitchChecked, this, &ConversionController::switchChecked);
+    connect(SIGNALS, &Signals::sigCheckedAll, this, &ConversionController::allChecked);
+    connect(SIGNALS, &Signals::sigDeleteByChecked, this, &ConversionController::delByChecked);
+    connect(SIGNALS, &Signals::sigChangeFormat, this, &ConversionController::changeConvFormat);
 
-    connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, Signals::getInstance(), [=]() {
-        emit Signals::getInstance()->sigStatus2View(Status::FINISHED);
+    connect(&m_ConvWatcher, &QFutureWatcher<void>::finished, this, [=]() {
+        emit SIGNALS->sigStatus2View(Status::FINISHED);
     });
 }
 

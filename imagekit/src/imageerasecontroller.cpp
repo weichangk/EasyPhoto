@@ -32,11 +32,11 @@ void ImageEraseController::init() {
 }
 
 void ImageEraseController::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigOpenFileDialog, this, &ImageEraseController::openFileDialog);
-    connect(Signals::getInstance(), &Signals::sigDeleteFile, this, &ImageEraseController::deleteData);
-    connect(Signals::getInstance(), &Signals::sigClickedFile, this, &ImageEraseController::clickedData);
-    connect(Signals::getInstance(), &Signals::sigStatus, this, &ImageEraseController::status);
-    connect(Signals::getInstance(), &Signals::sigDeleteAll, this, &ImageEraseController::deleteAll);
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &ImageEraseController::openFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &ImageEraseController::deleteData);
+    connect(SIGNALS, &Signals::sigClickedFile, this, &ImageEraseController::clickedData);
+    connect(SIGNALS, &Signals::sigStatus, this, &ImageEraseController::status);
+    connect(SIGNALS, &Signals::sigDeleteAll, this, &ImageEraseController::deleteAll);
 }
 
 void ImageEraseController::openFileDialog(QWidget *parent) {
@@ -65,7 +65,7 @@ void ImageEraseController::addData(const QStringList filePaths) {
     if (oldCout < datas_.count()) {
         window_->changeFileListData(datas_);
         window_->setFileListCurrentIndex(datas_.count() - 1);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_.last());
+        emit SIGNALS->sigListItemDataSelected(&datas_.last());
     }
 }
 
@@ -84,7 +84,7 @@ void ImageEraseController::deleteData(const QString filePath) {
 
     if (n != -1) {
         window_->setFileListCurrentIndex(n);
-        emit Signals::getInstance()->sigListItemDataSelected(&datas_[n]);
+        emit SIGNALS->sigListItemDataSelected(&datas_[n]);
     }
 }
 
@@ -96,7 +96,7 @@ void ImageEraseController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        emit Signals::getInstance()->sigListItemDataSelected(it);
+        emit SIGNALS->sigListItemDataSelected(it);
     }
 }
 

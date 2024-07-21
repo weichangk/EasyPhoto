@@ -129,7 +129,7 @@ void Image2GifSettingView::setWHEditEnabled(bool enable) {
 }
 
 void Image2GifSettingView::slotExportButtonClicked() {
-    emit Signals::getInstance()->sigExportStart();
+    emit SIGNALS->sigExportStart();
 }
 
 void Image2GifSettingView::slotResolutionComboCurrentTextChanged(const QString &text) {

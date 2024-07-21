@@ -781,8 +781,8 @@ void EditSettingView::changeLanguage() {
 }
 
 void EditSettingView::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
-    connect(Signals::getInstance(), &Signals::sigSelectRectPreview2Setting, this, &EditSettingView::selectRectChanged);
+    connect(SIGNALS, &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
+    connect(SIGNALS, &Signals::sigSelectRectPreview2Setting, this, &EditSettingView::selectRectChanged);
     connect(crop_ratio_width_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
     connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
     connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
@@ -841,7 +841,7 @@ void EditSettingView::cropWidthEditingConfirm(const QString &text) {
     int w = crop_ratio_width_edit_->text().toInt();
     data_->crop_rect.setWidth(w);
     select_rect_.setWidth(w);
-    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+    emit SIGNALS->sigSelectRectSetting2Preview(select_rect_);
 }
 
 void EditSettingView::cropHeightEditingConfirm(const QString &text) {
@@ -851,7 +851,7 @@ void EditSettingView::cropHeightEditingConfirm(const QString &text) {
     int h = crop_ratio_height_edit_->text().toInt();
     data_->crop_rect.setHeight(h);
     select_rect_.setHeight(h);
-    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+    emit SIGNALS->sigSelectRectSetting2Preview(select_rect_);
 }
 
 void EditSettingView::resetCrop() {
@@ -861,7 +861,7 @@ void EditSettingView::resetCrop() {
     crop_ratio_height_edit_->setText(QString::number(data_->crop_rect.height()));
 
     select_rect_ = data_->crop_rect;
-    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+    emit SIGNALS->sigSelectRectSetting2Preview(select_rect_);
 }
 
 void EditSettingView::alignCenter() {
@@ -870,66 +870,66 @@ void EditSettingView::alignCenter() {
     QRect r = QRect(x, y, select_rect_.width(), select_rect_.height());
     data_->crop_rect = r;
     select_rect_ = r;
-    emit Signals::getInstance()->sigSelectRectSetting2Preview(select_rect_);
+    emit SIGNALS->sigSelectRectSetting2Preview(select_rect_);
 }
 
 void EditSettingView::equalRatioChanged(int state) {
     data_->is_equal_ratio_crop_ = equal_ratio_checkbox_->isChecked();
-    emit Signals::getInstance()->sigEqualRatioCropSetting2Preview(data_->is_equal_ratio_crop_);
+    emit SIGNALS->sigEqualRatioCropSetting2Preview(data_->is_equal_ratio_crop_);
 }
 
 void EditSettingView::rotateAngleEditingConfirm(const QString &text) {
     int angle = rotate_angle_edit_->text().toInt();
     data_->rotate_angle = angle;
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::resetRotate() {
     data_->rotate_angle = kRotateAngleDefaultValue;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::rotateRight90() {
     data_->rotate_angle = 90;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::rotateLeft90() {
     data_->rotate_angle = -90;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::rotateHorizontalFlip() {
     data_->rotate_angle = 180;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::rotateVerticalFlip() {
     data_->rotate_angle = 270;
     rotate_angle_edit_->setText(QString::number(data_->rotate_angle));
-    emit Signals::getInstance()->sigRotateAngleSetting2Preview(data_->rotate_angle);
+    emit SIGNALS->sigRotateAngleSetting2Preview(data_->rotate_angle);
 }
 
 void EditSettingView::luminanceChanged() {
     data_->luminance = luminance_slider_->value();
     luminance_value_->setText(QString::number(data_->luminance));
-    emit Signals::getInstance()->sigLuminanceSetting2Preview(data_->luminance);
+    emit SIGNALS->sigLuminanceSetting2Preview(data_->luminance);
 }
 
 void EditSettingView::contrastChanged() {
     data_->contrast = contrast_slider_->value();
     contrast_value_->setText(QString::number(data_->contrast));
-    emit Signals::getInstance()->sigContrastSetting2Preview(data_->contrast);
+    emit SIGNALS->sigContrastSetting2Preview(data_->contrast);
 }
 
 void EditSettingView::saturationChanged() {
     data_->saturation = saturation_slider_->value();
     saturation_value_->setText(QString::number(data_->saturation));
-    emit Signals::getInstance()->sigSaturationSetting2Preview(data_->saturation);
+    emit SIGNALS->sigSaturationSetting2Preview(data_->saturation);
 }
 
 void EditSettingView::resetEffect() {
@@ -942,7 +942,7 @@ void EditSettingView::resetEffect() {
     luminance_value_->setText(QString::number(data_->luminance));
     contrast_value_->setText(QString::number(data_->contrast));
     saturation_value_->setText(QString::number(data_->saturation));
-    emit Signals::getInstance()->sigEffectResetSetting2Preview(data_->luminance, data_->contrast, data_->saturation);
+    emit SIGNALS->sigEffectResetSetting2Preview(data_->luminance, data_->contrast, data_->saturation);
 }
 
 void EditSettingView::pictureAlphaChanged() {
@@ -992,7 +992,7 @@ void EditSettingView::imageWatermarkListItemClicked(const QModelIndex &index) {
         deleteImageWatermarkPicture(QList<QString>() << data.file_path);
         return;
     }
-    // emit Signals::getInstance()->sigxxx(data.file_path);
+    // emit SIGNALS->sigxxx(data.file_path);
 }
 
 void EditSettingView::addImageWatermarkPicture(const QList<ImageWatermarkSettingData> &datas) {
@@ -1055,7 +1055,7 @@ void EditSettingView::textWatermarkListItemClicked(const QModelIndex &index) {
         deleteTextWatermarkSettingItem(QList<QString>() << data.id);
         return;
     }
-    // emit Signals::getInstance()->sigxxx(data.file_path);
+    // emit SIGNALS->sigxxx(data.file_path);
 }
 
 void EditSettingView::addTextWatermarkSettingItem(const QList<TextWatermarkSettingData> &datas) {

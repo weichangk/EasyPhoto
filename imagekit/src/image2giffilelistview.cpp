@@ -166,7 +166,7 @@ bool Image2GifFileListModel::dropMimeData(const QMimeData *data, Qt::DropAction 
         beginMoveRows(QModelIndex(), originalRow, originalRow, parent, row);
         datas_.swapItemsAt(originalRow, targetRow);
         endMoveRows();
-        emit Signals::getInstance()->sigListItemSwapedDatas(datas_);
+        emit SIGNALS->sigListItemSwapedDatas(datas_);
     }
 
     return true;
@@ -435,10 +435,10 @@ void Image2GifFileListView::changeLanguage() {
 
 void Image2GifFileListView::sigConnect() {
     connect(add_file_button_, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit SIGNALS->sigOpenFileDialog(this);
     });
     connect(delete_file_button_, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigDeleteAll();
+        emit SIGNALS->sigDeleteAll();
     });
     connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<Data>();
@@ -448,22 +448,22 @@ void Image2GifFileListView::sigConnect() {
         QRect delIconRect = fileItemDeteleRect(rc);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            emit Signals::getInstance()->sigDeleteFile(data.file_path);
+            emit SIGNALS->sigDeleteFile(data.file_path);
             return;
         }
         QRect beforeAddRect = fileItemBeforeAddRect(rc);
         if (posx >= beforeAddRect.x() && posx <= beforeAddRect.x() + beforeAddRect.width()
             && posy >= beforeAddRect.y() && posy <= beforeAddRect.y() + beforeAddRect.height()) {
-            emit Signals::getInstance()->sigListItemBeforeOrAfterAdd(index.row(), true, this);
+            emit SIGNALS->sigListItemBeforeOrAfterAdd(index.row(), true, this);
             return;
         }
         QRect afterAddRect = fileItemAfterAddRect(rc);
         if (posx >= afterAddRect.x() && posx <= afterAddRect.x() + afterAddRect.width()
             && posy >= afterAddRect.y() && posy <= afterAddRect.y() + afterAddRect.height()) {
-            emit Signals::getInstance()->sigListItemBeforeOrAfterAdd(index.row(), false, this);
+            emit SIGNALS->sigListItemBeforeOrAfterAdd(index.row(), false, this);
             return;
         }
-        emit Signals::getInstance()->sigClickedFile(data.file_path);
+        emit SIGNALS->sigClickedFile(data.file_path);
     });
 }
 } // namespace image2gif

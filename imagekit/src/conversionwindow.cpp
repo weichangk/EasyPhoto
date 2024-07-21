@@ -179,7 +179,7 @@ void ConversionWindow::sigConnect() {
     connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
     connect(m_Topbar, &ATopbar::sigClose, this, [=]() {
         close();
-        emit ::Signals::getInstance()->sigGotoFunc(ImageFunc::STARTUP);
+        emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
     connect(m_ConversionListView, &QListView::clicked, this, [=](const QModelIndex &index) {
         auto data = index.data(Qt::UserRole).value<Data>();
@@ -190,35 +190,35 @@ void ConversionWindow::sigConnect() {
         QRect delIconRect = QRect(borderRect.x() + borderRect.width() - 16 - 4, borderRect.y() + 4, 16, 16);
         if (posx >= delIconRect.x() && posx <= delIconRect.x() + delIconRect.width()
             && posy >= delIconRect.y() && posy <= delIconRect.y() + delIconRect.height()) {
-            emit Signals::getInstance()->sigDeleteFile(data.file_path);
+            emit SIGNALS->sigDeleteFile(data.file_path);
         }
         auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, 16, 16);
         if (posx >= checkedconRect.x() && posx <= checkedconRect.x() + checkedconRect.width()
             && posy >= checkedconRect.y() && posy <= checkedconRect.y() + checkedconRect.height()) {
-            emit Signals::getInstance()->sigSwitchChecked(data.file_path, data.is_checked);
+            emit SIGNALS->sigSwitchChecked(data.file_path, data.is_checked);
         }
     });
     connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit SIGNALS->sigOpenFileDialog(this);
     });
     connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigOpenFileDialog(this);
+        emit SIGNALS->sigOpenFileDialog(this);
     });
     connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigDeleteByChecked();
+        emit SIGNALS->sigDeleteByChecked();
     });
     connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
         bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
         bool newChecked = !oldChecked;
-        emit Signals::getInstance()->sigCheckedAll(newChecked);
+        emit SIGNALS->sigCheckedAll(newChecked);
         updateCheckAllBtnState(newChecked);
     });
     connect(m_ConvAllBtn, &APushButton::clicked, this, [=]() {
-        emit Signals::getInstance()->sigStatus(Status::START);
+        emit SIGNALS->sigStatus(Status::START);
         convStatus(Status::START);
     });
     connect(m_ConvToBtn, &APushButton::clicked, this, &ConversionWindow::formatPopup);
-    connect(Signals::getInstance(), &Signals::sigStatus2View, this, &ConversionWindow::convStatus);
+    connect(SIGNALS, &Signals::sigStatus2View, this, &ConversionWindow::convStatus);
 }
 
 void ConversionWindow::paintEvent(QPaintEvent *event) {
@@ -388,7 +388,7 @@ void ConversionFormatPopup::sigConnect() {
 
 void ConversionFormatPopup::formatItemClicked(QListWidgetItem *item) {
     QString fmt = item->data(Qt::DisplayRole).toString();
-    emit Signals::getInstance()->sigChangeFormat(fmt);
+    emit SIGNALS->sigChangeFormat(fmt);
     close();
 }
 

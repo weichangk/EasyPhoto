@@ -85,19 +85,19 @@ void EditPreviewView::changeLanguage() {
 }
 
 void EditPreviewView::sigConnect() {
-    connect(Signals::getInstance(), &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
-    connect(Signals::getInstance(), &Signals::sigListItemDataSelected, this, &EditPreviewView::preViewDataSelected);
+    connect(SIGNALS, &Signals::sigWindowMove, this, &EditPreviewView::updateCropViewGeometry);
+    connect(SIGNALS, &Signals::sigListItemDataSelected, this, &EditPreviewView::preViewDataSelected);
     connect(crop_view_, &EditCropView::sigSelectRectChangedEnd, this, &EditPreviewView::selectRectChangedEnd);
     connect(crop_view_, &EditCropView::sigSelectRectChanged, this, &EditPreviewView::selectRectChanged);
-    connect(Signals::getInstance(), &Signals::sigSelectRectSetting2Preview, this, &EditPreviewView::setCropViewSelectionRect);
-    connect(Signals::getInstance(), &Signals::sigEqualRatioCropSetting2Preview, this, &EditPreviewView::cropUseAspectRatio);
+    connect(SIGNALS, &Signals::sigSelectRectSetting2Preview, this, &EditPreviewView::setCropViewSelectionRect);
+    connect(SIGNALS, &Signals::sigEqualRatioCropSetting2Preview, this, &EditPreviewView::cropUseAspectRatio);
 
-    connect(Signals::getInstance(), &Signals::sigRotateAngleSetting2Preview, this, &EditPreviewView::rotateAngleChanged);
+    connect(SIGNALS, &Signals::sigRotateAngleSetting2Preview, this, &EditPreviewView::rotateAngleChanged);
 
-    connect(Signals::getInstance(), &Signals::sigLuminanceSetting2Preview, this, &EditPreviewView::luminanceChanged);
-    connect(Signals::getInstance(), &Signals::sigContrastSetting2Preview, this, &EditPreviewView::contrastChanged);
-    connect(Signals::getInstance(), &Signals::sigSaturationSetting2Preview, this, &EditPreviewView::saturationChanged);
-    connect(Signals::getInstance(), &Signals::sigEffectResetSetting2Preview, this, &EditPreviewView::effectReset);
+    connect(SIGNALS, &Signals::sigLuminanceSetting2Preview, this, &EditPreviewView::luminanceChanged);
+    connect(SIGNALS, &Signals::sigContrastSetting2Preview, this, &EditPreviewView::contrastChanged);
+    connect(SIGNALS, &Signals::sigSaturationSetting2Preview, this, &EditPreviewView::saturationChanged);
+    connect(SIGNALS, &Signals::sigEffectResetSetting2Preview, this, &EditPreviewView::effectReset);
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
@@ -145,7 +145,7 @@ void EditPreviewView::updateCropViewGeometry() {
     }
 
     setCropViewSelectionRect(data_->crop_rect);
-    emit Signals::getInstance()->sigSelectRectPreview2Setting(data_->crop_rect);
+    emit SIGNALS->sigSelectRectPreview2Setting(data_->crop_rect);
     QPoint globalPos = input_preview_pixmap_label_->mapToGlobal(QPoint(0, 0));
     crop_view_->setGeometry(globalPos.x(), globalPos.y(), input_preview_pixmap_label_->width(), input_preview_pixmap_label_->height());
 }
@@ -179,7 +179,7 @@ void EditPreviewView::updateInputPixmapSize() {
 
 void EditPreviewView::selectRectChanged(const QRect &rect) {
     QRect r = PreviewRect2CropRect(rect, data_->preview_ratio);
-    emit Signals::getInstance()->sigSelectRectPreview2Setting(r);
+    emit SIGNALS->sigSelectRectPreview2Setting(r);
 }
 
 void EditPreviewView::selectRectChangedEnd(const QRect &rect) {
