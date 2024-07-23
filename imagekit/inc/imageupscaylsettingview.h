@@ -8,16 +8,16 @@
 #pragma once
 #include "../agui/inc/abasewidget.h"
 
-namespace imageenhancement {
-class ImageEnhancementSettingView : public ABaseWidget {
+namespace imageupscayl {
+class ImageUpscaylSettingView : public ABaseWidget {
     Q_OBJECT
 public:
-    explicit ImageEnhancementSettingView(QWidget *parent = nullptr);
-    ~ImageEnhancementSettingView();
+    explicit ImageUpscaylSettingView(QWidget *parent = nullptr);
+    ~ImageUpscaylSettingView();
 
 protected:
     void createUi() override;
     void changeLanguage() override;
     void sigConnect() override;
 };
-} // namespace imageenhancement
+} // namespace imageupscayl

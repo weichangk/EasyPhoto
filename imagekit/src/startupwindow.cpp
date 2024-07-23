@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:04:11
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 08:05:05
+ * @Last Modified time: 2024-07-23 07:51:07
  */
 
 #include "inc/startupwindow.h"
@@ -111,7 +111,7 @@ void StartupWindow::createUi() {
     funcDataMap.insert(ImageFunc::IMAGE2GIF, QVariantList() << ":/res/image/account_80_vip.png"
                                                          << "生成GIF"
                                                          << "图片生成GIF");
-    funcDataMap.insert(ImageFunc::ENHANCEMENT, QVariantList() << ":/res/image/account_80_vip.png"
+    funcDataMap.insert(ImageFunc::UPSCAYL, QVariantList() << ":/res/image/account_80_vip.png"
                                                                << "AI图像增强"
                                                                << "图片画质增强");
     funcDataMap.insert(ImageFunc::ERASE, QVariantList() << ":/res/image/account_80_vip.png"

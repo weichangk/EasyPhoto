@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-05 23:03:58
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-04 08:02:56
+ * @Last Modified time: 2024-07-23 07:48:36
  */
 
 #include "inc/startupcontroller.h"
@@ -16,7 +16,7 @@ StartupController::StartupController() {
     edit_controller_ = new imageedit::EditController();
     image2gif_controller_ = new image2gif::Image2GifController();
     imageerase_controller_ = new imageerase::ImageEraseController();
-    imageenhancement_controller_ = new imageenhancement::ImageEnhancementController();
+    imageupscayl_controller_ = new imageupscayl::ImageUpscaylController();
     sigConnect();
 }
 
@@ -48,9 +48,9 @@ void StartupController::showFunc(ImageFunc func) {
         m_StartupWindow->close();
         imageerase_controller_->showWindow();
         break;
-    case ImageFunc::ENHANCEMENT:
+    case ImageFunc::UPSCAYL:
         m_StartupWindow->close();
-        imageenhancement_controller_->showWindow();
+        imageupscayl_controller_->showWindow();
         break;
     default:
         break;

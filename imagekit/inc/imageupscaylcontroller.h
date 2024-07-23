@@ -6,16 +6,16 @@
  */
 
 #pragma once
-#include "imageenhancementwindow.h"
+#include "imageupscaylwindow.h"
 #include "models.h"
 #include <QWidget>
 
-namespace imageenhancement {
-class ImageEnhancementController : public QObject {
+namespace imageupscayl {
+class ImageUpscaylController : public QObject {
     Q_OBJECT
 public:
-    explicit ImageEnhancementController();
-    ~ImageEnhancementController();
+    explicit ImageUpscaylController();
+    ~ImageUpscaylController();
     void showWindow();
     void closeWindow();
 
@@ -34,7 +34,7 @@ private:
     void dataUpdate(Data data);
     bool checkAddedData(const QString filePath);
 private:
-    ImageEnhancementWindow *window_;
+    ImageUpscaylWindow *window_;
     QList<Data> datas_;
 };
-} // namespace imageenhancement
+} // namespace imageupscayl

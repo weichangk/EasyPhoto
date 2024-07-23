@@ -13,7 +13,7 @@
 #include "editcontroller.h"
 #include "image2gifcontroller.h"
 #include "imageerasecontroller.h"
-#include "imageenhancementcontroller.h"
+#include "imageupscaylcontroller.h"
 #include <QObject>
 
 class StartupController : public QObject {
@@ -33,5 +33,5 @@ private:
     imageedit::EditController *edit_controller_ = nullptr;
     image2gif::Image2GifController *image2gif_controller_ = nullptr;
     imageerase::ImageEraseController *imageerase_controller_ = nullptr;
-    imageenhancement::ImageEnhancementController *imageenhancement_controller_ = nullptr;
+    imageupscayl::ImageUpscaylController *imageupscayl_controller_ = nullptr;
 };

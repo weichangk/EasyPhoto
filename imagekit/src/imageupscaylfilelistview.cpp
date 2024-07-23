@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-06-04 08:01:00 
  */
 
-#include "inc/imageenhancementfilelistview.h"
+#include "inc/imageupscaylfilelistview.h"
 #include "../acore/inc/apainterhelper.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
@@ -13,7 +13,7 @@
 #include <QPainter>
 #include <QMouseEvent>
 
-namespace imageenhancement {
+namespace imageupscayl {
 inline QRect fileItemDeteleRect(QRect itemRect) {
     auto rc = itemRect.adjusted(1, 1, -1, -1);
     return QRect(rc.x() + rc.width() - 16 - 16, rc.y() + 16, 16, 16);
@@ -27,14 +27,14 @@ inline QRect fileItemNameRect(QRect itemRect) {
     return QRect(nameX, rc.y() + 12, nameWidth, 24);
 }
 
-ImageEnhancementFileItemDelegate::ImageEnhancementFileItemDelegate(QObject *parent) :
+ImageUpscaylFileItemDelegate::ImageUpscaylFileItemDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-ImageEnhancementFileItemDelegate::~ImageEnhancementFileItemDelegate() {
+ImageUpscaylFileItemDelegate::~ImageUpscaylFileItemDelegate() {
 }
 
-bool ImageEnhancementFileItemDelegate::eventFilter(QObject *object, QEvent *event) {
+bool ImageUpscaylFileItemDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         event_type_ = type;
@@ -49,7 +49,7 @@ bool ImageEnhancementFileItemDelegate::eventFilter(QObject *object, QEvent *even
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-void ImageEnhancementFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void ImageUpscaylFileItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<Data>();
     painter->save();
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -102,37 +102,37 @@ void ImageEnhancementFileItemDelegate::paint(QPainter *painter, const QStyleOpti
     painter->setPen(Qt::NoPen);
 }
 
-QSize ImageEnhancementFileItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize ImageUpscaylFileItemDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     return size_;
 }
 
-void ImageEnhancementFileItemDelegate::changeSizeHint(const QSize &size) {
+void ImageUpscaylFileItemDelegate::changeSizeHint(const QSize &size) {
     size_ = size;
 }
 
-ImageEnhancementFileListView::ImageEnhancementFileListView(QWidget *parent) :
+ImageUpscaylFileListView::ImageUpscaylFileListView(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-ImageEnhancementFileListView::~ImageEnhancementFileListView() {
+ImageUpscaylFileListView::~ImageUpscaylFileListView() {
 }
 
-void ImageEnhancementFileListView::changeData(QList<Data> datas) {
+void ImageUpscaylFileListView::changeData(QList<Data> datas) {
     file_list_view_->chageData(datas);
 }
 
-void ImageEnhancementFileListView::setCurrentIndex(int index) {
+void ImageUpscaylFileListView::setCurrentIndex(int index) {
     file_list_view_->setCurrentIndex(file_list_view_->model()->index(index, 0));
 }
 
-int ImageEnhancementFileListView::currentIndex() {
+int ImageUpscaylFileListView::currentIndex() {
     return file_list_view_->currentIndex().row();
 }
 
-void ImageEnhancementFileListView::createUi() {
+void ImageUpscaylFileListView::createUi() {
     file_name_label_ = new ALabel(this);
 
     add_file_button_ = new APushButton(this);
@@ -164,7 +164,7 @@ void ImageEnhancementFileListView::createUi() {
     file_list_view_->setDragEnabled(false);
     file_list_view_->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    auto delegate = new ImageEnhancementFileItemDelegate(this);
+    auto delegate = new ImageUpscaylFileItemDelegate(this);
     file_list_view_->setItemDelegate(delegate);
     file_list_view_->viewport()->installEventFilter(delegate);
 
@@ -173,11 +173,11 @@ void ImageEnhancementFileListView::createUi() {
     mainLayout->addWidget(file_list_view_, 1);
 }
 
-void ImageEnhancementFileListView::changeLanguage() {
+void ImageUpscaylFileListView::changeLanguage() {
     file_name_label_->setText("文件名");
 }
 
-void ImageEnhancementFileListView::sigConnect() {
+void ImageUpscaylFileListView::sigConnect() {
     connect(add_file_button_, &APushButton::clicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
@@ -198,4 +198,4 @@ void ImageEnhancementFileListView::sigConnect() {
         emit SIGNALS->sigClickedFile(data.file_path);
     });
 }
-} // namespace imageenhancement
+} // namespace imageupscayl

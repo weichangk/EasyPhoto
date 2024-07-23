@@ -5,7 +5,7 @@
  * @Last Modified time: 2024-06-04 08:01:06 
  */
 
-#include "inc/imageenhancementpreviewview.h"
+#include "inc/imageupscaylpreviewview.h"
 #include "inc/signals.h"
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/awidget.h"
@@ -13,24 +13,24 @@
 #include "../awidget/inc/ahboxlayout.h"
 #include <QTimer>
 
-namespace imageenhancement {
-ImageEnhancementPreviewView::ImageEnhancementPreviewView(QWidget *parent) :
+namespace imageupscayl {
+ImageUpscaylPreviewView::ImageUpscaylPreviewView(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-ImageEnhancementPreviewView::~ImageEnhancementPreviewView() {
+ImageUpscaylPreviewView::~ImageUpscaylPreviewView() {
 }
 
-void ImageEnhancementPreviewView::createUi() {
+void ImageUpscaylPreviewView::createUi() {
 }
 
-void ImageEnhancementPreviewView::changeLanguage() {
+void ImageUpscaylPreviewView::changeLanguage() {
 }
 
-void ImageEnhancementPreviewView::sigConnect() {
+void ImageUpscaylPreviewView::sigConnect() {
 }
 
-} // namespace imageenhancement
+} // namespace imageupscayl

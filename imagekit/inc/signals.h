@@ -125,7 +125,7 @@ Q_SIGNALS:
 #define SIGNALS Signals::getInstance()
 } // namespace imageerase
 
-namespace imageenhancement {
+namespace imageupscayl {
 class Signals : public QObject, public ASinglton<Signals> {
     Q_OBJECT
 public:
@@ -140,4 +140,4 @@ Q_SIGNALS:
 };
 
 #define SIGNALS Signals::getInstance()
-} // namespace imageenhancement
+} // namespace imageupscayl

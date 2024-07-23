@@ -2,7 +2,7 @@
  * @Author: weick
  * @Date: 2023-12-09 23:52:37
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 08:04:05
+ * @Last Modified time: 2024-07-23 07:47:50
  */
 
 #pragma once
@@ -24,7 +24,7 @@ using ImageFunc = enum {
     AMPLIFICATION, // 图像放大
     MANIPULATION,  // 图片抠像
     ERASE,         // 图片擦除
-    ENHANCEMENT,   // 图像增强
+    UPSCAYL,   // 图像增强
     RESTORATION,   // 图像复原
     EFFECT,        // 图片效果
     SPECIALEFFECT,  // 图片特效
@@ -400,7 +400,7 @@ struct Data {
 };
 } // namespace imageerase
 
-namespace imageenhancement {
+namespace imageupscayl {
 using Status = enum {
     NONE = 0,
     START,
@@ -415,4 +415,4 @@ struct Data {
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
 };
-} // namespace imageenhancement
+} // namespace imageupscayl

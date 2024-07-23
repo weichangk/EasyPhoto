@@ -5,41 +5,41 @@
  * @Last Modified time: 2024-06-04 08:00:52 
  */
 
-#include "inc/imageenhancementcontroller.h"
+#include "inc/imageupscaylcontroller.h"
 #include "inc/signals.h"
 #include <QFileDialog>
 #include <QStandardPaths>
 
-namespace imageenhancement {
-ImageEnhancementController::ImageEnhancementController() {
+namespace imageupscayl {
+ImageUpscaylController::ImageUpscaylController() {
     init();
     sigConnect();
 }
 
-ImageEnhancementController::~ImageEnhancementController() {
+ImageUpscaylController::~ImageUpscaylController() {
 }
 
-void ImageEnhancementController::showWindow() {
+void ImageUpscaylController::showWindow() {
     window_->show();
 }
 
-void ImageEnhancementController::closeWindow() {
+void ImageUpscaylController::closeWindow() {
     window_->close();
 }
 
-void ImageEnhancementController::init() {
-    window_ = new ImageEnhancementWindow;
+void ImageUpscaylController::init() {
+    window_ = new ImageUpscaylWindow;
 }
 
-void ImageEnhancementController::sigConnect() {
-    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &ImageEnhancementController::openFileDialog);
-    connect(SIGNALS, &Signals::sigDeleteFile, this, &ImageEnhancementController::deleteData);
-    connect(SIGNALS, &Signals::sigClickedFile, this, &ImageEnhancementController::clickedData);
-    connect(SIGNALS, &Signals::sigStatus, this, &ImageEnhancementController::status);
-    connect(SIGNALS, &Signals::sigDeleteAll, this, &ImageEnhancementController::deleteAll);
+void ImageUpscaylController::sigConnect() {
+    connect(SIGNALS, &Signals::sigOpenFileDialog, this, &ImageUpscaylController::openFileDialog);
+    connect(SIGNALS, &Signals::sigDeleteFile, this, &ImageUpscaylController::deleteData);
+    connect(SIGNALS, &Signals::sigClickedFile, this, &ImageUpscaylController::clickedData);
+    connect(SIGNALS, &Signals::sigStatus, this, &ImageUpscaylController::status);
+    connect(SIGNALS, &Signals::sigDeleteAll, this, &ImageUpscaylController::deleteAll);
 }
 
-void ImageEnhancementController::openFileDialog(QWidget *parent) {
+void ImageUpscaylController::openFileDialog(QWidget *parent) {
     QString title = "选择图片";
     QString directory = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
     QStringList selectedFiles = QFileDialog::getOpenFileNames(parent, title, directory, "All Files (*)");
@@ -48,7 +48,7 @@ void ImageEnhancementController::openFileDialog(QWidget *parent) {
     }
 }
 
-void ImageEnhancementController::addData(const QStringList filePaths) {
+void ImageUpscaylController::addData(const QStringList filePaths) {
     int oldCout = datas_.count();
     for (const QString &filePath : filePaths) {
         if(checkAddedData(filePath)) {
@@ -69,7 +69,7 @@ void ImageEnhancementController::addData(const QStringList filePaths) {
     }
 }
 
-void ImageEnhancementController::deleteData(const QString filePath) {
+void ImageUpscaylController::deleteData(const QString filePath) {
     // 点击删除时已经改变了currentIndex
     int currentIndex = window_->fileListCurrentIndex();
     auto filePathMatches = [](const Data &cd, QString filePath) {
@@ -88,7 +88,7 @@ void ImageEnhancementController::deleteData(const QString filePath) {
     }
 }
 
-void ImageEnhancementController::clickedData(const QString filePath) {
+void ImageUpscaylController::clickedData(const QString filePath) {
     auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     }; 
@@ -100,7 +100,7 @@ void ImageEnhancementController::clickedData(const QString filePath) {
     }
 }
 
-void ImageEnhancementController::status(Status state) {
+void ImageUpscaylController::status(Status state) {
     switch (state) {
     case Status::NONE:
         break;
@@ -116,21 +116,21 @@ void ImageEnhancementController::status(Status state) {
     }
 }
 
-void ImageEnhancementController::start() {
+void ImageUpscaylController::start() {
 }
 
-void ImageEnhancementController::finished() {
+void ImageUpscaylController::finished() {
 }
 
-void ImageEnhancementController::cancel() {
+void ImageUpscaylController::cancel() {
 }
 
-void ImageEnhancementController::deleteAll() {
+void ImageUpscaylController::deleteAll() {
     datas_.clear();
     window_->changeFileListData(datas_);
 }
 
-void ImageEnhancementController::dataUpdate(Data data) {
+void ImageUpscaylController::dataUpdate(Data data) {
     auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     }; 
@@ -146,7 +146,7 @@ void ImageEnhancementController::dataUpdate(Data data) {
     }
 }
 
-bool ImageEnhancementController::checkAddedData(const QString filePath) {
+bool ImageUpscaylController::checkAddedData(const QString filePath) {
     auto filePathMatches = [](const Data &cd, QString filePath) {
         return cd.file_path == filePath;
     }; 
@@ -159,4 +159,4 @@ bool ImageEnhancementController::checkAddedData(const QString filePath) {
     return false;
 }
 
-} // namespace imageenhancement
+} // namespace imageupscayl

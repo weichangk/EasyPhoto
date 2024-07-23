@@ -15,12 +15,12 @@
 #include <QStyledItemDelegate>
 #include <QEvent>
 
-namespace imageenhancement {
-class ImageEnhancementFileItemDelegate : public QStyledItemDelegate {
+namespace imageupscayl {
+class ImageUpscaylFileItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit ImageEnhancementFileItemDelegate(QObject *parent = nullptr);
-    ~ImageEnhancementFileItemDelegate();
+    explicit ImageUpscaylFileItemDelegate(QObject *parent = nullptr);
+    ~ImageUpscaylFileItemDelegate();
 
     bool eventFilter(QObject *object, QEvent *event) override;
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
@@ -33,11 +33,11 @@ private:
     QPoint curpos_;
 };
 
-class ImageEnhancementFileListView : public ABaseWidget {
+class ImageUpscaylFileListView : public ABaseWidget {
     Q_OBJECT
 public:
-    explicit ImageEnhancementFileListView(QWidget *parent = nullptr);
-    ~ImageEnhancementFileListView();
+    explicit ImageUpscaylFileListView(QWidget *parent = nullptr);
+    ~ImageUpscaylFileListView();
     void changeData(QList<Data> datas);
     void setCurrentIndex(int index);
     int currentIndex();
@@ -55,4 +55,4 @@ private:
 
     QList<Data> datas_;
 };
-} // namespace imageenhancement
+} // namespace imageupscayl

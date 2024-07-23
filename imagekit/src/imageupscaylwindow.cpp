@@ -2,10 +2,10 @@
  * @Author: weick 
  * @Date: 2024-06-04 08:01:18 
  * @Last Modified by: weick
- * @Last Modified time: 2024-06-04 08:08:45
+ * @Last Modified time: 2024-07-23 07:46:35
  */
 
-#include "inc/imageenhancementwindow.h"
+#include "inc/imageupscaylwindow.h"
 #include "inc/signals.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include "../awidget/inc/avboxlayout.h"
@@ -13,18 +13,18 @@
 #include <QPainter>
 #include <QPainterPath>
 
-namespace imageenhancement {
-ImageEnhancementWindow::ImageEnhancementWindow(QWidget *parent) :
+namespace imageupscayl {
+ImageUpscaylWindow::ImageUpscaylWindow(QWidget *parent) :
     ABaseWidget(parent) {
     createUi();
     sigConnect();
     changeLanguage();
 }
 
-ImageEnhancementWindow::~ImageEnhancementWindow() {
+ImageUpscaylWindow::~ImageUpscaylWindow() {
 }
 
-void ImageEnhancementWindow::changeFileListData(QList<Data> datas) {
+void ImageUpscaylWindow::changeFileListData(QList<Data> datas) {
     if (datas.count() == 0) {
         stacked_widget_->setCurrentIndex(0);
     } else {
@@ -33,15 +33,15 @@ void ImageEnhancementWindow::changeFileListData(QList<Data> datas) {
     file_list_view_->changeData(datas);
 }
 
-void ImageEnhancementWindow::setFileListCurrentIndex(int index) {
+void ImageUpscaylWindow::setFileListCurrentIndex(int index) {
     file_list_view_->setCurrentIndex(index);
 }
 
-int ImageEnhancementWindow::fileListCurrentIndex() {
+int ImageUpscaylWindow::fileListCurrentIndex() {
     return file_list_view_->currentIndex();
 }
 
-void ImageEnhancementWindow::createUi() {
+void ImageUpscaylWindow::createUi() {
     setWindowFlags(Qt::FramelessWindowHint);
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(1200, 760);
@@ -89,14 +89,14 @@ void ImageEnhancementWindow::createUi() {
 
     auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
     
-    file_list_view_ = new ImageEnhancementFileListView(this);
+    file_list_view_ = new ImageUpscaylFileListView(this);
     file_list_view_->setFixedWidth(260);
     viewsWidgetLayout->addWidget(file_list_view_);
 
-    preview_view_ = new ImageEnhancementPreviewView(this);
+    preview_view_ = new ImageUpscaylPreviewView(this);
     viewsWidgetLayout->addWidget(preview_view_, 1);
 
-    setting_view_ = new ImageEnhancementSettingView(this);
+    setting_view_ = new ImageUpscaylSettingView(this);
     setting_view_->setFixedWidth(300);
     viewsWidgetLayout->addWidget(setting_view_);
 
@@ -105,10 +105,10 @@ void ImageEnhancementWindow::createUi() {
     auto shadow = new AShadowEffect(this);
 }
 
-void ImageEnhancementWindow::changeLanguage() {
+void ImageUpscaylWindow::changeLanguage() {
 }
 
-void ImageEnhancementWindow::sigConnect() {
+void ImageUpscaylWindow::sigConnect() {
     connect(topbar_, &ATopbar::sigMin, this, [=]() { showMinimized(); });
     connect(topbar_, &ATopbar::sigMax, this, [=]() { showMaximized(); });
     connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
@@ -120,7 +120,7 @@ void ImageEnhancementWindow::sigConnect() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
 }
-void ImageEnhancementWindow::paintEvent(QPaintEvent *event) {
+void ImageUpscaylWindow::paintEvent(QPaintEvent *event) {
     QPainter painter(this);
     painter.setRenderHint(QPainter::Antialiasing);
     // 背景色透明
@@ -147,8 +147,8 @@ void ImageEnhancementWindow::paintEvent(QPaintEvent *event) {
     painter.drawRoundedRect(borderRect, 10, 10);
 }
 
-void ImageEnhancementWindow::moveEvent(QMoveEvent *event) {
+void ImageUpscaylWindow::moveEvent(QMoveEvent *event) {
     ABaseWidget::moveEvent(event);
     emit SIGNALS->sigWindowMove();
 }
-} // namespace imageenhancement
+} // namespace imageupscayl

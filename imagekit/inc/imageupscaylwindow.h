@@ -1,8 +1,8 @@
 /*
  * @Author: weick 
  * @Date: 2024-06-04 08:00:42 
- * @Last Modified by:   weick 
- * @Last Modified time: 2024-06-04 08:00:42 
+ * @Last Modified by: weick
+ * @Last Modified time: 2024-07-23 07:43:25
  */
 
 #pragma once
@@ -11,16 +11,16 @@
 #include "../agui/inc/abasewidget.h"
 #include "../agui/inc/atopbar.h"
 #include "../agui/inc/aimportguide.h"
-#include "imageenhancementfilelistview.h"
-#include "imageenhancementpreviewview.h"
-#include "imageenhancementsettingview.h"
+#include "imageupscaylfilelistview.h"
+#include "imageupscaylpreviewview.h"
+#include "imageupscaylsettingview.h"
 
-namespace imageenhancement {
-class ImageEnhancementWindow : public ABaseWidget {
+namespace imageupscayl {
+class ImageUpscaylWindow : public ABaseWidget {
     Q_OBJECT
 public:
-    explicit ImageEnhancementWindow(QWidget *parent = nullptr);
-    ~ImageEnhancementWindow();
+    explicit ImageUpscaylWindow(QWidget *parent = nullptr);
+    ~ImageUpscaylWindow();
     void changeFileListData(QList<Data> datas);
     void setFileListCurrentIndex(int index);
     int fileListCurrentIndex();
@@ -38,8 +38,8 @@ private:
     ALabel *name_label_ = nullptr;
     AStackedWidget *stacked_widget_ = nullptr;
     AImportGuide *import_guide_ = nullptr;
-    ImageEnhancementFileListView *file_list_view_ = nullptr;
-    ImageEnhancementPreviewView *preview_view_ = nullptr;
-    ImageEnhancementSettingView *setting_view_ = nullptr;
+    ImageUpscaylFileListView *file_list_view_ = nullptr;
+    ImageUpscaylPreviewView *preview_view_ = nullptr;
+    ImageUpscaylSettingView *setting_view_ = nullptr;
 };
-} // namespace imageenhancement
+} // namespace imageupscayl

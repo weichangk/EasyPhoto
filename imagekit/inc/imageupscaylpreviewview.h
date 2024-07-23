@@ -9,12 +9,12 @@
 #include "../agui/inc/abasewidget.h"
 #include "inc/models.h"
 
-namespace imageenhancement {
-class ImageEnhancementPreviewView : public ABaseWidget {
+namespace imageupscayl {
+class ImageUpscaylPreviewView : public ABaseWidget {
     Q_OBJECT
 public:
-    explicit ImageEnhancementPreviewView(QWidget *parent = nullptr);
-    ~ImageEnhancementPreviewView();
+    explicit ImageUpscaylPreviewView(QWidget *parent = nullptr);
+    ~ImageUpscaylPreviewView();
 
 protected:
     void createUi() override;
@@ -26,4 +26,4 @@ private:
 private:
 
 };
-} // namespace imageenhancement
+} // namespace imageupscayl
