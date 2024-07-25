@@ -11,5 +11,10 @@ ASlider::ASlider(QWidget *parent) :
     QSlider(parent) {
 }
 
+ASlider::ASlider(Qt::Orientation orientation, QWidget *parent) :
+    ASlider(parent) {
+    this->setOrientation(orientation);
+}
+
 ASlider::~ASlider() {
 }

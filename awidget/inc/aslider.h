@@ -13,6 +13,7 @@ class AWIDGET_EXPORT ASlider : public QSlider {
     Q_OBJECT
 
 public:
-    ASlider(QWidget *parent = nullptr);
+    explicit ASlider(QWidget *parent = nullptr);
+    explicit ASlider(Qt::Orientation orientation, QWidget *parent = nullptr);
     ~ASlider();
 };
