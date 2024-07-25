@@ -84,21 +84,36 @@ void ImageUpscaylWindow::createUi() {
     import_guide_ = new AImportGuide(this);
     stacked_widget_->addWidget(import_guide_);
 
-    auto viewsWidget = new AWidget(this);
-    stacked_widget_->addWidget(viewsWidget);
+    auto workWidget = new AWidget(this);
+    stacked_widget_->addWidget(workWidget);
 
-    auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
+    auto workWidgetLayout = new AHBoxLayout(workWidget);
     
-    file_list_view_ = new ImageUpscaylFileListView(this);
-    file_list_view_->setFixedWidth(260);
-    viewsWidgetLayout->addWidget(file_list_view_);
+    auto leftWidget = new AWidget(this);
+    leftWidget->setFixedWidth(260);
+    workWidgetLayout->addWidget(leftWidget);
 
-    preview_view_ = new ImageUpscaylPreviewView(this);
-    viewsWidgetLayout->addWidget(preview_view_, 1);
+    auto leftLayout = new AVBoxLayout(leftWidget);
+
+    setting_button_ = new APushButton(this);
+    leftLayout->addWidget(setting_button_);
+    file_list_button_ = new APushButton(this);
+    leftLayout->addWidget(file_list_button_);
+
+    left_stacked_widget_ = new AStackedWidget(this);
+    leftLayout->addWidget(left_stacked_widget_);
 
     setting_view_ = new ImageUpscaylSettingView(this);
-    setting_view_->setFixedWidth(300);
-    viewsWidgetLayout->addWidget(setting_view_);
+    left_stacked_widget_->addWidget(setting_view_);
+
+    file_list_view_ = new ImageUpscaylFileListView(this);
+    left_stacked_widget_->addWidget(file_list_view_);
+
+    upscayl_button_ = new APushButton(this);
+    leftLayout->addWidget(upscayl_button_);
+
+    preview_view_ = new ImageUpscaylPreviewView(this);
+    workWidgetLayout->addWidget(preview_view_, 1);
 
     mainLayout->addLayout(bodyLayout, 1);
 
@@ -118,6 +133,12 @@ void ImageUpscaylWindow::sigConnect() {
     });
     connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
+    });
+    connect(setting_button_, &APushButton::clicked, this, [=]() {
+        left_stacked_widget_->setCurrentIndex(0);
+    });
+    connect(file_list_button_, &APushButton::clicked, this, [=]() {
+        left_stacked_widget_->setCurrentIndex(1);
     });
 }
 void ImageUpscaylWindow::paintEvent(QPaintEvent *event) {

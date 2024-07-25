@@ -41,12 +41,12 @@ void ImageUpscaylSettingView::createUi() {
 
     scale_lab_ = new ALabel(this);
     main_layout->addWidget(scale_lab_);
-    scale_slider_ = new ASlider(this);
+    scale_slider_ = new ASlider(Qt::Orientation::Horizontal, this);
     main_layout->addWidget(scale_slider_);
 
     compression_lab_ = new ALabel(this);
     main_layout->addWidget(compression_lab_);
-    compression_slider_ = new ASlider(this);
+    compression_slider_ = new ASlider(Qt::Orientation::Horizontal, this);
     main_layout->addWidget(compression_slider_);
 
     output_folder_lab_ = new ALabel(this);

@@ -6,6 +6,7 @@
  */
 
 #pragma once
+#include "../awidget/inc/apushbutton.h"
 #include "../awidget/inc/alabel.h"
 #include "../awidget/inc/astackedwidget.h"
 #include "../agui/inc/abasewidget.h"
@@ -37,9 +38,13 @@ private:
     ALabel *logo_label_ = nullptr;
     ALabel *name_label_ = nullptr;
     AStackedWidget *stacked_widget_ = nullptr;
+    AStackedWidget *left_stacked_widget_ = nullptr;
     AImportGuide *import_guide_ = nullptr;
+    APushButton *setting_button_ = nullptr;
+    APushButton *file_list_button_ = nullptr;
+    APushButton *upscayl_button_ = nullptr;
+    ImageUpscaylSettingView *setting_view_ = nullptr;
     ImageUpscaylFileListView *file_list_view_ = nullptr;
     ImageUpscaylPreviewView *preview_view_ = nullptr;
-    ImageUpscaylSettingView *setting_view_ = nullptr;
 };
 } // namespace imageupscayl
