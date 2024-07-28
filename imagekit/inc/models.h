@@ -373,14 +373,6 @@ struct Data {
     QPixmap after_add_icon = QPixmap();
 };
 
-struct Param {
-    GifFps fps;
-    ImageQuality quality;
-    ImageResolution resolution;
-    int width;
-    int height;
-    bool repeat;
-};
 } // namespace image2gif
 
 namespace imageerase {
@@ -415,4 +407,35 @@ struct Data {
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
 };
+
+using SaveFmt = enum {
+    PNG = 0,
+    JPG,
+    WEBP
+};
+
+static const QMap<SaveFmt, QString> SaveFmtDesMap = {
+    {SaveFmt::PNG, "PNG"},
+    {SaveFmt::JPG, "JPG"},
+    {SaveFmt::WEBP, "WEBP"},
+};
+
+using ModelType = enum {
+    REAL_ESRGAN = 0,
+    FAST_REAL_ESRGAN,
+    REMACRL,
+    ULTRAMIX_BALANCED,
+    ULTRASHARP,
+    DIGIAL_ART
+};
+
+static const QMap<ModelType, QString> ModelTypeDesMap = {
+    {ModelType::REAL_ESRGAN, "PREAL_ESRGANNG"},
+    {ModelType::FAST_REAL_ESRGAN, "FAST_REAL_ESRGAN"},
+    {ModelType::REMACRL, "REMACRL"},
+    {ModelType::ULTRAMIX_BALANCED, "ULTRAMIX_BALANCED"},
+    {ModelType::ULTRASHARP, "ULTRASHARP"},
+    {ModelType::DIGIAL_ART, "DIGIAL_ART"},
+};
+
 } // namespace imageupscayl
