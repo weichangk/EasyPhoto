@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/">
-    <file>res/style/test.qss</file>
-    <file>res/image/green.jpg</file>
-  </qresource>
-</RCC>
