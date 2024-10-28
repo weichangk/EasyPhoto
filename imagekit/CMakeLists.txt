@@ -62,16 +62,16 @@ add_executable(${PROJECT_NAME}
 
 include_directories(
     ${PROJECT_NAME}
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/Magick++
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/MagickCore
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/include/MagickWand
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickCore
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickWand
 )
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_Magick++_.lib
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_MagickCore_.lib
-    ${CMAKE_CURRENT_SOURCE_DIR}/magick/lib/CORE_DB_MagickWand_.lib
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_Magick++_.lib
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickCore_.lib
+    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib
 )
 
 include(config.cmake)
