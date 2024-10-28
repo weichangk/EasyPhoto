@@ -6,9 +6,10 @@
 /agui/build
 /imagekit/build
 
+/3rdparty/QtNote
+
 /logDebug.txt
 /logInfo.txt
 /logWarning.txt
 /logCritical.txt
 /logFatal.txt
-
