@@ -54,17 +54,17 @@ else()
 endif()
 link_directories(${PROJECT_LINKDIR}) # 由于依赖其他模块，使单独构建能够通过
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
+find_package(Qt5 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 
 file(GLOB_RECURSE INC "inc/*.h" "inc/*.hpp")
 file(GLOB_RECURSE SRC "src/*.cpp" "src/*.cc")
 
-qt_add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} SHARED
     ${QRC}
     ${INC}
     ${SRC}
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets AWidget)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets AWidget)
 
 

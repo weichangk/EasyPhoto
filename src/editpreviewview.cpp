@@ -13,6 +13,7 @@
 #include "../awidget/inc/avboxlayout.h"
 #include "../awidget/inc/ahboxlayout.h"
 #include <QTimer>
+#include <QDebug>
 
 namespace imageedit {
 EditPreviewView::EditPreviewView(QWidget *parent) :

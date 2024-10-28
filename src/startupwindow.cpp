@@ -15,6 +15,7 @@
 #include "../agui/inc/afuncpanelwidget.h"
 #include <QPainter>
 #include <QPainterPath>
+#include <QVariant>
 
 StartupWindow::StartupWindow(QWidget *parent) :
     ABaseWidget(parent) {

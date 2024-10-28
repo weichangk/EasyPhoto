@@ -191,7 +191,8 @@ void Image2GifController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        emit SIGNALS->sigListItemDataSelected(it);
+        image2gif::Data* dataPtr = &(*it); 
+        emit SIGNALS->sigListItemDataSelected(dataPtr);
     }
 }
 

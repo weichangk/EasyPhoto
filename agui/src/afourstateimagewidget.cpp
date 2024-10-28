@@ -114,7 +114,7 @@ void AFourStateImageWidget::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void AFourStateImageWidget::enterEvent(QEnterEvent *event) {
+void AFourStateImageWidget::enterEvent(QEvent *event) {
     ABaseWidget::enterEvent(event);
     if (m_State != AEnum::StyleStatus::Checked) {
         m_State = AEnum::StyleStatus::Hover;

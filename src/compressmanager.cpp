@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QProcess>
 #include <QUuid>
+#include <QDebug>
 
 namespace imagecompression {
 bool isDestSmallerThanSrc(QString src, QString dst) {

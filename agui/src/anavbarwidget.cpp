@@ -7,6 +7,7 @@
 
 #include "inc/anavbarwidget.h"
 #include "../awidget/inc/avboxlayout.h"
+#include <QVariant>
 
 ANavbarWidget::ANavbarWidget(QMap<int, QVariantList> data, QWidget *parent) :
     ABaseWidget(parent),

@@ -219,6 +219,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 QString StatusEnum2QString(Status param);
 
@@ -232,6 +233,7 @@ struct Data {
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
 };
+Q_DECLARE_METATYPE(Data)
 
 } // namespace imageconversion
 
@@ -242,6 +244,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 QString StatusEnum2QString(Status param);
 
@@ -255,6 +258,7 @@ struct Data {
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
 };
+Q_DECLARE_METATYPE(Data)
 
 struct Param {
     int jpeg_quality;
@@ -304,6 +308,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 QString StatusEnum2QString(Status param);
 
@@ -312,6 +317,7 @@ struct ImageWatermarkData {
     QRect geometry;
     int alpha;
 };
+Q_DECLARE_METATYPE(ImageWatermarkData)
 
 struct ImageWatermarkSettingData {
     QString file_path = "";
@@ -319,11 +325,13 @@ struct ImageWatermarkSettingData {
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
 };
+Q_DECLARE_METATYPE(ImageWatermarkSettingData)
 
 struct TextWatermarkData {
     QString text = "";
     QRect geometry;
 };
+Q_DECLARE_METATYPE(TextWatermarkData)
 
 struct TextWatermarkSettingData {
     QString id = "";
@@ -331,6 +339,7 @@ struct TextWatermarkSettingData {
     QPixmap delete_icon = QPixmap();
     bool editor_visible = false;
 };
+Q_DECLARE_METATYPE(TextWatermarkSettingData)
 
 struct Data {
     QString file_name = "";
@@ -349,6 +358,7 @@ struct Data {
     QList<ImageWatermarkData> image_watermark_datas;
     QList<TextWatermarkData> text_watermark_datas;
 };
+Q_DECLARE_METATYPE(Data)
 
 QRect CropRect2PreviewRect(QRect rect, double ratio);
 QRect PreviewRect2CropRect(QRect rect, double ratio);
@@ -362,6 +372,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 struct Data {
     QString file_name = "";
@@ -372,6 +383,7 @@ struct Data {
     QPixmap before_add_icon = QPixmap();
     QPixmap after_add_icon = QPixmap();
 };
+Q_DECLARE_METATYPE(Data)
 
 } // namespace image2gif
 
@@ -382,6 +394,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 struct Data {
     QString file_name = "";
@@ -390,6 +403,8 @@ struct Data {
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
 };
+Q_DECLARE_METATYPE(Data)
+
 } // namespace imageerase
 
 namespace imageupscayl {
@@ -399,6 +414,7 @@ using Status = enum {
     FINISHED,
     CANCEL
 };
+Q_DECLARE_METATYPE(Status)
 
 struct Data {
     QString file_name = "";
@@ -407,6 +423,7 @@ struct Data {
     QPixmap thumbnail = QPixmap();
     QPixmap delete_icon = QPixmap();
 };
+Q_DECLARE_METATYPE(Data)
 
 using SaveFmt = enum {
     PNG = 0,

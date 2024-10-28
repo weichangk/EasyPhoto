@@ -66,7 +66,7 @@ void AIconTextWidget::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void AIconTextWidget::enterEvent(QEnterEvent *event) {
+void AIconTextWidget::enterEvent(QEvent *event) {
     ABaseWidget::enterEvent(event);
     if (m_State != AEnum::StyleStatus::Checked) {
         m_Icon->setState(AEnum::StyleStatus::Hover);

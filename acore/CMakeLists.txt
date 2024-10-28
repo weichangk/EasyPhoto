@@ -38,14 +38,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
+find_package(Qt5 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 
 file(GLOB_RECURSE INC "inc/*.h" "inc/*.hpp")
 file(GLOB_RECURSE SRC "src/*.cpp" "src/*.cc")
 
-qt_add_library(${PROJECT_NAME} SHARED
+add_library(${PROJECT_NAME} SHARED
     ${INC}
     ${SRC}
 )
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets)
 

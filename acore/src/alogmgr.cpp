@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QFile>
 #include <QMutex>
+#include <QTextStream>
 
 void ALogMgr::outputMessage(QtMsgType type, const QMessageLogContext &context, const QString &msg) {
     QString contextInfo = QString("File:(%1) Line:(%2)").arg(QString(context.file)).arg(context.line);

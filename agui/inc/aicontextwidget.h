@@ -35,7 +35,7 @@ protected:
     void createUi() override;
     void mousePressEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
-    void enterEvent(QEnterEvent *event) override;
+    void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
     void changeEvent(QEvent *event) override;
 

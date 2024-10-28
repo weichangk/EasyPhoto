@@ -96,7 +96,8 @@ void ImageUpscaylController::clickedData(const QString filePath) {
         return filePathMatches(d, filePath);
     });
     if (it != datas_.end()) {
-        emit SIGNALS->sigListItemDataSelected(it);
+        imageupscayl::Data* dataPtr = &(*it); 
+        emit SIGNALS->sigListItemDataSelected(dataPtr);
     }
 }
 

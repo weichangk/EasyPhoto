@@ -59,7 +59,7 @@ else()
 endif()
 link_directories(${PROJECT_LINKDIR}) # 由于依赖其他模块，使单独构建能够通过
 
-find_package(Qt6 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
+find_package(Qt5 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
 
 file(GLOB_RECURSE INC "inc/*.h" "inc/*.hpp")
 file(GLOB_RECURSE SRC "src/*.cpp" "src/*.cc")
@@ -78,7 +78,7 @@ include_directories(
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickWand
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Widgets ACore AWidget AGui
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets ACore AWidget AGui
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_Magick++_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickCore_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib
