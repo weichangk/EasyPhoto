@@ -16,7 +16,7 @@
                 }
             ],
             "console": "integratedTerminal",
-            "visualizerFile": "${workspaceRoot}/qt6.natvis.xml"
+            "visualizerFile": "${workspaceRoot}/3rdparty/QtNote/qt5.natvis.xml"
         }
     ]
 }
