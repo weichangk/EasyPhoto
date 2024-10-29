@@ -7,82 +7,36 @@ project(
     LANGUAGES CXX
 )
 
-if (MSVC)
-    # Specify MSVC UTF-8 encoding
-    add_compile_options("$<$<C_COMPILER_ID:MSVC>:/utf-8>")
-    add_compile_options("$<$<CXX_COMPILER_ID:MSVC>:/utf-8>")
-endif()
-
-#设置静态库、动态库输出到指定目录
-#需要删除编译缓存，直接删除build文件夹或build文件下的指定模块文件夹
-set(PROJECT_OUTPUT ${CMAKE_SOURCE_DIR}/cmake/setoutput.cmake)
-include(${PROJECT_OUTPUT})
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/public.cmake)
 
 add_subdirectory(acore)
 add_subdirectory(awidget)
 add_subdirectory(agui)
 
-
-if (MSVC)
-    set(BUILD_DEFINE
-        -D_AMD64_
-        -DWIN32_LEAN_AND_MEAN
-        -DUNICODE
-    )
-else()
-    set(BUILD_DEFINE
-        -DOBJC_OLD_DISPATCH_PROTOTYPES
-    )
-endif()
-add_definitions(${BUILD_DEFINE})
-
-set(CMAKE_PREFIX_PATH "d:/Qt/6.5.0/msvc2019_64") # Qt Kit Dir
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(CMAKE_AUTOUIC ON)
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(QRC ./imagekit.qrc)
-
-set(PROJECT_LINKDIR
-    "${CMAKE_SOURCE_DIR}/../${CMAKE_BUILD_TYPE}"
-)
-if (MSVC)
-    list(APPEND PROJECT_LINKDIR
-        "${CMAKE_SOURCE_DIR}/../lib/x64/"
-        "${CMAKE_SOURCE_DIR}/../lib/x64/${CMAKE_BUILD_TYPE}"
-    )
-else()
-    list(APPEND PROJECT_LINKDIR
-    )
-endif()
-link_directories(${PROJECT_LINKDIR}) # 由于依赖其他模块，使单独构建能够通过
-
-find_package(Qt5 COMPONENTS Widgets REQUIRED) # Qt COMPONENTS
-
-file(GLOB_RECURSE INC "inc/*.h" "inc/*.hpp")
-file(GLOB_RECURSE SRC "src/*.cpp" "src/*.cc")
-
-add_executable(${PROJECT_NAME}
-    ${QRC}
-    ${INC}
-    ${SRC}
-)
-
-include_directories(
-    ${PROJECT_NAME}
+MY_ADD_PROJECT_INCLUDE_FUNC(
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickCore
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickWand
 )
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Widgets ACore AWidget AGui
+MY_ADD_QT_PACK_FUNC(
+    Widgets
+)
+
+MY_ADD_LINK_LIB_FUNC(
+    ACore
+    AWidget
+    AGui
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_Magick++_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickCore_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib
 )
+
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/option.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/code.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/exe.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/link.cmake)
 
 include(config.cmake)
 

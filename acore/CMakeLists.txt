@@ -12,6 +12,9 @@ project(
     DESCRIPTION "acore static library project"
     LANGUAGES CXX)
 
+set(PROJECT_OUTPUT ${CMAKE_SOURCE_DIR}/cmake/setoutput.cmake)
+include(${PROJECT_OUTPUT})
+
 if (MSVC)
     set(BUILD_DEFINE
         -DACORE_LIB
