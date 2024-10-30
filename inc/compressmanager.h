@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2024-03-05 22:54:25
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:49:46
- */
-
 #pragma once
 #include <QObject>
 #include "models.h"

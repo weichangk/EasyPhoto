@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:03:50
- * @Last Modified by: weick
- * @Last Modified time: 2024-01-20 00:07:15
- */
-
 #include "inc/settings.h"
 #include "inc/models.h"
 #include <QApplication>

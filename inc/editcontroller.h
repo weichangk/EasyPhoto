@@ -1,13 +1,7 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 10:48:38
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:04:42
- */
-
 #pragma once
 #include "editwindow.h"
 #include "models.h"
+
 #include <QWidget>
 
 namespace imageedit {

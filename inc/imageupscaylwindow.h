@@ -1,23 +1,17 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-04 08:00:42 
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-23 07:43:25
- */
-
 #pragma once
-#include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/astackedwidget.h"
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/atopbar.h"
-#include "../agui/inc/aimportguide.h"
 #include "imageupscaylfilelistview.h"
 #include "imageupscaylpreviewview.h"
 #include "imageupscaylsettingview.h"
+#include "component/topbarwidget.h"
+#include "component/importguidewidget.h"
+
+#include <QWidget>
+#include <QPushButton>
+#include <QLabel>
+#include <QStackedWidget>
 
 namespace imageupscayl {
-class ImageUpscaylWindow : public ABaseWidget {
+class ImageUpscaylWindow : public QWidget {
     Q_OBJECT
 public:
     explicit ImageUpscaylWindow(QWidget *parent = nullptr);
@@ -27,22 +21,21 @@ public:
     int fileListCurrentIndex();
     
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
     void paintEvent(QPaintEvent *event) override;
     void moveEvent(QMoveEvent *event) override;
 
 private:
-    ATopbar *topbar_ = nullptr;
-    ALabel *logo_label_ = nullptr;
-    ALabel *name_label_ = nullptr;
-    AStackedWidget *stacked_widget_ = nullptr;
-    AStackedWidget *left_stacked_widget_ = nullptr;
-    AImportGuide *import_guide_ = nullptr;
-    APushButton *setting_button_ = nullptr;
-    APushButton *file_list_button_ = nullptr;
-    APushButton *upscayl_button_ = nullptr;
+    TopbarWidget *topbar_ = nullptr;
+    QLabel *logo_label_ = nullptr;
+    QLabel *name_label_ = nullptr;
+    QStackedWidget *stacked_widget_ = nullptr;
+    QStackedWidget *left_stacked_widget_ = nullptr;
+    ImportGuideWidget *import_guide_ = nullptr;
+    QPushButton *setting_button_ = nullptr;
+    QPushButton *file_list_button_ = nullptr;
+    QPushButton *upscayl_button_ = nullptr;
     ImageUpscaylSettingView *setting_view_ = nullptr;
     ImageUpscaylFileListView *file_list_view_ = nullptr;
     ImageUpscaylPreviewView *preview_view_ = nullptr;

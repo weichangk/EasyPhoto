@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-13 23:34:49
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:08:52
- */
-
 #include "inc/conversionlistview.h"
 #include "inc/conversionlistdelegate.h"
 #include <QMouseEvent>

@@ -1,65 +1,54 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-03 07:46:21 
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-18 08:02:32
- */
-
 #include "inc/image2gifsettingview.h"
-#include "../acore/inc/aobjecthelper.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/alineedit.h"
-#include "../awidget/inc/acombobox.h"
-#include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/aradiobutton.h"
 #include "inc/models.h"
 #include "inc/settings.h"
 #include "inc/signals.h"
+#include "core/objecthelper.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 
 namespace image2gif {
 
 Image2GifSettingView::Image2GifSettingView(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     init();
     sigConnect();
-    changeLanguage();
 }
 
 Image2GifSettingView::~Image2GifSettingView() {
 }
 
 void Image2GifSettingView::createUi() {
-    auto mainLayout = new AHBoxLayout(this);
+    auto mainLayout = new QHBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    resolution_label_ = new ALabel(this);
-    resolution_combo_ = new AComboBox(this);
+    resolution_label_ = new QLabel(this);
+    resolution_combo_ = new QComboBox(this);
     resolution_combo_->setFixedWidth(150);
 
     mainLayout->addWidget(resolution_label_);
     mainLayout->addWidget(resolution_combo_);
 
-    size_label_ = new ALabel(this);
+    size_label_ = new QLabel(this);
 
     mainLayout->addWidget(size_label_);
 
     w_edit_validator_ = new QIntValidator(this);
     w_edit_validator_->setRange(1, 10000);
 
-    w_edit_ = new ALineEdit(this);
+    w_edit_ = new LineEdit(this);
     w_edit_->setFixedWidth(50);
     w_edit_->setValidator(w_edit_validator_);
 
     h_edit_validator_ = new QIntValidator(this);
     h_edit_validator_->setRange(1, 10000);
 
-    h_edit_ = new ALineEdit(this);
+    h_edit_ = new LineEdit(this);
     h_edit_->setFixedWidth(50);
     h_edit_->setValidator(h_edit_validator_);
 
-    ALabel *size_x_label_ = new ALabel(this);
+    QLabel *size_x_label_ = new QLabel(this);
     size_x_label_->setText("x");
 
     mainLayout->addWidget(w_edit_);
@@ -67,32 +56,30 @@ void Image2GifSettingView::createUi() {
     mainLayout->addWidget(h_edit_);
     mainLayout->addSpacing(24);
 
-    fps_label_ = new ALabel(this);
-    fps_combo_ = new AComboBox(this);
+    fps_label_ = new QLabel(this);
+    fps_combo_ = new QComboBox(this);
     fps_combo_->setFixedWidth(50);
     
     mainLayout->addWidget(fps_label_);
     mainLayout->addWidget(fps_combo_);
 
-    quality_label_ = new ALabel(this);
-    quality_combo_ = new AComboBox(this);
+    quality_label_ = new QLabel(this);
+    quality_combo_ = new QComboBox(this);
     quality_combo_->setFixedWidth(50);
 
     mainLayout->addWidget(quality_label_);
     mainLayout->addWidget(quality_combo_);
 
-    repeat_radio_ = new ARadioButton(this);
+    repeat_radio_ = new QRadioButton(this);
     mainLayout->addWidget(repeat_radio_);
 
     mainLayout->addStretch();
 
-    export_button_ = new APushButton(this);
+    export_button_ = new QPushButton(this);
     export_button_->setFixedHeight(32);
 
     mainLayout->addWidget(export_button_);
-}
 
-void Image2GifSettingView::changeLanguage() {
     size_label_->setText(tr("Size"));
     fps_label_->setText(tr("Frame Rate"));
     quality_label_->setText(tr("Quality"));
@@ -100,14 +87,15 @@ void Image2GifSettingView::changeLanguage() {
     export_button_->setText("Export");
 }
 
+
 void Image2GifSettingView::sigConnect() {
     connect(resolution_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotResolutionComboCurrentTextChanged);
-    connect(w_edit_, &ALineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotWEditingConfirm);
-    connect(h_edit_, &ALineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotHEditingConfirm);
+    connect(w_edit_, &LineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotWEditingConfirm);
+    connect(h_edit_, &LineEdit::sigEditingConfirm, this, &Image2GifSettingView::slotHEditingConfirm);
     connect(fps_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotFpsComboCurrentTextChanged);
     connect(quality_combo_, &QComboBox::currentTextChanged, this, &Image2GifSettingView::slotQualityComboCurrentTextChanged);
     connect(repeat_radio_, &QRadioButton::toggled, this, &Image2GifSettingView::slotRepeatRadioToggled);
-    connect(export_button_, &APushButton::clicked, this, &Image2GifSettingView::slotExportButtonClicked);
+    connect(export_button_, &QPushButton::clicked, this, &Image2GifSettingView::slotExportButtonClicked);
 }
 
 void Image2GifSettingView::init() {

@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-09 23:52:37
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-23 07:47:50
- */
-
 #pragma once
 #include <QPixmap>
 #include <QString>

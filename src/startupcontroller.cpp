@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:03:58
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-23 07:48:36
- */
-
 #include "inc/startupcontroller.h"
 #include "inc/startupwindow.h"
 #include "inc/signals.h"

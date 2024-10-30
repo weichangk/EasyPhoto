@@ -1,26 +1,19 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 11:23:05
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-31 08:18:35
- */
-
 #pragma once
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/alistview.h"
 #include "inc/models.h"
-#include <QStyledItemDelegate>
+#include "control/listview.h"
+#include "control/lineedit.h"
+#include "component/topbarwidget.h"
 
-class ATabBar;
-class ATabWidget;
-class AWidget;
-class ALabel;
-class APushButton;
-class ACheckBox;
-class ALineEdit;
-class ASlider;
-class ARadioButton;
-class QIntValidator;
+#include <QWidget>
+#include <QStyledItemDelegate>
+#include <QTabWidget>
+#include <QLabel>
+#include <QPushButton>
+#include <QCheckBox>
+#include <QSlider>
+#include <QRadioButton>
+#include <QIntValidator>
+
 namespace imageedit {
 class ImageWatermarkSettingItemDelegate : public QStyledItemDelegate {
     Q_OBJECT
@@ -70,16 +63,15 @@ private:
     QPoint curpos_;
 };
 
-class EditSettingView : public ABaseWidget {
+class EditSettingView : public QWidget {
     Q_OBJECT
 public:
     explicit EditSettingView(QWidget *parent = nullptr);
     ~EditSettingView();
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
 
 private:
     void preViewDataSelected(Data *data);
@@ -124,56 +116,56 @@ private:
     Data *data_ = nullptr;
     QRect select_rect_;
 
-    ATabBar *tab_bar_;
-    ATabWidget *tab_widget_;
+    TopbarWidget *tab_bar_;
+    QTabWidget *tab_widget_;
 
-    AWidget *crop_setting_widget_;
-    ALabel *original_ratio_label_;
-    ALabel *original_ratio_value_label_;
-    ACheckBox *equal_ratio_checkbox_;
-    ALabel *crop_ratio_label_;
-    ALineEdit *crop_ratio_width_edit_;
-    ALineEdit *crop_ratio_height_edit_;
-    APushButton *crop_align_center_button_;
-    APushButton *crop_reset_button_;
+    QWidget *crop_setting_widget_;
+    QLabel *original_ratio_label_;
+    QLabel *original_ratio_value_label_;
+    QCheckBox *equal_ratio_checkbox_;
+    QLabel *crop_ratio_label_;
+    LineEdit *crop_ratio_width_edit_;
+    LineEdit *crop_ratio_height_edit_;
+    QPushButton *crop_align_center_button_;
+    QPushButton *crop_reset_button_;
 
     QIntValidator *crop_w_edit_validator_;
     QIntValidator *crop_h_edit_validator_;
 
-    AWidget *rotate_setting_widget_;
-    APushButton *rotate_right90_button_;
-    APushButton *rotate_left90_button_;
-    APushButton *rotate_horizontal_flip_button_;
-    APushButton *rotate_vertical_flip_button_;
-    ALabel *rotate_angle_label_;
-    ALineEdit *rotate_angle_edit_;
-    APushButton *rotate_reset_button_;
+    QWidget *rotate_setting_widget_;
+    QPushButton *rotate_right90_button_;
+    QPushButton *rotate_left90_button_;
+    QPushButton *rotate_horizontal_flip_button_;
+    QPushButton *rotate_vertical_flip_button_;
+    QLabel *rotate_angle_label_;
+    LineEdit *rotate_angle_edit_;
+    QPushButton *rotate_reset_button_;
 
     QIntValidator *rotate_angle_edit_validator_;
 
-    AWidget *effect_setting_widget_;
-    ALabel *luminance_label_;
-    ASlider *luminance_slider_;
-    ALabel *luminance_value_;
-    ALabel *contrast_label_;
-    ASlider *contrast_slider_;
-    ALabel *contrast_value_;
-    ALabel *saturation_label_;
-    ASlider *saturation_slider_;
-    ALabel *saturation_value_;
-    APushButton *effect_reset_button_;
+    QWidget *effect_setting_widget_;
+    QLabel *luminance_label_;
+    QSlider *luminance_slider_;
+    QLabel *luminance_value_;
+    QLabel *contrast_label_;
+    QSlider *contrast_slider_;
+    QLabel *contrast_value_;
+    QLabel *saturation_label_;
+    QSlider *saturation_slider_;
+    QLabel *saturation_value_;
+    QPushButton *effect_reset_button_;
 
-    AWidget *watermark_setting_widget_;
-    ALabel *picture_label_;
-    APushButton *picture_add_button_;
-    AListView<ImageWatermarkSettingData> *image_watermark_setting_list_view_;
-    ALabel *picture_alpha_label_;
-    ASlider *picture_alpha_slider_;
-    ALabel *picture_alpha_value_;
-    APushButton *clear_button_;
-    ALabel *text_label_;
-    APushButton *text_add_button_;
-    AListView<TextWatermarkSettingData> *text_watermark_setting_list_view_;
-    APushButton *export_button_;
+    QWidget *watermark_setting_widget_;
+    QLabel *picture_label_;
+    QPushButton *picture_add_button_;
+    ListView<ImageWatermarkSettingData> *image_watermark_setting_list_view_;
+    QLabel *picture_alpha_label_;
+    QSlider *picture_alpha_slider_;
+    QLabel *picture_alpha_value_;
+    QPushButton *clear_button_;
+    QLabel *text_label_;
+    QPushButton *text_add_button_;
+    ListView<TextWatermarkSettingData> *text_watermark_setting_list_view_;
+    QPushButton *export_button_;
 };
 } // namespace imageedit

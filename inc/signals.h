@@ -1,17 +1,10 @@
-/*
- * @Author: weick
- * @Date: 2023-12-09 23:45:45
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-06 16:36:08
- */
-
 #pragma once
-#include "../acore/inc/asinglton.h"
+#include "core/singlton.h"
 #include "models.h"
 #include <QWidget>
 #include <QPoint>
 
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -19,7 +12,7 @@ Q_SIGNALS:
 };
 
 namespace imageconversion {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -38,7 +31,7 @@ Q_SIGNALS:
 } // namespace imageconversion
 
 namespace imagecompression {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -57,7 +50,7 @@ Q_SIGNALS:
 } // namespace imagecompression
 
 namespace imageedit {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -85,7 +78,7 @@ Q_SIGNALS:
 } // namespace image2gif
 
 namespace image2gif {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -109,7 +102,7 @@ Q_SIGNALS:
 } // namespace image2gif
 
 namespace imageerase {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:
@@ -126,7 +119,7 @@ Q_SIGNALS:
 } // namespace imageerase
 
 namespace imageupscayl {
-class Signals : public QObject, public ASinglton<Signals> {
+class Signals : public QObject, public Singlton<Signals> {
     Q_OBJECT
 public:
 Q_SIGNALS:

@@ -1,21 +1,13 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:01:53
- * @Last Modified by:   weick
- * @Last Modified time: 2023-12-05 23:01:53
- */
-
 #pragma once
-#include "../agui/inc/abasewidget.h"
+#include <QWidget>
 
-class MainWindow : public ABaseWidget {
+class MainWindow : public QWidget {
     Q_OBJECT
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
 };

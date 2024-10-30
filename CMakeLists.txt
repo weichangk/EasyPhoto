@@ -9,11 +9,10 @@ project(
 
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/public.cmake)
 
-add_subdirectory(acore)
-add_subdirectory(awidget)
-add_subdirectory(agui)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/qtmaterial)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
+    ${CMAKE_SOURCE_DIR}/3rdparty/QtNote/qtmaterial/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickCore
@@ -25,9 +24,7 @@ MY_ADD_QT_PACK_FUNC(
 )
 
 MY_ADD_LINK_LIB_FUNC(
-    ACore
-    AWidget
-    AGui
+    QtMaterial
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_Magick++_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickCore_.lib
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib

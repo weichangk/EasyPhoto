@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2024-01-07 23:43:32
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:49:25
- */
-
 #pragma once
 #include "compressionwindow.h"
 #include "models.h"

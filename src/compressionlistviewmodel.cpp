@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-11 23:06:34
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:48:38
- */
-
 #include "inc/compressionlistviewmodel.h"
 
 namespace imagecompression {

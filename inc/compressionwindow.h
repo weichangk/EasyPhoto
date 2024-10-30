@@ -1,27 +1,22 @@
-/*
- * @Author: weick
- * @Date: 2023-12-09 22:00:37
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:49:39
- */
-
 #pragma once
-#include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/acombobox.h"
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/anavbarwidget.h"
-#include "../agui/inc/atopbar.h"
-#include "../agui/inc/acanmovewidget.h"
-#include "../agui/inc/arotatingpixmapwidget.h"
+#include "component/navbarwidget.h"
+#include "component/topbarwidget.h"
+#include "component/canmovewidget.h"
+#include "component/rotatingpixmapwidget.h"
 #include "compressionlistview.h"
 #include "models.h"
+
+#include <QPushButton>
+#include <QLabel>
+#include <QCombobox>
+#include <QWidget>
 #include <QListWidget>
 #include <QStyledItemDelegate>
 
+
 namespace imagecompression {
 class CompressionFormatPopup;
-class CompressionWindow : public ABaseWidget {
+class CompressionWindow : public QWidget {
     Q_OBJECT
 public:
     explicit CompressionWindow(QWidget *parent = 0);
@@ -29,9 +24,8 @@ public:
     void changeData(QList<Data> datas);
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
     void paintEvent(QPaintEvent *event) override;
     void resizeEvent(QResizeEvent *event) override;
 
@@ -44,17 +38,17 @@ private:
     void compressCancel();
 
 private:
-    ATopbar *m_Topbar = 0;
-    ALabel *m_LogoLab = 0;
-    ALabel *m_NameLab = 0;
-    APushButton *m_SetingBtn = 0;
+    TopbarWidget *m_Topbar = 0;
+    QLabel *m_LogoLab = 0;
+    QLabel *m_NameLab = 0;
+    QPushButton *m_SetingBtn = 0;
     CompressionListView *m_CompressionListView = 0;
-    APushButton *m_AddGuideBtn = 0;
-    APushButton *m_AddFileBtn = 0;
-    APushButton *m_DelFileBtn = 0;
-    APushButton *m_CheckAllBtn = 0;
-    APushButton *m_CompressAllBtn = 0;
-    AComboBox *m_OutQualityCob = 0;
-    AComboBox *m_OutFormatCob = 0;
+    QPushButton *m_AddGuideBtn = 0;
+    QPushButton *m_AddFileBtn = 0;
+    QPushButton *m_DelFileBtn = 0;
+    QPushButton *m_CheckAllBtn = 0;
+    QPushButton *m_CompressAllBtn = 0;
+    QComboBox *m_OutQualityCob = 0;
+    QComboBox *m_OutFormatCob = 0;
 };
 } // namespace imagecompression

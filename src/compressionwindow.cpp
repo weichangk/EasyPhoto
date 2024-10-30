@@ -1,26 +1,19 @@
-/*
- * @Author: weick
- * @Date: 2023-12-09 22:47:15
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:24:45
- */
-
 #include "inc/compressionwindow.h"
 #include "inc/models.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ashadoweffect.h"
+#include "control/shadoweffect.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPainter>
 #include <QPainterPath>
 
 namespace imagecompression {
 CompressionWindow::CompressionWindow(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 CompressionWindow::~CompressionWindow() {
@@ -46,28 +39,31 @@ void CompressionWindow::createUi() {
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(800, 540);
 
-    auto mainLayout = new AVBoxLayout(this);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    m_Topbar = new ATopbar(this);
+    m_Topbar = new TopbarWidget(this);
     m_Topbar->setCloseBtnTopRight10Radius();
     mainLayout->addWidget(m_Topbar);
 
-    auto topbarLayout = new AHBoxLayout(m_Topbar->contentWidget());
+    auto topbarLayout = new QHBoxLayout(m_Topbar->contentWidget());
+    topbarLayout->setContentsMargins(0, 0, 0, 0);
     topbarLayout->setSpacing(12);
     topbarLayout->addSpacing(12);
-    auto logoLayout = new AHBoxLayout();
+    auto logoLayout = new QHBoxLayout();
+    logoLayout->setContentsMargins(0, 0, 0, 0);
     logoLayout->setSpacing(4);
-    m_LogoLab = new ALabel(this);
+    m_LogoLab = new QLabel(this);
     QPixmap logo(":/agui/res/image/Compression-logo-32.png");
     m_LogoLab->setPixmap(logo);
     logoLayout->addWidget(m_LogoLab);
-    m_NameLab = new ALabel(this);
+    m_NameLab = new QLabel(this);
     m_NameLab->setObjectName("CompressionWindow_m_NameLab");
     m_NameLab->setText("图片压缩");
     logoLayout->addWidget(m_NameLab);
     topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
-    m_SetingBtn = new APushButton(this);
+    m_SetingBtn = new QPushButton(this);
     m_SetingBtn->setObjectName("OnlyIconButton");
     m_SetingBtn->setFixedSize(24, 24);
     m_SetingBtn->setIconSize(QSize(24, 24));
@@ -79,26 +75,27 @@ void CompressionWindow::createUi() {
     topbarLayout->addWidget(topbarSplit);
     topbarLayout->addSpacing(12);
 
-    auto bodyLayout = new AVBoxLayout();
+    auto bodyLayout = new QVBoxLayout();
     bodyLayout->setContentsMargins(25, 0, 25, 0);
 
-    auto convertListViewBG = new AWidget(this);
+    auto convertListViewBG = new QWidget(this);
     convertListViewBG->setObjectName("CompressionWindow_convertListViewBG");
     bodyLayout->addWidget(convertListViewBG);
 
-    auto convertListViewBGLayout = new AVBoxLayout(convertListViewBG);
+    auto convertListViewBGLayout = new QVBoxLayout(convertListViewBG);
+    convertListViewBGLayout->setContentsMargins(0, 0, 0, 0);
     m_CompressionListView = new CompressionListView(this);
     convertListViewBGLayout->addWidget(m_CompressionListView);
 
     mainLayout->addLayout(bodyLayout);
 
-    auto bottomBG = new AWidget(this);
+    auto bottomBG = new QWidget(this);
     bottomBG->setFixedHeight(64);
-    auto bottomLayout = new AHBoxLayout(bottomBG);
+    auto bottomLayout = new QHBoxLayout(bottomBG);
     bottomLayout->setContentsMargins(25, 0, 25, 0);
     bottomLayout->setSpacing(12);
 
-    m_AddFileBtn = new APushButton(this);
+    m_AddFileBtn = new QPushButton(this);
     m_AddFileBtn->setObjectName("FullBGButton_FS14");
     m_AddFileBtn->setFixedSize(80, 32);
     m_AddFileBtn->setText("导入");
@@ -106,7 +103,7 @@ void CompressionWindow::createUi() {
     m_AddFileBtn->setIcon(QIcon(":/agui/res/image/add-24.png"));
     bottomLayout->addWidget(m_AddFileBtn);
 
-    m_DelFileBtn = new APushButton(this);
+    m_DelFileBtn = new QPushButton(this);
     m_DelFileBtn->setObjectName("FullBGButton_FS14");
     m_DelFileBtn->setFixedSize(80, 32);
     m_DelFileBtn->setText("删除");
@@ -114,7 +111,7 @@ void CompressionWindow::createUi() {
     m_DelFileBtn->setIcon(QIcon(":/agui/res/image/delete-24.png"));
     bottomLayout->addWidget(m_DelFileBtn);
 
-    m_CheckAllBtn = new APushButton(this);
+    m_CheckAllBtn = new QPushButton(this);
     m_CheckAllBtn->setObjectName("FullBGButton_FS14");
     m_CheckAllBtn->setFixedSize(80, 32);
     m_CheckAllBtn->setText("全选");
@@ -125,7 +122,7 @@ void CompressionWindow::createUi() {
 
     QString outQuality = COMPRESS_OUT_QUALITY;
     auto outQualityList = outQuality.split(' ');
-    m_OutQualityCob = new AComboBox(this);
+    m_OutQualityCob = new QComboBox(this);
     m_OutQualityCob->setObjectName("");
     m_OutQualityCob->setFixedSize(64, 32);
     m_OutQualityCob->addItems(outQualityList);
@@ -134,14 +131,14 @@ void CompressionWindow::createUi() {
 
     QString outFormats = COMPRESS_OUT_FORMATS;
     auto outFormatsList = outFormats.split(' ');
-    m_OutFormatCob = new AComboBox(this);
+    m_OutFormatCob = new QComboBox(this);
     m_OutFormatCob->setObjectName("");
     m_OutFormatCob->setFixedSize(64, 32);
     m_OutFormatCob->addItems(outFormatsList);
     m_OutFormatCob->setCurrentText(SETTINGS->compressOutPath());
     bottomLayout->addWidget(m_OutFormatCob);
 
-    m_CompressAllBtn = new APushButton(this);
+    m_CompressAllBtn = new QPushButton(this);
     m_CompressAllBtn->setObjectName("FullBGButton_FS14");
     m_CompressAllBtn->setFixedSize(136, 32);
     m_CompressAllBtn->setText("开始压缩");
@@ -151,9 +148,9 @@ void CompressionWindow::createUi() {
 
     mainLayout->addWidget(bottomBG);
 
-    auto shadow = new AShadowEffect(this);
+    auto shadow = new ShadowEffect(this);
 
-    m_AddGuideBtn = new APushButton(this);
+    m_AddGuideBtn = new QPushButton(this);
     m_AddGuideBtn->setObjectName("CompressionWindow_m_AddGuideBtn");
     m_AddGuideBtn->setFixedSize(96 * 3, 96 * 2);
     m_AddGuideBtn->setIconSize(QSize(96, 96));
@@ -164,14 +161,11 @@ void CompressionWindow::createUi() {
     updateCheckAllBtnState(false);
 }
 
-void CompressionWindow::changeLanguage() {
-}
-
 void CompressionWindow::sigConnect() {
-    connect(m_Topbar, &ATopbar::sigMin, this, [=]() { showMinimized(); });
-    connect(m_Topbar, &ATopbar::sigMax, this, [=]() { showMaximized(); });
-    connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
-    connect(m_Topbar, &ATopbar::sigClose, this, [=]() {
+    connect(m_Topbar, &TopbarWidget::sigMin, this, [=]() { showMinimized(); });
+    connect(m_Topbar, &TopbarWidget::sigMax, this, [=]() { showMaximized(); });
+    connect(m_Topbar, &TopbarWidget::sigNormal, this, [=]() { showNormal(); });
+    connect(m_Topbar, &TopbarWidget::sigClose, this, [=]() {
         close();
         emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
@@ -192,22 +186,22 @@ void CompressionWindow::sigConnect() {
             emit SIGNALS->sigSwitchChecked(data.file_path, data.is_checked);
         }
     });
-    connect(m_AddFileBtn, &APushButton::clicked, this, [=]() {
+    connect(m_AddFileBtn, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
-    connect(m_AddGuideBtn, &APushButton::clicked, this, [=]() {
+    connect(m_AddGuideBtn, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
-    connect(m_DelFileBtn, &APushButton::clicked, this, [=]() {
+    connect(m_DelFileBtn, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigDeleteByChecked();
     });
-    connect(m_CheckAllBtn, &APushButton::clicked, this, [=]() {
+    connect(m_CheckAllBtn, &QPushButton::clicked, this, [=]() {
         bool oldChecked = "true" == m_CheckAllBtn->property("is-checked").toString();
         bool newChecked = !oldChecked;
         emit SIGNALS->sigCheckedAll(newChecked);
         updateCheckAllBtnState(newChecked);
     });
-    connect(m_CompressAllBtn, &APushButton::clicked, this, [=]() {
+    connect(m_CompressAllBtn, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigStatus(Status::START);
         compressStart();
     });
@@ -242,7 +236,7 @@ void CompressionWindow::paintEvent(QPaintEvent *event) {
 }
 
 void CompressionWindow::resizeEvent(QResizeEvent *event) {
-    ABaseWidget::resizeEvent(event);
+    QWidget::resizeEvent(event);
     m_AddGuideBtn->setGeometry((width() - m_AddGuideBtn->width()) / 2, (height() - m_AddGuideBtn->height()) / 2, m_AddGuideBtn->width(), m_AddGuideBtn->height());
 }
 

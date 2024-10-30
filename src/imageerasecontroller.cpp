@@ -1,12 +1,6 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 10:53:08
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 08:02:10
- */
-
 #include "inc/imageerasecontroller.h"
 #include "inc/signals.h"
+
 #include <QFileDialog>
 #include <QStandardPaths>
 

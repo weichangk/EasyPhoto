@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2024-03-05 23:03:24
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:48:56
- */
-
 #include "inc/compressmanager.h"
 #include <QMimeDatabase>
 #include <QApplication>

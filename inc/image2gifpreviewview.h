@@ -1,30 +1,22 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-03 07:33:48 
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:35:31
- */
-
 #pragma once
-#include "../awidget/inc/awidget.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/apushbutton.h"
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/apreviewbutton.h"
 #include "inc/models.h"
+#include "component/previewwidget.h"
+
+#include <QWidget>
+#include <QPushButton>
+#include <QLabel>
 #include <QMovie>
 
 namespace image2gif {
-class Image2GifPreviewView : public ABaseWidget {
+class Image2GifPreviewView : public QWidget {
     Q_OBJECT
 public:
     explicit Image2GifPreviewView(QWidget *parent = nullptr);
     ~Image2GifPreviewView();
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
     bool eventFilter(QObject *watched, QEvent *event) override;
 
 private:
@@ -37,10 +29,10 @@ private:
 private:
     Data *data_ = nullptr;
 
-    AWidget *preview_widget_ = nullptr;
-    ALabel *preview_pixmap_label_ = nullptr;
+    QWidget *preview_widget_ = nullptr;
+    QLabel *preview_pixmap_label_ = nullptr;
     QPixmap preview_pixmap_;
     QMovie *preview_movie_ = nullptr;
-    APreviewButton *preview_button_ = nullptr;
+    PreviewWidget *preview_button_ = nullptr;
 };
 } // namespace image2gif

@@ -1,15 +1,8 @@
-/*
- * @Author: weick
- * @Date: 2024-04-02 07:32:29
- * @Last Modified by: weick
- * @Last Modified time: 2024-04-02 07:47:18
- */
-
 #pragma once
-#include "../agui/inc/abasewidget.h"
+#include <QWidget>
 
 namespace imageedit {
-class EditCropView : public ABaseWidget {
+class EditCropView : public QWidget {
     Q_OBJECT
 public:
     EditCropView(QWidget *parent = nullptr);

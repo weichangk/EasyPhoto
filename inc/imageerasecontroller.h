@@ -1,13 +1,7 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 10:48:38
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 08:00:39
- */
-
 #pragma once
 #include "imageerasewindow.h"
 #include "models.h"
+
 #include <QWidget>
 
 namespace imageerase {

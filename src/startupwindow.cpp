@@ -1,27 +1,20 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:04:11
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-23 07:51:07
- */
-
 #include "inc/startupwindow.h"
 #include "inc/models.h"
 #include "inc/signals.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/aflowlayout.h"
-#include "../awidget/inc/ashadoweffect.h"
-#include "../agui/inc/afuncpanelwidget.h"
+#include "control/flowlayout.h"
+#include "control/shadoweffect.h"
+#include "component/funcpanelwidget.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPainter>
 #include <QPainterPath>
 #include <QVariant>
 
 StartupWindow::StartupWindow(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 StartupWindow::~StartupWindow() {
@@ -32,41 +25,44 @@ void StartupWindow::createUi() {
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(800, 540);
 
-    auto mainLayout = new AHBoxLayout(this);
+    auto mainLayout = new QHBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    auto leftLayout = new AVBoxLayout();
+    auto leftLayout = new QVBoxLayout();
+    leftLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addLayout(leftLayout);
 
-    auto rightLayout = new AVBoxLayout();
+    auto rightLayout = new QVBoxLayout();
+    rightLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addLayout(rightLayout);
 
     // left
-    m_Navbar = new ACanMoveWidget(this);
+    m_Navbar = new CanMoveWidget(this);
     m_Navbar->setFixedWidth(140);
     leftLayout->addWidget(m_Navbar, 1);
 
-    auto navbarLayout = new AVBoxLayout(m_Navbar);
+    auto navbarLayout = new QVBoxLayout(m_Navbar);
     navbarLayout->setContentsMargins(12, 24, 12, 24);
     navbarLayout->setSpacing(10);
 
-    auto logoLayout = new AHBoxLayout();
+    auto logoLayout = new QHBoxLayout();
     logoLayout->setSpacing(6);
     navbarLayout->addLayout(logoLayout);
 
-    m_LogoBtn = new APushButton(m_Navbar);
+    m_LogoBtn = new QPushButton(m_Navbar);
     m_LogoBtn->setObjectName("StartupWindow_m_LogoBtn");
     m_LogoBtn->setFixedSize(40, 40);
     logoLayout->addWidget(m_LogoBtn);
 
-    auto vipLayout = new AVBoxLayout();
+    auto vipLayout = new QVBoxLayout();
     logoLayout->addLayout(vipLayout);
 
-    m_VipBtn = new APushButton(m_Navbar);
+    m_VipBtn = new QPushButton(m_Navbar);
     m_VipBtn->setObjectName("StartupWindow_m_VipBtn");
     m_VipBtn->setText("登录");
     vipLayout->addWidget(m_VipBtn);
 
-    m_VipRightsBtn = new APushButton(m_Navbar);
+    m_VipRightsBtn = new QPushButton(m_Navbar);
     m_VipRightsBtn->setObjectName("StartupWindow_m_VipRightsBtn");
     m_VipRightsBtn->setText("会员特惠");
     vipLayout->addWidget(m_VipRightsBtn);
@@ -80,25 +76,25 @@ void StartupWindow::createUi() {
                                                              << "我的文件");
     navbarDataMap.insert(StartupNav::MySettings, QVariantList() << ":/res/image/icon24_menu_mysettings.png"
                                                                 << "设置");
-    m_Navbarwidget = new ANavbarWidget(navbarDataMap, this);
+    m_Navbarwidget = new NavbarWidget(navbarDataMap, this);
     navbarLayout->addWidget(m_Navbarwidget);
 
     navbarLayout->addStretch();
 
     // right
-    m_Topbar = new ATopbar(this);
+    m_Topbar = new TopbarWidget(this);
     m_Topbar->setCloseBtnTopRight10Radius();
     rightLayout->addWidget(m_Topbar);
 
-    auto funcLayout = new AVBoxLayout();
+    auto funcLayout = new QVBoxLayout();
     funcLayout->setContentsMargins(0, 0, 1, 1);
     rightLayout->addLayout(funcLayout);
 
-    m_FuncArea = new AWidget(this);
+    m_FuncArea = new QWidget(this);
     m_FuncArea->setObjectName("StartupWindow_m_FuncArea");
     funcLayout->addWidget(m_FuncArea);
 
-    auto funcFlowLayout = new AFlowLayout(m_FuncArea, 20, 12, 12);
+    auto funcFlowLayout = new FlowLayout(m_FuncArea, 20, 12, 12);
     QMap<int, QVariantList> funcDataMap;
     funcDataMap.insert(ImageFunc::CONVERSION, QVariantList() << ":/res/image/account_80_vip.png"
                                                               << "图片转换"
@@ -129,30 +125,27 @@ void StartupWindow::createUi() {
     //                                                              << "支持多种图片特效");
     QMap<int, QVariantList>::Iterator iter;
     for (iter = funcDataMap.begin(); iter != funcDataMap.end(); ++iter) {
-        auto btn = new AFuncPanelWidget(this, iter.key());
+        auto btn = new FuncPanelWidget(this, iter.key());
         btn->setFixedSize(198, 90);
         btn->getLayout()->setContentsMargins(24, 24, 24, 24);
         btn->getIcon()->setPixmap(QPixmap(iter.value().at(0).toString()));
         btn->getIcon()->setScaledContents(true);
         btn->getName()->setText(iter.value().at(1).toString());
         btn->getDec()->setText(iter.value().at(2).toString());
-        connect(btn, &AFuncPanelWidget::sigClicked, this, [=](int id) {
+        connect(btn, &FuncPanelWidget::sigClicked, this, [=](int id) {
             emit SIGNALS->sigGotoFunc((ImageFunc)id);
         });
         funcFlowLayout->addWidget(btn);
     }
 
-    auto shadow = new AShadowEffect(this);
-}
-
-void StartupWindow::changeLanguage() {
+    auto shadow = new ShadowEffect(this);
 }
 
 void StartupWindow::sigConnect() {
-    connect(m_Topbar, &ATopbar::sigMin, this, [=]() { showMinimized(); });
-    connect(m_Topbar, &ATopbar::sigMax, this, [=]() { showMaximized(); });
-    connect(m_Topbar, &ATopbar::sigNormal, this, [=]() { showNormal(); });
-    connect(m_Topbar, &ATopbar::sigClose, this, [=]() { close(); });
+    connect(m_Topbar, &TopbarWidget::sigMin, this, [=]() { showMinimized(); });
+    connect(m_Topbar, &TopbarWidget::sigMax, this, [=]() { showMaximized(); });
+    connect(m_Topbar, &TopbarWidget::sigNormal, this, [=]() { showNormal(); });
+    connect(m_Topbar, &TopbarWidget::sigClose, this, [=]() { close(); });
 }
 
 void StartupWindow::paintEvent(QPaintEvent *event) {
@@ -183,7 +176,7 @@ void StartupWindow::paintEvent(QPaintEvent *event) {
 }
 
 void StartupWindow::showEvent(QShowEvent *event) {
-    ABaseWidget::showEvent(event);
+    QWidget::showEvent(event);
     // AFlowLayout会撑大设置setMinimumSize的窗体，暂时这样解决
     resize(800, 540);
 }

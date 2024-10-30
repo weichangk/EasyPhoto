@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-11 23:06:34
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:08:56
- */
-
 #include "inc/conversionlistviewmodel.h"
 #include "inc/models.h"
 

@@ -1,16 +1,10 @@
-/*
- * @Author: weick
- * @Date: 2024-06-03 07:36:53
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:38:23
- */
-
 #pragma once
-#include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/alabel.h"
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/alistview.h"
 #include "inc/models.h"
+#include "control/listview.h"
+
+#include <QWidget>
+#include <QLabel>
+#include <QPushButton>
 #include <QListWidget>
 #include <QStyledItemDelegate>
 #include <QEvent>
@@ -33,7 +27,7 @@ private:
     QPoint curpos_;
 };
 
-class ImageEraseFileListView : public ABaseWidget {
+class ImageEraseFileListView : public QWidget {
     Q_OBJECT
 public:
     explicit ImageEraseFileListView(QWidget *parent = nullptr);
@@ -43,15 +37,14 @@ public:
     int currentIndex();
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
 
 private:
-    ALabel *file_name_label_ = nullptr;
-    APushButton *add_file_button_ = nullptr;
-    APushButton *delete_file_button_ = nullptr;
-    AListView<Data> *file_list_view_ = nullptr;
+    QLabel *file_name_label_ = nullptr;
+    QPushButton *add_file_button_ = nullptr;
+    QPushButton *delete_file_button_ = nullptr;
+    ListView<Data> *file_list_view_ = nullptr;
 
     QList<Data> datas_;
 };

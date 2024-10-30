@@ -1,15 +1,9 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 10:53:08
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-06 21:38:16
- */
-
 #include "inc/image2gifcontroller.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
-#include "../acore/inc/afilemgr.h"
-#include "../agui/inc/aloadingdialog.h"
+#include "core/filehelper.h"
+#include "component/loadingdialog.h"
+
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QDesktopServices>
@@ -103,7 +97,7 @@ void Image2GifController::appendData(const QStringList filePaths) {
         }
     };
 
-    ALoadingDialog loadingDialog;
+    LoadingDialog loadingDialog;
     loadingDialog.setDoWork(work);
     loadingDialog.exec();
 
@@ -152,7 +146,7 @@ void Image2GifController::insertData(int index, const QStringList filePaths) {
         }
     };
 
-    ALoadingDialog loadingDialog;
+    LoadingDialog loadingDialog;
     loadingDialog.setDoWork(work);
     loadingDialog.exec();
 
@@ -305,8 +299,8 @@ void Image2GifController::generate(bool isExport, const QList<QString> &files) {
         }
 
         // 写入GIF文件
-        QString filePath = AFileMgr::joinPathAndFileName(SETTINGS->gifOutpath(), QString("%1.%2").arg(QDateTime::currentDateTime().toString("MMddHHmmss")).arg("gif"));
-        AFileMgr::renameIfExists(filePath);
+        QString filePath = FileHelper::joinPathAndFileName(SETTINGS->gifOutpath(), QString("%1.%2").arg(QDateTime::currentDateTime().toString("MMddHHmmss")).arg("gif"));
+        FileHelper::renameIfExists(filePath);
         Magick::writeImages(images.begin(), images.end(), filePath.toStdString());
 
         SETTINGS->setGifGenerateParams(collectGenerateParams(datas_));
@@ -344,7 +338,7 @@ void Image2GifController::slotExportStart() {
             std::function<void()> work = [&]() {
                 generate(true, files);
             };
-            ALoadingDialog loadingDialog;
+            LoadingDialog loadingDialog;
             loadingDialog.setDoWork(work);
             loadingDialog.exec();
         }
@@ -374,7 +368,7 @@ void Image2GifController::slotPreviewStart() {
             std::function<void()> work = [&]() {
                 generate(false, files);
             };
-            ALoadingDialog loadingDialog;
+            LoadingDialog loadingDialog;
             loadingDialog.setDoWork(work);
             loadingDialog.exec();
         }

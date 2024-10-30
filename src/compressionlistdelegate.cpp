@@ -1,13 +1,6 @@
-/*
- * @Author: weick
- * @Date: 2023-12-12 23:58:34
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:49:05
- */
-
 #include "inc/compressionlistdelegate.h"
 #include "inc/models.h"
-#include "../acore/inc/apainterhelper.h"
+#include "core/painterhelper.h"
 #include <QMouseEvent>
 #include <QPainter>
 #include <QFontMetricsF>
@@ -37,14 +30,14 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
 
     auto pixmapRect = QRect(rc.x() + 8, rc.y() + 8, 176, 176);
     pixmapRect = pixmapRect.adjusted(20, 30, -20, -30);
-    APainterHelper::paintPixmap(painter, pixmapRect, data.thumbnail, 1, 10, true);
+    PainterHelper::paintPixmap(painter, pixmapRect, data.thumbnail, 1, 10, true);
 
     auto checkedconRect = QRect(borderRect.x() + 4, borderRect.y() + 4, data.checked_icon.width(), data.checked_icon.height());
-    APainterHelper::paintPixmap(painter, checkedconRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
+    PainterHelper::paintPixmap(painter, checkedconRect, data.is_checked ? data.checked_icon : data.unchecked_icon, 1, 0, true);
 
     if (hover) {
         auto delIconRect = QRect(borderRect.x() + borderRect.width() - data.delete_icon.width() - 4, borderRect.y() + 4, data.delete_icon.width(), data.delete_icon.height());
-        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+        PainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
     QPen pen(QColor("#1F1F1F"));

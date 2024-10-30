@@ -1,10 +1,3 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-04 08:00:19 
- * @Last Modified by:   weick 
- * @Last Modified time: 2024-06-04 08:00:19 
- */
-
 #pragma once
 #include "imageupscaylwindow.h"
 #include "models.h"

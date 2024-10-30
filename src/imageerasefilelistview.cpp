@@ -1,15 +1,9 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-03 07:46:59 
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:48:46
- */
-
 #include "inc/imageerasefilelistview.h"
-#include "../acore/inc/apainterhelper.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/avboxlayout.h"
 #include "inc/signals.h"
+#include "core/painterhelper.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPainter>
 #include <QMouseEvent>
 
@@ -69,7 +63,7 @@ void ImageEraseFileItemDelegate::paint(QPainter *painter, const QStyleOptionView
 
     if (hover) {
         auto delIconRect = fileItemDeteleRect(rc);
-        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+        PainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
     QPen pen(QColor("#1F1F1F"));
@@ -111,10 +105,9 @@ void ImageEraseFileItemDelegate::changeSizeHint(const QSize &size) {
 }
 
 ImageEraseFileListView::ImageEraseFileListView(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 ImageEraseFileListView::~ImageEraseFileListView() {
@@ -133,29 +126,31 @@ int ImageEraseFileListView::currentIndex() {
 }
 
 void ImageEraseFileListView::createUi() {
-    file_name_label_ = new ALabel(this);
+    file_name_label_ = new QLabel(this);
+    file_name_label_->setText("文件名");
 
-    add_file_button_ = new APushButton(this);
+    add_file_button_ = new QPushButton(this);
     add_file_button_->setObjectName("OnlyIconButton");
     add_file_button_->setFixedSize(24, 24);
     add_file_button_->setIconSize(QSize(24, 24));
     add_file_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
 
-    delete_file_button_ = new APushButton(this);
+    delete_file_button_ = new QPushButton(this);
     delete_file_button_->setObjectName("OnlyIconButton");
     delete_file_button_->setFixedSize(24, 24);
     delete_file_button_->setIconSize(QSize(24, 24));
     delete_file_button_->setIcon(QIcon(":/agui/res/image/setting-24.png"));
 
-    auto buttonsWidget = new AWidget(this);
+    auto buttonsWidget = new QWidget(this);
     buttonsWidget->setFixedHeight(32);
-    auto buttonsLayout = new AHBoxLayout(buttonsWidget);
+    auto buttonsLayout = new QHBoxLayout(buttonsWidget);
+    buttonsLayout->setContentsMargins(0, 0, 0, 0);
     buttonsLayout->addWidget(file_name_label_);
     buttonsLayout->addStretch();
     buttonsLayout->addWidget(add_file_button_);
     buttonsLayout->addWidget(delete_file_button_);
 
-    file_list_view_ = new AListView<Data>(this);
+    file_list_view_ = new ListView<Data>(this);
     file_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     file_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     file_list_view_->setResizeMode(QListView::Adjust);
@@ -168,20 +163,17 @@ void ImageEraseFileListView::createUi() {
     file_list_view_->setItemDelegate(delegate);
     file_list_view_->viewport()->installEventFilter(delegate);
 
-    auto mainLayout = new AVBoxLayout(this);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->addWidget(buttonsWidget);
     mainLayout->addWidget(file_list_view_, 1);
 }
 
-void ImageEraseFileListView::changeLanguage() {
-    file_name_label_->setText("文件名");
-}
-
 void ImageEraseFileListView::sigConnect() {
-    connect(add_file_button_, &APushButton::clicked, this, [=]() {
+    connect(add_file_button_, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
-    connect(delete_file_button_, &APushButton::clicked, this, [=]() {
+    connect(delete_file_button_, &QPushButton::clicked, this, [=]() {
         emit SIGNALS->sigDeleteAll();
     });
     connect(file_list_view_, &QListView::clicked, this, [=](const QModelIndex &index) {

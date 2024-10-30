@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2024-04-02 07:32:51
- * @Last Modified by: weick
- * @Last Modified time: 2024-04-02 07:52:42
- */
-
 #include "inc/editcropview.h"
 #include "inc/models.h"
 #include <QPainter>
@@ -12,7 +5,7 @@
 
 namespace imageedit {
 EditCropView::EditCropView(QWidget *parent) :
-    ABaseWidget(parent), min_width_(kCropRectMinW), min_height_(kCropRectMinH) {
+    QWidget(parent), min_width_(kCropRectMinW), min_height_(kCropRectMinH) {
     setWindowFlags(Qt::FramelessWindowHint | Qt::Tool);
     setAttribute(Qt::WA_TranslucentBackground);
     setMouseTracking(true);
@@ -36,7 +29,7 @@ void EditCropView::setUseAspectRatio(bool use) {
 }
 
 void EditCropView::resizeEvent(QResizeEvent *event) {
-    ABaseWidget::resizeEvent(event);
+    QWidget::resizeEvent(event);
 }
 
 void EditCropView::paintEvent(QPaintEvent *event) {

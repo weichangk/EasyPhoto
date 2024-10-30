@@ -1,10 +1,3 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-04 08:00:52 
- * @Last Modified by:   weick 
- * @Last Modified time: 2024-06-04 08:00:52 
- */
-
 #include "inc/imageupscaylcontroller.h"
 #include "inc/signals.h"
 #include <QFileDialog>

@@ -1,25 +1,10 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 11:24:18
- * @Last Modified by: weick
- * @Last Modified time: 2024-05-11 08:12:11
- */
-
 #include "inc/editsettingview.h"
 #include "inc/signals.h"
-#include "../acore/inc/aapppath.h"
-#include "../acore/inc/apainterhelper.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/atabbar.h"
-#include "../awidget/inc/atabwidget.h"
-#include "../awidget/inc/awidget.h"
-#include "../awidget/inc/apushbutton.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/acheckbox.h"
-#include "../awidget/inc/alineedit.h"
-#include "../awidget/inc/aslider.h"
-#include "../awidget/inc/aradiobutton.h"
+#include "core/apppathhelper.h"
+#include "core/painterhelper.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QIntValidator>
 #include <QFile>
 #include <QJsonObject>
@@ -81,7 +66,7 @@ inline QRect textWatermarkSettingItemTextRect(QRect itemRect) {
 QList<ImageWatermarkSettingData> getImageWatermarkSettingDatas() {
     QList<ImageWatermarkSettingData> datas;
 
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(imageWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -115,7 +100,7 @@ QList<ImageWatermarkSettingData> getImageWatermarkSettingDatas() {
 }
 
 bool addImageWatermarkSettingData(const QList<ImageWatermarkSettingData> &newDatas, QList<ImageWatermarkSettingData> &datas) {
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(imageWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -169,7 +154,7 @@ bool addImageWatermarkSettingData(const QList<ImageWatermarkSettingData> &newDat
 }
 
 bool deleteImageWatermarkSettingData(const QList<QString> &filePathsToDelete, QList<ImageWatermarkSettingData> &datas) {
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(imageWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -225,7 +210,7 @@ bool deleteImageWatermarkSettingData(const QList<QString> &filePathsToDelete, QL
 QList<TextWatermarkSettingData> getTextWatermarkSettingDatas() {
     QList<TextWatermarkSettingData> datas;
 
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(textWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -258,7 +243,7 @@ QList<TextWatermarkSettingData> getTextWatermarkSettingDatas() {
 }
 
 bool addTextWatermarkSettingData(const QList<TextWatermarkSettingData> &newDatas, QList<TextWatermarkSettingData> &datas) {
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(textWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -311,7 +296,7 @@ bool addTextWatermarkSettingData(const QList<TextWatermarkSettingData> &newDatas
 }
 
 bool deleteTextWatermarkSettingData(const QList<QString> &idsToDelete, QList<TextWatermarkSettingData> &datas) {
-    QDir baseDir(AAppPath::appProgramDataPath());
+    QDir baseDir(AppPathHelper::appProgramDataPath());
     QString cfgFile = baseDir.filePath(textWatermarkConfigName);
     QFile f(cfgFile);
 
@@ -399,7 +384,7 @@ void ImageWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpt
     bool selected_or_hover = selected || hover;
 
     auto thumbnailRect = imageWatermarkSettingItemThumbnailRect(rc);
-    APainterHelper::paintPixmap(painter, thumbnailRect, data.thumbnail, 1, 0, true);
+    PainterHelper::paintPixmap(painter, thumbnailRect, data.thumbnail, 1, 0, true);
 
     auto borderRect = imageWatermarkSettingItemBorderRect(rc);
     QPen pen(QColor("#2F2D2D"));
@@ -410,7 +395,7 @@ void ImageWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpt
 
     if (hover) {
         auto delIconRect = imageWatermarkSettingItemDeteleRect(rc);
-        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+        PainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
     painter->setPen(QColor("#1F1F1F"));
@@ -487,7 +472,7 @@ void TextWatermarkSettingItemDelegate::paint(QPainter *painter, const QStyleOpti
 
     if (hover) {
         auto delIconRect = textWatermarkSettingItemDeteleRect(rc);
-        APainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
+        PainterHelper::paintPixmap(painter, delIconRect, data.delete_icon, 1, 0, true);
     }
 
     painter->setPen(QColor("#1F1F1F"));
@@ -560,10 +545,9 @@ void TextWatermarkSettingItemDelegate::updateEditorGeometry(QWidget *editor,
 }
 
 EditSettingView::EditSettingView(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
     loadImageWatermarkSettingData();
     loadTextWatermarkSettingData();
 }
@@ -572,14 +556,15 @@ EditSettingView::~EditSettingView() {
 }
 
 void EditSettingView::createUi() {
-    auto mainLayout = new AVBoxLayout(this);
-    tab_widget_ = new ATabWidget(this);
-    tab_bar_ = new ATabBar(tab_widget_);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    tab_widget_ = new QTabWidget(this);
+    tab_bar_ = new TopbarWidget(tab_widget_);
 
-    crop_setting_widget_ = new AWidget(this);
-    rotate_setting_widget_ = new AWidget(this);
-    effect_setting_widget_ = new AWidget(this);
-    watermark_setting_widget_ = new AWidget(this);
+    crop_setting_widget_ = new QWidget(this);
+    rotate_setting_widget_ = new QWidget(this);
+    effect_setting_widget_ = new QWidget(this);
+    watermark_setting_widget_ = new QWidget(this);
 
     tab_widget_->addTab(crop_setting_widget_, "Crop");
     tab_widget_->addTab(rotate_setting_widget_, "Rotate");
@@ -592,27 +577,30 @@ void EditSettingView::createUi() {
     cropEditvalidatorRangeChanged(crop_w_edit_validator_, kCropRectMinW, 1920);
     cropEditvalidatorRangeChanged(crop_h_edit_validator_, kCropRectMinH, 1080);
 
-    original_ratio_label_ = new ALabel(crop_setting_widget_);
-    original_ratio_value_label_ = new ALabel(crop_setting_widget_);
-    equal_ratio_checkbox_ = new ACheckBox(crop_setting_widget_);
-    crop_ratio_label_ = new ALabel(crop_setting_widget_);
-    crop_ratio_width_edit_ = new ALineEdit(crop_setting_widget_);
-    crop_ratio_height_edit_ = new ALineEdit(crop_setting_widget_);
+    original_ratio_label_ = new QLabel(crop_setting_widget_);
+    original_ratio_value_label_ = new QLabel(crop_setting_widget_);
+    equal_ratio_checkbox_ = new QCheckBox(crop_setting_widget_);
+    crop_ratio_label_ = new QLabel(crop_setting_widget_);
+    crop_ratio_width_edit_ = new LineEdit(crop_setting_widget_);
+    crop_ratio_height_edit_ = new LineEdit(crop_setting_widget_);
     crop_ratio_width_edit_->setValidator(crop_w_edit_validator_);
     crop_ratio_height_edit_->setValidator(crop_h_edit_validator_);
-    crop_align_center_button_ = new APushButton(crop_setting_widget_);
-    crop_reset_button_ = new APushButton(crop_setting_widget_);
-    auto crop_layout = new AVBoxLayout(crop_setting_widget_);
-    auto original_ratio_layout = new AHBoxLayout();
+    crop_align_center_button_ = new QPushButton(crop_setting_widget_);
+    crop_reset_button_ = new QPushButton(crop_setting_widget_);
+    auto crop_layout = new QVBoxLayout(crop_setting_widget_);
+    crop_layout->setContentsMargins(0, 0, 0, 0);
+    auto original_ratio_layout = new QHBoxLayout();
+    original_ratio_layout->setContentsMargins(0, 0, 0, 0);
     original_ratio_layout->addWidget(original_ratio_label_);
     original_ratio_layout->addWidget(original_ratio_value_label_);
     original_ratio_layout->addStretch();
     crop_layout->addLayout(original_ratio_layout);
     crop_layout->addWidget(equal_ratio_checkbox_);
     crop_layout->addWidget(crop_ratio_label_);
-    auto crop_ratio_layout = new AHBoxLayout();
+    auto crop_ratio_layout = new QHBoxLayout();
+    crop_ratio_layout->setContentsMargins(0, 0, 0, 0);
     crop_ratio_layout->addWidget(crop_ratio_width_edit_);
-    ALabel *x_label = new ALabel(crop_setting_widget_);
+    QLabel *x_label = new QLabel(crop_setting_widget_);
     x_label->setText("x");
     crop_ratio_layout->addWidget(x_label);
     crop_ratio_layout->addWidget(crop_ratio_height_edit_);
@@ -627,23 +615,26 @@ void EditSettingView::createUi() {
     rotate_angle_edit_validator_ = new QIntValidator(this);
     rotate_angle_edit_validator_->setRange(-360, 360);
 
-    rotate_right90_button_ = new APushButton(rotate_setting_widget_);
-    rotate_left90_button_ = new APushButton(rotate_setting_widget_);
-    rotate_horizontal_flip_button_ = new APushButton(rotate_setting_widget_);
-    rotate_vertical_flip_button_ = new APushButton(rotate_setting_widget_);
-    rotate_angle_label_ = new ALabel(rotate_setting_widget_);
-    rotate_angle_edit_ = new ALineEdit(rotate_setting_widget_);
+    rotate_right90_button_ = new QPushButton(rotate_setting_widget_);
+    rotate_left90_button_ = new QPushButton(rotate_setting_widget_);
+    rotate_horizontal_flip_button_ = new QPushButton(rotate_setting_widget_);
+    rotate_vertical_flip_button_ = new QPushButton(rotate_setting_widget_);
+    rotate_angle_label_ = new QLabel(rotate_setting_widget_);
+    rotate_angle_edit_ = new LineEdit(rotate_setting_widget_);
     rotate_angle_edit_->setValidator(rotate_angle_edit_validator_);
-    rotate_reset_button_ = new APushButton(rotate_setting_widget_);
-    auto rotate_layout = new AVBoxLayout(rotate_setting_widget_);
-    auto rotate_button_layout = new AHBoxLayout();
+    rotate_reset_button_ = new QPushButton(rotate_setting_widget_);
+    auto rotate_layout = new QVBoxLayout(rotate_setting_widget_);
+    rotate_layout->setContentsMargins(0, 0, 0, 0);
+    auto rotate_button_layout = new QHBoxLayout();
+    rotate_button_layout->setContentsMargins(0, 0, 0, 0);
     rotate_button_layout->addWidget(rotate_right90_button_);
     rotate_button_layout->addWidget(rotate_left90_button_);
     rotate_button_layout->addWidget(rotate_horizontal_flip_button_);
     rotate_button_layout->addWidget(rotate_vertical_flip_button_);
     rotate_button_layout->addStretch();
     rotate_layout->addLayout(rotate_button_layout);
-    auto rotate_angle_layout = new AHBoxLayout();
+    auto rotate_angle_layout = new QHBoxLayout();
+    rotate_angle_layout->setContentsMargins(0, 0, 0, 0);
     rotate_angle_layout->addWidget(rotate_angle_label_);
     rotate_angle_layout->addWidget(rotate_angle_edit_);
     rotate_angle_layout->addStretch();
@@ -652,56 +643,62 @@ void EditSettingView::createUi() {
     rotate_layout->addStretch();
 
     // effect
-    luminance_label_ = new ALabel(effect_setting_widget_);
-    luminance_slider_ = new ASlider(effect_setting_widget_);
-    luminance_value_ = new ALabel(effect_setting_widget_);
+    luminance_label_ = new QLabel(effect_setting_widget_);
+    luminance_slider_ = new QSlider(effect_setting_widget_);
+    luminance_value_ = new QLabel(effect_setting_widget_);
     luminance_slider_->setOrientation(Qt::Horizontal);
     luminance_slider_->setRange(kLuminanceRangeMin, kLuminanceRangeMax);
-    contrast_label_ = new ALabel(effect_setting_widget_);
-    contrast_slider_ = new ASlider(effect_setting_widget_);
-    contrast_value_ = new ALabel(effect_setting_widget_);
+    contrast_label_ = new QLabel(effect_setting_widget_);
+    contrast_slider_ = new QSlider(effect_setting_widget_);
+    contrast_value_ = new QLabel(effect_setting_widget_);
     contrast_slider_->setOrientation(Qt::Horizontal);
     contrast_slider_->setRange(kContrastRangeMin, kContrastRangeMax);
-    saturation_label_ = new ALabel(effect_setting_widget_);
-    saturation_slider_ = new ASlider(effect_setting_widget_);
-    saturation_value_ = new ALabel(effect_setting_widget_);
+    saturation_label_ = new QLabel(effect_setting_widget_);
+    saturation_slider_ = new QSlider(effect_setting_widget_);
+    saturation_value_ = new QLabel(effect_setting_widget_);
     saturation_slider_->setOrientation(Qt::Horizontal);
     saturation_slider_->setRange(kSaturationRangeMin, kSaturationRangeMax);
-    auto effect_layout = new AVBoxLayout(effect_setting_widget_);
-    auto luminance_layout = new AHBoxLayout();
+    auto effect_layout = new QVBoxLayout(effect_setting_widget_);
+    effect_layout->setContentsMargins(0, 0, 0, 0);
+    auto luminance_layout = new QHBoxLayout();
+    luminance_layout->setContentsMargins(0, 0, 0, 0);
     luminance_layout->addWidget(luminance_label_);
     luminance_layout->addWidget(luminance_slider_);
     luminance_layout->addWidget(luminance_value_);
     luminance_layout->addStretch();
     effect_layout->addLayout(luminance_layout);
-    auto contrast_layout = new AHBoxLayout();
+    auto contrast_layout = new QHBoxLayout();
+    contrast_layout->setContentsMargins(0, 0, 0, 0);
     contrast_layout->addWidget(contrast_label_);
     contrast_layout->addWidget(contrast_slider_);
     contrast_layout->addWidget(contrast_value_);
     contrast_layout->addStretch();
     effect_layout->addLayout(contrast_layout);
-    auto saturation_layout = new AHBoxLayout();
+    auto saturation_layout = new QHBoxLayout();
+    saturation_layout->setContentsMargins(0, 0, 0, 0);
     saturation_layout->addWidget(saturation_label_);
     saturation_layout->addWidget(saturation_slider_);
     saturation_layout->addWidget(saturation_value_);
     saturation_layout->addStretch();
     effect_layout->addLayout(saturation_layout);
-    effect_reset_button_ = new APushButton(effect_setting_widget_);
+    effect_reset_button_ = new QPushButton(effect_setting_widget_);
     effect_layout->addWidget(effect_reset_button_);
     effect_layout->addStretch();
 
     // watermark
-    picture_label_ = new ALabel(watermark_setting_widget_);
-    picture_add_button_ = new APushButton(watermark_setting_widget_);
-    text_label_ = new ALabel(watermark_setting_widget_);
-    text_add_button_ = new APushButton(watermark_setting_widget_);
-    auto watermark_layout = new AVBoxLayout(watermark_setting_widget_);
-    auto picture_layout = new AHBoxLayout();
+    picture_label_ = new QLabel(watermark_setting_widget_);
+    picture_add_button_ = new QPushButton(watermark_setting_widget_);
+    text_label_ = new QLabel(watermark_setting_widget_);
+    text_add_button_ = new QPushButton(watermark_setting_widget_);
+    auto watermark_layout = new QVBoxLayout(watermark_setting_widget_);
+    watermark_layout->setContentsMargins(0, 0, 0, 0);
+    auto picture_layout = new QHBoxLayout();
+    picture_layout->setContentsMargins(0, 0, 0, 0);
     picture_layout->addWidget(picture_label_);
     picture_layout->addStretch();
     picture_layout->addWidget(picture_add_button_);
     watermark_layout->addLayout(picture_layout);
-    image_watermark_setting_list_view_ = new AListView<ImageWatermarkSettingData>(this);
+    image_watermark_setting_list_view_ = new ListView<ImageWatermarkSettingData>(this);
     image_watermark_setting_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     image_watermark_setting_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     image_watermark_setting_list_view_->setResizeMode(QListView::Adjust);
@@ -713,24 +710,26 @@ void EditSettingView::createUi() {
     image_watermark_setting_list_view_->setItemDelegate(imakeWatermarkItemDelegate);
     image_watermark_setting_list_view_->viewport()->installEventFilter(imakeWatermarkItemDelegate);
     watermark_layout->addWidget(image_watermark_setting_list_view_);
-    picture_alpha_label_ = new ALabel(watermark_setting_widget_);
-    picture_alpha_slider_ = new ASlider(watermark_setting_widget_);
+    picture_alpha_label_ = new QLabel(watermark_setting_widget_);
+    picture_alpha_slider_ = new QSlider(watermark_setting_widget_);
     picture_alpha_slider_->setOrientation(Qt::Horizontal);
     picture_alpha_slider_->setRange(kPictureAlphaRangeMin, kPictureAlphaRangeMax);
-    picture_alpha_value_ = new ALabel(watermark_setting_widget_);
-    auto picture_alpha_layout = new AHBoxLayout();
+    picture_alpha_value_ = new QLabel(watermark_setting_widget_);
+    auto picture_alpha_layout = new QHBoxLayout();
+    picture_alpha_layout->setContentsMargins(0, 0, 0, 0);
     picture_alpha_layout->addWidget(picture_alpha_label_);
     picture_alpha_layout->addWidget(picture_alpha_slider_);
     picture_alpha_layout->addWidget(picture_alpha_value_);
     picture_alpha_layout->addStretch();
     watermark_layout->addLayout(picture_alpha_layout);
 
-    auto text_layout = new AHBoxLayout();
+    auto text_layout = new QHBoxLayout();
+    text_layout->setContentsMargins(0, 0, 0, 0);
     text_layout->addWidget(text_label_);
     text_layout->addStretch();
     text_layout->addWidget(text_add_button_);
     watermark_layout->addLayout(text_layout);
-    text_watermark_setting_list_view_ = new AListView<TextWatermarkSettingData>(this);
+    text_watermark_setting_list_view_ = new ListView<TextWatermarkSettingData>(this);
     text_watermark_setting_list_view_->setEditTriggers(QAbstractItemView::DoubleClicked);
     text_watermark_setting_list_view_->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     text_watermark_setting_list_view_->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -744,17 +743,16 @@ void EditSettingView::createUi() {
     text_watermark_setting_list_view_->viewport()->installEventFilter(textWatermarkItemDelegate);
     connect(textWatermarkItemDelegate, &TextWatermarkSettingItemDelegate::sigEditCommitData, this, &EditSettingView::textWatermarkSettingItemEditCommitData);
     watermark_layout->addWidget(text_watermark_setting_list_view_);
-    clear_button_ = new APushButton(watermark_setting_widget_);
+    clear_button_ = new QPushButton(watermark_setting_widget_);
     watermark_layout->addWidget(clear_button_);
     watermark_layout->addStretch();
 
-    export_button_ = new APushButton(this);
+    export_button_ = new QPushButton(this);
     export_button_->setFixedHeight(32);
     mainLayout->addWidget(tab_widget_, 1);
     mainLayout->addWidget(export_button_);
-}
 
-void EditSettingView::changeLanguage() {
+    //
     original_ratio_label_->setText("Original ratio");
     original_ratio_value_label_->setText("1:1");
     equal_ratio_checkbox_->setText("Equal ratio");
@@ -783,28 +781,28 @@ void EditSettingView::changeLanguage() {
 void EditSettingView::sigConnect() {
     connect(SIGNALS, &Signals::sigListItemDataSelected, this, &EditSettingView::preViewDataSelected);
     connect(SIGNALS, &Signals::sigSelectRectPreview2Setting, this, &EditSettingView::selectRectChanged);
-    connect(crop_ratio_width_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
-    connect(crop_ratio_height_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
-    connect(crop_reset_button_, &APushButton::clicked, this, &EditSettingView::resetCrop);
-    connect(crop_align_center_button_, &APushButton::clicked, this, &EditSettingView::alignCenter);
-    connect(equal_ratio_checkbox_, &ACheckBox::stateChanged, this, &EditSettingView::equalRatioChanged);
+    connect(crop_ratio_width_edit_, &LineEdit::sigEditingConfirm, this, &EditSettingView::cropWidthEditingConfirm);
+    connect(crop_ratio_height_edit_, &LineEdit::sigEditingConfirm, this, &EditSettingView::cropHeightEditingConfirm);
+    connect(crop_reset_button_, &QPushButton::clicked, this, &EditSettingView::resetCrop);
+    connect(crop_align_center_button_, &QPushButton::clicked, this, &EditSettingView::alignCenter);
+    connect(equal_ratio_checkbox_, &QCheckBox::stateChanged, this, &EditSettingView::equalRatioChanged);
 
-    connect(rotate_angle_edit_, &ALineEdit::sigEditingConfirm, this, &EditSettingView::rotateAngleEditingConfirm);
-    connect(rotate_reset_button_, &APushButton::clicked, this, &EditSettingView::resetRotate);
-    connect(rotate_right90_button_, &APushButton::clicked, this, &EditSettingView::rotateRight90);
-    connect(rotate_left90_button_, &APushButton::clicked, this, &EditSettingView::rotateLeft90);
-    connect(rotate_horizontal_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateHorizontalFlip);
-    connect(rotate_vertical_flip_button_, &APushButton::clicked, this, &EditSettingView::rotateVerticalFlip);
+    connect(rotate_angle_edit_, &LineEdit::sigEditingConfirm, this, &EditSettingView::rotateAngleEditingConfirm);
+    connect(rotate_reset_button_, &QPushButton::clicked, this, &EditSettingView::resetRotate);
+    connect(rotate_right90_button_, &QPushButton::clicked, this, &EditSettingView::rotateRight90);
+    connect(rotate_left90_button_, &QPushButton::clicked, this, &EditSettingView::rotateLeft90);
+    connect(rotate_horizontal_flip_button_, &QPushButton::clicked, this, &EditSettingView::rotateHorizontalFlip);
+    connect(rotate_vertical_flip_button_, &QPushButton::clicked, this, &EditSettingView::rotateVerticalFlip);
 
-    connect(luminance_slider_, &ASlider::valueChanged, this, &EditSettingView::luminanceChanged);
-    connect(contrast_slider_, &ASlider::valueChanged, this, &EditSettingView::contrastChanged);
-    connect(saturation_slider_, &ASlider::valueChanged, this, &EditSettingView::saturationChanged);
-    connect(effect_reset_button_, &APushButton::clicked, this, &EditSettingView::resetEffect);
+    connect(luminance_slider_, &QSlider::valueChanged, this, &EditSettingView::luminanceChanged);
+    connect(contrast_slider_, &QSlider::valueChanged, this, &EditSettingView::contrastChanged);
+    connect(saturation_slider_, &QSlider::valueChanged, this, &EditSettingView::saturationChanged);
+    connect(effect_reset_button_, &QPushButton::clicked, this, &EditSettingView::resetEffect);
 
-    connect(picture_add_button_, &APushButton::clicked, this, &EditSettingView::addImageWatermarkPictureOpenFileDialog);
+    connect(picture_add_button_, &QPushButton::clicked, this, &EditSettingView::addImageWatermarkPictureOpenFileDialog);
     connect(image_watermark_setting_list_view_, &QListView::clicked, this, &EditSettingView::imageWatermarkListItemClicked);
-    connect(picture_alpha_slider_, &ASlider::valueChanged, this, &EditSettingView::pictureAlphaChanged);
-    connect(text_add_button_, &APushButton::clicked, this, &EditSettingView::addEmptyTextWatermark);
+    connect(picture_alpha_slider_, &QSlider::valueChanged, this, &EditSettingView::pictureAlphaChanged);
+    connect(text_add_button_, &QPushButton::clicked, this, &EditSettingView::addEmptyTextWatermark);
     connect(text_watermark_setting_list_view_, &QListView::clicked, this, &EditSettingView::textWatermarkListItemClicked);
     
 }

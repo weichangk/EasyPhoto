@@ -1,16 +1,9 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:02:58
- * @Last Modified by: weick
- * @Last Modified time: 2024-05-11 07:50:50
- */
-
 #include "inc/application.h"
 #include "inc/startupcontroller.h"
 #include "inc/models.h"
 #include "inc/settings.h"
-#include "../acore/inc/astylemgr.h"
-#include "../acore/inc/aapppath.h"
+#include "core/stylehelper.h"
+#include "core/apppathhelper.h"
 #include <Magick++.h>
 using namespace Magick;
 
@@ -20,9 +13,9 @@ Application::Application(int argc, char *argv[]) :
     setOrganizationDomain(APPLICATION_ORGANIZATION_DOMAIN);
     setApplicationName(APPLICATION_ID);
     setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
-    AAppPath::setAppName(APPLICATION_ID);
+    AppPathHelper::setAppName(APPLICATION_ID);
     // setQuitOnLastWindowClosed(false);
-    AStyleMgr::setStyleToApp(":/res/style");
+    StyleHelper::setStyleToApp(":/res/style");
     initUi();
     InitializeMagick(*argv);
 }

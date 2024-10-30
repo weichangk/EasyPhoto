@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-10 23:24:02
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:35:10
- */
-
 #pragma once
 #include <QStyledItemDelegate>
 #include <QEvent>

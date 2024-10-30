@@ -1,24 +1,17 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-04 08:01:18 
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-23 07:46:35
- */
-
 #include "inc/imageupscaylwindow.h"
 #include "inc/signals.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ashadoweffect.h"
+#include "control/shadoweffect.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPainter>
 #include <QPainterPath>
 
 namespace imageupscayl {
 ImageUpscaylWindow::ImageUpscaylWindow(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 ImageUpscaylWindow::~ImageUpscaylWindow() {
@@ -46,61 +39,67 @@ void ImageUpscaylWindow::createUi() {
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(1200, 760);
 
-    auto mainLayout = new AVBoxLayout(this);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    topbar_ = new ATopbar(this);
+    topbar_ = new TopbarWidget(this);
     topbar_->setCloseBtnTopRight10Radius();
     topbar_->setMinVisible(false);
     topbar_->setMaxVisible(false);
     mainLayout->addWidget(topbar_);
 
-    auto topbarLayout = new AHBoxLayout(topbar_->contentWidget());
+    auto topbarLayout = new QHBoxLayout(topbar_->contentWidget());
+    topbarLayout->setContentsMargins(0, 0, 0, 0);
     topbarLayout->setSpacing(12);
     topbarLayout->addSpacing(12);
-    auto logoLayout = new AHBoxLayout();
+    auto logoLayout = new QHBoxLayout();
+    logoLayout->setContentsMargins(0, 0, 0, 0);
     logoLayout->setSpacing(4);
-    logo_label_ = new ALabel(this);
+    logo_label_ = new QLabel(this);
     QPixmap logo(":/agui/res/image/Compression-logo-32.png");
     logo_label_->setPixmap(logo);
     logoLayout->addWidget(logo_label_);
-    name_label_ = new ALabel(this);
+    name_label_ = new QLabel(this);
     name_label_->setObjectName("edit_window_name_lable");
     name_label_->setText("图片增强");
     logoLayout->addWidget(name_label_);
     topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
 
-    auto bodyLayout = new AHBoxLayout();
+    auto bodyLayout = new QHBoxLayout();
     bodyLayout->setContentsMargins(25, 0, 25, 25);
 
-    auto bodyBg = new AWidget(this);
+    auto bodyBg = new QWidget(this);
     bodyBg->setObjectName("edit_window_body_bg");
     bodyLayout->addWidget(bodyBg, 1);
-    auto bodyBgLayout = new AHBoxLayout(bodyBg);
+    auto bodyBgLayout = new QHBoxLayout(bodyBg);
+    bodyBgLayout->setContentsMargins(0, 0, 0, 0);
     
-    stacked_widget_ = new AStackedWidget(this);
+    stacked_widget_ = new QStackedWidget(this);
     bodyBgLayout->addWidget(stacked_widget_, 1);
 
-    import_guide_ = new AImportGuide(this);
+    import_guide_ = new ImportGuideWidget(this);
     stacked_widget_->addWidget(import_guide_);
 
-    auto workWidget = new AWidget(this);
+    auto workWidget = new QWidget(this);
     stacked_widget_->addWidget(workWidget);
 
-    auto workWidgetLayout = new AHBoxLayout(workWidget);
+    auto workWidgetLayout = new QHBoxLayout(workWidget);
+    workWidgetLayout->setContentsMargins(0, 0, 0, 0);
     
-    auto leftWidget = new AWidget(this);
+    auto leftWidget = new QWidget(this);
     leftWidget->setFixedWidth(260);
     workWidgetLayout->addWidget(leftWidget);
 
-    auto leftLayout = new AVBoxLayout(leftWidget);
+    auto leftLayout = new QVBoxLayout(leftWidget);
+    leftLayout->setContentsMargins(0, 0, 0, 0);
 
-    setting_button_ = new APushButton(this);
+    setting_button_ = new QPushButton(this);
     leftLayout->addWidget(setting_button_);
-    file_list_button_ = new APushButton(this);
+    file_list_button_ = new QPushButton(this);
     leftLayout->addWidget(file_list_button_);
 
-    left_stacked_widget_ = new AStackedWidget(this);
+    left_stacked_widget_ = new QStackedWidget(this);
     leftLayout->addWidget(left_stacked_widget_);
 
     setting_view_ = new ImageUpscaylSettingView(this);
@@ -109,7 +108,7 @@ void ImageUpscaylWindow::createUi() {
     file_list_view_ = new ImageUpscaylFileListView(this);
     left_stacked_widget_->addWidget(file_list_view_);
 
-    upscayl_button_ = new APushButton(this);
+    upscayl_button_ = new QPushButton(this);
     leftLayout->addWidget(upscayl_button_);
 
     preview_view_ = new ImageUpscaylPreviewView(this);
@@ -117,27 +116,24 @@ void ImageUpscaylWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout, 1);
 
-    auto shadow = new AShadowEffect(this);
-}
-
-void ImageUpscaylWindow::changeLanguage() {
+    auto shadow = new ShadowEffect(this);
 }
 
 void ImageUpscaylWindow::sigConnect() {
-    connect(topbar_, &ATopbar::sigMin, this, [=]() { showMinimized(); });
-    connect(topbar_, &ATopbar::sigMax, this, [=]() { showMaximized(); });
-    connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
-    connect(topbar_, &ATopbar::sigClose, this, [=]() {
+    connect(topbar_, &TopbarWidget::sigMin, this, [=]() { showMinimized(); });
+    connect(topbar_, &TopbarWidget::sigMax, this, [=]() { showMaximized(); });
+    connect(topbar_, &TopbarWidget::sigNormal, this, [=]() { showNormal(); });
+    connect(topbar_, &TopbarWidget::sigClose, this, [=]() {
         close();
         emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
-    connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
+    connect(import_guide_, &ImportGuideWidget::sigClicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
-    connect(setting_button_, &APushButton::clicked, this, [=]() {
+    connect(setting_button_, &QPushButton::clicked, this, [=]() {
         left_stacked_widget_->setCurrentIndex(0);
     });
-    connect(file_list_button_, &APushButton::clicked, this, [=]() {
+    connect(file_list_button_, &QPushButton::clicked, this, [=]() {
         left_stacked_widget_->setCurrentIndex(1);
     });
 }
@@ -169,7 +165,7 @@ void ImageUpscaylWindow::paintEvent(QPaintEvent *event) {
 }
 
 void ImageUpscaylWindow::moveEvent(QMoveEvent *event) {
-    ABaseWidget::moveEvent(event);
+    QWidget::moveEvent(event);
     emit SIGNALS->sigWindowMove();
 }
 } // namespace imageupscayl

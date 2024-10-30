@@ -1,22 +1,16 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 10:56:22
- * @Last Modified by: weick
- * @Last Modified time: 2024-04-16 07:47:55
- */
-
 #pragma once
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/astackedwidget.h"
-#include "../agui/inc/abasewidget.h"
-#include "../agui/inc/atopbar.h"
-#include "../agui/inc/aimportguide.h"
 #include "editfilelistview.h"
 #include "editpreviewview.h"
 #include "editsettingview.h"
+#include "component/topbarwidget.h"
+#include "component/importguidewidget.h"
+
+#include <QWidget>
+#include <QLabel>
+#include <QStackedWidget>
 
 namespace imageedit {
-class EditWindow : public ABaseWidget {
+class EditWindow : public QWidget {
     Q_OBJECT
 public:
     explicit EditWindow(QWidget *parent = nullptr);
@@ -26,18 +20,17 @@ public:
     int fileListCurrentIndex();
     
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
     void paintEvent(QPaintEvent *event) override;
     void moveEvent(QMoveEvent *event) override;
 
 private:
-    ATopbar *topbar_ = nullptr;
-    ALabel *logo_label_ = nullptr;
-    ALabel *name_label_ = nullptr;
-    AStackedWidget *stacked_widget_ = nullptr;
-    AImportGuide *import_guide_ = nullptr;
+    TopbarWidget *topbar_ = nullptr;
+    QLabel *logo_label_ = nullptr;
+    QLabel *name_label_ = nullptr;
+    QStackedWidget *stacked_widget_ = nullptr;
+    ImportGuideWidget *import_guide_ = nullptr;
     EditFileListView *file_list_view_ = nullptr;
     EditPreviewView *preview_view_ = nullptr;
     EditSettingView *setting_view_ = nullptr;

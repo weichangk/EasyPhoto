@@ -1,17 +1,10 @@
-/*
- * @Author: weick
- * @Date: 2024-01-07 23:46:03
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 20:59:33
- */
-
 #include "inc/compressioncontroller.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
 #include "inc/models.h"
 #include "inc/compressmanager.h"
-#include "../acore/inc/afoldermgr.h"
-#include "../acore/inc/afilemgr.h"
+#include "core/folderhelper.h"
+#include "core/filehelper.h"
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QProcess>
@@ -35,7 +28,7 @@ void CompressionController::closeWindow() {
 }
 
 void CompressionController::init() {
-    AFolderMgr::addFolder(SETTINGS->compressOutPath());
+    FolderHelper::addFolder(SETTINGS->compressOutPath());
 }
 
 void CompressionController::sigConnect() {
@@ -107,10 +100,10 @@ void CompressionController::compressStart() {
     QString filePath;
     QFileInfo fileInfo;
     foreach (const auto &data, m_CompressDatas) {
-        fileInfo = AFileMgr::fileInfo(data.file_path);
+        fileInfo = FileHelper::fileInfo(data.file_path);
         if (fileInfo.exists() && data.is_checked) {
-            filePath = AFileMgr::joinPathAndFileName(SETTINGS->compressOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(fileInfo.completeSuffix()));
-            AFileMgr::renameIfExists(filePath);
+            filePath = FileHelper::joinPathAndFileName(SETTINGS->compressOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(fileInfo.completeSuffix()));
+            FileHelper::renameIfExists(filePath);
             Param param;
             param.jpeg_quality = SETTINGS->compressQuality();
             param.png_quality = SETTINGS->compressQuality();

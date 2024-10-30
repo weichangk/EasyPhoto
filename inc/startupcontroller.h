@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:02:29
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-04 08:02:04
- */
-
 #pragma once
 #include "startupwindow.h"
 #include "models.h"

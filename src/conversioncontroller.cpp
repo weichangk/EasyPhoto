@@ -1,15 +1,8 @@
-/*
- * @Author: weick
- * @Date: 2023-12-21 23:57:42
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:21:43
- */
-
 #include "inc/conversioncontroller.h"
 #include "inc/signals.h"
 #include "inc/settings.h"
-#include "../acore/inc/afoldermgr.h"
-#include "../acore/inc/afilemgr.h"
+#include "core/folderhelper.h"
+#include "core/filehelper.h"
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <Magick++.h>
@@ -35,7 +28,7 @@ void ConversionController::closeWindow() {
 }
 
 void ConversionController::init() {
-    AFolderMgr::addFolder(SETTINGS->conversionOutPath());
+    FolderHelper::addFolder(SETTINGS->conversionOutPath());
     QString formats = CONV_OUT_FORMATS;
     m_FormatDatas = formats.split(' ');
     m_ConversionWindow->addFormatListWidgetItems(m_FormatDatas);
@@ -117,10 +110,10 @@ void ConversionController::startConv() {
         QString filePath;
         QFileInfo fileInfo;
         foreach (const auto &data, m_ConvDatas) {
-            fileInfo = AFileMgr::fileInfo(data.file_path);
+            fileInfo = FileHelper::fileInfo(data.file_path);
             if (fileInfo.exists() && data.is_checked) {
-                filePath = AFileMgr::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
-                AFileMgr::renameIfExists(filePath);
+                filePath = FileHelper::joinPathAndFileName(SETTINGS->conversionOutPath(), QString("%1.%2").arg(fileInfo.baseName()).arg(SETTINGS->conversionOutFormat()));
+                FileHelper::renameIfExists(filePath);
                 image.read(data.file_path.toStdString());
                 image.write(filePath.toStdString());
             }

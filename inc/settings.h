@@ -1,17 +1,10 @@
-/*
- * @Author: weick
- * @Date: 2023-12-05 23:02:19
- * @Last Modified by: weick
- * @Last Modified time: 2024-01-20 00:03:47
- */
-
 #pragma once
-#include "../acore/inc/asinglton.h"
+#include "core/singlton.h"
 #include <QSettings>
 #include <QDir>
 #include <QStandardPaths>
 
-class Settings: public ASinglton<Settings> {
+class Settings: public Singlton<Settings> {
 public:
     Settings();
     void load();

@@ -1,16 +1,8 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 11:13:49
- * @Last Modified by: weick
- * @Last Modified time: 2024-06-03 07:50:47
- */
-
 #include "inc/image2gifpreviewview.h"
 #include "inc/signals.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/awidget.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ahboxlayout.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QTimer>
 #include <QEvent>
 #include <QMouseEvent>
@@ -19,46 +11,45 @@
 
 namespace image2gif {
 Image2GifPreviewView::Image2GifPreviewView(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 Image2GifPreviewView::~Image2GifPreviewView() {
 }
 
 void Image2GifPreviewView::createUi() {
-    auto mainLay = new AVBoxLayout(this);
-    preview_widget_ = new AWidget(this);
+    auto mainLay = new QVBoxLayout(this);
+    mainLay->setContentsMargins(0, 0, 0, 0);
+    preview_widget_ = new QWidget(this);
     mainLay->addWidget(preview_widget_, 1);
-    preview_pixmap_label_ = new ALabel(preview_widget_);
+    preview_pixmap_label_ = new QLabel(preview_widget_);
     preview_pixmap_label_->installEventFilter(this);
     preview_pixmap_label_->setScaledContents(false);
-    auto preview_pixmap_label_layout = new AHBoxLayout();
+    auto preview_pixmap_label_layout = new QHBoxLayout();
+    preview_pixmap_label_layout->setContentsMargins(0, 0, 0, 0);
     preview_pixmap_label_layout->addStretch();
     preview_pixmap_label_layout->addWidget(preview_pixmap_label_);
     preview_pixmap_label_layout->addStretch();
-    auto preview_widget_layout = new AVBoxLayout(preview_widget_);
+    auto preview_widget_layout = new QVBoxLayout(preview_widget_);
+    preview_widget_layout->setContentsMargins(0, 0, 0, 0);
     preview_widget_layout->addStretch();
     preview_widget_layout->addLayout(preview_pixmap_label_layout);
     preview_widget_layout->addStretch();
 
     preview_movie_ = new QMovie();
 
-    preview_button_ = new APreviewButton();
+    preview_button_ = new PreviewWidget();
     preview_button_->installEventFilter(this);
     preview_button_->setFixedSize(96, 96);
     preview_button_->setIconSize(QSize(96, 96));
     preview_button_->setNormalIcon(QPixmap(":/agui/res/image/loading-96.png"));
 }
 
-void Image2GifPreviewView::changeLanguage() {
-}
-
 void Image2GifPreviewView::sigConnect() {
     connect(SIGNALS, &Signals::sigListItemDataSelected, this, &Image2GifPreviewView::preViewDataSelected);
-    connect(preview_button_, &APreviewButton::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
+    connect(preview_button_, &PreviewWidget::sigClicked, this, &Image2GifPreviewView::slotPreviewButtonClicked);
     connect(SIGNALS, &Signals::sigPreviewEnd, this, &Image2GifPreviewView::slotPreviewEnd);
     connect(preview_movie_, &QMovie::finished, this, &Image2GifPreviewView::slotPreviewMovieFinished);
 }
@@ -78,7 +69,7 @@ bool Image2GifPreviewView::eventFilter(QObject *watched, QEvent *event) {
             preview_button_->setVisible(false);
         }
     }
-    return ABaseWidget::eventFilter(watched, event);
+    return QWidget::eventFilter(watched, event);
 }
 void Image2GifPreviewView::preViewDataSelected(Data *data) {
     if (data == nullptr) {

@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-13 00:09:55
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:08:30
- */
-
 #pragma once
 #include "models.h"
 #include "conversionlistviewmodel.h"

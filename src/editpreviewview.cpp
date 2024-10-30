@@ -1,37 +1,33 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 11:13:49
- * @Last Modified by: weick
- * @Last Modified time: 2024-04-02 07:51:19
- */
-
 #include "inc/editpreviewview.h"
 #include "inc/editcropview.h"
 #include "inc/signals.h"
-#include "../awidget/inc/alabel.h"
-#include "../awidget/inc/awidget.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ahboxlayout.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QTimer>
 #include <QDebug>
 
 namespace imageedit {
 EditPreviewView::EditPreviewView(QWidget *parent) :
-    ABaseWidget(parent){
+    QWidget(parent){
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 EditPreviewView::~EditPreviewView() {
 }
 
 void EditPreviewView::createUi() {
-    auto mainLayout = new AVBoxLayout(this);
-    input_preview_label_ = new ALabel(this);
-    input_preview_widget_ = new AWidget(this);
-    output_preview_label_ = new ALabel(this);
-    output_preview_widget_ = new AWidget(this);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
+    input_preview_label_ = new QLabel(this);
+    input_preview_widget_ = new QWidget(this);
+    output_preview_label_ = new QLabel(this);
+    output_preview_widget_ = new QWidget(this);
+
+    input_preview_label_->setText(tr("Input"));
+    output_preview_label_->setText(tr("Output"));
+
     mainLayout->addWidget(input_preview_label_);
     mainLayout->addWidget(input_preview_widget_, 1);
     mainLayout->addWidget(output_preview_label_);
@@ -48,22 +44,26 @@ void EditPreviewView::createUi() {
     // input_preview_widget_->setStyleSheet("background-color: #000000;");
     // output_preview_widget_->setStyleSheet("background-color: #000000;");
 
-    input_preview_pixmap_label_ = new ALabel(input_preview_widget_);
-    auto input_preview_pixmap_label_layout = new AHBoxLayout();
+    input_preview_pixmap_label_ = new QLabel(input_preview_widget_);
+    auto input_preview_pixmap_label_layout = new QHBoxLayout();
+    input_preview_pixmap_label_layout->setContentsMargins(0, 0, 0, 0);
     input_preview_pixmap_label_layout->addStretch();
     input_preview_pixmap_label_layout->addWidget(input_preview_pixmap_label_);
     input_preview_pixmap_label_layout->addStretch();
-    auto input_preview_widget_layout = new AVBoxLayout(input_preview_widget_);
+    auto input_preview_widget_layout = new QVBoxLayout(input_preview_widget_);
+    input_preview_widget_layout->setContentsMargins(0, 0, 0, 0);
     input_preview_widget_layout->addStretch();
     input_preview_widget_layout->addLayout(input_preview_pixmap_label_layout);
     input_preview_widget_layout->addStretch();
 
-    output_preview_pixmap_label_ = new ALabel(output_preview_widget_);
-    auto output_preview_pixmap_label_layout = new AHBoxLayout();
+    output_preview_pixmap_label_ = new QLabel(output_preview_widget_);
+    auto output_preview_pixmap_label_layout = new QHBoxLayout();
+    output_preview_pixmap_label_layout->setContentsMargins(0, 0, 0, 0);
     output_preview_pixmap_label_layout->addStretch();
     output_preview_pixmap_label_layout->addWidget(output_preview_pixmap_label_);
     output_preview_pixmap_label_layout->addStretch();
-    auto output_preview_widget_layout = new AVBoxLayout(output_preview_widget_);
+    auto output_preview_widget_layout = new QVBoxLayout(output_preview_widget_);
+    output_preview_widget_layout->setContentsMargins(0, 0, 0, 0);
     output_preview_widget_layout->addStretch();
     output_preview_widget_layout->addLayout(output_preview_pixmap_label_layout);
     output_preview_widget_layout->addStretch();
@@ -78,11 +78,6 @@ void EditPreviewView::createUi() {
 
     crop_view_ = new EditCropView(this);
     
-}
-
-void EditPreviewView::changeLanguage() {
-    input_preview_label_->setText(tr("Input"));
-    output_preview_label_->setText(tr("Output"));
 }
 
 void EditPreviewView::sigConnect() {
@@ -102,18 +97,18 @@ void EditPreviewView::sigConnect() {
 }
 
 void EditPreviewView::showEvent(QShowEvent *event) {
-    ABaseWidget::showEvent(event);
+    QWidget::showEvent(event);
     updateCropViewGeometry();
     crop_view_->show();
 }
 
 void EditPreviewView::hideEvent(QHideEvent *event) {
-    ABaseWidget::hideEvent(event);
+    QWidget::hideEvent(event);
     crop_view_->hide();
 }
 
 void EditPreviewView::resizeEvent(QResizeEvent *event) {
-    ABaseWidget::resizeEvent(event);
+    QWidget::resizeEvent(event);
     updateInputPixmapSize();
     QTimer::singleShot(100, [=]() {
         updateCropViewGeometry();
@@ -121,7 +116,7 @@ void EditPreviewView::resizeEvent(QResizeEvent *event) {
 }
 
 void EditPreviewView::moveEvent(QMoveEvent *event) {
-    ABaseWidget::moveEvent(event);
+    QWidget::moveEvent(event);
     updateCropViewGeometry();
 }
 

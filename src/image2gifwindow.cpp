@@ -1,24 +1,17 @@
-/*
- * @Author: weick
- * @Date: 2024-03-23 11:01:48
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-06 16:37:59
- */
-
 #include "inc/image2gifwindow.h"
 #include "inc/signals.h"
-#include "../awidget/inc/ahboxlayout.h"
-#include "../awidget/inc/avboxlayout.h"
-#include "../awidget/inc/ashadoweffect.h"
+#include "control/shadoweffect.h"
+
+#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QPainter>
 #include <QPainterPath>
 
 namespace image2gif {
 Image2GifWindow::Image2GifWindow(QWidget *parent) :
-    ABaseWidget(parent) {
+    QWidget(parent) {
     createUi();
     sigConnect();
-    changeLanguage();
 }
 
 Image2GifWindow::~Image2GifWindow() {
@@ -46,54 +39,60 @@ void Image2GifWindow::createUi() {
     setAttribute(Qt::WA_TranslucentBackground);
     setMinimumSize(1200, 760);
 
-    auto mainLayout = new AVBoxLayout(this);
+    auto mainLayout = new QVBoxLayout(this);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
 
-    topbar_ = new ATopbar(this);
+    topbar_ = new TopbarWidget(this);
     topbar_->setCloseBtnTopRight10Radius();
     topbar_->setMinVisible(false);
     topbar_->setMaxVisible(false);
     mainLayout->addWidget(topbar_);
 
-    auto topbarLayout = new AHBoxLayout(topbar_->contentWidget());
+    auto topbarLayout = new QHBoxLayout(topbar_->contentWidget());
+    topbarLayout->setContentsMargins(12, 0, 12, 0);
     topbarLayout->setSpacing(12);
     topbarLayout->addSpacing(12);
-    auto logoLayout = new AHBoxLayout();
+    auto logoLayout = new QHBoxLayout();
+    logoLayout->setContentsMargins(0, 0, 0, 0);
     logoLayout->setSpacing(4);
-    logo_label_ = new ALabel(this);
+    logo_label_ = new QLabel(this);
     QPixmap logo(":/agui/res/image/Compression-logo-32.png");
     logo_label_->setPixmap(logo);
     logoLayout->addWidget(logo_label_);
-    name_label_ = new ALabel(this);
+    name_label_ = new QLabel(this);
     name_label_->setObjectName("edit_window_name_lable");
     name_label_->setText("生成GIF");
     logoLayout->addWidget(name_label_);
     topbarLayout->addLayout(logoLayout);
     topbarLayout->addStretch();
 
-    auto bodyLayout = new AHBoxLayout();
+    auto bodyLayout = new QHBoxLayout();
     bodyLayout->setContentsMargins(25, 0, 25, 25);
 
-    auto bodyBg = new AWidget(this);
+    auto bodyBg = new QWidget(this);
     bodyBg->setObjectName("edit_window_body_bg");
     bodyLayout->addWidget(bodyBg, 1);
-    auto bodyBgLayout = new AHBoxLayout(bodyBg);
+    auto bodyBgLayout = new QHBoxLayout(bodyBg);
+    bodyBgLayout->setContentsMargins(0, 0, 0, 0);
     
-    stacked_widget_ = new AStackedWidget(this);
+    stacked_widget_ = new QStackedWidget(this);
     bodyBgLayout->addWidget(stacked_widget_, 1);
 
-    import_guide_ = new AImportGuide(this);
+    import_guide_ = new ImportGuideWidget(this);
     stacked_widget_->addWidget(import_guide_);
 
-    auto viewsWidget = new AWidget(this);
+    auto viewsWidget = new QWidget(this);
     stacked_widget_->addWidget(viewsWidget);
 
-    auto viewsWidgetLayout = new AHBoxLayout(viewsWidget);
+    auto viewsWidgetLayout = new QHBoxLayout(viewsWidget);
+    viewsWidgetLayout->setContentsMargins(0, 0, 0, 0);
 
     file_list_view_ = new Image2GifFileListView(this);
     file_list_view_->setFixedWidth(400);
     viewsWidgetLayout->addWidget(file_list_view_);
 
-    auto viewsWidgetRightLayout = new AVBoxLayout();
+    auto viewsWidgetRightLayout = new QVBoxLayout();
+    viewsWidgetRightLayout->setContentsMargins(0, 0, 0, 0);
     viewsWidgetLayout->addLayout(viewsWidgetRightLayout, 1);
 
     preview_view_ = new Image2GifPreviewView(this);
@@ -105,21 +104,18 @@ void Image2GifWindow::createUi() {
 
     mainLayout->addLayout(bodyLayout, 1);
 
-    auto shadow = new AShadowEffect(this);
-}
-
-void Image2GifWindow::changeLanguage() {
+    auto shadow = new ShadowEffect(this);
 }
 
 void Image2GifWindow::sigConnect() {
-    connect(topbar_, &ATopbar::sigMin, this, [=]() { showMinimized(); });
-    connect(topbar_, &ATopbar::sigMax, this, [=]() { showMaximized(); });
-    connect(topbar_, &ATopbar::sigNormal, this, [=]() { showNormal(); });
-    connect(topbar_, &ATopbar::sigClose, this, [=]() {
+    connect(topbar_, &TopbarWidget::sigMin, this, [=]() { showMinimized(); });
+    connect(topbar_, &TopbarWidget::sigMax, this, [=]() { showMaximized(); });
+    connect(topbar_, &TopbarWidget::sigNormal, this, [=]() { showNormal(); });
+    connect(topbar_, &TopbarWidget::sigClose, this, [=]() {
         close();
         emit ::SIGNALS->sigGotoFunc(ImageFunc::STARTUP);
     });
-    connect(import_guide_, &AImportGuide::sigClicked, this, [=]() {
+    connect(import_guide_, &ImportGuideWidget::sigClicked, this, [=]() {
         emit SIGNALS->sigOpenFileDialog(this);
     });
 }
@@ -151,11 +147,11 @@ void Image2GifWindow::paintEvent(QPaintEvent *event) {
 }
 
 void Image2GifWindow::moveEvent(QMoveEvent *event) {
-    ABaseWidget::moveEvent(event);
+    QWidget::moveEvent(event);
     emit SIGNALS->sigWindowMove();
 }
 
 void Image2GifWindow::resizeEvent(QResizeEvent *event) {
-    ABaseWidget::resizeEvent(event);
+    QWidget::resizeEvent(event);
 }
 } // namespace image2gif

@@ -1,31 +1,25 @@
-/*
- * @Author: weick 
- * @Date: 2024-06-03 07:39:05 
- * @Last Modified by: weick
- * @Last Modified time: 2024-07-18 07:42:40
- */
-
 #pragma once
-#include "../agui/inc/abasewidget.h"
+#include "control/lineedit.h"
 
-class ALabel;
-class ALineEdit;
-class QIntValidator;
-class ALineEdit;
-class AComboBox;
-class APushButton;
-class ARadioButton;
+#include <QWidget>
+#include <QLabel>
+#include <QLineEdit>
+#include <QIntValidator>
+#include <QLineEdit>
+#include <QComboBox>
+#include <QPushButton>
+#include <QRadioButton>
+
 namespace image2gif {
-class Image2GifSettingView : public ABaseWidget {
+class Image2GifSettingView : public QWidget {
     Q_OBJECT
 public:
     explicit Image2GifSettingView(QWidget *parent = nullptr);
     ~Image2GifSettingView();
 
 protected:
-    void createUi() override;
-    void changeLanguage() override;
-    void sigConnect() override;
+    void createUi();
+    void sigConnect();
 
 private:
     void init();
@@ -39,18 +33,18 @@ private:
     void slotRepeatRadioToggled(bool checked);
     
 private:
-    ALabel *resolution_label_;
-    AComboBox *resolution_combo_;
-    ALabel *size_label_;
-    ALineEdit *w_edit_;
-    ALineEdit *h_edit_;
+    QLabel *resolution_label_;
+    QComboBox *resolution_combo_;
+    QLabel *size_label_;
+    LineEdit *w_edit_;
+    LineEdit *h_edit_;
     QIntValidator *w_edit_validator_;
     QIntValidator *h_edit_validator_;
-    ALabel *fps_label_;
-    AComboBox *fps_combo_;
-    ALabel *quality_label_;
-    AComboBox *quality_combo_;
-    ARadioButton *repeat_radio_;
-    APushButton *export_button_;
+    QLabel *fps_label_;
+    QComboBox *fps_combo_;
+    QLabel *quality_label_;
+    QComboBox *quality_combo_;
+    QRadioButton *repeat_radio_;
+    QPushButton *export_button_;
 };
 } // namespace image2gif

@@ -1,10 +1,3 @@
-/*
- * @Author: weick
- * @Date: 2023-12-21 23:43:01
- * @Last Modified by: weick
- * @Last Modified time: 2024-03-24 21:08:24
- */
-
 #pragma once
 #include "conversionwindow.h"
 #include "models.h"
