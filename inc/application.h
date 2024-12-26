@@ -1,7 +1,6 @@
 #pragma once
 #include <QApplication>
 
-class StartupController;
 class Application : public QApplication {
     Q_OBJECT
 
@@ -12,5 +11,4 @@ private:
     void initUi();
 
 private:
-    StartupController *m_StartupController;
 };

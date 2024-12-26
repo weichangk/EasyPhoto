@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "QtNote-launch",
+            "name": "imagekit-launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -16,7 +16,7 @@
                 }
             ],
             "console": "integratedTerminal",
-            "visualizerFile": "${workspaceRoot}/3rdparty/QtNote/qt5.natvis.xml"
+            "visualizerFile": "${workspaceRoot}/3rdparty/QtMaterial/qt5.natvis.xml"
         }
     ]
 }

@@ -7,12 +7,12 @@ project(
     LANGUAGES CXX
 )
 
-include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/public.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/public.cmake)
 
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/qtmaterial)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
-    ${CMAKE_SOURCE_DIR}/3rdparty/QtNote/qtmaterial/inc
+    ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickCore
@@ -30,10 +30,10 @@ MY_ADD_LINK_LIB_FUNC(
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib
 )
 
-include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/option.cmake)
-include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/code.cmake)
-include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/exe.cmake)
-include(${CMAKE_SOURCE_DIR}/3rdparty/QtNote/cmake/link.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/option.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/code.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/exe.cmake)
+include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/link.cmake)
 
 include(config.cmake)
 
