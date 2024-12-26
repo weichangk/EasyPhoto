@@ -12,6 +12,7 @@ include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/public.cmake)
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
+    ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
     ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
