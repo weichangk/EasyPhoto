@@ -16,7 +16,22 @@
                 }
             ],
             "console": "integratedTerminal",
-            "visualizerFile": "${workspaceRoot}/3rdparty/QtMaterial/qt5.natvis.xml"
+            "visualizerFile": "${workspaceRoot}/3rdparty/QtMaterial/qt5.natvis.xml",
+            "symbolSearchPath": "otherSearchPath;E:/Qt/5.15.2/msvc2019_64/bin",
+            "sourceFileMap": {
+                "C:/Users/qt/work/qt": "E:/Qt/5.15.2/Src"
+            }
+        },
+        {
+            "name": "imagekit-attach",
+            "type": "cppvsdbg",
+            "request": "attach",
+            "processId": "${command:pickProcess}",
+            "visualizerFile": "${workspaceRoot}/3rdparty/QtMaterial/qt5.natvis.xml",
+            "symbolSearchPath": "otherSearchPath;E:/Qt/5.15.2/msvc2019_64/bin",
+            "sourceFileMap": {
+                "C:/Users/qt/work/qt": "E:/Qt/5.15.2/Src"
+            }
         }
     ]
 }
