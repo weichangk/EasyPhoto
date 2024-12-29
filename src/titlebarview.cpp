@@ -7,6 +7,9 @@ TitlebarView::TitlebarView(QWidget *parent) :
 }
 
 void TitlebarView::createUi() {
+    setObjectName("TitlebarView");
+    setAttribute(Qt::WA_StyledBackground);
+    setFixedHeight(40);
 }
 
 void TitlebarView::connectSig() {

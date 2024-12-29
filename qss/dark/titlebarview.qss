@@ -1,0 +1,3 @@
+QWidget#TitlebarView {
+    background-color: "#08080e";
+}

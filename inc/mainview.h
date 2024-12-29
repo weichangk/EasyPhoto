@@ -1,6 +1,9 @@
 #pragma once
 #include "globalview.h"
 #include "mvp/view.h"
+#include "titlebarview.h"
+#include "navbarview.h"
+#include "funcareaview.h"
 
 using namespace qtmaterialmvp;
 
@@ -14,4 +17,9 @@ public:
 private:
     void createUi();
     void connectSig();
+
+private:
+    TitlebarView *m_pTitlebarView = nullptr;
+    NavbarView *m_pNavbarView = nullptr;
+    FuncAreaView *m_pFuncAreaView = nullptr;
 };

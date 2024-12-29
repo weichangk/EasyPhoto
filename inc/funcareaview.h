@@ -2,6 +2,8 @@
 #include "globalview.h"
 #include "mvp/view.h"
 
+#include <QStackedLayout>
+
 using namespace qtmaterialmvp;
 
 class FuncAreaView : public QWidget, public View {
@@ -14,4 +16,7 @@ public:
 private:
     void createUi();
     void connectSig();
+
+private:
+    QStackedLayout *m_pStackedLayout = nullptr;
 };
