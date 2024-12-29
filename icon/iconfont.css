@@ -1,0 +1,13 @@
+@font-face {
+  font-family: "imagekiticonfont"; /* Project id 4797948 */
+  src: url('iconfont.ttf?t=1735484603838') format('truetype');
+}
+
+.imagekiticonfont {
+  font-family: "imagekiticonfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
