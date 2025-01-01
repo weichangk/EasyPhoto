@@ -11,8 +11,9 @@ void MainView::createUi() {
     setAttribute(Qt::WA_StyledBackground);
     setMinimumSize(1096, 680);
     setFixedSize(1096, 680);
-    // setWindowFlags(Qt::FramelessWindowHint);
+    setWindowFlags(Qt::FramelessWindowHint);
 
+    auto ShadowEffect = new ShadowPixmap(this);
 
     m_pTitlebarView = new TitlebarView(this);
 
