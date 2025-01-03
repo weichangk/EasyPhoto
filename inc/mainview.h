@@ -1,6 +1,6 @@
 #pragma once
 #include "globalview.h"
-#include "filter/shadow.h"
+#include "filter/shadowwindow.h"
 #include "mvp/view.h"
 #include "titlebarview.h"
 #include "navbarview.h"

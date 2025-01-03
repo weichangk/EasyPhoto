@@ -1,7 +1,7 @@
 #include "titlebarpresenter.h"
 
 TitlebarPresenter::TitlebarPresenter(IView *pView) :
-    Presenter(pView) {
+    Presenter(pView, nullptr) {
 }
 
 TitlebarPresenter::~TitlebarPresenter() {
