@@ -1,4 +1,5 @@
 #include "inc/application.h"
+#include "mainrepository.h"
 #include "mainpresenter.h"
 #include "mainview.h"
 #include "core/theme.h"
@@ -23,8 +24,9 @@ Application::Application(int argc, char *argv[]) :
 int main(int argc, char *argv[]) {
     Application app(argc, argv);
 
+    MainRepository mainRepository;
     MainView mainView;
-    MainPresenter mainPresenter(&mainView);
+    MainPresenter mainPresenter(&mainView, &mainRepository);
     mainView.show();
 
     return app.exec();

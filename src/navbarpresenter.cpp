@@ -1,7 +1,7 @@
 #include "navbarpresenter.h"
 
-NavbarPresenter::NavbarPresenter(IView *pView) :
-    Presenter(pView, nullptr) {
+NavbarPresenter::NavbarPresenter(IView *view, IRepository *repository) :
+    Presenter(view, repository) {
 }
 
 NavbarPresenter::~NavbarPresenter() {

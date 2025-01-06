@@ -1,7 +1,7 @@
 #include "mainpresenter.h"
 
-MainPresenter::MainPresenter(IView *pView) :
-    Presenter(pView, nullptr) {
+MainPresenter::MainPresenter(IView *view, IRepository *repository) :
+    Presenter(view, repository) {
 }
 
 MainPresenter::~MainPresenter() {

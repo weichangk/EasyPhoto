@@ -1,7 +1,7 @@
 #include "funcareapresenter.h"
 
-FuncAreaPresenter::FuncAreaPresenter(IView *pView) :
-    Presenter(pView, nullptr) {
+FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
+    Presenter(view, repository) {
 }
 
 FuncAreaPresenter::~FuncAreaPresenter() {
