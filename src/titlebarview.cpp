@@ -1,4 +1,5 @@
 #include "titlebarview.h"
+#include "filter/movetitlebar.h"
 
 TitlebarView::TitlebarView(QWidget *parent) :
     QWidget(parent) {
@@ -59,6 +60,7 @@ void TitlebarView::createUi() {
     layout->addWidget(m_pCloseBtn, 0, Qt::AlignVCenter);
 
     m_pLang = new LanguageFilter(this);
+    auto movefilter = new MoveTitleBar(this, this->parentWidget());
 }
 
 void TitlebarView::connectSig() {
