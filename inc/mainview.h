@@ -15,6 +15,10 @@ public:
     explicit MainView(QWidget *parent = nullptr);
     ~MainView() override {
     }
+    
+    TitlebarView *titlebarView() const;
+    NavbarView *navbarView() const;
+    FuncAreaView *funcAreaView() const;
 
 private:
     void createUi();

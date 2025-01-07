@@ -6,6 +6,18 @@ MainView::MainView(QWidget *parent) :
     connectSig();
 }
 
+TitlebarView *MainView::titlebarView() const {
+    return m_pTitlebarView;
+}
+
+NavbarView *MainView::navbarView() const {
+    return m_pNavbarView;
+}
+
+FuncAreaView *MainView::funcAreaView() const {
+    return m_pFuncAreaView;
+}
+
 void MainView::createUi() {
     setObjectName("MainView");
     setAttribute(Qt::WA_StyledBackground);
