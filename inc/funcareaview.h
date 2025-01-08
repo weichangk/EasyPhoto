@@ -1,5 +1,6 @@
 #pragma once
 #include "globalview.h"
+#include "funcenum.h"
 #include "mvp/view.h"
 #include "compression/view.h"
 #include "conversion/view.h"
@@ -29,6 +30,8 @@ public:
     EraseView *eraseView() const;
     GifGenerationView *gifGenerationView() const;
     InpaintingView *inpaintingView() const;
+
+    void setCurrentFuncView(EFunc func);
 
 private:
     void createUi();

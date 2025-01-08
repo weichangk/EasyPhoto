@@ -1,7 +1,10 @@
 #pragma once
 #include "globalview.h"
+#include "funcenum.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+
+#include <QButtonGroup>
 
 using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
@@ -12,6 +15,8 @@ public:
     explicit NavbarView(QWidget *parent = nullptr);
     ~NavbarView() override {
     }
+
+    void setNavBtnChecked(EFunc func);
 
 Q_SIGNALS:
     void sigNavBtnClicked(int);
@@ -31,4 +36,5 @@ private:
     HorIconTextVectorButton *m_pInpaintingBtn = nullptr;
     HorIconTextVectorButton *m_pEffectsBtn = nullptr;
     HorIconTextVectorButton *m_pGifgenerationBtn = nullptr;
+    QButtonGroup *m_pNavBtnGroup = nullptr;
 };

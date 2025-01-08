@@ -3,8 +3,6 @@
 #include "filter/movetitlebar.h"
 #include "core/font.h"
 
-#include <QButtonGroup>
-
 using namespace qtmaterialfilter;
 using namespace qtmaterialcore;
 
@@ -17,6 +15,10 @@ NavbarView::NavbarView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
+}
+
+void NavbarView::setNavBtnChecked(EFunc func) {
+    m_pNavBtnGroup->button(func)->setChecked(true);
 }
 
 void NavbarView::createUi() {
@@ -67,8 +69,8 @@ QVBoxLayout *NavbarView::createNavBtns() {
     navMap[EFunc::FuncGifGeneration] = {QChar(0xe608), "GIF生成"};
     QMap<int, SNavIconName>::Iterator iter;
     QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
-    QButtonGroup *navBtnGroup = new QButtonGroup(this);
-    navBtnGroup->setExclusive(true);
+    m_pNavBtnGroup = new QButtonGroup(this);
+    m_pNavBtnGroup->setExclusive(true);
     for (iter = navMap.begin(); iter != navMap.end(); ++iter) {
         auto *btn = new HorIconTextVectorButton(this);
         btn->setObjectName("HorIconTextVectorButton_H36_R8_I20_T14_Bg")
@@ -78,11 +80,11 @@ QVBoxLayout *NavbarView::createNavBtns() {
         btn->setFixedWidth(158);
         btn->setAdjustWidth(false);
         btn->setCheckable(true);
-        navBtnGroup->addButton(btn, iter.key());
+        m_pNavBtnGroup->addButton(btn, iter.key());
         navlayout->addWidget(btn);
         navlayout->addSpacing(4);
     }
-    connect(navBtnGroup, &QButtonGroup::idClicked, this, [this](int id) {
+    connect(m_pNavBtnGroup, &QButtonGroup::idClicked, this, [this](int id) {
         emit sigNavBtnClicked(id);
     });
     return navlayout;

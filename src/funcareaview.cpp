@@ -38,6 +38,10 @@ InpaintingView *FuncAreaView::inpaintingView() const {
     return m_pInpaintingView;
 }
 
+void FuncAreaView::setCurrentFuncView(EFunc func) {
+    m_pStackedLayout->setCurrentIndex(func);
+}
+
 void FuncAreaView::createUi() {
     setObjectName("FuncAreaView");
     setAttribute(Qt::WA_StyledBackground);
@@ -55,14 +59,14 @@ void FuncAreaView::createUi() {
     m_pGifGenerationView = new GifGenerationView(this);
     m_pInpaintingView = new InpaintingView(this);
 
-    m_pStackedLayout->insertWidget(0, m_pCompressionView);
-    m_pStackedLayout->insertWidget(1, m_pConversionView);
-    m_pStackedLayout->insertWidget(2, m_pCroppingView);
-    m_pStackedLayout->insertWidget(3, m_pEffectsView);
-    m_pStackedLayout->insertWidget(4, m_pEnhancementView);
-    m_pStackedLayout->insertWidget(5, m_pEraseView);
-    m_pStackedLayout->insertWidget(6, m_pGifGenerationView);
-    m_pStackedLayout->insertWidget(7, m_pInpaintingView);
+    m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConversionView);
+    m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
+    m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);
+    m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
+    m_pStackedLayout->insertWidget(EFunc::FuncEnhancement, m_pEnhancementView);
+    m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
+    m_pStackedLayout->insertWidget(EFunc::FuncEffects, m_pEffectsView);
+    m_pStackedLayout->insertWidget(EFunc::FuncGifGeneration, m_pGifGenerationView);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(16, 8, 16, 12);
