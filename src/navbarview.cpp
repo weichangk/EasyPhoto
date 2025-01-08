@@ -1,4 +1,5 @@
 #include "navbarview.h"
+#include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"
 
@@ -6,17 +7,6 @@
 
 using namespace qtmaterialfilter;
 using namespace qtmaterialcore;
-
-using ENavBtns = enum {
-    NavBtnConversion = 0,
-    NavBtnCompressionBtn,
-    NavBtnCroppingBtn,
-    NavBtnEraseBtn,
-    NavBtnEnhancementBtn,
-    NavBtnInpaintingBtn,
-    NavBtnEffectsBtn,
-    NavBtnGifgenerationBtn,
-};
 
 struct SNavIconName {
     QChar icon;
@@ -67,14 +57,14 @@ QVBoxLayout *NavbarView::createNavBtns() {
     navlayout->setContentsMargins(23, 20, 23, 13);
     navlayout->setSpacing(0);
     QMap<int, SNavIconName> navMap;
-    navMap[ENavBtns::NavBtnConversion] = {QChar(0xe7dc), "图片转换"}; 
-    navMap[ENavBtns::NavBtnCompressionBtn] = {QChar(0xe66b), "图片压缩"};
-    navMap[ENavBtns::NavBtnCroppingBtn] = {QChar(0xe600), "图片裁剪"};
-    navMap[ENavBtns::NavBtnEraseBtn] = {QChar(0xe789), "图片擦除"};
-    navMap[ENavBtns::NavBtnEnhancementBtn] = {QChar(0xe6a7), "图片增强"};
-    navMap[ENavBtns::NavBtnInpaintingBtn] = {QChar(0xe771), "图片修复"};
-    navMap[ENavBtns::NavBtnEffectsBtn] = {QChar(0xe677), "图片效果"};
-    navMap[ENavBtns::NavBtnGifgenerationBtn] = {QChar(0xe608), "GIF生成"};
+    navMap[EFunc::FuncConversion] = {QChar(0xe7dc), "图片转换"}; 
+    navMap[EFunc::FuncCompression] = {QChar(0xe66b), "图片压缩"};
+    navMap[EFunc::FuncCropping] = {QChar(0xe600), "图片裁剪"};
+    navMap[EFunc::FuncErase] = {QChar(0xe789), "图片擦除"};
+    navMap[EFunc::FuncEnhancement] = {QChar(0xe6a7), "图片增强"};
+    navMap[EFunc::FuncInpainting] = {QChar(0xe771), "图片修复"};
+    navMap[EFunc::FuncEffects] = {QChar(0xe677), "图片效果"};
+    navMap[EFunc::FuncGifGeneration] = {QChar(0xe608), "GIF生成"};
     QMap<int, SNavIconName>::Iterator iter;
     QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
     QButtonGroup *navBtnGroup = new QButtonGroup(this);
