@@ -3,5 +3,14 @@
       <file>../../qss/dark/mainview.qss</file>
       <file>../../qss/dark/titlebarview.qss</file>
       <file>../../qss/dark/navbarview.qss</file>
+      <file>../../qss/dark/funcareaview.qss</file> 
+      <file>../../qss/dark/compression.qss</file> 
+      <file>../../qss/dark/conversion.qss</file> 
+      <file>../../qss/dark/cropping.qss</file> 
+      <file>../../qss/dark/effects.qss</file> 
+      <file>../../qss/dark/enhancement.qss</file> 
+      <file>../../qss/dark/erase.qss</file> 
+      <file>../../qss/dark/gifgeneration.qss</file> 
+      <file>../../qss/dark/inpaintingview.qss</file>
   </qresource>
 </RCC>

@@ -1,0 +1,4 @@
+QWidget#CroppingView {
+    background-color: "#202031";
+    border-radius: 12px;
+}

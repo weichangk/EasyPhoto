@@ -41,7 +41,8 @@ InpaintingView *FuncAreaView::inpaintingView() const {
 void FuncAreaView::createUi() {
     setObjectName("FuncAreaView");
     setAttribute(Qt::WA_StyledBackground);
-    m_pStackedLayout = new QStackedLayout(this);
+
+    m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->setContentsMargins(0, 0, 0, 0);
     m_pStackedLayout->setSpacing(0);
 
@@ -62,6 +63,12 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(5, m_pEraseView);
     m_pStackedLayout->insertWidget(6, m_pGifGenerationView);
     m_pStackedLayout->insertWidget(7, m_pInpaintingView);
+
+    auto layout = new QVBoxLayout(this);
+    layout->setContentsMargins(16, 8, 16, 12);
+    layout->setSpacing(0);
+
+    layout->addLayout(m_pStackedLayout);
 }
 
 void FuncAreaView::connectSig() {
