@@ -1,4 +1,5 @@
 #include "funcareaview.h"
+#include "navbarmessage.h"
 
 FuncAreaView::FuncAreaView(QWidget *parent) :
     QWidget(parent) {
@@ -38,10 +39,6 @@ InpaintingView *FuncAreaView::inpaintingView() const {
     return m_pInpaintingView;
 }
 
-void FuncAreaView::setCurrentFuncView(EFunc func) {
-    m_pStackedLayout->setCurrentIndex(func);
-}
-
 void FuncAreaView::createUi() {
     setObjectName("FuncAreaView");
     setAttribute(Qt::WA_StyledBackground);
@@ -76,4 +73,15 @@ void FuncAreaView::createUi() {
 }
 
 void FuncAreaView::connectSig() {
+}
+
+void FuncAreaView::setCurrentFuncView(EFunc func) {
+    m_pStackedLayout->setCurrentIndex(func);
+}
+
+bool FuncAreaView::handleMessage(IMessage* message) {
+    if (NavChangeMessage *msg = dynamic_cast<NavChangeMessage *>(message)) {
+        setCurrentFuncView((EFunc)msg->code());
+    }
+    return false;
 }

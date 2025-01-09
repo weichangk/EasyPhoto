@@ -16,12 +16,11 @@ public:
     ~NavbarView() override {
     }
 
-    void setNavBtnChecked(EFunc func);
-
 private:
     void createUi();
     void connectSig();
     QVBoxLayout *createNavBtns();
+    void setNavBtnChecked(EFunc);
 
 private slots:
     void onNavBtnClicked(int);

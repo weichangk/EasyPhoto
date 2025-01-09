@@ -18,10 +18,6 @@ NavbarView::NavbarView(QWidget *parent) :
     connectSig();
 }
 
-void NavbarView::setNavBtnChecked(EFunc func) {
-    m_pNavBtnGroup->button(func)->setChecked(true);
-}
-
 void NavbarView::createUi() {
     setObjectName("NavbarView");
     setAttribute(Qt::WA_StyledBackground);
@@ -89,7 +85,11 @@ QVBoxLayout *NavbarView::createNavBtns() {
     return navlayout;
 }
 
-void NavbarView::onNavBtnClicked(int funcId) {
-    NavChangeMessage msg(funcId);
+void NavbarView::setNavBtnChecked(EFunc func) {
+    m_pNavBtnGroup->button(func)->setChecked(true);
+}
+
+void NavbarView::onNavBtnClicked(int func) {
+    NavChangeMessage msg(func);
     presenter()->sendMessage(&msg);
 }

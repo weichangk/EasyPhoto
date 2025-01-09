@@ -31,11 +31,13 @@ public:
     GifGenerationView *gifGenerationView() const;
     InpaintingView *inpaintingView() const;
 
-    void setCurrentFuncView(EFunc func);
-
 private:
     void createUi();
     void connectSig();
+    void setCurrentFuncView(EFunc);
+
+private:
+    bool handleMessage(IMessage* message) override;
 
 private:
     QStackedLayout *m_pStackedLayout = nullptr;

@@ -9,6 +9,10 @@ EffectsView::EffectsView(QWidget *parent) :
 void EffectsView::createUi() {
     setObjectName("EffectsView");
     setAttribute(Qt::WA_StyledBackground);
+
+    QLabel *label = new QLabel("EffectsView", this);
+    auto layout = new QVBoxLayout(this);
+    layout->addWidget(label, 0, Qt::AlignCenter);
 }
 
 void EffectsView::connectSig() {
