@@ -1,5 +1,6 @@
 #pragma once
 #include "globalpresenter.h"
+#include "navbarobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "compression/presenter.h"
@@ -13,10 +14,13 @@
 
 using namespace qtmaterialmvp;
 
-class FuncAreaPresenter : public Presenter {
+class FuncAreaPresenter : public Presenter, public INavbarObserver {
 public:
     explicit FuncAreaPresenter(IView* view, IRepository *repository);
     ~FuncAreaPresenter();
+
+private:
+    void navChange(EFunc) override;
 
 private:
     CompressionPresenter *m_pCompressionPresenter = nullptr;

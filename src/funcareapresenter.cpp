@@ -20,3 +20,7 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
 
 FuncAreaPresenter::~FuncAreaPresenter() {
 }
+
+void FuncAreaPresenter::navChange(EFunc func) {
+    qDebug() << "FuncAreaPresenter::navChange" << func;
+}

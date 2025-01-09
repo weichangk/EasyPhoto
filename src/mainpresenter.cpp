@@ -10,9 +10,10 @@ MainPresenter::MainPresenter(IView *view, IRepository *repository) :
         m_pTitlebarPresenter = new TitlebarPresenter(mainView->titlebarView(), mainRepository->titlebarRepository());
         m_pNavbarPresenter = new NavbarPresenter(mainView->navbarView(), mainRepository->navbarRepository());
         m_pFuncAreaPresenter = new FuncAreaPresenter(mainView->funcAreaView(), mainRepository->funcAreaRepository());
+
+        m_pNavbarPresenter->attach(m_pFuncAreaPresenter);
     }
 }
 
 MainPresenter::~MainPresenter() {
-    qDebug() << "MainPresenter::~MainPresenter()";
 }
