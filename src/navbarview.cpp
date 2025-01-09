@@ -1,4 +1,5 @@
 #include "navbarview.h"
+#include "navbarmessage.h"
 #include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"
@@ -84,8 +85,11 @@ QVBoxLayout *NavbarView::createNavBtns() {
         navlayout->addWidget(btn);
         navlayout->addSpacing(4);
     }
-    connect(m_pNavBtnGroup, &QButtonGroup::idClicked, this, [this](int id) {
-        emit sigNavBtnClicked(id);
-    });
+    connect(m_pNavBtnGroup, &QButtonGroup::idClicked, this, &NavbarView::onNavBtnClicked);
     return navlayout;
+}
+
+void NavbarView::onNavBtnClicked(int funcId) {
+    NavChangeMessage msg(funcId);
+    presenter()->sendMessage(&msg);
 }

@@ -18,13 +18,13 @@ public:
 
     void setNavBtnChecked(EFunc func);
 
-Q_SIGNALS:
-    void sigNavBtnClicked(int);
-    
 private:
     void createUi();
     void connectSig();
     QVBoxLayout *createNavBtns();
+
+private slots:
+    void onNavBtnClicked(int);
 
 private:
     HorIconTextVectorButton *m_pProjectLogo = nullptr;

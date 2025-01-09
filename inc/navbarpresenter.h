@@ -9,4 +9,7 @@ class NavbarPresenter : public Presenter {
 public:
     explicit NavbarPresenter(IView* view, IRepository *repository);
     ~NavbarPresenter();
+
+protected:
+    bool handleMessage(IMessage* message) override;
 };
