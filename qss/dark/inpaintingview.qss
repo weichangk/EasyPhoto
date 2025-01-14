@@ -1,4 +1,4 @@
 QWidget#InpaintingView {
-    background-color: "#202031";
+    background-color: "#191927";
     border-radius: 12px;
 }

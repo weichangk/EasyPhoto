@@ -1,4 +1,8 @@
 QWidget#ConversionView {
-    background-color: "#202031";
+    background-color: "#191927";
     border-radius: 12px;
+}
+
+QWidget#ConversionView_DividingLine {
+    background-color: "#262636";
 }
