@@ -1,0 +1,16 @@
+QWidget#ImportGuide {
+    border: 2px dashed "#333343";
+    border-radius: 10px;
+}
+
+QWidget#ImportGuide:hover {
+    background-color: "#262636";
+}
+
+QWidget#ImportGuide:pressed {
+    background-color: "#333344";
+}
+
+QWidget#ImportGuide_DividingLine {
+    background-color: "#323242";
+}

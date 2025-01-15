@@ -12,5 +12,6 @@
       <file>../../qss/dark/erase.qss</file> 
       <file>../../qss/dark/gifgeneration.qss</file> 
       <file>../../qss/dark/inpaintingview.qss</file>
+      <file>../../qss/dark/importguide.qss</file>
   </qresource>
 </RCC>

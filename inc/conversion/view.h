@@ -4,6 +4,7 @@
 #include "widget/button.h"
 #include "core/font.h"
 #include "filter/languagefilter.h"
+#include "importguide.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -45,4 +46,6 @@ private:
     VectorButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pConversionBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
+
+    ImportGuide *m_pImportGuide = nullptr;
 };

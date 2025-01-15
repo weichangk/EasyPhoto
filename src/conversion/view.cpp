@@ -75,7 +75,14 @@ void ConversionView::createUi() {
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pConversionBtn, Qt::AlignVCenter);
 
+    m_pImportGuide = new ImportGuide(this);
+    QWidget *importGuideWidget = new QWidget();
+    QVBoxLayout *importGuideLayout = new QVBoxLayout(importGuideWidget);
+    importGuideLayout->setAlignment(Qt::AlignCenter);
+    importGuideLayout->addWidget(m_pImportGuide);
+
     m_pStackedLayout = new QStackedLayout();
+    m_pStackedLayout->addWidget(importGuideWidget);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

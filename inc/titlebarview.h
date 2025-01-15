@@ -2,8 +2,6 @@
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
-#include "core/font.h"
-#include "filter/languagefilter.h"
 
 using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
