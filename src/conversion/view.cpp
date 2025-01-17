@@ -1,4 +1,7 @@
 #include "conversion/view.h"
+#include "conversion/listdelegate.h"
+
+#include <QFileInfo>
 
 ConversionView::ConversionView(QWidget *parent) :
     QWidget(parent) {
@@ -81,8 +84,14 @@ void ConversionView::createUi() {
     importGuideLayout->setAlignment(Qt::AlignCenter);
     importGuideLayout->addWidget(m_pImportGuide);
 
+    m_pListView = new ListView<Data>(this);
+    ListDelegate *listDelegate = new ListDelegate(this);
+    m_pListView->setItemDelegate(listDelegate);
+    m_pListView->viewport()->installEventFilter(listDelegate);
+
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(importGuideWidget);
+    m_pStackedLayout->addWidget(m_pListView);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -96,6 +105,7 @@ void ConversionView::createUi() {
 
 void ConversionView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -104,6 +114,33 @@ QWidget *ConversionView::createDividingLine() {
     dividingLine->setObjectName("ConversionView_DividingLine");
     dividingLine->setFixedHeight(1);
     return dividingLine;
+}
+
+void ConversionView::listViewImportFile(const QStringList filePaths) {
+    QList<Data> datas;
+    for (const QString &filePath : filePaths) {
+        Data data;
+        data.file_path = filePath;
+        data.file_name = QFileInfo(filePath).fileName();
+        QPixmap pixmap = QPixmap(filePath);
+        pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.thumbnail = pixmap;
+        QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
+        delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.delete_icon = delIcon;
+        QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
+        checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.checked_icon = checkedIcon;
+        QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
+        unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.unchecked_icon = unCheckedIcon;
+        data.is_checked = true;
+        datas.append(data);
+        m_pListView->changeData(datas);
+    }
+    if(!datas.isEmpty()) {
+        m_pStackedLayout->setCurrentWidget(m_pListView);
+    }
 }
 
 void ConversionView::onLanguageChange() {

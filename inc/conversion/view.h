@@ -2,9 +2,11 @@
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+#include "widget/listview.h"
 #include "core/font.h"
 #include "filter/languagefilter.h"
 #include "importguide.h"
+#include "model.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -28,6 +30,7 @@ private:
     void createUi();
     void connectSig();
     QWidget *createDividingLine();
+    void listViewImportFile(const QStringList filePaths);
 
 private:
     void onLanguageChange();
@@ -48,4 +51,6 @@ private:
     QStackedLayout *m_pStackedLayout = nullptr;
 
     ImportGuide *m_pImportGuide = nullptr;
+
+    ListView<Data> *m_pListView = nullptr;
 };
