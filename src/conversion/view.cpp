@@ -1,7 +1,10 @@
 #include "conversion/view.h"
 #include "conversion/listdelegate.h"
+#include "conversion/presenter.h"
 
 #include <QFileInfo>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 ConversionView::ConversionView(QWidget *parent) :
     QWidget(parent) {
@@ -85,6 +88,7 @@ void ConversionView::createUi() {
     importGuideLayout->addWidget(m_pImportGuide);
 
     m_pListView = new ListView<Data>(this);
+    m_pListView->setSpacing(0);
     ListDelegate *listDelegate = new ListDelegate(this);
     m_pListView->setItemDelegate(listDelegate);
     m_pListView->viewport()->installEventFilter(listDelegate);
@@ -92,13 +96,16 @@ void ConversionView::createUi() {
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(importGuideWidget);
     m_pStackedLayout->addWidget(m_pListView);
+    auto stackedMarginLayout = new QVBoxLayout();
+    stackedMarginLayout->setContentsMargins(8, 8, 2, 8);
+    stackedMarginLayout->addLayout(m_pStackedLayout, 1);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(topWidget);
     layout->addWidget(createDividingLine());
-    layout->addLayout(m_pStackedLayout, 1);
+    layout->addLayout(stackedMarginLayout, 1);
     layout->addWidget(createDividingLine());
     layout->addWidget(bottomWidget);
 }
@@ -106,6 +113,7 @@ void ConversionView::createUi() {
 void ConversionView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
+    connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -117,28 +125,10 @@ QWidget *ConversionView::createDividingLine() {
 }
 
 void ConversionView::listViewImportFile(const QStringList filePaths) {
-    QList<Data> datas;
-    for (const QString &filePath : filePaths) {
-        Data data;
-        data.file_path = filePath;
-        data.file_name = QFileInfo(filePath).fileName();
-        QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(148, 148), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
-        QPixmap delIcon = QPixmap(":/agui/res/image/delete1-24.png");
-        delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.delete_icon = delIcon;
-        QPixmap checkedIcon = QPixmap(":/agui/res/image/checked1-24.png");
-        checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.checked_icon = checkedIcon;
-        QPixmap unCheckedIcon = QPixmap(":/agui/res/image/unchecked1-24.png");
-        unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.unchecked_icon = unCheckedIcon;
-        data.is_checked = true;
-        datas.append(data);
-        m_pListView->changeData(datas);
-    }
-    if(!datas.isEmpty()) {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    prst->appendData(filePaths);
+    if(!prst->datas().isEmpty()) {
+        m_pListView->changeData(prst->datas());
         m_pStackedLayout->setCurrentWidget(m_pListView);
     }
 }
@@ -147,4 +137,13 @@ void ConversionView::onLanguageChange() {
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pConversionBtn->setText(tr("Conversion"));
+}
+
+void ConversionView::onAddFileClicked() {
+    QString title = tr("Open");
+    QString directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
+    if (!filePaths.isEmpty()) {
+        listViewImportFile(filePaths);
+    }
 }

@@ -34,6 +34,7 @@ private:
 
 private:
     void onLanguageChange();
+    void onAddFileClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
