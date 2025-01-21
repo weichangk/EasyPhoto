@@ -1,5 +1,7 @@
 <RCC>
   <qresource prefix="/">
+      <file>../../qss/dark/qscrollbar.qss</file>
+      
       <file>../../qss/dark/mainview.qss</file>
       <file>../../qss/dark/titlebarview.qss</file>
       <file>../../qss/dark/navbarview.qss</file>
