@@ -7,6 +7,7 @@
 #include "filter/languagefilter.h"
 #include "importguide.h"
 #include "model.h"
+#include "listdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -31,6 +32,7 @@ private:
     void connectSig();
     QWidget *createDividingLine();
     void listViewImportFile(const QStringList filePaths);
+    void listModeSwitch();
 
 private:
     void onLanguageChange();
@@ -42,6 +44,7 @@ private:
     VectorButton *m_pAddFileBtn = nullptr;
     VectorButton *m_pAddFolderBtn = nullptr;
     VectorButton *m_pDelFileBtn = nullptr;
+    VectorButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
@@ -54,4 +57,5 @@ private:
     ImportGuide *m_pImportGuide = nullptr;
 
     ListView<Data> *m_pListView = nullptr;
+    ListDelegate *m_pListDelegate = nullptr;
 };

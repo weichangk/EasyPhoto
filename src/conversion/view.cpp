@@ -1,5 +1,4 @@
 #include "conversion/view.h"
-#include "conversion/listdelegate.h"
 #include "conversion/presenter.h"
 
 #include <QFileInfo>
@@ -41,6 +40,11 @@ void ConversionView::createUi() {
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
 
+    m_pListModeSwitchBtn = new VectorButton(topWidget);
+    m_pListModeSwitchBtn->setObjectName("VectorButton_HW28_I20");
+    m_pListModeSwitchBtn->setFont(iconFont);
+    m_pListModeSwitchBtn->setText(QChar(0xe634));
+
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
     topWidgetLayout->setSpacing(8);
@@ -49,6 +53,7 @@ void ConversionView::createUi() {
     topWidgetLayout->addWidget(m_pDelFileBtn, Qt::AlignVCenter);
     topWidgetLayout->addWidget(m_pSelectAllCkb, Qt::AlignVCenter);
     topWidgetLayout->addStretch();
+    topWidgetLayout->addWidget(m_pListModeSwitchBtn, Qt::AlignVCenter);
 
     QWidget *bottomWidget = new QWidget(this);
     bottomWidget->setFixedHeight(80);
@@ -89,9 +94,9 @@ void ConversionView::createUi() {
 
     m_pListView = new ListView<Data>(this);
     m_pListView->setSpacing(0);
-    ListDelegate *listDelegate = new ListDelegate(this);
-    m_pListView->setItemDelegate(listDelegate);
-    m_pListView->viewport()->installEventFilter(listDelegate);
+    m_pListDelegate = new ListDelegate(m_pListView);
+    m_pListView->setItemDelegate(m_pListDelegate);
+    m_pListView->viewport()->installEventFilter(m_pListDelegate);
 
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(importGuideWidget);
@@ -114,6 +119,7 @@ void ConversionView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileClicked);
+    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::listModeSwitch);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -130,6 +136,16 @@ void ConversionView::listViewImportFile(const QStringList filePaths) {
     if(!prst->datas().isEmpty()) {
         m_pListView->changeData(prst->datas());
         m_pStackedLayout->setCurrentWidget(m_pListView);
+    }
+}
+
+void ConversionView::listModeSwitch() {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    if(!prst->datas().isEmpty()) {
+        m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
+        m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
+        m_pListView->changeData(prst->datas());
+        m_pListView->update();
     }
 }
 
