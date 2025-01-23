@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
-    <file alias="checkbox_checked">../../img/dark/checkbox_checked.png</file>
+    <file alias="icon16_checkbox_checked">../../img/dark/icon16_checkbox_checked.png</file>
+    <file alias="icon16_close">../../img/dark/icon16_close.png</file>
   </qresource>
 </RCC>

@@ -23,19 +23,19 @@ QCheckBox::indicator:pressed {
 QCheckBox::indicator:checked {
     border: 1px solid #a070ff;
     background-color: #a070ff;
-    image: url(:/checkbox_checked);
+    image: url(:/icon16_checkbox_checked);
 }
 
 QCheckBox::indicator:checked:hover {
     border: 1px solid #ad84ff;
     background-color: #ad84ff;
-    image: url(:/checkbox_checked);
+    image: url(:/icon16_checkbox_checked);
 }
 
 QCheckBox::indicator:checked:pressed {
     border: 1px solid #bb99ff;
     background-color: #bb99ff;
-    image: url(:/checkbox_checked);
+    image: url(:/icon16_checkbox_checked);
 }
 
 QCheckBox::indicator:unchecked {
