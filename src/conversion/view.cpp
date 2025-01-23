@@ -150,6 +150,7 @@ void ConversionView::listModeSwitch() {
 }
 
 void ConversionView::onLanguageChange() {
+    m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pConversionBtn->setText(tr("Conversion"));

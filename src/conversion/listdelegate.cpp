@@ -60,7 +60,7 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     QPen pen(nameColor);
     painter->setPen(pen);
     QFont font = painter->font();
-    font.setPointSizeF(10);
+    font.setPixelSize(13);
     painter->setFont(font);
     QString fileName = data.file_name;
     QFontMetricsF metrics(font);
