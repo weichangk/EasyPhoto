@@ -119,6 +119,7 @@ void ConversionView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileClicked);
+    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderClicked);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::listModeSwitch);
 }
 
@@ -162,5 +163,22 @@ void ConversionView::onAddFileClicked() {
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
         listViewImportFile(filePaths);
+    }
+}
+
+void ConversionView::onAddFolderClicked() {
+    QString title = tr("Select Folder");
+    QString folderPath = QFileDialog::getExistingDirectory(nullptr, title, QDir::homePath());
+    if (!folderPath.isEmpty()) {
+        QDir dir(folderPath);
+        QStringList files = dir.entryList(QDir::Files);
+        QStringList filePaths;
+        for (const QString &file : files) {
+            QString filePath = dir.absoluteFilePath(file);
+            filePaths.append(filePath);
+        }
+        if (!filePaths.isEmpty()) {
+            listViewImportFile(filePaths);
+        }
     }
 }
