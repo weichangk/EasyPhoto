@@ -44,3 +44,28 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     rep->appendData(tempDatas);
 }
+
+void ConversionPresenter::deleteData(const QStringList filePaths) {
+    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    rep->deleteData(filePaths);
+}
+
+void ConversionPresenter::deleteCheckedData() {
+    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    rep->deleteCheckedData();
+}
+
+void ConversionPresenter::clearData() {
+    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    rep->clearData();
+}
+
+void ConversionPresenter::switchCheckedData(const QString filePath) {
+    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    rep->switchCheckedData(filePath);
+}
+
+void ConversionPresenter::checkedAllData(bool checked) {
+    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    rep->checkedAllData(checked);
+}

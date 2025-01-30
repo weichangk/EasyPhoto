@@ -36,15 +36,17 @@ private:
 
 private:
     void onLanguageChange();
-    void onAddFileClicked();
-    void onAddFolderClicked();
+    void onAddFileBtnClicked();
+    void onAddFolderBtnClicked();
+    void onClearFileBtnClicked();
+    void onSelectAllStateChanged(int);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
     VectorButton *m_pAddFileBtn = nullptr;
     VectorButton *m_pAddFolderBtn = nullptr;
-    VectorButton *m_pDelFileBtn = nullptr;
+    VectorButton *m_pClearFileBtn = nullptr;
     VectorButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;

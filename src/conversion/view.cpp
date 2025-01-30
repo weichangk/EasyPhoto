@@ -33,10 +33,10 @@ void ConversionView::createUi() {
     m_pAddFolderBtn->setFont(iconFont);
     m_pAddFolderBtn->setText(QChar(0xe634));
 
-    m_pDelFileBtn = new VectorButton(topWidget);
-    m_pDelFileBtn->setObjectName("VectorButton_HW28_I20");
-    m_pDelFileBtn->setFont(iconFont);
-    m_pDelFileBtn->setText(QChar(0xe634));
+    m_pClearFileBtn = new VectorButton(topWidget);
+    m_pClearFileBtn->setObjectName("VectorButton_HW28_I20");
+    m_pClearFileBtn->setFont(iconFont);
+    m_pClearFileBtn->setText(QChar(0xe634));
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
 
@@ -50,7 +50,7 @@ void ConversionView::createUi() {
     topWidgetLayout->setSpacing(8);
     topWidgetLayout->addWidget(m_pAddFileBtn, Qt::AlignVCenter);
     topWidgetLayout->addWidget(m_pAddFolderBtn, Qt::AlignVCenter);
-    topWidgetLayout->addWidget(m_pDelFileBtn, Qt::AlignVCenter);
+    topWidgetLayout->addWidget(m_pClearFileBtn, Qt::AlignVCenter);
     topWidgetLayout->addWidget(m_pSelectAllCkb, Qt::AlignVCenter);
     topWidgetLayout->addStretch();
     topWidgetLayout->addWidget(m_pListModeSwitchBtn, Qt::AlignVCenter);
@@ -118,8 +118,10 @@ void ConversionView::createUi() {
 void ConversionView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderClicked);
+    connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileBtnClicked);
+    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderBtnClicked);
+    connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConversionView::onClearFileBtnClicked);
+    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::listModeSwitch);
 }
 
@@ -157,7 +159,7 @@ void ConversionView::onLanguageChange() {
     m_pConversionBtn->setText(tr("Conversion"));
 }
 
-void ConversionView::onAddFileClicked() {
+void ConversionView::onAddFileBtnClicked() {
     QString title = tr("Open");
     QString directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
@@ -166,7 +168,7 @@ void ConversionView::onAddFileClicked() {
     }
 }
 
-void ConversionView::onAddFolderClicked() {
+void ConversionView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
     QString folderPath = QFileDialog::getExistingDirectory(nullptr, title, QDir::homePath());
     if (!folderPath.isEmpty()) {
@@ -181,4 +183,18 @@ void ConversionView::onAddFolderClicked() {
             listViewImportFile(filePaths);
         }
     }
+}
+
+void ConversionView::onClearFileBtnClicked() {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    prst->clearData();
+    m_pListView->changeData(prst->datas());
+    m_pListView->update();
+}
+
+void ConversionView::onSelectAllStateChanged(int state) {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    prst->checkedAllData(state);
+    m_pListView->changeData(prst->datas());
+    m_pListView->update();
 }
