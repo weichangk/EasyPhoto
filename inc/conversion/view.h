@@ -27,19 +27,26 @@ public:
     ~ConversionView() override {
     }
 
+protected:
+    void showEvent(QShowEvent *event) override;
+    
 private:
     void createUi();
     void connectSig();
     QWidget *createDividingLine();
     void listViewImportFile(const QStringList filePaths);
-    void listModeSwitch();
+    void listItemSelectChanged(const QString filePath);
+    void listItemDelete(const QString filePath);
+    void listViewNoDataState();
 
 private:
     void onLanguageChange();
     void onAddFileBtnClicked();
     void onAddFolderBtnClicked();
+    void onListModeSwitchBtnClicked();
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
+    void onListViewClicked(const QModelIndex &index);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -58,6 +65,7 @@ private:
     QStackedLayout *m_pStackedLayout = nullptr;
 
     ImportGuide *m_pImportGuide = nullptr;
+    QWidget *m_pImportGuideWidget = nullptr;
 
     ListView<Data> *m_pListView = nullptr;
     ListDelegate *m_pListDelegate = nullptr;

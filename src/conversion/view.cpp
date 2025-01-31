@@ -12,6 +12,11 @@ ConversionView::ConversionView(QWidget *parent) :
     onLanguageChange();
 }
 
+void ConversionView::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+    listViewNoDataState();
+}
+
 void ConversionView::createUi() {
     setObjectName("ConversionView");
     setAttribute(Qt::WA_StyledBackground);
@@ -87,8 +92,8 @@ void ConversionView::createUi() {
     bottomWidgetLayout->addWidget(m_pConversionBtn, Qt::AlignVCenter);
 
     m_pImportGuide = new ImportGuide(this);
-    QWidget *importGuideWidget = new QWidget(this);
-    QVBoxLayout *importGuideLayout = new QVBoxLayout(importGuideWidget);
+    m_pImportGuideWidget = new QWidget(this);
+    QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
     importGuideLayout->setAlignment(Qt::AlignCenter);
     importGuideLayout->addWidget(m_pImportGuide);
 
@@ -99,7 +104,7 @@ void ConversionView::createUi() {
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
 
     m_pStackedLayout = new QStackedLayout();
-    m_pStackedLayout->addWidget(importGuideWidget);
+    m_pStackedLayout->addWidget(m_pImportGuideWidget);
     m_pStackedLayout->addWidget(m_pListView);
     auto stackedMarginLayout = new QVBoxLayout();
     stackedMarginLayout->setContentsMargins(8, 8, 2, 8);
@@ -122,7 +127,8 @@ void ConversionView::connectSig() {
     connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderBtnClicked);
     connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConversionView::onClearFileBtnClicked);
     connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::listModeSwitch);
+    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
+    connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -136,20 +142,41 @@ QWidget *ConversionView::createDividingLine() {
 void ConversionView::listViewImportFile(const QStringList filePaths) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->appendData(filePaths);
-    if(!prst->datas().isEmpty()) {
-        m_pListView->changeData(prst->datas());
-        m_pStackedLayout->setCurrentWidget(m_pListView);
-    }
+    m_pListView->changeData(prst->datas());
+    listViewNoDataState();
 }
 
-void ConversionView::listModeSwitch() {
+void ConversionView::onListModeSwitchBtnClicked() {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
-    if(!prst->datas().isEmpty()) {
+    if (!prst->datas().isEmpty()) {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
         m_pListView->changeData(prst->datas());
-        m_pListView->update();
     }
+}
+
+void ConversionView::listItemSelectChanged(const QString filePath) {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    prst->switchCheckedData(filePath);
+    m_pListView->changeData(prst->datas());
+}
+
+void ConversionView::listItemDelete(const QString filePath) {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    QStringList filePaths;
+    filePaths.append(filePath);
+    prst->deleteData(filePaths);
+    m_pListView->changeData(prst->datas());
+    listViewNoDataState();
+}
+
+void ConversionView::listViewNoDataState() {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    bool isNoData = prst->datas().isEmpty();
+    m_pClearFileBtn->setVisible(!isNoData);
+    m_pListModeSwitchBtn->setVisible(!isNoData);
+    m_pSelectAllCkb->setVisible(!isNoData);
+    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pListView);
 }
 
 void ConversionView::onLanguageChange() {
@@ -189,12 +216,29 @@ void ConversionView::onClearFileBtnClicked() {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->clearData();
     m_pListView->changeData(prst->datas());
-    m_pListView->update();
+    listViewNoDataState();
 }
 
 void ConversionView::onSelectAllStateChanged(int state) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->checkedAllData(state);
     m_pListView->changeData(prst->datas());
-    m_pListView->update();
+}
+
+void ConversionView::onListViewClicked(const QModelIndex &index) {
+    auto data = index.data(Qt::UserRole).value<Data>();
+    QRect rc = m_pListView->visualRect(index);
+    int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
+    int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
+    auto bgRect = rc.adjusted(0, 0, -8, -8);
+    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
+    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+    if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
+        && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
+        listItemDelete(data.file_path);
+    }
+    if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
+        && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
+        listItemSelectChanged(data.file_path);
+    }
 }
