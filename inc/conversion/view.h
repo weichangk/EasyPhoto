@@ -29,7 +29,7 @@ public:
 
 protected:
     void showEvent(QShowEvent *event) override;
-    
+
 private:
     void createUi();
     void connectSig();
@@ -38,6 +38,7 @@ private:
     void listItemSelectChanged(const QString filePath);
     void listItemDelete(const QString filePath);
     void listViewNoDataState();
+    void selectAllState();
 
 private:
     void onLanguageChange();

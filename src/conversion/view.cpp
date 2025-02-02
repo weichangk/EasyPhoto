@@ -15,6 +15,7 @@ ConversionView::ConversionView(QWidget *parent) :
 void ConversionView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     listViewNoDataState();
+    selectAllState();
 }
 
 void ConversionView::createUi() {
@@ -144,6 +145,7 @@ void ConversionView::listViewImportFile(const QStringList filePaths) {
     prst->appendData(filePaths);
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
+    selectAllState();
 }
 
 void ConversionView::onListModeSwitchBtnClicked() {
@@ -159,6 +161,7 @@ void ConversionView::listItemSelectChanged(const QString filePath) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
+    selectAllState();
 }
 
 void ConversionView::listItemDelete(const QString filePath) {
@@ -168,6 +171,7 @@ void ConversionView::listItemDelete(const QString filePath) {
     prst->deleteData(filePaths);
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
+    selectAllState();
 }
 
 void ConversionView::listViewNoDataState() {
@@ -177,6 +181,22 @@ void ConversionView::listViewNoDataState() {
     m_pListModeSwitchBtn->setVisible(!isNoData);
     m_pSelectAllCkb->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pListView);
+}
+
+void ConversionView::selectAllState() {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    if (!prst->datas().isEmpty()) {
+        for (auto data : prst->datas()) {
+            if (!data.is_checked) {
+                m_pSelectAllCkb->setChecked(false);
+                return;
+            }
+        }
+        m_pSelectAllCkb->setChecked(true);
+    }
+    else {
+        m_pSelectAllCkb->setChecked(false);
+    }
 }
 
 void ConversionView::onLanguageChange() {
