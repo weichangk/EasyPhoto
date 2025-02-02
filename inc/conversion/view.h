@@ -5,9 +5,12 @@
 #include "widget/listview.h"
 #include "core/font.h"
 #include "filter/languagefilter.h"
+#include "filter/popupwindow.h"
+#include "filter/maskwidget.h"
 #include "importguide.h"
 #include "model.h"
 #include "listdelegate.h"
+#include "outputformatdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -19,6 +22,34 @@ using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
 using namespace qtmaterialcore;
 using namespace qtmaterialfilter;
+
+class OutputFormatView : public QWidget {
+    Q_OBJECT
+public:
+    explicit OutputFormatView(QWidget *parent = nullptr);
+    ~OutputFormatView() override {
+    }
+
+private:
+    void createUi();
+    void connectSig();
+
+private:
+    ListView<SOuputFormat> *m_pListView = nullptr;
+    OutputFormatDelegate *m_pListDelegate = nullptr;
+};
+
+class ComboBoxFilter : public QObject {
+    Q_OBJECT
+public:
+    explicit ComboBoxFilter(QObject *parent = nullptr);
+
+Q_SIGNALS:
+    void sigClicked();
+
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+};
 
 class ConversionView : public QWidget, public View {
     Q_OBJECT
@@ -39,6 +70,7 @@ private:
     void listItemDelete(const QString filePath);
     void listViewNoDataState();
     void selectAllState();
+    void showOutputFormatView();
 
 private:
     void onLanguageChange();
@@ -48,6 +80,8 @@ private:
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
     void onListViewClicked(const QModelIndex &index);
+    void onOutputFormatCbbClicked();
+    void onOutputFolderCbbClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -59,8 +93,10 @@ private:
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
+    ComboBoxFilter *m_pOutputFormatCbbFilter = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
+    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     VectorButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pConversionBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
@@ -70,4 +106,6 @@ private:
 
     ListView<Data> *m_pListView = nullptr;
     ListDelegate *m_pListDelegate = nullptr;
+
+    OutputFormatView *m_pOutputFormatView = nullptr;
 };

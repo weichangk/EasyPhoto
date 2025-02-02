@@ -5,6 +5,47 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
+OutputFormatView::OutputFormatView(QWidget *parent) :
+    QWidget(parent) {
+    createUi();
+    connectSig();
+}
+
+void OutputFormatView::createUi() {
+    setObjectName("OutputFormatView");
+    setAttribute(Qt::WA_StyledBackground);
+    setWindowFlags(Qt::FramelessWindowHint);
+    setFixedSize(478, 272);
+
+    auto popup = new PopupWindow(this);
+    auto mask = new MaskWidget(this);
+    mask->setPramas(MaskWidget::RoundType::Round_All, 0, 8, 8);
+
+    m_pListView = new ListView<SOuputFormat>(this);
+    m_pListView->setSpacing(0);
+    m_pListDelegate = new OutputFormatDelegate(m_pListView);
+    m_pListView->setItemDelegate(m_pListDelegate);
+    m_pListView->viewport()->installEventFilter(m_pListDelegate);
+
+    auto layout = new QVBoxLayout(this);
+    layout->setContentsMargins(8, 8, 8, 8);
+    layout->setSpacing(0);
+    layout->addWidget(m_pListView, 1);
+}
+
+void OutputFormatView::connectSig() {
+}
+
+ComboBoxFilter::ComboBoxFilter(QObject *parent) : QObject(parent) {
+}
+
+bool ComboBoxFilter::eventFilter(QObject *watched, QEvent *event) {
+    if (event->type() == QEvent::MouseButtonPress) {
+        emit sigClicked();
+    }
+    return QObject::eventFilter(watched, event);
+}
+
 ConversionView::ConversionView(QWidget *parent) :
     QWidget(parent) {
     createUi();
@@ -69,10 +110,16 @@ void ConversionView::createUi() {
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedWidth(120);
 
+    m_pOutputFormatCbbFilter = new ComboBoxFilter(m_pOutputFormatCbb);
+    m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
+
     m_pOutputFolderLbl = new QLabel(bottomWidget);
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedWidth(120);
+
+    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
+    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     m_pOpenOutputFolderBtn = new VectorButton(bottomWidget);
     m_pOpenOutputFolderBtn->setObjectName("VectorButton_HW28_I20");
@@ -130,6 +177,8 @@ void ConversionView::connectSig() {
     connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
+    connect(m_pOutputFormatCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFormatCbbClicked);
+    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFolderCbbClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -193,10 +242,21 @@ void ConversionView::selectAllState() {
             }
         }
         m_pSelectAllCkb->setChecked(true);
-    }
-    else {
+    } else {
         m_pSelectAllCkb->setChecked(false);
     }
+}
+
+void ConversionView::showOutputFormatView() {
+    if(!m_pOutputFormatView) {
+        m_pOutputFormatView = new OutputFormatView(this);
+    }
+
+    auto btnPos = m_pOutputFormatCbb->mapToGlobal(QPoint(0, 0));
+    auto pos = btnPos - QPoint(0, m_pOutputFormatView->height() + 8);
+
+    m_pOutputFormatView->move(pos);
+    m_pOutputFormatView->show();
 }
 
 void ConversionView::onLanguageChange() {
@@ -261,4 +321,11 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
         && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
         listItemSelectChanged(data.file_path);
     }
+}
+
+void ConversionView::onOutputFormatCbbClicked() {
+    showOutputFormatView();
+}
+
+void ConversionView::onOutputFolderCbbClicked() {
 }

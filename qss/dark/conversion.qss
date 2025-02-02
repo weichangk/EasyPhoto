@@ -6,3 +6,9 @@ QWidget#ConversionView {
 QWidget#ConversionView_DividingLine {
     background-color: "#262636";
 }
+
+QWidget#OutputFormatView {
+    background-color: "#211c34";
+    border-radius: 8px;
+    border: 1px solid #353049; 
+}
