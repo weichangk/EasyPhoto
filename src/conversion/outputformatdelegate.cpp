@@ -13,7 +13,7 @@ OutputFormatDelegate::OutputFormatDelegate(QObject *parent) :
 }
 
 void OutputFormatDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<Data>();
+    auto data = index.data(Qt::UserRole).value<SOuputFormat>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -38,19 +38,19 @@ void OutputFormatDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    auto nameRect = QRect(bgRect.x() + 8, bgRect.y(), bgRect.width() - 8 - 8, bgRect.height());
-    QColor nameColor = QColor("#ffffff");
-    QPen pen(nameColor);
+    auto desRect = QRect(bgRect.x() + 8, bgRect.y(), bgRect.width() - 8 - 8, bgRect.height());
+    QColor desColor = QColor("#ffffff");
+    QPen pen(desColor);
     painter->setPen(pen);
     QFont font = painter->font();
     font.setPixelSize(13);
     painter->setFont(font);
-    QString fileName = data.file_name;
+    QString des = data.des;
     QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
+    if (metrics.horizontalAdvance(des) > desRect.width()) {
+        des = metrics.elidedText(des, Qt::ElideMiddle, desRect.width());
     }
-    painter->drawText(nameRect, Qt::AlignCenter, fileName);
+    painter->drawText(desRect, Qt::AlignCenter, des);
     painter->setPen(Qt::NoPen);
 }
 

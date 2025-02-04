@@ -15,7 +15,7 @@ void OutputFormatView::createUi() {
     setObjectName("OutputFormatView");
     setAttribute(Qt::WA_StyledBackground);
     setWindowFlags(Qt::FramelessWindowHint);
-    setFixedSize(478, 272);
+    setFixedSize(281, 152);
 
     auto popup = new PopupWindow(this);
     auto mask = new MaskWidget(this);
@@ -26,9 +26,19 @@ void OutputFormatView::createUi() {
     m_pListDelegate = new OutputFormatDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
+    m_pListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    QString format = CONV_OUTPUT_FORMATS;
+    QStringList formats = format.split(' ');
+    QList<SOuputFormat> formatDatas;
+    for(auto &item : formats) {
+        SOuputFormat format = {item, item.toUpper(), nullptr, false};
+        formatDatas.append(format);
+    }
+    m_pListView->changeData(formatDatas);
 
     auto layout = new QVBoxLayout(this);
-    layout->setContentsMargins(8, 8, 8, 8);
+    layout->setContentsMargins(8, 8, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_pListView, 1);
 }
