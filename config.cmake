@@ -1,9 +1,9 @@
-string(TOLOWER ${PROJECT_NAME} PROJECT_ID)   # Might not be compatible with AppStream
-list(APPEND PROJECT_CATEGORIES "Qt;Graphics") # Freedesktop menu categories
-list(APPEND PROJECT_KEYWORDS   "image;converter;")
+string(TOLOWER ${PROJECT_NAME} PROJECT_ID)
+list(APPEND PROJECT_CATEGORIES "Qt;Image")
+list(APPEND PROJECT_KEYWORDS   "Image;Converter;Compression;Cropping;Effects;Enhancement;Erase;Gifgeneration;Inpainting")
 set(PROJECT_AUTHOR_NAME        "weichangk")
-set(PROJECT_AUTHOR_EMAIL       "nukgnahciew@gmail.com") # Used also for organization email
-set(PROJECT_COPYRIGHT_YEAR     "2023-2024")  # TODO: from git
-set(PROJECT_DESCRIPTION        "Image Kit")
-set(PROJECT_ORGANIZATION_NAME  "QKit")  # Might be equal to PROJECT_AUTHOR_NAME
-set(PROJECT_ORGANIZATION_URL   "${PROJECT_ORGANIZATION_NAME}.github.io")
+set(PROJECT_AUTHOR_EMAIL       "nukgnahciew@gmail.com")
+set(PROJECT_COPYRIGHT_YEAR     "2024-2025")
+set(PROJECT_DESCRIPTION        "ImageKit")
+set(PROJECT_ORGANIZATION_NAME  "weichangk")
+set(PROJECT_ORGANIZATION_URL   "https://github.com/weichangk/ImageKit")

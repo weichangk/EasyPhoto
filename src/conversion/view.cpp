@@ -1,5 +1,6 @@
 #include "conversion/view.h"
 #include "conversion/presenter.h"
+#include "settings.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -9,6 +10,16 @@ OutputFormatView::OutputFormatView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
+}
+
+void OutputFormatView::setSelection(const QString &format) {
+    for (int row = 0; row < m_pListView->count(); ++row) {
+        auto data = m_pListView->data(row);
+        if(data.name == format) {
+            QModelIndex index = m_pListView->index(row);
+            m_pListView->setCurrentIndex(index);
+        }
+    }
 }
 
 void OutputFormatView::createUi() {
@@ -44,6 +55,14 @@ void OutputFormatView::createUi() {
 }
 
 void OutputFormatView::connectSig() {
+    connect(m_pListView, &QListView::clicked, this, &OutputFormatView::onListItemViewclicked);
+}
+
+void OutputFormatView::onListItemViewclicked(const QModelIndex &index) {
+    auto data = m_pListView->data(index);
+    SETTINGS->setConversionOutFormat(data.name);
+    emit sigSelectionChanged(data.name);
+    close();
 }
 
 ComboBoxFilter::ComboBoxFilter(QObject *parent) : QObject(parent) {
@@ -119,6 +138,12 @@ void ConversionView::createUi() {
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedWidth(120);
+
+    m_pOutputFormatEdit = new QLineEdit(m_pOutputFormatCbb);
+    m_pOutputFormatEdit->setReadOnly(true);
+    m_pOutputFormatCbb->setLineEdit(m_pOutputFormatEdit);
+
+    setOutputFormatCbbText(SETTINGS->conversionOutFormat());
 
     m_pOutputFormatCbbFilter = new ComboBoxFilter(m_pOutputFormatCbb);
     m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
@@ -260,13 +285,20 @@ void ConversionView::selectAllState() {
 void ConversionView::showOutputFormatView() {
     if(!m_pOutputFormatView) {
         m_pOutputFormatView = new OutputFormatView(this);
+        connect(m_pOutputFormatView, &OutputFormatView::sigSelectionChanged, this, &ConversionView::setOutputFormatCbbText);
     }
+
+    m_pOutputFormatView->setSelection(SETTINGS->conversionOutFormat());
 
     auto btnPos = m_pOutputFormatCbb->mapToGlobal(QPoint(0, 0));
     auto pos = btnPos - QPoint(0, m_pOutputFormatView->height() + 8);
 
     m_pOutputFormatView->move(pos);
     m_pOutputFormatView->show();
+}
+
+void ConversionView::setOutputFormatCbbText(QString text) {
+    m_pOutputFormatEdit->setText(text.toUpper());
 }
 
 void ConversionView::onLanguageChange() {

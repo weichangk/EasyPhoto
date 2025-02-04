@@ -16,6 +16,7 @@
 #include <QCheckBox>
 #include <QLabel>
 #include <QComboBox>
+#include <QLineEdit>
 #include <QPushButton>
 
 using namespace qtmaterialmvp;
@@ -29,10 +30,17 @@ public:
     explicit OutputFormatView(QWidget *parent = nullptr);
     ~OutputFormatView() override {
     }
+    void setSelection(const QString &format);
+
+Q_SIGNALS:
+    void sigSelectionChanged(const QString &format);
 
 private:
     void createUi();
     void connectSig();
+
+private:
+    void onListItemViewclicked(const QModelIndex &index);
 
 private:
     ListView<SOuputFormat> *m_pListView = nullptr;
@@ -71,6 +79,7 @@ private:
     void listViewNoDataState();
     void selectAllState();
     void showOutputFormatView();
+    void setOutputFormatCbbText(QString text);
 
 private:
     void onLanguageChange();
@@ -92,6 +101,7 @@ private:
     VectorButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
+    QLineEdit *m_pOutputFormatEdit = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
     ComboBoxFilter *m_pOutputFormatCbbFilter = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;

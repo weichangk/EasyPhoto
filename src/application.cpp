@@ -1,4 +1,5 @@
-#include "inc/application.h"
+#include "application.h"
+#include "settings.h"
 #include "mainrepository.h"
 #include "mainpresenter.h"
 #include "mainview.h"
@@ -12,6 +13,11 @@ using namespace qtmaterialcore;
 
 Application::Application(int argc, char *argv[]) :
     QApplication(argc, argv) {
+    setOrganizationName(APPLICATION_ORGANIZATION_NAME);
+    setOrganizationDomain(APPLICATION_ORGANIZATION_DOMAIN);
+    setApplicationName(APPLICATION_ID);
+    setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
+    SETTINGS->load();
     qtmaterialcore::Theme::setTheme(qtmaterialcore::Theme::DARK);
     qtmaterialcore::Font::setFont(qtmaterialcore::Font::ROBOTO_REGULAR);
     qtmaterialcore::Font::setIconFont(":/font/iconfont.ttf");
