@@ -5,6 +5,7 @@
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QDesktopServices>
 
 OutputFormatView::OutputFormatView(QWidget *parent) :
     QWidget(parent) {
@@ -15,7 +16,7 @@ OutputFormatView::OutputFormatView(QWidget *parent) :
 void OutputFormatView::setSelection(const QString &format) {
     for (int row = 0; row < m_pListView->count(); ++row) {
         auto data = m_pListView->data(row);
-        if(data.name == format) {
+        if (data.name == format) {
             QModelIndex index = m_pListView->index(row);
             m_pListView->setCurrentIndex(index);
         }
@@ -42,7 +43,7 @@ void OutputFormatView::createUi() {
     QString format = CONV_OUTPUT_FORMATS;
     QStringList formats = format.split(' ');
     QList<SOuputFormat> formatDatas;
-    for(auto &item : formats) {
+    for (auto &item : formats) {
         SOuputFormat format = {item, item.toUpper(), nullptr, false};
         formatDatas.append(format);
     }
@@ -65,7 +66,8 @@ void OutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     close();
 }
 
-ComboBoxFilter::ComboBoxFilter(QObject *parent) : QObject(parent) {
+ComboBoxFilter::ComboBoxFilter(QObject *parent) :
+    QObject(parent) {
 }
 
 bool ComboBoxFilter::eventFilter(QObject *watched, QEvent *event) {
@@ -156,6 +158,8 @@ void ConversionView::createUi() {
     m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
     m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
+    initOutputFolderCbbItem();
+
     m_pOpenOutputFolderBtn = new VectorButton(bottomWidget);
     m_pOpenOutputFolderBtn->setObjectName("VectorButton_HW28_I20");
     m_pOpenOutputFolderBtn->setFont(iconFont);
@@ -214,6 +218,8 @@ void ConversionView::connectSig() {
     connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
     connect(m_pOutputFormatCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFormatCbbClicked);
     connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFolderCbbClicked);
+    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
+    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -224,7 +230,7 @@ QWidget *ConversionView::createDividingLine() {
     return dividingLine;
 }
 
-void ConversionView::listViewImportFile(const QStringList filePaths) {
+void ConversionView::listViewImportFile(const QStringList &filePaths) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->appendData(filePaths);
     m_pListView->changeData(prst->datas());
@@ -241,14 +247,16 @@ void ConversionView::onListModeSwitchBtnClicked() {
     }
 }
 
-void ConversionView::listItemSelectChanged(const QString filePath) {
+void ConversionView::listItemSelectChanged(const QString &filePath) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
-    selectAllState();
+    blockSignalsFunc(m_pSelectAllCkb, [&]() {
+        selectAllState();
+    });
 }
 
-void ConversionView::listItemDelete(const QString filePath) {
+void ConversionView::listItemDelete(const QString &filePath) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     QStringList filePaths;
     filePaths.append(filePath);
@@ -283,7 +291,7 @@ void ConversionView::selectAllState() {
 }
 
 void ConversionView::showOutputFormatView() {
-    if(!m_pOutputFormatView) {
+    if (!m_pOutputFormatView) {
         m_pOutputFormatView = new OutputFormatView(this);
         connect(m_pOutputFormatView, &OutputFormatView::sigSelectionChanged, this, &ConversionView::setOutputFormatCbbText);
     }
@@ -297,8 +305,18 @@ void ConversionView::showOutputFormatView() {
     m_pOutputFormatView->show();
 }
 
-void ConversionView::setOutputFormatCbbText(QString text) {
+void ConversionView::setOutputFormatCbbText(const QString &text) {
     m_pOutputFormatEdit->setText(text.toUpper());
+}
+
+void ConversionView::initOutputFolderCbbItem() {
+    m_pOutputFolderCbb->addItem(SETTINGS->conversionOutPath());
+    m_pOutputFolderCbb->addItem("...");
+}
+
+void ConversionView::ConversionView::setOutputFolder(const QString &path) {
+    SETTINGS->setConversionOutPath(path);
+    m_pOutputFolderCbb->setItemText(0, path);
 }
 
 void ConversionView::onLanguageChange() {
@@ -310,17 +328,21 @@ void ConversionView::onLanguageChange() {
 
 void ConversionView::onAddFileBtnClicked() {
     QString title = tr("Open");
-    QString directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString directory = SETTINGS->conversionLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
+        QFileInfo fileInfo(filePaths.first());
+        QString lastDirectory = fileInfo.absolutePath();
+        SETTINGS->setConversionLastAddFilePath(lastDirectory);
         listViewImportFile(filePaths);
     }
 }
 
 void ConversionView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(nullptr, title, QDir::homePath());
+    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->conversionLastAddFolderPath());
     if (!folderPath.isEmpty()) {
+        SETTINGS->setConversionLastAddFolderPath(folderPath);
         QDir dir(folderPath);
         QStringList files = dir.entryList(QDir::Files);
         QStringList filePaths;
@@ -370,4 +392,22 @@ void ConversionView::onOutputFormatCbbClicked() {
 }
 
 void ConversionView::onOutputFolderCbbClicked() {
+}
+
+void ConversionView::onOutputFolderCbbIndexChanged(int index) {
+    if (index == 1) {
+        blockSignalsFunc(m_pOutputFolderCbb, [&]() {
+            m_pOutputFolderCbb->setCurrentIndex(0);
+        });
+        QString title = tr("Select Folder");
+        QString dirPath = QFileDialog::getExistingDirectory(this, title, QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        if (!dirPath.isEmpty()) {
+            setOutputFolder(dirPath);
+        }
+    }
+}
+
+void ConversionView::onOpenOutputFolderBtnClicked() {
+    QString folderPath = SETTINGS->conversionOutPath();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }

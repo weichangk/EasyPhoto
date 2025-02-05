@@ -4,6 +4,7 @@
 #include "widget/button.h"
 #include "widget/listview.h"
 #include "core/font.h"
+#include "core/object.h"
 #include "filter/languagefilter.h"
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"
@@ -73,15 +74,18 @@ private:
     void createUi();
     void connectSig();
     QWidget *createDividingLine();
-    void listViewImportFile(const QStringList filePaths);
-    void listItemSelectChanged(const QString filePath);
-    void listItemDelete(const QString filePath);
+    void listViewImportFile(const QStringList &filePaths);
+    void listItemSelectChanged(const QString &filePath);
+    void listItemDelete(const QString &filePath);
     void listViewNoDataState();
     void selectAllState();
     void showOutputFormatView();
-    void setOutputFormatCbbText(QString text);
+    void setOutputFormatCbbText(const QString &text);
+    void initOutputFolderCbbItem();
+    void setOutputFolder(const QString &path);
 
-private:
+private 
+Q_SLOTS:
     void onLanguageChange();
     void onAddFileBtnClicked();
     void onAddFolderBtnClicked();
@@ -91,6 +95,8 @@ private:
     void onListViewClicked(const QModelIndex &index);
     void onOutputFormatCbbClicked();
     void onOutputFolderCbbClicked();
+    void onOutputFolderCbbIndexChanged(int index);
+    void onOpenOutputFolderBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
