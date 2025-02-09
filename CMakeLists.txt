@@ -10,14 +10,12 @@ project(
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/public.cmake)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/ImageCore)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
     ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/Magick++
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickCore
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/include/MagickWand
+    ${CMAKE_SOURCE_DIR}/3rdparty/ImageCore/inc
 )
 
 MY_ADD_QT_PACK_FUNC(
@@ -26,9 +24,7 @@ MY_ADD_QT_PACK_FUNC(
 
 MY_ADD_LINK_LIB_FUNC(
     QtMaterial
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_Magick++_.lib
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickCore_.lib
-    ${CMAKE_SOURCE_DIR}/3rdparty/magick/lib/CORE_DB_MagickWand_.lib
+    ImageCore
 )
 
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/option.cmake)
