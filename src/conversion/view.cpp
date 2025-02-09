@@ -1,6 +1,7 @@
 #include "conversion/view.h"
 #include "conversion/presenter.h"
 #include "settings.h"
+#include "conversion/conversiontask.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -220,6 +221,7 @@ void ConversionView::connectSig() {
     connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFolderCbbClicked);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
+    connect(m_pConversionBtn, &QPushButton::clicked, this, &ConversionView::onConversionBtnClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -410,4 +412,14 @@ void ConversionView::onOutputFolderCbbIndexChanged(int index) {
 void ConversionView::onOpenOutputFolderBtnClicked() {
     QString folderPath = SETTINGS->conversionOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+}
+
+void ConversionView::onConversionBtnClicked() {
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    ConversionTask task;
+    for(auto data : prst->datas()) {
+        if(data.is_checked) {
+            task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());
+        }
+    }
 }

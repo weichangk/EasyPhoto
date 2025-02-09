@@ -97,6 +97,7 @@ Q_SLOTS:
     void onOutputFolderCbbClicked();
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
+    void onConversionBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
