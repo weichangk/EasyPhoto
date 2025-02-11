@@ -31,21 +31,23 @@ public:
     void setCompressionOutPath(const QString &path);
     QString compressionOutFormat() const;
     void setCompressionOutFormat(const QString &format);
-
+    int compressQuality() const;
+    void setCompressQuality(const int quality);
 private:
     QSettings m_Settings;
 
     // Conversion
-    QString m_ConversionLastAddFilePath;
-    QString m_ConversionLastAddFolderPath;
-    QString m_ConversionOutPath;
-    QString m_ConversionOutFormat;
+    QString m_strConversionLastAddFilePath;
+    QString m_strConversionLastAddFolderPath;
+    QString m_strConversionOutPath;
+    QString m_strConversionOutFormat;
 
     // Compression
-    QString m_CompressionLastAddFilePath;
-    QString m_CompressionLastAddFolderPath;
-    QString m_CompressionOutPath;
-    QString m_CompressionOutFormat;
+    QString m_strCompressionLastAddFilePath;
+    QString m_strCompressionLastAddFolderPath;
+    QString m_strCompressionOutPath;
+    QString m_strCompressionOutFormat;
+    int m_nCompressQuality;
 };
 
 #define SETTINGS Settings::getInstance()

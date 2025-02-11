@@ -30,110 +30,121 @@ Settings::Settings() :
     m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
                QApplication::applicationDisplayName()),
     // Conversion
-    m_ConversionLastAddFilePath(Default::conversionLastAddFilePath),
-    m_ConversionLastAddFolderPath(Default::conversionLastAddFolderPath),
-    m_ConversionOutPath(Default::conversionOutPath),
-    m_ConversionOutFormat(Default::conversionOutFormat),
+    m_strConversionLastAddFilePath(Default::conversionLastAddFilePath),
+    m_strConversionLastAddFolderPath(Default::conversionLastAddFolderPath),
+    m_strConversionOutPath(Default::conversionOutPath),
+    m_strConversionOutFormat(Default::conversionOutFormat),
     // Compression
-    m_CompressionLastAddFilePath(Default::compressionLastAddFilePath),
-    m_CompressionLastAddFolderPath(Default::compressionLastAddFolderPath),
-    m_CompressionOutPath(Default::compressionOutPath),
-    m_CompressionOutFormat(Default::compressionOutFormat) {
+    m_strCompressionLastAddFilePath(Default::compressionLastAddFilePath),
+    m_strCompressionLastAddFolderPath(Default::compressionLastAddFolderPath),
+    m_strCompressionOutPath(Default::compressionOutPath),
+    m_strCompressionOutFormat(Default::compressionOutFormat) {
 }
 
 void Settings::load() {
     m_Settings.beginGroup("Conversion");
-    m_ConversionOutPath = m_Settings.value(QStringLiteral("ConversionOutPath"), Default::conversionOutPath).toString();
-    m_ConversionOutFormat = m_Settings.value(QStringLiteral("ConversionOutFormat"), Default::conversionOutFormat).toString();
+    m_strConversionOutPath = m_Settings.value(QStringLiteral("ConversionOutPath"), Default::conversionOutPath).toString();
+    m_strConversionOutFormat = m_Settings.value(QStringLiteral("ConversionOutFormat"), Default::conversionOutFormat).toString();
     m_Settings.endGroup();
 }
 
 // Conversion
 QString Settings::conversionLastAddFilePath() const {
-    return m_ConversionLastAddFilePath;
+    return m_strConversionLastAddFilePath;
 }
 
 void Settings::setConversionLastAddFilePath(const QString &path) {
-    m_ConversionLastAddFilePath = path;
+    m_strConversionLastAddFilePath = path;
     m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionLastAddFilePath"), m_ConversionLastAddFilePath);
+    m_Settings.setValue(QStringLiteral("ConversionLastAddFilePath"), m_strConversionLastAddFilePath);
     m_Settings.endGroup();
 }
 
 QString Settings::conversionLastAddFolderPath() const {
-    return m_ConversionLastAddFolderPath;
+    return m_strConversionLastAddFolderPath;
 }
 
 void Settings::setConversionLastAddFolderPath(const QString &path) {
-    m_ConversionLastAddFolderPath = path;
+    m_strConversionLastAddFolderPath = path;
     m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionLastAddFolderPath"), m_ConversionLastAddFolderPath);
+    m_Settings.setValue(QStringLiteral("ConversionLastAddFolderPath"), m_strConversionLastAddFolderPath);
     m_Settings.endGroup();
 }
 
 QString Settings::conversionOutPath() const {
-    return m_ConversionOutPath;
+    return m_strConversionOutPath;
 }
 
 void Settings::setConversionOutPath(const QString &path) {
-    m_ConversionOutPath = path;
+    m_strConversionOutPath = path;
     m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionOutPath"), m_ConversionOutPath);
+    m_Settings.setValue(QStringLiteral("ConversionOutPath"), m_strConversionOutPath);
     m_Settings.endGroup();
 }
 
 QString Settings::conversionOutFormat() const {
-    return m_ConversionOutFormat;
+    return m_strConversionOutFormat;
 }
 
 void Settings::setConversionOutFormat(const QString &format) {
-    m_ConversionOutFormat = format;
+    m_strConversionOutFormat = format;
     m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionOutFormat"), m_ConversionOutFormat);
+    m_Settings.setValue(QStringLiteral("ConversionOutFormat"), m_strConversionOutFormat);
     m_Settings.endGroup();
 }
 
 // Compression
 QString Settings::compressionLastAddFilePath() const {
-    return m_CompressionLastAddFilePath;
+    return m_strCompressionLastAddFilePath;
 }
 
 void Settings::setCompressionLastAddFilePath(const QString &path) {
-    m_CompressionLastAddFilePath = path;
+    m_strCompressionLastAddFilePath = path;
     m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionLastAddFilePath"), m_CompressionLastAddFilePath);
+    m_Settings.setValue(QStringLiteral("CompressionLastAddFilePath"), m_strCompressionLastAddFilePath);
     m_Settings.endGroup();
 }
 
 QString Settings::compressionLastAddFolderPath() const {
-    return m_CompressionLastAddFolderPath;
+    return m_strCompressionLastAddFolderPath;
 }
 
 void Settings::setCompressionLastAddFolderPath(const QString &path) {
-    m_CompressionLastAddFolderPath = path;
+    m_strCompressionLastAddFolderPath = path;
     m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionLastAddFolderPath"), m_CompressionLastAddFolderPath);
+    m_Settings.setValue(QStringLiteral("CompressionLastAddFolderPath"), m_strCompressionLastAddFolderPath);
     m_Settings.endGroup();
 }
 
 QString Settings::compressionOutPath() const {
-    return m_CompressionOutPath;
+    return m_strCompressionOutPath;
 }
 
 void Settings::setCompressionOutPath(const QString &path) {
-    m_CompressionOutPath = path;
+    m_strCompressionOutPath = path;
     m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionOutPath"), m_CompressionOutPath);
+    m_Settings.setValue(QStringLiteral("CompressionOutPath"), m_strCompressionOutPath);
     m_Settings.endGroup();
 }
 
 QString Settings::compressionOutFormat() const {
-    return m_CompressionOutFormat;
+    return m_strCompressionOutFormat;
 }
 
 void Settings::setCompressionOutFormat(const QString &format) {
-    m_CompressionOutFormat = format;
+    m_strCompressionOutFormat = format;
     m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionOutFormat"), m_CompressionOutFormat);
+    m_Settings.setValue(QStringLiteral("CompressionOutFormat"), m_strCompressionOutFormat);
+    m_Settings.endGroup();
+}
+
+int Settings::compressQuality() const {
+    return m_nCompressQuality;
+}
+
+void Settings::setCompressQuality(const int quality) {
+    m_nCompressQuality = quality;
+    m_Settings.beginGroup("Compression");
+    m_Settings.setValue(QStringLiteral("CompressQuality"), m_nCompressQuality);
     m_Settings.endGroup();
 }
