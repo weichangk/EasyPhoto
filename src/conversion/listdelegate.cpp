@@ -8,12 +8,12 @@
 
 using namespace qtmaterialcore;
 
-ListDelegate::ListDelegate(QObject *parent) :
+ConversionListDelegate::ConversionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<Data>();
+void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SConversionData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -117,7 +117,7 @@ void ListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     painter->setPen(Qt::NoPen);
 }
 
-bool ListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -132,7 +132,7 @@ bool ListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize ListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if(m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         return QSize(parent->width(), n_ListItemHeight);
@@ -140,10 +140,10 @@ QSize ListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelInd
     return m_Size;
 }
 
-void ListDelegate::setListMode(bool b) {
+void ConversionListDelegate::setListMode(bool b) {
     m_bIsListMode = b;
 }
 
-bool ListDelegate::isListMode() const {
+bool ConversionListDelegate::isListMode() const {
     return m_bIsListMode;
 }

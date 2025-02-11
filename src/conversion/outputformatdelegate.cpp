@@ -8,12 +8,12 @@
 
 using namespace qtmaterialcore;
 
-OutputFormatDelegate::OutputFormatDelegate(QObject *parent) :
+ConversionOutputFormatDelegate::ConversionOutputFormatDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void OutputFormatDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SOuputFormat>();
+void ConversionOutputFormatDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SConversionOuputFormat>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -54,7 +54,7 @@ void OutputFormatDelegate::paint(QPainter *painter, const QStyleOptionViewItem &
     painter->setPen(Qt::NoPen);
 }
 
-bool OutputFormatDelegate::eventFilter(QObject *object, QEvent *event) {
+bool ConversionOutputFormatDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_nEventType = type;
@@ -69,6 +69,6 @@ bool OutputFormatDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize OutputFormatDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize ConversionOutputFormatDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     return m_Size;
 }

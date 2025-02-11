@@ -9,8 +9,8 @@ class ConversionRepository : public Repository {
 public:
     explicit ConversionRepository();
     ~ConversionRepository();
-    QList<Data> datas();
-    void appendData(QList<Data> datas);
+    QList<SConversionData> datas();
+    void appendData(QList<SConversionData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
     void clearData();
@@ -18,5 +18,5 @@ public:
     void checkedAllData(bool checked);
 
 private:
-    QList<Data> m_datas;
+    QList<SConversionData> m_datas;
 };

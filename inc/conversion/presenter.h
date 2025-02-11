@@ -10,7 +10,7 @@ class ConversionPresenter : public Presenter {
 public:
     explicit ConversionPresenter(IView* view, IRepository *repository);
     ~ConversionPresenter();
-    QList<Data> datas();
+    QList<SConversionData> datas();
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();

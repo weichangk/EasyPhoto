@@ -8,13 +8,13 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
-OutputFormatView::OutputFormatView(QWidget *parent) :
+ConversionOutputFormatView::ConversionOutputFormatView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
 }
 
-void OutputFormatView::setSelection(const QString &format) {
+void ConversionOutputFormatView::setSelection(const QString &format) {
     for (int row = 0; row < m_pListView->count(); ++row) {
         auto data = m_pListView->data(row);
         if (data.name == format) {
@@ -24,7 +24,7 @@ void OutputFormatView::setSelection(const QString &format) {
     }
 }
 
-void OutputFormatView::createUi() {
+void ConversionOutputFormatView::createUi() {
     setObjectName("OutputFormatView");
     setAttribute(Qt::WA_StyledBackground);
     setWindowFlags(Qt::FramelessWindowHint);
@@ -34,18 +34,18 @@ void OutputFormatView::createUi() {
     auto mask = new MaskWidget(this);
     mask->setPramas(MaskWidget::RoundType::Round_All, 0, 8, 8);
 
-    m_pListView = new ListView<SOuputFormat>(this);
+    m_pListView = new ListView<SConversionOuputFormat>(this);
     m_pListView->setSpacing(0);
-    m_pListDelegate = new OutputFormatDelegate(m_pListView);
+    m_pListDelegate = new ConversionOutputFormatDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
     m_pListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     QString format = CONV_OUTPUT_FORMATS;
     QStringList formats = format.split(' ');
-    QList<SOuputFormat> formatDatas;
+    QList<SConversionOuputFormat> formatDatas;
     for (auto &item : formats) {
-        SOuputFormat format = {item, item.toUpper(), nullptr, false};
+        SConversionOuputFormat format = {item, item.toUpper(), nullptr, false};
         formatDatas.append(format);
     }
     m_pListView->changeData(formatDatas);
@@ -56,11 +56,11 @@ void OutputFormatView::createUi() {
     layout->addWidget(m_pListView, 1);
 }
 
-void OutputFormatView::connectSig() {
-    connect(m_pListView, &QListView::clicked, this, &OutputFormatView::onListItemViewclicked);
+void ConversionOutputFormatView::connectSig() {
+    connect(m_pListView, &QListView::clicked, this, &ConversionOutputFormatView::onListItemViewclicked);
 }
 
-void OutputFormatView::onListItemViewclicked(const QModelIndex &index) {
+void ConversionOutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     auto data = m_pListView->data(index);
     SETTINGS->setConversionOutFormat(data.name);
     emit sigSelectionChanged(data.name);
@@ -174,9 +174,9 @@ void ConversionView::createUi() {
     importGuideLayout->setAlignment(Qt::AlignCenter);
     importGuideLayout->addWidget(m_pImportGuide);
 
-    m_pListView = new ListView<Data>(this);
+    m_pListView = new ListView<SConversionData>(this);
     m_pListView->setSpacing(0);
-    m_pListDelegate = new ListDelegate(m_pListView);
+    m_pListDelegate = new ConversionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
 
@@ -283,8 +283,8 @@ void ConversionView::selectAllState() {
 
 void ConversionView::showOutputFormatView() {
     if (!m_pOutputFormatView) {
-        m_pOutputFormatView = new OutputFormatView(this);
-        connect(m_pOutputFormatView, &OutputFormatView::sigSelectionChanged, this, &ConversionView::setOutputFormatCbbText);
+        m_pOutputFormatView = new ConversionOutputFormatView(this);
+        connect(m_pOutputFormatView, &ConversionOutputFormatView::sigSelectionChanged, this, &ConversionView::setOutputFormatCbbText);
     }
 
     m_pOutputFormatView->setSelection(SETTINGS->conversionOutFormat());
@@ -361,7 +361,7 @@ void ConversionView::onSelectAllStateChanged(int state) {
 }
 
 void ConversionView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<Data>();
+    auto data = index.data(Qt::UserRole).value<SConversionData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();

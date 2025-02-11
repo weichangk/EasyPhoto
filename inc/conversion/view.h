@@ -26,11 +26,11 @@ using namespace qtmaterialwidget;
 using namespace qtmaterialcore;
 using namespace qtmaterialfilter;
 
-class OutputFormatView : public QWidget {
+class ConversionOutputFormatView : public QWidget {
     Q_OBJECT
 public:
-    explicit OutputFormatView(QWidget *parent = nullptr);
-    ~OutputFormatView() override {
+    explicit ConversionOutputFormatView(QWidget *parent = nullptr);
+    ~ConversionOutputFormatView() override {
     }
     void setSelection(const QString &format);
 
@@ -45,8 +45,8 @@ private:
     void onListItemViewclicked(const QModelIndex &index);
 
 private:
-    ListView<SOuputFormat> *m_pListView = nullptr;
-    OutputFormatDelegate *m_pListDelegate = nullptr;
+    ListView<SConversionOuputFormat> *m_pListView = nullptr;
+    ConversionOutputFormatDelegate *m_pListDelegate = nullptr;
 };
 
 class ConversionView : public QWidget, public View {
@@ -110,8 +110,8 @@ private:
     ImportGuide *m_pImportGuide = nullptr;
     QWidget *m_pImportGuideWidget = nullptr;
 
-    ListView<Data> *m_pListView = nullptr;
-    ListDelegate *m_pListDelegate = nullptr;
+    ListView<SConversionData> *m_pListView = nullptr;
+    ConversionListDelegate *m_pListDelegate = nullptr;
 
-    OutputFormatView *m_pOutputFormatView = nullptr;
+    ConversionOutputFormatView *m_pOutputFormatView = nullptr;
 };

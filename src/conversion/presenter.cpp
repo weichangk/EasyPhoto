@@ -10,20 +10,20 @@ ConversionPresenter::ConversionPresenter(IView *view, IRepository *repository) :
 ConversionPresenter::~ConversionPresenter() {
 }
 
-QList<Data> ConversionPresenter::datas() {
+QList<SConversionData> ConversionPresenter::datas() {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     return rep->datas();
 }
 
 void ConversionPresenter::appendData(const QStringList filePaths) {
-    QList<Data> tempDatas;
+    QList<SConversionData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        Data data;
+        SConversionData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);

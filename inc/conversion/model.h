@@ -8,7 +8,7 @@
 
 #define CONV_OUTPUT_FORMATS "jpg png svg webp avif bmp ico tiff psd eps xbm"
 
-struct Data {
+struct SConversionData {
     QString file_name = "";
     QString file_path = "";
     QPixmap thumbnail = QPixmap();
@@ -17,12 +17,12 @@ struct Data {
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
 };
-Q_DECLARE_METATYPE(Data)
+Q_DECLARE_METATYPE(SConversionData)
 
-struct SOuputFormat {
+struct SConversionOuputFormat {
     QString name = "";
     QString des = "";
     QPixmap icon = QPixmap();
     bool checked = false;
 };
-Q_DECLARE_METATYPE(SOuputFormat)
+Q_DECLARE_METATYPE(SConversionOuputFormat)
