@@ -67,17 +67,6 @@ void OutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     close();
 }
 
-ComboBoxFilter::ComboBoxFilter(QObject *parent) :
-    QObject(parent) {
-}
-
-bool ComboBoxFilter::eventFilter(QObject *watched, QEvent *event) {
-    if (event->type() == QEvent::MouseButtonPress) {
-        emit sigClicked();
-    }
-    return QObject::eventFilter(watched, event);
-}
-
 ConversionView::ConversionView(QWidget *parent) :
     QWidget(parent) {
     createUi();

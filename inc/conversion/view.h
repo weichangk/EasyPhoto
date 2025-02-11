@@ -8,6 +8,7 @@
 #include "filter/languagefilter.h"
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"
+#include "filter/comboboxfilter.h"
 #include "importguide.h"
 #include "model.h"
 #include "listdelegate.h"
@@ -46,18 +47,6 @@ private:
 private:
     ListView<SOuputFormat> *m_pListView = nullptr;
     OutputFormatDelegate *m_pListDelegate = nullptr;
-};
-
-class ComboBoxFilter : public QObject {
-    Q_OBJECT
-public:
-    explicit ComboBoxFilter(QObject *parent = nullptr);
-
-Q_SIGNALS:
-    void sigClicked();
-
-protected:
-    bool eventFilter(QObject *watched, QEvent *event) override;
 };
 
 class ConversionView : public QWidget, public View {
