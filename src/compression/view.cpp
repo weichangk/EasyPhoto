@@ -61,7 +61,7 @@ void CompressionOutputFormatView::connectSig() {
 
 void CompressionOutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     auto data = m_pListView->data(index);
-    SETTINGS->setConversionOutFormat(data.name);
+    SETTINGS->setCompressionOutFormat(data.name);
     emit sigSelectionChanged(data.name);
     close();
 }
@@ -134,7 +134,7 @@ void CompressionView::createUi() {
     m_pOutputFormatEdit->setReadOnly(true);
     m_pOutputFormatCbb->setLineEdit(m_pOutputFormatEdit);
 
-    setOutputFormatCbbText(SETTINGS->conversionOutFormat());
+    setOutputFormatCbbText(SETTINGS->compressionOutFormat());
 
     m_pOutputFormatCbbFilter = new ComboBoxFilter(m_pOutputFormatCbb);
     m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
@@ -286,7 +286,7 @@ void CompressionView::showOutputFormatView() {
         connect(m_pOutputFormatView, &CompressionOutputFormatView::sigSelectionChanged, this, &CompressionView::setOutputFormatCbbText);
     }
 
-    m_pOutputFormatView->setSelection(SETTINGS->conversionOutFormat());
+    m_pOutputFormatView->setSelection(SETTINGS->compressionOutFormat());
 
     auto btnPos = m_pOutputFormatCbb->mapToGlobal(QPoint(0, 0));
     auto pos = btnPos - QPoint(0, m_pOutputFormatView->height() + 8);
@@ -300,12 +300,12 @@ void CompressionView::setOutputFormatCbbText(const QString &text) {
 }
 
 void CompressionView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->conversionOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->compressionOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
 void CompressionView::CompressionView::setOutputFolder(const QString &path) {
-    SETTINGS->setConversionOutPath(path);
+    SETTINGS->setCompressionOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
@@ -318,21 +318,21 @@ void CompressionView::onLanguageChange() {
 
 void CompressionView::onAddFileBtnClicked() {
     QString title = tr("Open");
-    QString directory = SETTINGS->conversionLastAddFilePath();
+    QString directory = SETTINGS->compressionLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
         QFileInfo fileInfo(filePaths.first());
         QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setConversionLastAddFilePath(lastDirectory);
+        SETTINGS->setCompressionLastAddFilePath(lastDirectory);
         listViewImportFile(filePaths);
     }
 }
 
 void CompressionView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->conversionLastAddFolderPath());
+    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->compressionLastAddFolderPath());
     if (!folderPath.isEmpty()) {
-        SETTINGS->setConversionLastAddFolderPath(folderPath);
+        SETTINGS->setCompressionLastAddFolderPath(folderPath);
         QDir dir(folderPath);
         QStringList files = dir.entryList(QDir::Files);
         QStringList filePaths;
@@ -398,7 +398,7 @@ void CompressionView::onOutputFolderCbbIndexChanged(int index) {
 }
 
 void CompressionView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->conversionOutPath();
+    QString folderPath = SETTINGS->compressionOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
@@ -407,7 +407,7 @@ void CompressionView::onConversionBtnClicked() {
     // ConversionTask task;
     // for(auto data : prst->datas()) {
     //     if(data.is_checked) {
-    //         task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());
+    //         task.exec(data.file_path, SETTINGS->compressionOutPath(), SETTINGS->compressionOutFormat());
     //     }
     // }
 }
