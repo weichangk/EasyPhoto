@@ -24,6 +24,7 @@ static QString compressionOutPath = defOutPath("Compression");
 static QString compressionOutFormat = "sameassource";
 static QString compressionLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 static QString compressionLastAddFolderPath = QDir::homePath();
+static int compressionQuality = 60;
 } // namespace Default
 
 Settings::Settings() :
@@ -38,7 +39,8 @@ Settings::Settings() :
     m_strCompressionLastAddFilePath(Default::compressionLastAddFilePath),
     m_strCompressionLastAddFolderPath(Default::compressionLastAddFolderPath),
     m_strCompressionOutPath(Default::compressionOutPath),
-    m_strCompressionOutFormat(Default::compressionOutFormat) {
+    m_strCompressionOutFormat(Default::compressionOutFormat),
+    m_nCompressQuality(Default::compressionQuality) {
 }
 
 void Settings::load() {

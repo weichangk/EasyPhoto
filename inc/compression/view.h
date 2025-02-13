@@ -5,6 +5,7 @@
 #include "widget/listview.h"
 #include "core/font.h"
 #include "core/object.h"
+#include "core/file.h"
 #include "filter/languagefilter.h"
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"

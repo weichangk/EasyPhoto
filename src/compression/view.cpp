@@ -1,5 +1,6 @@
 #include "compression/view.h"
 #include "compression/presenter.h"
+#include "compression/compressiontask.h"
 #include "settings.h"
 
 #include <QFileInfo>
@@ -403,11 +404,13 @@ void CompressionView::onOpenOutputFolderBtnClicked() {
 }
 
 void CompressionView::onConversionBtnClicked() {
-    // CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
-    // ConversionTask task;
-    // for(auto data : prst->datas()) {
-    //     if(data.is_checked) {
-    //         task.exec(data.file_path, SETTINGS->compressionOutPath(), SETTINGS->compressionOutFormat());
-    //     }
-    // }
+    CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
+    CompressTask task;
+    for(auto data : prst->datas()) {
+        if (data.is_checked) {
+            QFileInfo fileInfo = File::fileInfo(data.file_path);
+            QString outSuffix = SETTINGS->compressionOutFormat() == "sameassource" ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+            task.exec(data.file_path, SETTINGS->compressionOutPath(), outSuffix, SETTINGS->compressQuality());
+        }
+    }
 }
