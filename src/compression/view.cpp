@@ -116,12 +116,12 @@ void CompressionView::createUi() {
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
     topWidgetLayout->setSpacing(8);
-    topWidgetLayout->addWidget(m_pAddFileBtn, Qt::AlignVCenter);
-    topWidgetLayout->addWidget(m_pAddFolderBtn, Qt::AlignVCenter);
-    topWidgetLayout->addWidget(m_pClearFileBtn, Qt::AlignVCenter);
-    topWidgetLayout->addWidget(m_pSelectAllCkb, Qt::AlignVCenter);
+    topWidgetLayout->addWidget(m_pAddFileBtn);
+    topWidgetLayout->addWidget(m_pAddFolderBtn);
+    topWidgetLayout->addWidget(m_pClearFileBtn);
+    topWidgetLayout->addWidget(m_pSelectAllCkb);
     topWidgetLayout->addStretch();
-    topWidgetLayout->addWidget(m_pListModeSwitchBtn, Qt::AlignVCenter);
+    topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
     bottomWidget->setFixedHeight(80);
@@ -160,13 +160,13 @@ void CompressionView::createUi() {
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
     bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
     bottomWidgetLayout->setSpacing(0);
-    bottomWidgetLayout->addWidget(m_pOutputFormatLbl, Qt::AlignVCenter);
-    bottomWidgetLayout->addWidget(m_pOutputFormatCbb, Qt::AlignVCenter);
-    bottomWidgetLayout->addWidget(m_pOutputFolderLbl, Qt::AlignVCenter);
-    bottomWidgetLayout->addWidget(m_pOutputFolderCbb, Qt::AlignVCenter);
-    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn, Qt::AlignVCenter);
+    bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
+    bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
+    bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
+    bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
+    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
     bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pConversionBtn, Qt::AlignVCenter);
+    bottomWidgetLayout->addWidget(m_pConversionBtn);
 
     m_pImportGuide = new ImportGuide(this);
     m_pImportGuideWidget = new QWidget(this);

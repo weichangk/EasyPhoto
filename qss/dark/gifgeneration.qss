@@ -2,3 +2,7 @@ QWidget#GifGenerationView {
     background-color: "#191927";
     border-radius: 12px;
 }
+
+QWidget#GifGenerationView_DividingLine {
+    background-color: "#262636";
+}
