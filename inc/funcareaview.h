@@ -10,6 +10,8 @@
 #include "erase/view.h"
 #include "gifgeneration/view.h"
 #include "inpainting/view.h"
+#include "gifpreviewview.h"
+#include "imagepreviewview.h"
 
 #include <QStackedLayout>
 
@@ -30,6 +32,8 @@ public:
     EraseView *eraseView() const;
     GifGenerationView *gifGenerationView() const;
     InpaintingView *inpaintingView() const;
+    ImagePreviewView *imagePreviewView() const;
+    GifPreviewView *gifPreviewView() const;
 
 private:
     void createUi();
@@ -49,4 +53,7 @@ private:
     EraseView *m_pEraseView = nullptr;
     GifGenerationView *m_pGifGenerationView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;
+
+    ImagePreviewView *m_pImagePreviewView = nullptr;
+    GifPreviewView *m_pGifPreviewView = nullptr;
 };

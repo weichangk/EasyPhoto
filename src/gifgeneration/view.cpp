@@ -78,6 +78,16 @@ void GifGenerationView::createUi() {
     m_pOpenOutputFolderBtn->setFont(iconFont);
     m_pOpenOutputFolderBtn->setText(QChar(0xe634));
 
+    m_pPixelsLbl = new QLabel(bottomWidget);
+    m_pPixels_x_Lbl = new QLabel(bottomWidget);
+
+    m_pPixelsWidthLdt = new QLineEdit(bottomWidget);
+    m_pPixelsHeightLdt = new QLineEdit(bottomWidget);
+
+    m_pFrameRateLbl = new QLabel(bottomWidget);
+    m_pFrameRateCbb = new QComboBox(bottomWidget);
+    initFrameRateCbbItem();
+
     m_pPreviewBtn = new QPushButton(bottomWidget);
     m_pGenerationBtn = new QPushButton(bottomWidget);
 
@@ -87,6 +97,12 @@ void GifGenerationView::createUi() {
     bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
     bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
     bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
+    bottomWidgetLayout->addWidget(m_pPixelsLbl);
+    bottomWidgetLayout->addWidget(m_pPixelsWidthLdt);
+    bottomWidgetLayout->addWidget(m_pPixels_x_Lbl);
+    bottomWidgetLayout->addWidget(m_pPixelsHeightLdt);
+    bottomWidgetLayout->addWidget(m_pFrameRateLbl);
+    bottomWidgetLayout->addWidget(m_pFrameRateCbb);
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pPreviewBtn);
     bottomWidgetLayout->addWidget(m_pGenerationBtn);
@@ -186,8 +202,17 @@ void GifGenerationView::GifGenerationView::setOutputFolder(const QString &path) 
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
+void GifGenerationView::initFrameRateCbbItem() {
+    for(int i = GIFGENERATION_OUTPUT_MINFRAMERATE; i <= GIFGENERATION_OUTPUT_MAXFRAMERATE; i++) {
+        m_pFrameRateCbb->addItem(QString::number(i));
+    }
+}
+
 void GifGenerationView::onLanguageChange() {
     m_pOutputFolderLbl->setText(tr("Output folder:"));
+    m_pPixelsLbl->setText(tr("Pixels:"));
+    m_pPixels_x_Lbl->setText("x");
+    m_pFrameRateLbl->setText(tr("FrameRate:"));
     m_pPreviewBtn->setText(tr("Preview"));
     m_pGenerationBtn->setText(tr("Generation"));
 }

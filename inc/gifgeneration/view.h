@@ -46,6 +46,7 @@ private:
     void listViewNoDataState();
     void initOutputFolderCbbItem();
     void setOutputFolder(const QString &path);
+    void initFrameRateCbbItem();
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -71,6 +72,12 @@ private:
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     VectorButton *m_pOpenOutputFolderBtn = nullptr;
+    QLabel *m_pPixelsLbl = nullptr;
+    QLabel *m_pPixels_x_Lbl = nullptr;
+    QLineEdit *m_pPixelsWidthLdt = nullptr;
+    QLineEdit *m_pPixelsHeightLdt = nullptr;
+    QLabel *m_pFrameRateLbl = nullptr;
+    QComboBox *m_pFrameRateCbb = nullptr;
     QPushButton *m_pPreviewBtn = nullptr;
     QPushButton *m_pGenerationBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;

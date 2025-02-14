@@ -9,4 +9,6 @@ using EFunc = enum {
     FuncInpainting,
     FuncEffects,
     FuncGifGeneration,
+    FuncImagePreview,
+    FuncGifPreview,
 };

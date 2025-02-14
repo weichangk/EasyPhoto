@@ -39,6 +39,14 @@ InpaintingView *FuncAreaView::inpaintingView() const {
     return m_pInpaintingView;
 }
 
+ImagePreviewView *FuncAreaView::imagePreviewView() const {
+    return m_pImagePreviewView;
+}
+
+GifPreviewView *FuncAreaView::gifPreviewView() const {
+    return m_pGifPreviewView;
+}
+
 void FuncAreaView::createUi() {
     setObjectName("FuncAreaView");
     setAttribute(Qt::WA_StyledBackground);
@@ -55,6 +63,8 @@ void FuncAreaView::createUi() {
     m_pEraseView = new EraseView(this);
     m_pGifGenerationView = new GifGenerationView(this);
     m_pInpaintingView = new InpaintingView(this);
+    m_pImagePreviewView = new ImagePreviewView(this);
+    m_pGifPreviewView = new GifPreviewView(this);
 
     m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConversionView);
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
@@ -64,6 +74,8 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
     m_pStackedLayout->insertWidget(EFunc::FuncEffects, m_pEffectsView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifGeneration, m_pGifGenerationView);
+    m_pStackedLayout->insertWidget(EFunc::FuncImagePreview, m_pImagePreviewView);
+    m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(16, 8, 16, 12);
