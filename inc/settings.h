@@ -33,6 +33,25 @@ public:
     void setCompressionOutFormat(const QString &format);
     int compressQuality() const;
     void setCompressQuality(const int quality);
+
+    // GifGeneration
+    QString gifGenerationLastAddFilePath() const;
+    void setGifGenerationLastAddFilePath(const QString &path);
+    QString gifGenerationLastAddFolderPath() const;
+    void setGifGenerationLastAddFolderPath(const QString &path);
+    int gifGenerationWidth() const;
+    void setGifGenerationWidth(const int width);
+    int gifGenerationHeight() const;
+    void setGifGenerationHeight(const int height);
+    int gifGenerationQuality() const;
+    void setGifGenerationQuality(const int quality);
+    int gifGenerationFps() const;
+    void setGifGenerationFps(const int fps);
+    bool gifGenerationRepeat() const;
+    void setGifGenerationRepeat(bool repeat);
+    QString gifGenerationOutPath() const;
+    void setGifGenerationOutPath(const QString &path);
+
 private:
     QSettings m_Settings;
 
@@ -48,6 +67,16 @@ private:
     QString m_strCompressionOutPath;
     QString m_strCompressionOutFormat;
     int m_nCompressQuality;
+
+    // GifGeneration
+    QString m_strGifGenerationLastAddFilePath;
+    QString m_strGifGenerationLastAddFolderPath;
+    int m_nGifGenerationWidth;
+    int m_nGifGenerationHeight;
+    int m_nGifGenerationQuality;
+    int m_nGifGenerationFps;
+    bool m_bGifGenerationRepeat;
+    QString m_strGifGenerationOutPath;
 };
 
 #define SETTINGS Settings::getInstance()

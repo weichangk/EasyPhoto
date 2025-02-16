@@ -1,9 +1,8 @@
 #include "gifgeneration/view.h"
 #include "gifgeneration/presenter.h"
-// #include "gifgeneration/compressiontask.h"
+#include "gifgeneration/gifgenerationtask.h"
 #include "settings.h"
 
-#include <QFileInfo>
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QDesktopServices>
@@ -292,4 +291,20 @@ void GifGenerationView::onPreviewBtnClicked() {
 }
 
 void GifGenerationView::onGenerationBtnClicked() {
+    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+    GifGenerationTask task;
+    QList<QString> filePaths;
+    for(auto data : prst->datas()) {
+        filePaths.append(data.file_path);
+    }
+    GifGenerationParam param = {
+        filePaths,
+        SETTINGS->gifGenerationWidth(),
+        SETTINGS->gifGenerationHeight(),
+        SETTINGS->gifGenerationQuality(),
+        SETTINGS->gifGenerationFps(),
+        SETTINGS->gifGenerationRepeat(),
+        SETTINGS->gifGenerationOutPath(),
+    };
+    task.exec(param);
 }
