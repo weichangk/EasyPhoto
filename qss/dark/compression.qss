@@ -1,8 +1,8 @@
 QWidget#CompressionView {
-    background-color: "#191927";
+    background-color: "#1a1627";
     border-radius: 12px;
 }
 
 QWidget#CompressionView_DividingLine {
-    background-color: "#262636";
+    background-color: "#272336";
 }

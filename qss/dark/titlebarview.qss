@@ -1,5 +1,5 @@
 QWidget#TitlebarView {
-    background-color: "#08080e";
+    background-color: "#1a1627";
 }
 
 QWidget#TitlebarView_DividingLine {
