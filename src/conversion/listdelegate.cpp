@@ -27,9 +27,9 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     auto bgRect = rc.adjusted(0, 0, -8, -8);
     int radius = 4;
 
-    QColor bgColor = QColor("#232334");
+    QColor bgColor = QColor("#241f37");
     if (hover) {
-        bgColor = QColor("#463c6c");
+        bgColor = QColor("#2d2741");
     }
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
@@ -41,7 +41,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     }
 
     if (hover) {
-        QColor borderColor = QColor("#615682");
+        QColor borderColor = QColor("#703eff");
         QPen pen(borderColor);
         painter->setPen(pen);
         painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
@@ -135,7 +135,7 @@ bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
 QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if(m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
-        return QSize(parent->width(), n_ListItemHeight);
+        return QSize(parent->width() - 10, n_ListItemHeight);
     }
     return m_Size;
 }

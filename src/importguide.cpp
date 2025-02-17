@@ -61,7 +61,7 @@ void ImportGuide::dropEvent(QDropEvent *event) {
 void ImportGuide::createUi() {
     setObjectName("ImportGuide");
     setAttribute(Qt::WA_StyledBackground);
-    setFixedSize(470, 193);
+    // setFixedSize(470, 193);
 
     // 启用拖放支持
     setAcceptDrops(true);

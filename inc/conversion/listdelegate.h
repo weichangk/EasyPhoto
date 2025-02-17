@@ -13,7 +13,7 @@ public:
     bool isListMode() const;
 
 private:
-    QSize m_Size = QSize(200 + 8, 200 + 8);
+    QSize m_Size = QSize(208 + 8, 200 + 8);
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
     bool m_bIsListMode = false;

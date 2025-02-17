@@ -1,9 +1,10 @@
 QWidget#ImportGuide {
-    border: 2px dashed "#333343";
-    border-radius: 10px;
+    border: 2px dashed "#4a426c";
+    border-radius: 8px;
 }
 
 QWidget#ImportGuide:hover {
+    border: 2px dashed "#703eff";
     background-color: "#272336";
 }
 

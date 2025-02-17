@@ -88,6 +88,15 @@ void ConversionView::createUi() {
 
     QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
 
+    //
+    m_pImportGuide = new ImportGuide(this);
+    m_pImportGuideWidget = new QWidget(this);
+    QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
+    importGuideLayout->setContentsMargins(20, 20, 20, 20);
+    importGuideLayout->setSpacing(0);
+    importGuideLayout->addWidget(m_pImportGuide);
+
+    //
     QWidget *topWidget = new QWidget(this);
     topWidget->setFixedHeight(56);
 
@@ -124,7 +133,7 @@ void ConversionView::createUi() {
     topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(80);
+    bottomWidget->setFixedHeight(70);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
 
@@ -168,33 +177,37 @@ void ConversionView::createUi() {
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pConversionBtn);
 
-    m_pImportGuide = new ImportGuide(this);
-    m_pImportGuideWidget = new QWidget(this);
-    QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
-    importGuideLayout->setAlignment(Qt::AlignCenter);
-    importGuideLayout->addWidget(m_pImportGuide);
-
     m_pListView = new ListView<SConversionData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new ConversionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
+    auto listViewLayout = new QVBoxLayout();
+    listViewLayout->setContentsMargins(20, 0, 2, 0);
+    listViewLayout->setSpacing(0);
+    listViewLayout->addWidget(m_pListView, 1);
+
+    m_pContentWidget = new QWidget(this);
+    auto contentWidgetLayout = new QVBoxLayout(m_pContentWidget);
+    contentWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    contentWidgetLayout->setSpacing(0);
+    contentWidgetLayout->addWidget(topWidget);
+    contentWidgetLayout->addLayout(listViewLayout, 1);
+    contentWidgetLayout->addWidget(createDividingLine());
+    contentWidgetLayout->addWidget(bottomWidget);
 
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(m_pImportGuideWidget);
-    m_pStackedLayout->addWidget(m_pListView);
+    m_pStackedLayout->addWidget(m_pContentWidget);
+
     auto stackedMarginLayout = new QVBoxLayout();
-    stackedMarginLayout->setContentsMargins(8, 8, 2, 8);
+    stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
     stackedMarginLayout->addLayout(m_pStackedLayout, 1);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addWidget(topWidget);
-    layout->addWidget(createDividingLine());
     layout->addLayout(stackedMarginLayout, 1);
-    layout->addWidget(createDividingLine());
-    layout->addWidget(bottomWidget);
 }
 
 void ConversionView::connectSig() {
@@ -263,7 +276,7 @@ void ConversionView::listViewNoDataState() {
     m_pClearFileBtn->setVisible(!isNoData);
     m_pListModeSwitchBtn->setVisible(!isNoData);
     m_pSelectAllCkb->setVisible(!isNoData);
-    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pListView);
+    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
 void ConversionView::selectAllState() {

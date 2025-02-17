@@ -91,6 +91,11 @@ Q_SLOTS:
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
+    QWidget *m_pImportGuideWidget = nullptr;
+    ImportGuide *m_pImportGuide = nullptr;
+
+    QWidget *m_pContentWidget = nullptr;
+
     VectorButton *m_pAddFileBtn = nullptr;
     VectorButton *m_pAddFolderBtn = nullptr;
     VectorButton *m_pClearFileBtn = nullptr;
@@ -106,9 +111,6 @@ private:
     VectorButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pConversionBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
-
-    ImportGuide *m_pImportGuide = nullptr;
-    QWidget *m_pImportGuideWidget = nullptr;
 
     ListView<SConversionData> *m_pListView = nullptr;
     ConversionListDelegate *m_pListDelegate = nullptr;

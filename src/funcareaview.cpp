@@ -78,7 +78,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 
     auto layout = new QVBoxLayout(this);
-    layout->setContentsMargins(16, 8, 16, 12);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
 
     layout->addLayout(m_pStackedLayout);
