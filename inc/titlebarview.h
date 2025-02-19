@@ -26,15 +26,17 @@ private slots:
     void slotMaximizeBtnClicked();
     void slotMinimizeBtnClicked();
     void slotMenuBtnClicked();
+    void slotSupportBtnClicked();
     void slotUserInfoBtnClicked();
     void slotBuyMemberBtnClicked();
 
 private:
-    VectorButton *m_pCloseBtn = nullptr;
-    VectorButton *m_pMaximizeBtn = nullptr;
-    VectorButton *m_pMinimizeBtn = nullptr;
-    VectorButton *m_pMenuBtn = nullptr;
-    VectorButton *m_pUserInfoBtn = nullptr;
+    IconButton *m_pCloseBtn = nullptr;
+    IconButton *m_pMaximizeBtn = nullptr;
+    IconButton *m_pMinimizeBtn = nullptr;
+    IconButton *m_pMenuBtn = nullptr;
+    IconButton *m_pSupportBtn = nullptr;
+    IconButton *m_pUserInfoBtn = nullptr;
     HorIconTextVectorButton *m_pBuyMemberBtn = nullptr;
 
     LanguageFilter *m_pLang = nullptr;
