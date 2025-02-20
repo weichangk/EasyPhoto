@@ -1,6 +1,6 @@
 #pragma once
 #include "globalview.h"
-#include "widget/label.h"
+#include "widget/button.h"
 
 #include <QMouseEvent>
 #include <QDropEvent>
@@ -39,7 +39,8 @@ private:
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
     QVBoxLayout *m_pMainLayout = nullptr;
-    VectorLabel *m_pImportIconLab = nullptr;
-    QLabel *m_pImportDecLab = nullptr;
+    IconButton *m_pIconBtn = nullptr;
+    QLabel *m_pDecLab = nullptr;
+    HorIconTextButton *m_pImportBtn = nullptr;
     QWidget *m_pDividingLine = nullptr;
 };

@@ -29,7 +29,7 @@ void NavbarView::createUi() {
     m_pProjectLogo->setObjectName("ProjectLogo");
     m_pProjectLogo->setFixedHeight(70);
     m_pProjectLogo->setIconTextSpacing(10);
-    m_pProjectLogo->setIconSize(32);
+    m_pProjectLogo->setIconSize(32, 32);
     m_pProjectLogo->setIconFont(iconFont);
     m_pProjectLogo->setIcon(QChar(0xe601));
     m_pProjectLogo->setText("图片处理工具");

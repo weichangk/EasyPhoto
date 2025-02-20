@@ -15,3 +15,40 @@ QWidget#ImportGuide:pressed {
 QWidget#ImportGuide_DividingLine {
     background-color: "#323242";
 }
+
+QLabel#ImportGuide_m_pDecLab {
+    font-size: 18px;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+#ImportGuide_m_pImportBtn {
+    background-color: "#703eff";
+    border-radius: 12px;
+}
+
+#ImportGuide_m_pImportBtn:hover {
+    background-color: "#8054ff";
+}
+
+#ImportGuide_m_pImportBtn:pressed {
+    background-color: "#6230f3";
+}
+
+#ImportGuide_m_pImportBtn_Text[widget-state='normal'] {
+    color:#ffffff; 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#ImportGuide_m_pImportBtn_Text[widget-state='hover'] {
+    color:#ffffff; 
+    font-size: 14px;
+    font-weight: 600;
+}
+
+#ImportGuide_m_pImportBtn_Text[widget-state='pressed'] {
+    color:#ffffff; 
+    font-size: 14px;
+    font-weight: 600;
+}

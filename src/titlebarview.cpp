@@ -15,27 +15,33 @@ void TitlebarView::createUi() {
     QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
 
     m_pCloseBtn = new IconButton(this);
-    m_pCloseBtn->setIconSize(24);
+    m_pCloseBtn->setFixedSize(24, 24);
+    m_pCloseBtn->setIconSize(24, 24);
     m_pCloseBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_CloseBlack.svg");
 
     m_pMaximizeBtn = new IconButton(this);
-    m_pMaximizeBtn->setIconSize(24);
+    m_pMaximizeBtn->setFixedSize(24, 24);
+    m_pMaximizeBtn->setIconSize(24, 24);
     m_pMaximizeBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_max.svg");
 
     m_pMinimizeBtn = new IconButton(this);
-    m_pMinimizeBtn->setIconSize(24);
+    m_pMinimizeBtn->setFixedSize(24, 24);
+    m_pMinimizeBtn->setIconSize(24, 24);
     m_pMinimizeBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_mini.svg");
 
     m_pMenuBtn = new IconButton(this);
-    m_pMenuBtn->setIconSize(24);
+    m_pMenuBtn->setFixedSize(24, 24);
+    m_pMenuBtn->setIconSize(24, 24);
     m_pMenuBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_menu.svg");
 
     m_pSupportBtn = new IconButton(this);
-    m_pSupportBtn->setIconSize(24);
+    m_pSupportBtn->setFixedSize(24, 24);
+    m_pSupportBtn->setIconSize(24, 24);
     m_pSupportBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_support.svg");
 
     m_pUserInfoBtn = new IconButton(this);
-    m_pUserInfoBtn->setIconSize(24);
+    m_pUserInfoBtn->setFixedSize(24, 24);
+    m_pUserInfoBtn->setIconSize(24, 24);
     m_pUserInfoBtn->setNormalPixmapPath(":/qtmaterial/img/dark/v1/other/image48_avatar_free.svg");
 
     QHBoxLayout *layout = new QHBoxLayout(this);

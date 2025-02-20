@@ -66,32 +66,37 @@ void ImportGuide::createUi() {
     // 启用拖放支持
     setAcceptDrops(true);
 
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
+    m_pIconBtn = new IconButton(this);
+    m_pIconBtn->setFixedSize(148, 148);
+    m_pIconBtn->setIconSize(148, 148);
+    m_pIconBtn->setAttribute(Qt::WA_TransparentForMouseEvents);
+    m_pIconBtn->setNormalPixmapPath(":/qtmaterial/img/dark/v1/icon148/image148_Conversion.png");
 
-    m_pImportIconLab = new VectorLabel(this);
-    m_pImportIconLab->setObjectName("VectorLabel_Size24");
-    m_pImportIconLab->setFont(iconFont);
-    m_pImportIconLab->setText(QChar(0xe665));
-    m_pImportIconLab->setFixedSize(150, 100);
+    m_pDecLab = new QLabel(this);
+    m_pDecLab->setObjectName("ImportGuide_m_pDecLab");
 
-    m_pImportDecLab = new QLabel(this);
-
-    m_pDividingLine = createDividingLine();
-    m_pDividingLine->setVisible(false);
+    m_pImportBtn = new HorIconTextButton(this);
+    m_pImportBtn->setObjectName("ImportGuide_m_pImportBtn");
+    m_pImportBtn->setFixedSize(290, 48);
+    m_pImportBtn->setAdjustWidth(false);
+    m_pImportBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_add.svg");
+    m_pImportBtn->setIconSize(24, 24);
 
     m_pMainLayout = new QVBoxLayout(this);
     m_pMainLayout->setContentsMargins(0, 0, 0, 0);
     m_pMainLayout->setSpacing(0);
-    m_pMainLayout->addSpacing(36);
-    m_pMainLayout->addWidget(m_pImportIconLab, 0, Qt::AlignHCenter);
-    m_pMainLayout->addSpacing(20);
-    m_pMainLayout->addWidget(m_pImportDecLab, 0, Qt::AlignHCenter);
-    m_pMainLayout->addSpacing(20);
-    m_pMainLayout->addWidget(m_pDividingLine, 0, Qt::AlignHCenter);
+    m_pMainLayout->addStretch();
+    m_pMainLayout->addWidget(m_pIconBtn, 0, Qt::AlignHCenter);
+    m_pMainLayout->addSpacing(10);
+    m_pMainLayout->addWidget(m_pDecLab, 0, Qt::AlignHCenter);
+    m_pMainLayout->addSpacing(40);
+    m_pMainLayout->addWidget(m_pImportBtn, 0, Qt::AlignHCenter);
+    m_pMainLayout->addStretch();
 }
 
 void ImportGuide::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ImportGuide::onLanguageChange);
+    connect(m_pImportBtn, &HorIconTextButton::clicked, this, &ImportGuide::openFileDialog);
 }
 
 QWidget *ImportGuide::createDividingLine() {
@@ -130,5 +135,6 @@ void ImportGuide::openFileDialog() {
 }
 
 void ImportGuide::onLanguageChange() {
-    m_pImportDecLab->setText(tr("Output format:"));
+    m_pDecLab->setText(tr("Add or drag image files here to start converting"));
+    m_pImportBtn->setText(tr("Add Files"));
 }
