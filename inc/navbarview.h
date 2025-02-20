@@ -8,6 +8,7 @@
 
 using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
+using namespace qtmaterialfilter;
 
 class NavbarView : public QWidget, public View {
     Q_OBJECT
@@ -23,10 +24,13 @@ private:
     void setNavBtnChecked(EFunc);
 
 private slots:
+    void onLanguageChange();
     void onNavBtnClicked(int);
 
 private:
-    HorIconTextVectorButton *m_pProjectLogo = nullptr;
+    LanguageFilter *m_pLang = nullptr;
+
+    HorIconTextButton *m_pProjectLogo = nullptr;
     HorIconTextVectorButton *m_pConversionBtn = nullptr;
     HorIconTextVectorButton *m_pCompressionBtn = nullptr;
     HorIconTextVectorButton *m_pCroppingBtn = nullptr;

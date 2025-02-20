@@ -16,6 +16,7 @@ NavbarView::NavbarView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
+    onLanguageChange();
 }
 
 void NavbarView::createUi() {
@@ -25,14 +26,12 @@ void NavbarView::createUi() {
 
     QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
 
-    m_pProjectLogo = new HorIconTextVectorButton(this);
-    m_pProjectLogo->setObjectName("ProjectLogo");
+    m_pProjectLogo = new HorIconTextButton(this);
+    m_pProjectLogo->setObjectName("NavbarView_m_pProjectLogo");
     m_pProjectLogo->setFixedHeight(70);
-    m_pProjectLogo->setIconTextSpacing(10);
-    m_pProjectLogo->setIconSize(32, 32);
-    m_pProjectLogo->setIconFont(iconFont);
-    m_pProjectLogo->setIcon(QChar(0xe601));
-    m_pProjectLogo->setText("图片处理工具");
+    m_pProjectLogo->setIconTextSpacing(8);
+    m_pProjectLogo->setIconSize(40, 40);
+    m_pProjectLogo->setNormalPixmapPath(":/logo");
 
     auto navlayout = createNavBtns();
 
@@ -44,10 +43,14 @@ void NavbarView::createUi() {
     layout->addLayout(navlayout);
     layout->addStretch();
 
+    m_pLang = new LanguageFilter(this);
     auto movefilter = new MoveTitleBar(this, this->parentWidget());
 }
 
 void NavbarView::connectSig() {
+    bool bIsConn = false;
+    bIsConn = connect(m_pLang, &LanguageFilter::sigLanguageChange, this, &NavbarView::onLanguageChange);
+    Q_ASSERT(bIsConn);
 }
 
 QVBoxLayout *NavbarView::createNavBtns() {
@@ -87,6 +90,10 @@ QVBoxLayout *NavbarView::createNavBtns() {
 
 void NavbarView::setNavBtnChecked(EFunc func) {
     m_pNavBtnGroup->button(func)->setChecked(true);
+}
+
+void NavbarView::onLanguageChange() {
+    m_pProjectLogo->setText(tr("PhotoFlow"));
 }
 
 void NavbarView::onNavBtnClicked(int func) {
