@@ -7,6 +7,14 @@ FuncAreaView::FuncAreaView(QWidget *parent) :
     connectSig();
 }
 
+HomeView *FuncAreaView::homeView() const {
+    return m_pHomeView;
+}
+
+MyFileView *FuncAreaView::myFileView() const {
+    return m_pMyFileView;
+}
+
 CompressionView *FuncAreaView::compressionView() const {
     return m_pCompressionView;
 }
@@ -55,6 +63,8 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->setContentsMargins(0, 0, 0, 0);
     m_pStackedLayout->setSpacing(0);
 
+    m_pHomeView = new HomeView(this);
+    m_pMyFileView = new MyFileView(this);
     m_pCompressionView = new CompressionView(this);
     m_pConversionView = new ConversionView(this);
     m_pCroppingView = new CroppingView(this);
@@ -66,6 +76,8 @@ void FuncAreaView::createUi() {
     m_pImagePreviewView = new ImagePreviewView(this);
     m_pGifPreviewView = new GifPreviewView(this);
 
+    m_pStackedLayout->insertWidget(EFunc::FuncHome, m_pHomeView);
+    m_pStackedLayout->insertWidget(EFunc::FuncMyFile, m_pMyFileView);
     m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConversionView);
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
     m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);

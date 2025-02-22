@@ -3,6 +3,8 @@
 #include "navbarobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
+#include "homepresenter.h"
+#include "myfilepresenter.h"
 #include "compression/presenter.h"
 #include "conversion/presenter.h"
 #include "cropping/presenter.h"
@@ -23,6 +25,8 @@ private:
     void navChange(EFunc) override;
 
 private:
+    HomePresenter *m_pHomePresenter = nullptr;
+    MyFilePresenter *m_pMyFilePresenter = nullptr;
     CompressionPresenter *m_pCompressionPresenter = nullptr;
     ConversionPresenter *m_pConversionPresenter = nullptr;
     CroppingPresenter *m_pCroppingPresenter = nullptr;

@@ -1,6 +1,8 @@
 #include "funcarearepository.h"
 
 FuncAreaRepository::FuncAreaRepository() {
+    m_pHomeRepository = new HomeRepository();
+    m_pMyFileRepository = new MyFileRepository();
     m_pCompressionRepository = new CompressionRepository();
     m_pConversionRepository = new ConversionRepository();
     m_pCroppingRepository = new CroppingRepository();
@@ -12,6 +14,14 @@ FuncAreaRepository::FuncAreaRepository() {
 }
 
 FuncAreaRepository::~FuncAreaRepository() {
+}
+
+HomeRepository *FuncAreaRepository::homeRepository() const {
+    return m_pHomeRepository;
+}
+
+MyFileRepository *FuncAreaRepository::myFileRepository() const {
+    return m_pMyFileRepository;
 }
 
 CompressionRepository *FuncAreaRepository::compressionRepository() const {

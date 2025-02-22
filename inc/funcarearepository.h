@@ -1,6 +1,8 @@
 #pragma once
 #include "globalpresenter.h"
 #include "mvp/repository.h"
+#include "homerepository.h"
+#include "myfilerepository.h"
 #include "compression/repository.h"
 #include "conversion/repository.h"
 #include "cropping/repository.h"
@@ -17,6 +19,8 @@ public:
     explicit FuncAreaRepository();
     ~FuncAreaRepository();
 
+    HomeRepository *homeRepository() const;
+    MyFileRepository *myFileRepository() const;
     CompressionRepository *compressionRepository() const;
     ConversionRepository *conversionRepository() const;
     CroppingRepository *croppingRepository() const;
@@ -27,6 +31,8 @@ public:
     InpaintingRepository *inpaintingRepository() const;
 
 private:
+    HomeRepository *m_pHomeRepository = nullptr;
+    MyFileRepository *m_pMyFileRepository = nullptr;
     CompressionRepository *m_pCompressionRepository = nullptr;
     ConversionRepository *m_pConversionRepository = nullptr;
     CroppingRepository *m_pCroppingRepository = nullptr;

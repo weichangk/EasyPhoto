@@ -8,6 +8,8 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
     FuncAreaView *funcAreaView = dynamic_cast<FuncAreaView *>(view);
     FuncAreaRepository *funcRepository = dynamic_cast<FuncAreaRepository *>(repository);
     if (funcAreaView && funcRepository) {
+        m_pHomePresenter = new HomePresenter(funcAreaView->homeView(), funcRepository->homeRepository());
+        m_pMyFilePresenter = new MyFilePresenter(funcAreaView->myFileView(), funcRepository->myFileRepository());
         m_pCompressionPresenter = new CompressionPresenter(funcAreaView->compressionView(), funcRepository->compressionRepository());
         m_pConversionPresenter = new ConversionPresenter(funcAreaView->conversionView(), funcRepository->conversionRepository());
         m_pCroppingPresenter = new CroppingPresenter(funcAreaView->croppingView(), funcRepository->croppingRepository());

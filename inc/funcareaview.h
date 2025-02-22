@@ -2,6 +2,8 @@
 #include "globalview.h"
 #include "funcenum.h"
 #include "mvp/view.h"
+#include "homeview.h"
+#include "myfileview.h"
 #include "compression/view.h"
 #include "conversion/view.h"
 #include "cropping/view.h"
@@ -24,6 +26,8 @@ public:
     ~FuncAreaView() override {
     }
 
+    HomeView *homeView() const;
+    MyFileView *myFileView() const;
     CompressionView *compressionView() const;
     ConversionView *conversionView() const;
     CroppingView *croppingView() const;
@@ -45,6 +49,8 @@ private:
 
 private:
     QStackedLayout *m_pStackedLayout = nullptr;
+    HomeView *m_pHomeView = nullptr;
+    MyFileView *m_pMyFileView = nullptr;
     CompressionView *m_pCompressionView = nullptr;
     ConversionView *m_pConversionView = nullptr;
     CroppingView *m_pCroppingView = nullptr;

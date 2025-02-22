@@ -1,7 +1,9 @@
 #pragma once
 
 using EFunc = enum {
-    FuncConversion = 0,
+    FuncHome = 0,
+    FuncMyFile,
+    FuncConversion,
     FuncCompression,
     FuncCropping,
     FuncErase,
