@@ -1,4 +1,4 @@
-#include "myfilepresenter.h"
+#include "myfile/presenter.h"
 
 MyFilePresenter::MyFilePresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {

@@ -1,4 +1,4 @@
-#include "homerepository.h"
+#include "home/repository.h"
 
 HomeRepository::HomeRepository() {
 }

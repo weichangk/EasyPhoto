@@ -1,8 +1,8 @@
 #pragma once
 #include "globalpresenter.h"
 #include "mvp/repository.h"
-#include "homerepository.h"
-#include "myfilerepository.h"
+#include "home/repository.h"
+#include "myfile/repository.h"
 #include "compression/repository.h"
 #include "conversion/repository.h"
 #include "cropping/repository.h"
