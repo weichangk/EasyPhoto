@@ -31,13 +31,15 @@ private:
     LanguageFilter *m_pLang = nullptr;
 
     HorIconTextButton *m_pProjectLogo = nullptr;
-    HorIconTextVectorButton *m_pConversionBtn = nullptr;
-    HorIconTextVectorButton *m_pCompressionBtn = nullptr;
-    HorIconTextVectorButton *m_pCroppingBtn = nullptr;
-    HorIconTextVectorButton *m_pEraseBtn = nullptr;
-    HorIconTextVectorButton *m_pEnhancementBtn = nullptr;
-    HorIconTextVectorButton *m_pInpaintingBtn = nullptr;
-    HorIconTextVectorButton *m_pEffectsBtn = nullptr;
-    HorIconTextVectorButton *m_pGifgenerationBtn = nullptr;
+    HorIconTextButton *m_pHomeBtn = nullptr;
+    HorIconTextButton *m_pMyFileBtn = nullptr;
+    HorIconTextButton *m_pConversionBtn = nullptr;
+    HorIconTextButton *m_pCompressionBtn = nullptr;
+    HorIconTextButton *m_pCroppingBtn = nullptr;
+    HorIconTextButton *m_pEraseBtn = nullptr;
+    HorIconTextButton *m_pEnhancementBtn = nullptr;
+    HorIconTextButton *m_pInpaintingBtn = nullptr;
+    HorIconTextButton *m_pEffectsBtn = nullptr;
+    HorIconTextButton *m_pGifgenerationBtn = nullptr;
     QButtonGroup *m_pNavBtnGroup = nullptr;
 };

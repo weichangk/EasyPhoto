@@ -8,7 +8,7 @@ using namespace qtmaterialfilter;
 using namespace qtmaterialcore;
 
 struct SNavIconName {
-    QChar icon;
+    QString icon;
     QString name;
 };
 
@@ -23,8 +23,6 @@ void NavbarView::createUi() {
     setObjectName("NavbarView");
     setAttribute(Qt::WA_StyledBackground);
     setFixedWidth(200);
-
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
 
     m_pProjectLogo = new HorIconTextButton(this);
     m_pProjectLogo->setObjectName("NavbarView_m_pProjectLogo");
@@ -59,30 +57,43 @@ QVBoxLayout *NavbarView::createNavBtns() {
     navlayout->setContentsMargins(23, 20, 23, 13);
     navlayout->setSpacing(0);
     QMap<int, SNavIconName> navMap;
-    navMap[EFunc::FuncConversion] = {QChar(0xe7dc), "图片转换"}; 
-    navMap[EFunc::FuncCompression] = {QChar(0xe66b), "图片压缩"};
-    navMap[EFunc::FuncCropping] = {QChar(0xe600), "图片裁剪"};
-    navMap[EFunc::FuncErase] = {QChar(0xe789), "图片擦除"};
-    navMap[EFunc::FuncEnhancement] = {QChar(0xe6a7), "图片增强"};
-    navMap[EFunc::FuncInpainting] = {QChar(0xe771), "图片修复"};
-    navMap[EFunc::FuncEffects] = {QChar(0xe677), "图片效果"};
-    navMap[EFunc::FuncGifGeneration] = {QChar(0xe608), "GIF生成"};
+    navMap[EFunc::FuncHome] = {":/qtmaterial/img/dark/v1/icon24/icon24_home.svg", tr("Home")}; 
+    navMap[EFunc::FuncMyFile] = {":/qtmaterial/img/dark/v1/icon24/icon24_file.svg", tr("My Files")}; 
+    navMap[EFunc::FuncConversion] = {":/qtmaterial/img/dark/v1/icon24/icon24_converter.svg", tr("Converter")}; 
+    navMap[EFunc::FuncCompression] = {":/qtmaterial/img/dark/v1/icon24/icon24_compress.svg", tr("Compressor")}; 
+    // navMap[EFunc::FuncCropping] = {"", "图片裁剪"};
+    // navMap[EFunc::FuncErase] = {"", "图片擦除"};
+    // navMap[EFunc::FuncEnhancement] = {"", "图片增强"};
+    // navMap[EFunc::FuncInpainting] = {"", "图片修复"};
+    // navMap[EFunc::FuncEffects] = {"", "图片效果"};
+    navMap[EFunc::FuncGifGeneration] = {":/qtmaterial/img/dark/v1/icon24/icon24_gif maker.svg", tr("GIF Maker")}; 
     QMap<int, SNavIconName>::Iterator iter;
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
     m_pNavBtnGroup = new QButtonGroup(this);
     m_pNavBtnGroup->setExclusive(true);
     for (iter = navMap.begin(); iter != navMap.end(); ++iter) {
-        auto *btn = new HorIconTextVectorButton(this);
-        btn->setObjectName("HorIconTextVectorButton_H36_R8_I20_T14_Bg")
-            ->setIconFont(iconFont)
-            ->setIcon(iter.value().icon)
-            ->setText(iter.value().name);
-        btn->setFixedWidth(158);
+        auto *btn = new HorIconTextButton(this, style::EHorIconTexAligns::Left);
+        btn->setObjectName("NavbarView_m_pNavbarBtn");
+        btn->setNormalPixmapPath(iter.value().icon);
+        btn->setText(iter.value().name);
+        btn->setIconSize(24, 24);
+        btn->setFixedSize(158, 40);
         btn->setAdjustWidth(false);
         btn->setCheckable(true);
         m_pNavBtnGroup->addButton(btn, iter.key());
         navlayout->addWidget(btn);
-        navlayout->addSpacing(4);
+        if(iter.key() == EFunc::FuncMyFile) {
+            navlayout->addSpacing(20);
+            auto *hot = new HorIconTextButton(this, style::EHorIconTexAligns::Left);
+            hot->setObjectName("NavbarView_m_pNavbarHot");
+            hot->setNormalPixmapPath(":/qtmaterial/img/dark/v1/icon20/icon20_hot.png");
+            hot->setText(tr("Hot"));
+            hot->setIconSize(20, 20);
+            hot->setFixedSize(158, 40);
+            navlayout->addWidget(hot);
+        }
+        else {
+            navlayout->addSpacing(8);
+        }
     }
     connect(m_pNavBtnGroup, &QButtonGroup::idClicked, this, &NavbarView::onNavBtnClicked);
     return navlayout;
