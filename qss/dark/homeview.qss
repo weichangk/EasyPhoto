@@ -1,0 +1,36 @@
+QWidget#HomeView {
+    background-color: "#1a1627";
+    border-radius: 0px;
+}
+
+QScrollBar#HomeViewScrollBar:vertical {
+    width: 5px;
+    margin: 24px 0px 0px 0px;
+}
+QScrollBar#HomeViewScrollBar:horizontal {
+    height: 5px;
+    margin: 0px 0px 0px 0px;
+}
+QScrollBar#HomeViewScrollBar::handle:vertical {
+    background: #45455a;
+    border-radius: 2px;
+    min-height: 30px;
+}
+QScrollBar#HomeViewScrollBar::handle:horizontal {
+    background: #45455a;
+    border-radius: 2px;
+    min-width: 30px;
+}
+QScrollBar#HomeViewScrollBar::handle:vertical:hover,
+QScrollBar#HomeViewScrollBar::handle:horizontal:hover {
+    background: #4e4e64;
+}
+QScrollBar#HomeViewScrollBar::sub-line:vertical, QScrollBar::add-line:vertical,
+QScrollBar#HomeViewScrollBar::sub-line:horizontal, QScrollBar::add-line:horizontal {
+    width: 0;
+    height: 0;
+}
+QScrollBar#HomeViewScrollBar::add-page:vertical, QScrollBar::sub-page:vertical,
+QScrollBar#HomeViewScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
+    background: none;
+}

@@ -24,16 +24,10 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
 
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
-    int radius = 4;
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
+    int radius = 12;
 
-    QColor bgColor = Qt::transparent;
-    if (hover) {
-        bgColor = QColor("#352c52");
-    }
-    if (selected) {
-        bgColor = QColor("#473e6a");
-    }
+    QColor bgColor = QColor("#2d2741");
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);

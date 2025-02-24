@@ -5,6 +5,7 @@
       <file>../../qss/dark/qlabel.qss</file>
       
       <file>../../qss/dark/mainview.qss</file>
+      <file>../../qss/dark/homeview.qss</file>
       <file>../../qss/dark/titlebarview.qss</file>
       <file>../../qss/dark/navbarview.qss</file>
       <file>../../qss/dark/funcareaview.qss</file> 
