@@ -36,7 +36,7 @@ void NavbarView::createUi() {
 
     auto layout = new QVBoxLayout(this);
     layout->setAlignment(Qt::AlignCenter);
-    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setContentsMargins(0, 16, 0, 0);
     layout->setSpacing(0);
     layout->addWidget(m_pProjectLogo, 0, Qt::AlignCenter);
     layout->addLayout(navlayout);

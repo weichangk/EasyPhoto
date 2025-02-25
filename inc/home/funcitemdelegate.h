@@ -13,7 +13,7 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    QSize m_Size = QSize(250, 228);
+    QSize m_Size = QSize(234, 210);
     int m_nEventType = QEvent::None;
     QPoint m_CurPos;
 };

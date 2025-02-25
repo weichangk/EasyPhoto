@@ -27,7 +27,7 @@ void HomeView::createUi() {
     m_pListView->verticalScrollBar()->setStyle(m_pListView->verticalScrollBar()->style());
     
     auto layout = new QVBoxLayout(this);
-    layout->setContentsMargins(24, 16, 2, 16);
+    layout->setContentsMargins(48, 16, 2, 16);
     layout->setSpacing(0);
     layout->addWidget(m_pListView, 1);
 }

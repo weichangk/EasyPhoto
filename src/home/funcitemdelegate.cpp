@@ -32,19 +32,37 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    auto desRect = QRect(bgRect.x() + 8, bgRect.y(), bgRect.width() - 8 - 8, bgRect.height());
-    QColor desColor = QColor("#ffffff");
-    QPen pen(desColor);
-    painter->setPen(pen);
-    QFont font = painter->font();
-    font.setPixelSize(13);
-    painter->setFont(font);
-    QString des = data.desc;
-    QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(des) > desRect.width()) {
-        des = metrics.elidedText(des, Qt::ElideMiddle, desRect.width());
+    auto thumbnailRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 226, 128);
+    Painter::paintPixmap(painter, thumbnailRect, data.thumbnail, 1, radius - 2, true);
+
+    auto titleRect = QRect(bgRect.x() + 18, thumbnailRect.bottom() + 16, bgRect.width() - 36, 24);
+    QColor titleColor = QColor("#ffffff");
+    QPen titlePen(titleColor);
+    painter->setPen(titlePen);
+    QFont titleFont = painter->font();
+    titleFont.setPixelSize(12);
+    titleFont.setBold(true);
+    painter->setFont(titleFont);
+    QString title = data.title;
+    QFontMetricsF titleMetrics(titleFont);
+    if (titleMetrics.horizontalAdvance(title) > titleRect.width()) {
+        title = titleMetrics.elidedText(title, Qt::ElideMiddle, titleRect.width());
     }
-    painter->drawText(desRect, Qt::AlignCenter, des);
+    painter->drawText(titleRect, Qt::AlignLeft | Qt::AlignTop, title);
+    painter->setPen(Qt::NoPen);
+
+    auto descRect = QRect(bgRect.x() + 18, titleRect.bottom(), bgRect.width() - 36, 38);
+    QColor descColor = QColor("#76718a");
+    QPen descPen(descColor);
+    painter->setPen(descPen);
+    QFont descFont = painter->font();
+    descFont.setPixelSize(12);
+    descFont.setBold(false);
+    painter->setFont(descFont);
+    QString desc = data.desc;
+    QTextOption toption(Qt::AlignLeft | Qt::AlignTop);
+    toption.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    painter->drawText(descRect, desc, toption);
     painter->setPen(Qt::NoPen);
 }
 
