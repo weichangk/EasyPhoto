@@ -1,5 +1,6 @@
 #include "titlebarview.h"
 #include "filter/movetitlebar.h"
+#include "core/theme.h"
 
 TitlebarView::TitlebarView(QWidget *parent) :
     QWidget(parent) {
@@ -12,37 +13,34 @@ void TitlebarView::createUi() {
     setAttribute(Qt::WA_StyledBackground);
     setFixedHeight(40);
 
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
-
     m_pCloseBtn = new IconButton(this);
     m_pCloseBtn->setFixedSize(24, 24);
     m_pCloseBtn->setIconSize(24, 24);
-    m_pCloseBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_CloseBlack.svg");
-
+    m_pCloseBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_CloseBlack.svg").arg(qtmaterialcore::Theme::currentTheme()));
     m_pMaximizeBtn = new IconButton(this);
     m_pMaximizeBtn->setFixedSize(24, 24);
     m_pMaximizeBtn->setIconSize(24, 24);
-    m_pMaximizeBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_max.svg");
+    m_pMaximizeBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_max.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     m_pMinimizeBtn = new IconButton(this);
     m_pMinimizeBtn->setFixedSize(24, 24);
     m_pMinimizeBtn->setIconSize(24, 24);
-    m_pMinimizeBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_mini.svg");
+    m_pMinimizeBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_mini.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     m_pMenuBtn = new IconButton(this);
     m_pMenuBtn->setFixedSize(24, 24);
     m_pMenuBtn->setIconSize(24, 24);
-    m_pMenuBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_menu.svg");
+    m_pMenuBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_menu.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     m_pSupportBtn = new IconButton(this);
     m_pSupportBtn->setFixedSize(24, 24);
     m_pSupportBtn->setIconSize(24, 24);
-    m_pSupportBtn->setFourPixmapPath(":/qtmaterial/img/dark/v1/icon24/icon24_support.svg");
+    m_pSupportBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_support.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     m_pUserInfoBtn = new IconButton(this);
     m_pUserInfoBtn->setFixedSize(24, 24);
     m_pUserInfoBtn->setIconSize(24, 24);
-    m_pUserInfoBtn->setNormalPixmapPath(":/qtmaterial/img/dark/v1/other/image48_avatar_free.svg");
+    m_pUserInfoBtn->setNormalPixmapPath(QString(":/qtmaterial/img/vcu/%1/other/image48_avatar_free.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setContentsMargins(16, 0, 12, 0);

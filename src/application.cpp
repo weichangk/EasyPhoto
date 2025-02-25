@@ -18,7 +18,9 @@ Application::Application(int argc, char *argv[]) :
     setApplicationName(APPLICATION_ID);
     setApplicationDisplayName(APPLICATION_DISPLAY_NAME);
     SETTINGS->load();
-    qtmaterialcore::Theme::setTheme(qtmaterialcore::Theme::DARK);
+    QStringList prefixs;
+    prefixs.append("");
+    qtmaterialcore::Theme::setTheme(qtmaterialcore::Theme::DARK, prefixs);
     qtmaterialcore::Font::setFont(qtmaterialcore::Font::ROBOTO_REGULAR);
     qtmaterialcore::Font::setIconFont(":/font/iconfont.ttf");
     // InitializeMagick(*argv);

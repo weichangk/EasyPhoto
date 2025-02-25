@@ -3,6 +3,7 @@
 #include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"
+#include "core/theme.h"
 
 using namespace qtmaterialfilter;
 using namespace qtmaterialcore;
@@ -57,16 +58,16 @@ QVBoxLayout *NavbarView::createNavBtns() {
     navlayout->setContentsMargins(23, 20, 23, 13);
     navlayout->setSpacing(0);
     QMap<int, SNavIconName> navMap;
-    navMap[EFunc::FuncHome] = {":/qtmaterial/img/dark/v1/icon24/icon24_home.svg", tr("Home")}; 
-    navMap[EFunc::FuncMyFile] = {":/qtmaterial/img/dark/v1/icon24/icon24_file.svg", tr("My Files")}; 
-    navMap[EFunc::FuncConversion] = {":/qtmaterial/img/dark/v1/icon24/icon24_converter.svg", tr("Converter")}; 
-    navMap[EFunc::FuncCompression] = {":/qtmaterial/img/dark/v1/icon24/icon24_compress.svg", tr("Compressor")}; 
+    navMap[EFunc::FuncHome] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_home.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("Home")}; 
+    navMap[EFunc::FuncMyFile] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_file.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("My Files")}; 
+    navMap[EFunc::FuncConversion] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_converter.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("Converter")}; 
+    navMap[EFunc::FuncCompression] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_compress.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("Compressor")}; 
     // navMap[EFunc::FuncCropping] = {"", "图片裁剪"};
     // navMap[EFunc::FuncErase] = {"", "图片擦除"};
     // navMap[EFunc::FuncEnhancement] = {"", "图片增强"};
     // navMap[EFunc::FuncInpainting] = {"", "图片修复"};
     // navMap[EFunc::FuncEffects] = {"", "图片效果"};
-    navMap[EFunc::FuncGifGeneration] = {":/qtmaterial/img/dark/v1/icon24/icon24_gif maker.svg", tr("GIF Maker")}; 
+    navMap[EFunc::FuncGifGeneration] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_gif maker.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("GIF Maker")}; 
     QMap<int, SNavIconName>::Iterator iter;
     m_pNavBtnGroup = new QButtonGroup(this);
     m_pNavBtnGroup->setExclusive(true);
@@ -85,7 +86,7 @@ QVBoxLayout *NavbarView::createNavBtns() {
             navlayout->addSpacing(20);
             auto *hot = new HorIconTextButton(this, style::EHorIconTexAligns::Left);
             hot->setObjectName("NavbarView_m_pNavbarHot");
-            hot->setNormalPixmapPath(":/qtmaterial/img/dark/v1/icon20/icon20_hot.png");
+            hot->setNormalPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon20/icon20_hot.png").arg(qtmaterialcore::Theme::currentTheme()));
             hot->setText(tr("Hot"));
             hot->setIconSize(20, 20);
             hot->setFixedSize(158, 40);
