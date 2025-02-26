@@ -11,7 +11,7 @@ TitlebarView::TitlebarView(QWidget *parent) :
 void TitlebarView::createUi() {
     setObjectName("TitlebarView");
     setAttribute(Qt::WA_StyledBackground);
-    setFixedHeight(40);
+    setFixedHeight(48);
 
     m_pCloseBtn = new IconButton(this);
     m_pCloseBtn->setFixedSize(24, 24);

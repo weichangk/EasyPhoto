@@ -86,8 +86,6 @@ void ConversionView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
-
     //
     m_pImportGuide = new ImportGuide(this);
     m_pImportGuideWidget = new QWidget(this);
@@ -100,45 +98,47 @@ void ConversionView::createUi() {
     QWidget *topWidget = new QWidget(this);
     topWidget->setFixedHeight(56);
 
-    m_pAddFileBtn = new VectorButton(topWidget);
-    m_pAddFileBtn->setObjectName("VectorButton_HW28_I20");
-    m_pAddFileBtn->setFont(iconFont);
-    m_pAddFileBtn->setText(QChar(0xe634));
+    m_pAddFileBtn = new IconButton(topWidget);
+    m_pAddFileBtn->setFixedSize(32, 32);
+    m_pAddFileBtn->setIconSize(32, 32);
+    m_pAddFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon32/icon32_add_file.png");
 
-    m_pAddFolderBtn = new VectorButton(topWidget);
-    m_pAddFolderBtn->setObjectName("VectorButton_HW28_I20");
-    m_pAddFolderBtn->setFont(iconFont);
-    m_pAddFolderBtn->setText(QChar(0xe634));
+    m_pAddFolderBtn = new IconButton(topWidget);
+    m_pAddFolderBtn->setFixedSize(32, 32);
+    m_pAddFolderBtn->setIconSize(32, 32);
+    m_pAddFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon32/icon32_add_folder.png");
 
-    m_pClearFileBtn = new VectorButton(topWidget);
-    m_pClearFileBtn->setObjectName("VectorButton_HW28_I20");
-    m_pClearFileBtn->setFont(iconFont);
-    m_pClearFileBtn->setText(QChar(0xe634));
+    m_pClearFileBtn = new IconButton(topWidget);
+    m_pClearFileBtn->setFixedSize(24, 24);
+    m_pClearFileBtn->setIconSize(24, 24);
+    m_pClearFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_delete.png");
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
+    m_pSelectAllCkb->setObjectName("ConversionView_m_pSelectAllCkb");
 
-    m_pListModeSwitchBtn = new VectorButton(topWidget);
-    m_pListModeSwitchBtn->setObjectName("VectorButton_HW28_I20");
-    m_pListModeSwitchBtn->setFont(iconFont);
-    m_pListModeSwitchBtn->setText(QChar(0xe634));
+    m_pListModeSwitchBtn = new IconButton(topWidget);
+    m_pListModeSwitchBtn->setFixedSize(24, 24);
+    m_pListModeSwitchBtn->setIconSize(24, 24);
+    m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_thumbnail.png");
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    topWidgetLayout->setSpacing(8);
+    topWidgetLayout->setSpacing(12);
     topWidgetLayout->addWidget(m_pAddFileBtn);
     topWidgetLayout->addWidget(m_pAddFolderBtn);
-    topWidgetLayout->addWidget(m_pClearFileBtn);
-    topWidgetLayout->addWidget(m_pSelectAllCkb);
     topWidgetLayout->addStretch();
+    topWidgetLayout->addWidget(m_pSelectAllCkb);
+    topWidgetLayout->addWidget(m_pClearFileBtn);
     topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
     bottomWidget->setFixedHeight(70);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
+    m_pOutputFormatLbl->setObjectName("ConversionView_m_pOutputFormatLbl");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
-    m_pOutputFormatCbb->setFixedWidth(120);
+    m_pOutputFormatCbb->setFixedSize(60, 24);
 
     m_pOutputFormatEdit = new QLineEdit(m_pOutputFormatCbb);
     m_pOutputFormatEdit->setReadOnly(true);
@@ -150,29 +150,36 @@ void ConversionView::createUi() {
     m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
+    m_pOutputFolderLbl->setObjectName("ConversionView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
-    m_pOutputFolderCbb->setFixedWidth(120);
+    m_pOutputFolderCbb->setFixedSize(240, 24);
 
     m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
     m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     initOutputFolderCbbItem();
 
-    m_pOpenOutputFolderBtn = new VectorButton(bottomWidget);
-    m_pOpenOutputFolderBtn->setObjectName("VectorButton_HW28_I20");
-    m_pOpenOutputFolderBtn->setFont(iconFont);
-    m_pOpenOutputFolderBtn->setText(QChar(0xe634));
+    m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
+    m_pOpenOutputFolderBtn->setFixedSize(24, 24);
+    m_pOpenOutputFolderBtn->setIconSize(24, 24);
+    m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_file.png");
 
     m_pConversionBtn = new QPushButton(bottomWidget);
+    m_pConversionBtn->setObjectName("ConversionView_m_pConversionBtn");
+    m_pConversionBtn->setFixedSize(110, 32);
 
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
     bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
     bottomWidgetLayout->setSpacing(0);
     bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
+    bottomWidgetLayout->addSpacing(4);
     bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
+    bottomWidgetLayout->addSpacing(12);
     bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
+    bottomWidgetLayout->addSpacing(4);
     bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
+    bottomWidgetLayout->addSpacing(4);
     bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pConversionBtn);
@@ -248,6 +255,12 @@ void ConversionView::onListModeSwitchBtnClicked() {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
         m_pListView->changeData(prst->datas());
+        if(m_pListModeSwitchBtn->fourPixmapPath().contains("thumbnail")) {
+            m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_list.png");
+        }
+        else {
+            m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_thumbnail.png");
+        }
     }
 }
 
@@ -327,7 +340,7 @@ void ConversionView::onLanguageChange() {
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
-    m_pConversionBtn->setText(tr("Conversion"));
+    m_pConversionBtn->setText(tr("Start All"));
 }
 
 void ConversionView::onAddFileBtnClicked() {

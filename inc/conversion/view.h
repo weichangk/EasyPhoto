@@ -96,10 +96,10 @@ private:
 
     QWidget *m_pContentWidget = nullptr;
 
-    VectorButton *m_pAddFileBtn = nullptr;
-    VectorButton *m_pAddFolderBtn = nullptr;
-    VectorButton *m_pClearFileBtn = nullptr;
-    VectorButton *m_pListModeSwitchBtn = nullptr;
+    IconButton *m_pAddFileBtn = nullptr;
+    IconButton *m_pAddFolderBtn = nullptr;
+    IconButton *m_pClearFileBtn = nullptr;
+    IconButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
     QLineEdit *m_pOutputFormatEdit = nullptr;
@@ -108,7 +108,7 @@ private:
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
-    VectorButton *m_pOpenOutputFolderBtn = nullptr;
+    IconButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pConversionBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
