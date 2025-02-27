@@ -18,8 +18,19 @@ using namespace qtmaterialmvp;
 
 class FuncAreaPresenter : public Presenter, public IFuncChangeObserver {
 public:
-    explicit FuncAreaPresenter(IView* view, IRepository *repository);
+    explicit FuncAreaPresenter(IView *view, IRepository *repository);
     ~FuncAreaPresenter();
+
+    HomePresenter *homePresente();
+    MyFilePresenter *myFilePresenter();
+    CompressionPresenter *compressionPresenter();
+    ConversionPresenter *conversionPresenter();
+    CroppingPresenter *croppingPresenter();
+    EffectsPresenter *effectsPresenter();
+    EnhancementPresenter *enhancementPresenter();
+    ErasePresenter *erasePresenter();
+    GifGenerationPresenter *gifGenerationPresenter();
+    InpaintingPresenter *inpaintingPresenter();
 
 private:
     void funcChange(EFunc) override;

@@ -35,7 +35,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/images/addfile_icon1.png")
         },
         SFuncItemData{
-            EFunc::FuncCropping,
+            EFunc::FuncGifMaker,
             EFuncItemBtnType::AddFile,
             "GIF Maker",
             "Create a GIF from multiple images.",
@@ -100,7 +100,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/images/addfile_icon1.png")
         },
         SFuncItemData{
-            EFunc::FuncGifGeneration,
+            EFunc::FuncGifMaker,
             EFuncItemBtnType::AddFile,
             "功能1",
             "这是功能1的描述",

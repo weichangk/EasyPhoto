@@ -1,5 +1,6 @@
 #include "navbarview.h"
 #include "funcchangemessage.h"
+#include "navbarcheckedmessage.h"
 #include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"
@@ -67,7 +68,7 @@ QVBoxLayout *NavbarView::createNavBtns() {
     // navMap[EFunc::FuncEnhancement] = {"", "图片增强"};
     // navMap[EFunc::FuncInpainting] = {"", "图片修复"};
     // navMap[EFunc::FuncEffects] = {"", "图片效果"};
-    navMap[EFunc::FuncGifGeneration] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_gif maker.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("GIF Maker")}; 
+    navMap[EFunc::FuncGifMaker] = {QString(":/qtmaterial/img/vcu/%1/icon24/icon24_gif maker.svg").arg(qtmaterialcore::Theme::currentTheme()), tr("GIF Maker")}; 
     QMap<int, SNavIconName>::Iterator iter;
     m_pNavBtnGroup = new QButtonGroup(this);
     m_pNavBtnGroup->setExclusive(true);
@@ -101,7 +102,26 @@ QVBoxLayout *NavbarView::createNavBtns() {
 }
 
 void NavbarView::setNavBtnChecked(EFunc func) {
-    m_pNavBtnGroup->button(func)->setChecked(true);
+    auto btn = m_pNavBtnGroup->button(func);
+    if (btn) {
+        btn->setChecked(true);
+    } 
+}
+
+void NavbarView::clearNavBtnChecked() {
+    m_pNavBtnGroup->setExclusive(false);
+    for (auto btn : m_pNavBtnGroup->buttons()) {
+        btn->setChecked(false);
+    }
+    m_pNavBtnGroup->setExclusive(true);
+}
+
+bool NavbarView::handleMessage(IMessage *message) {
+    if (NavbarCheckedMessage *msg = dynamic_cast<NavbarCheckedMessage *>(message)) {
+        clearNavBtnChecked();
+        setNavBtnChecked((EFunc)msg->code());
+    }
+    return false;
 }
 
 void NavbarView::onLanguageChange() {

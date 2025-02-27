@@ -10,7 +10,7 @@ using EFunc = enum {
     FuncEnhancement,
     FuncInpainting,
     FuncEffects,
-    FuncGifGeneration,
+    FuncGifMaker,
     FuncImagePreview,
     FuncGifPreview,
 };

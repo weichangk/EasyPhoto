@@ -24,6 +24,46 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
 FuncAreaPresenter::~FuncAreaPresenter() {
 }
 
+HomePresenter *FuncAreaPresenter::homePresente() {
+    return m_pHomePresenter;
+}
+
+MyFilePresenter *FuncAreaPresenter::myFilePresenter() {
+    return m_pMyFilePresenter;
+}
+
+CompressionPresenter *FuncAreaPresenter::compressionPresenter() {
+    return m_pCompressionPresenter;
+}
+
+ConversionPresenter *FuncAreaPresenter::conversionPresenter() {
+    return m_pConversionPresenter;
+}
+
+CroppingPresenter *FuncAreaPresenter::croppingPresenter() {
+    return m_pCroppingPresenter;
+}
+
+EffectsPresenter *FuncAreaPresenter::effectsPresenter() {
+    return m_pEffectsPresenter;
+}
+
+EnhancementPresenter *FuncAreaPresenter::enhancementPresenter() {
+    return m_pEnhancementPresenter;
+}
+
+ErasePresenter *FuncAreaPresenter::erasePresenter() {
+    return m_pErasePresenter;
+}
+
+GifGenerationPresenter *FuncAreaPresenter::gifGenerationPresenter() {
+    return m_pGifGenerationPresenter;
+}
+
+InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() {
+    return m_pInpaintingPresenter;
+}
+
 void FuncAreaPresenter::funcChange(EFunc func) {
     FuncChangeMessage msg(func);
     view()->sendMessage(&msg);

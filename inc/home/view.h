@@ -16,11 +16,16 @@ public:
 
 protected:
     void showEvent(QShowEvent *event) override;
-    
+
 private:
     void createUi();
     void connectSig();
     void initListView();
+    void funcChange(int func);
+    void navbarChecked(int func);
+
+private Q_SLOTS:
+    void onListViewClicked(const QModelIndex &index);
 
 private:
     ListView<SFuncItemData> *m_pListView = nullptr;

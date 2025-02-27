@@ -22,6 +22,10 @@ private:
     void connectSig();
     QVBoxLayout *createNavBtns();
     void setNavBtnChecked(EFunc);
+    void clearNavBtnChecked();
+
+private:
+    bool handleMessage(IMessage *message) override;
 
 private slots:
     void onLanguageChange();

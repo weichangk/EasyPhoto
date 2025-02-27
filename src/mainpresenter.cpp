@@ -12,6 +12,8 @@ MainPresenter::MainPresenter(IView *view, IRepository *repository) :
         m_pFuncAreaPresenter = new FuncAreaPresenter(mainView->funcAreaView(), mainRepository->funcAreaRepository());
 
         m_pNavbarPresenter->attach(m_pFuncAreaPresenter);
+        m_pFuncAreaPresenter->homePresente()->attach(m_pFuncAreaPresenter);
+        m_pFuncAreaPresenter->homePresente()->navbarCheckedSubjectAttach(m_pNavbarPresenter);
     }
 }
 
