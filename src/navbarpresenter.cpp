@@ -1,5 +1,5 @@
 #include "navbarpresenter.h"
-#include "navbarmessage.h"
+#include "funcchangemessage.h"
 
 NavbarPresenter::NavbarPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
@@ -8,21 +8,21 @@ NavbarPresenter::NavbarPresenter(IView *view, IRepository *repository) :
 NavbarPresenter::~NavbarPresenter() {
 }
 
-void NavbarPresenter::attach(INavbarObserver *observer) {
-    m_pNavbarObserver.attach(observer);
+void NavbarPresenter::attach(IFuncChangeObserver *observer) {
+    m_pFuncChangeObserver.attach(observer);
 }
 
-void NavbarPresenter::detach(INavbarObserver *observer) {
-    m_pNavbarObserver.detach(observer);
+void NavbarPresenter::detach(IFuncChangeObserver *observer) {
+    m_pFuncChangeObserver.detach(observer);
 }
 
-void NavbarPresenter::notifyNavChange(EFunc func) {
-    m_pNavbarObserver.notify(&INavbarObserver::navChange, func);
+void NavbarPresenter::notifyFuncChange(EFunc func) {
+    m_pFuncChangeObserver.notify(&IFuncChangeObserver::funcChange, func);
 }
 
 bool NavbarPresenter::handleMessage(IMessage *message) {
-    if (NavChangeMessage *msg = dynamic_cast<NavChangeMessage *>(message)) {
-        notifyNavChange((EFunc)msg->code());
+    if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
+        notifyFuncChange((EFunc)msg->code());
     }
     return false;
 }

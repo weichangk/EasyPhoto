@@ -1,5 +1,5 @@
 #include "funcareaview.h"
-#include "navbarmessage.h"
+#include "funcchangemessage.h"
 
 FuncAreaView::FuncAreaView(QWidget *parent) :
     QWidget(parent) {
@@ -104,7 +104,7 @@ void FuncAreaView::setCurrentFuncView(EFunc func) {
 }
 
 bool FuncAreaView::handleMessage(IMessage* message) {
-    if (NavChangeMessage *msg = dynamic_cast<NavChangeMessage *>(message)) {
+    if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
         setCurrentFuncView((EFunc)msg->code());
     }
     return false;

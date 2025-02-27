@@ -1,5 +1,5 @@
 #include "navbarview.h"
-#include "navbarmessage.h"
+#include "funcchangemessage.h"
 #include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"
@@ -109,6 +109,6 @@ void NavbarView::onLanguageChange() {
 }
 
 void NavbarView::onNavBtnClicked(int func) {
-    NavChangeMessage msg(func);
+    FuncChangeMessage msg(func);
     presenter()->sendMessage(&msg);
 }

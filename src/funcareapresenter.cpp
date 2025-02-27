@@ -1,7 +1,7 @@
 #include "funcareapresenter.h"
 #include "funcareaview.h"
 #include "funcarearepository.h"
-#include "navbarmessage.h"
+#include "funcchangemessage.h"
 
 FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
@@ -24,7 +24,7 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
 FuncAreaPresenter::~FuncAreaPresenter() {
 }
 
-void FuncAreaPresenter::navChange(EFunc func) {
-    NavChangeMessage msg(func);
+void FuncAreaPresenter::funcChange(EFunc func) {
+    FuncChangeMessage msg(func);
     view()->sendMessage(&msg);
 }

@@ -1,6 +1,6 @@
 #pragma once
 #include "globalpresenter.h"
-#include "navbarobserver.h"
+#include "ifuncchangeobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "home/presenter.h"
@@ -16,13 +16,13 @@
 
 using namespace qtmaterialmvp;
 
-class FuncAreaPresenter : public Presenter, public INavbarObserver {
+class FuncAreaPresenter : public Presenter, public IFuncChangeObserver {
 public:
     explicit FuncAreaPresenter(IView* view, IRepository *repository);
     ~FuncAreaPresenter();
 
 private:
-    void navChange(EFunc) override;
+    void funcChange(EFunc) override;
 
 private:
     HomePresenter *m_pHomePresenter = nullptr;
