@@ -1,11 +1,21 @@
 #include "titlebarview.h"
 #include "filter/movetitlebar.h"
 #include "core/theme.h"
+#include "titlebarfuncmessage.h"
+#include "titlebarenum.h"
 
 TitlebarView::TitlebarView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
+}
+
+void TitlebarView::switchMaximizeBtn(bool bCurIsMaximize) {
+    if (bCurIsMaximize) {
+        m_pMaximizeBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_restore.svg").arg(qtmaterialcore::Theme::currentTheme()));
+    } else {
+        m_pMaximizeBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon24/icon24_max.svg").arg(qtmaterialcore::Theme::currentTheme()));
+    }
 }
 
 void TitlebarView::createUi() {
@@ -98,12 +108,20 @@ void TitlebarView::slotLanguageChanged() {
 }
 
 void TitlebarView::slotCloseBtnClicked() {
+    TitlebarFuncMessage msg(ETitleBarFunc::TitleBarFunc_Close);
+    presenter()->sendMessage(&msg);
 }
 
 void TitlebarView::slotMaximizeBtnClicked() {
+    bool curIsMaximizeBtn = m_pMaximizeBtn->fourPixmapPath().contains("max");
+    switchMaximizeBtn(curIsMaximizeBtn);
+    TitlebarFuncMessage msg(curIsMaximizeBtn ? ETitleBarFunc::TitleBarFunc_Maximize : ETitleBarFunc::TitleBarFunc_Normal);
+    presenter()->sendMessage(&msg);
 }
 
 void TitlebarView::slotMinimizeBtnClicked() {
+    TitlebarFuncMessage msg(ETitleBarFunc::TitleBarFunc_Minimize);
+    presenter()->sendMessage(&msg);
 }
 
 void TitlebarView::slotMenuBtnClicked() {

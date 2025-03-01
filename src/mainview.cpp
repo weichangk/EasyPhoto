@@ -1,4 +1,5 @@
 #include "mainview.h"
+#include "titlebarfuncmessage.h"
 
 MainView::MainView(QWidget *parent) :
     QWidget(parent) {
@@ -47,4 +48,28 @@ void MainView::createUi() {
 }
 
 void MainView::connectSig() {
+}
+
+void MainView::titlebarFuncHandle(ETitleBarFunc func) {
+    switch (func) {
+    case ETitleBarFunc::TitleBarFunc_Minimize:
+        showMinimized();
+        break;
+    case ETitleBarFunc::TitleBarFunc_Maximize:
+        showMaximized();
+        break;
+    case ETitleBarFunc::TitleBarFunc_Normal:
+        showNormal();
+        break;
+    case ETitleBarFunc::TitleBarFunc_Close:
+        close();
+        break;
+    }
+}
+
+bool MainView::handleMessage(IMessage *message) {
+    if (TitlebarFuncMessage *msg = dynamic_cast<TitlebarFuncMessage *>(message)) {
+        titlebarFuncHandle((ETitleBarFunc)msg->code());
+    }
+    return false;
 }

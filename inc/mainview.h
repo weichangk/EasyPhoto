@@ -5,6 +5,7 @@
 #include "titlebarview.h"
 #include "navbarview.h"
 #include "funcareaview.h"
+#include "titlebarenum.h"
 
 using namespace qtmaterialmvp;
 using namespace qtmaterialfilter;
@@ -23,6 +24,10 @@ public:
 private:
     void createUi();
     void connectSig();
+    void titlebarFuncHandle(ETitleBarFunc func);
+
+private:
+    bool handleMessage(IMessage *message) override;
 
 private:
     TitlebarView *m_pTitlebarView = nullptr;

@@ -14,6 +14,7 @@ public:
     explicit TitlebarView(QWidget *parent = nullptr);
     ~TitlebarView() override {
     }
+    void switchMaximizeBtn(bool bCurIsMaximize);
 
 private:
     void createUi();

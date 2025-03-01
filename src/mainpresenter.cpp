@@ -1,6 +1,7 @@
 #include "mainpresenter.h"
 #include "mainview.h"
 #include "mainrepository.h"
+#include "titlebarfuncmessage.h"
 
 MainPresenter::MainPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
@@ -14,8 +15,14 @@ MainPresenter::MainPresenter(IView *view, IRepository *repository) :
         m_pNavbarPresenter->attach(m_pFuncAreaPresenter);
         m_pFuncAreaPresenter->homePresente()->attach(m_pFuncAreaPresenter);
         m_pFuncAreaPresenter->homePresente()->navbarCheckedSubjectAttach(m_pNavbarPresenter);
+        m_pTitlebarPresenter->titlebarFuncSubjectAttach(this);
     }
 }
 
 MainPresenter::~MainPresenter() {
+}
+
+void MainPresenter::titleBarFuncHandle(ETitleBarFunc func) {
+    TitlebarFuncMessage msg(func);
+    view()->sendMessage(&msg);
 }
