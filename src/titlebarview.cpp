@@ -1,7 +1,7 @@
 #include "titlebarview.h"
 #include "filter/movetitlebar.h"
 #include "core/theme.h"
-#include "titlebarfuncmessage.h"
+#include "message/titlebarfuncmessage.h"
 #include "titlebarenum.h"
 
 TitlebarView::TitlebarView(QWidget *parent) :

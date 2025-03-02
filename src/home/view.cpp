@@ -1,7 +1,7 @@
 #include "home/view.h"
 #include "home/presenter.h"
-#include "funcchangemessage.h"
-#include "NavbarCheckedMessage.h"
+#include "message/funcchangemessage.h"
+#include "message/navbarCheckedMessage.h"
 
 #include <QScrollBar>
 

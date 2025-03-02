@@ -1,6 +1,6 @@
 #include "navbarpresenter.h"
-#include "funcchangemessage.h"
-#include "navbarcheckedmessage.h"
+#include "message/funcchangemessage.h"
+#include "message/navbarcheckedmessage.h"
 
 NavbarPresenter::NavbarPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {

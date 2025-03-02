@@ -1,5 +1,5 @@
 #include "mainview.h"
-#include "titlebarfuncmessage.h"
+#include "message/titlebarfuncmessage.h"
 
 MainView::MainView(QWidget *parent) :
     QWidget(parent) {

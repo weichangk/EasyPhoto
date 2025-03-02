@@ -1,6 +1,6 @@
 #include "navbarview.h"
-#include "funcchangemessage.h"
-#include "navbarcheckedmessage.h"
+#include "message/funcchangemessage.h"
+#include "message/navbarcheckedmessage.h"
 #include "funcenum.h"
 #include "filter/movetitlebar.h"
 #include "core/font.h"

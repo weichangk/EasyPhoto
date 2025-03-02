@@ -1,7 +1,7 @@
 #include "mainpresenter.h"
 #include "mainview.h"
 #include "mainrepository.h"
-#include "titlebarfuncmessage.h"
+#include "message/titlebarfuncmessage.h"
 
 MainPresenter::MainPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {

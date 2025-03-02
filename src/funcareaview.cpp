@@ -1,5 +1,5 @@
 #include "funcareaview.h"
-#include "funcchangemessage.h"
+#include "message/funcchangemessage.h"
 
 FuncAreaView::FuncAreaView(QWidget *parent) :
     QWidget(parent) {

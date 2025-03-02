@@ -1,5 +1,5 @@
 #include "titlebarpresenter.h"
-#include "titlebarfuncmessage.h"
+#include "message/titlebarfuncmessage.h"
 #include "titlebarenum.h"
 
 TitlebarPresenter::TitlebarPresenter(IView *view, IRepository *repository) :

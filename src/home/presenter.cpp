@@ -1,7 +1,7 @@
 #include "home/presenter.h"
 #include "home/repository.h"
-#include "funcchangemessage.h"
-#include "navbarcheckedmessage.h"
+#include "message/funcchangemessage.h"
+#include "message/navbarcheckedmessage.h"
 
 HomePresenter::HomePresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {

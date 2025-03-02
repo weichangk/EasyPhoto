@@ -1,7 +1,7 @@
 #include "funcareapresenter.h"
 #include "funcareaview.h"
 #include "funcarearepository.h"
-#include "funcchangemessage.h"
+#include "message/funcchangemessage.h"
 
 FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
