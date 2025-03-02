@@ -14,6 +14,8 @@ struct SFuncItemData {
     EFuncItemBtnType btn_type;
     QString title = "";
     QString desc = "";
+    QString startnew_text = "";
+    QString addfile_text = "";
     bool is_new = false;
     bool is_ai = false;
     QPixmap thumbnail = QPixmap();
