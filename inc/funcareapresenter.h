@@ -1,6 +1,6 @@
 #pragma once
 #include "globalpresenter.h"
-#include "ifuncchangeobserver.h"
+#include "observer/ifuncchangeobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "home/presenter.h"

@@ -3,7 +3,7 @@
 #include "titlebarpresenter.h"
 #include "navbarpresenter.h"
 #include "funcareapresenter.h"
-#include "ititlebarfuncobserver.h"
+#include "observer/ititlebarfuncobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 

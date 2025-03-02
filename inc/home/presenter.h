@@ -1,8 +1,8 @@
 #pragma once
 #include "globalpresenter.h"
 #include "model.h"
-#include "ifuncchangesubject.h"
-#include "inavbarcheckedsubject.h"
+#include "observer/ifuncchangesubject.h"
+#include "observer/inavbarcheckedsubject.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "core/subject.h"

@@ -1,7 +1,7 @@
 #pragma once
 #include "globalpresenter.h"
-#include "ifuncchangesubject.h"
-#include "inavbarcheckedobserver.h"
+#include "observer/ifuncchangesubject.h"
+#include "observer/inavbarcheckedobserver.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "core/subject.h"

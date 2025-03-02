@@ -1,6 +1,6 @@
 #pragma once
 #include "globalpresenter.h"
-#include "ititlebarfuncsubject.h"
+#include "observer/ititlebarfuncsubject.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "core/subject.h"
