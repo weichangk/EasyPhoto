@@ -4,7 +4,7 @@
 
 class IFuncChangeSubject {
 public:
-    virtual void attach(IFuncChangeObserver *observer) = 0;
-    virtual void detach(IFuncChangeObserver *observer) = 0;
-    virtual void notifyFuncChange(EFunc) = 0;
+    virtual void funcChangeSubjectAttach(IFuncChangeObserver *observer) = 0;
+    virtual void funcChangeSubjectDetach(IFuncChangeObserver *observer) = 0;
+    virtual void funcChangeSubjectNotify(EFunc) = 0;
 };

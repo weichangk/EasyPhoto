@@ -3,5 +3,5 @@
 
 class INavbarCheckedObserver {
 public:
-    virtual void navbarChecked(EFunc) = 0;
+    virtual void navbarCheckedHandle(EFunc) = 0;
 };

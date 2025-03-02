@@ -15,11 +15,11 @@ QList<SFuncItemData> HomePresenter::datas() {
     return rep->datas();
 }
 
-void HomePresenter::attach(IFuncChangeObserver *observer) {
+void HomePresenter::funcChangeSubjectAttach(IFuncChangeObserver *observer) {
     m_pFuncChangeObserver.attach(observer);
 }
 
-void HomePresenter::detach(IFuncChangeObserver *observer) {
+void HomePresenter::funcChangeSubjectDetach(IFuncChangeObserver *observer) {
     m_pFuncChangeObserver.detach(observer);
 }
 
@@ -31,20 +31,20 @@ void HomePresenter::navbarCheckedSubjectDetach(INavbarCheckedObserver *observer)
     m_pNavbarCheckedObserver.detach(observer);
 }
 
-void HomePresenter::notifyFuncChange(EFunc func) {
-    m_pFuncChangeObserver.notify(&IFuncChangeObserver::funcChange, func);
+void HomePresenter::funcChangeSubjectNotify(EFunc func) {
+    m_pFuncChangeObserver.notify(&IFuncChangeObserver::funcChangeHandle, func);
 }
 
-void HomePresenter::navbarCheckedNotify(EFunc func) {
-    m_pNavbarCheckedObserver.notify(&INavbarCheckedObserver::navbarChecked, func);
+void HomePresenter::navbarCheckedSubjectNotify(EFunc func) {
+    m_pNavbarCheckedObserver.notify(&INavbarCheckedObserver::navbarCheckedHandle, func);
 }
 
 bool HomePresenter::handleMessage(IMessage *message) {
     if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
-        notifyFuncChange((EFunc)msg->code());
+        funcChangeSubjectNotify((EFunc)msg->code());
     }
     if(NavbarCheckedMessage *msg = dynamic_cast<NavbarCheckedMessage *>(message)) {
-        navbarCheckedNotify((EFunc)msg->code());
+        navbarCheckedSubjectNotify((EFunc)msg->code());
     }
     return false;
 }

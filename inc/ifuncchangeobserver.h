@@ -3,5 +3,5 @@
 
 class IFuncChangeObserver {
 public:
-    virtual void funcChange(EFunc) = 0;
+    virtual void funcChangeHandle(EFunc) = 0;
 };

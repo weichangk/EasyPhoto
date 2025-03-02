@@ -64,7 +64,7 @@ InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() {
     return m_pInpaintingPresenter;
 }
 
-void FuncAreaPresenter::funcChange(EFunc func) {
+void FuncAreaPresenter::funcChangeHandle(EFunc func) {
     FuncChangeMessage msg(func);
     view()->sendMessage(&msg);
 }

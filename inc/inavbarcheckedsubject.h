@@ -6,5 +6,5 @@ class INavbarCheckedSubject {
 public:
     virtual void navbarCheckedSubjectAttach(INavbarCheckedObserver *observer) = 0;
     virtual void navbarCheckedSubjectDetach(INavbarCheckedObserver *observer) = 0;
-    virtual void navbarCheckedNotify(EFunc) = 0;
+    virtual void navbarCheckedSubjectNotify(EFunc) = 0;
 };

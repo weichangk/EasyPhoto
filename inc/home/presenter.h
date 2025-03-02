@@ -17,15 +17,15 @@ public:
 
     QList<SFuncItemData> datas();
 
-    void attach(IFuncChangeObserver *observer) override;
-    void detach(IFuncChangeObserver *observer) override;
+    void funcChangeSubjectAttach(IFuncChangeObserver *observer) override;
+    void funcChangeSubjectDetach(IFuncChangeObserver *observer) override;
 
     void navbarCheckedSubjectAttach(INavbarCheckedObserver *observer) override;
     void navbarCheckedSubjectDetach(INavbarCheckedObserver *observer) override;
 
 private:
-    void notifyFuncChange(EFunc) override;
-    void navbarCheckedNotify(EFunc) override;
+    void funcChangeSubjectNotify(EFunc) override;
+    void navbarCheckedSubjectNotify(EFunc) override;
 
     bool handleMessage(IMessage* message) override;
 

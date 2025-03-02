@@ -13,13 +13,13 @@ public:
     explicit NavbarPresenter(IView* view, IRepository *repository);
     ~NavbarPresenter();
 
-    void attach(IFuncChangeObserver *observer) override;
-    void detach(IFuncChangeObserver *observer) override;
+    void funcChangeSubjectAttach(IFuncChangeObserver *observer) override;
+    void funcChangeSubjectDetach(IFuncChangeObserver *observer) override;
 
 private:
-    void notifyFuncChange(EFunc) override;
+    void funcChangeSubjectNotify(EFunc) override;
     
-    void navbarChecked(EFunc) override;
+    void navbarCheckedHandle(EFunc) override;
 
     bool handleMessage(IMessage* message) override;
 

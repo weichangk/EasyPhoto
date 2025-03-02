@@ -33,7 +33,7 @@ public:
     InpaintingPresenter *inpaintingPresenter();
 
 private:
-    void funcChange(EFunc) override;
+    void funcChangeHandle(EFunc) override;
 
 private:
     HomePresenter *m_pHomePresenter = nullptr;
