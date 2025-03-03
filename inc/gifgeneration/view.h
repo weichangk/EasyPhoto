@@ -59,19 +59,26 @@ private Q_SLOTS:
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onPreviewBtnClicked();
-    void onGenerationBtnClicked();
+    void onStartAllClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
-    VectorButton *m_pAddFileBtn = nullptr;
-    VectorButton *m_pAddFolderBtn = nullptr;
-    VectorButton *m_pClearFileBtn = nullptr;
-    VectorButton *m_pListModeSwitchBtn = nullptr;
+    QLabel *m_pTitleLbl = nullptr;
+
+    ImportGuide *m_pImportGuide = nullptr;
+    QWidget *m_pImportGuideWidget = nullptr;
+
+    QWidget *m_pContentWidget = nullptr;
+
+    IconButton *m_pAddFileBtn = nullptr;
+    IconButton *m_pAddFolderBtn = nullptr;
+    IconButton *m_pClearFileBtn = nullptr;
+    IconButton *m_pListModeSwitchBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
-    VectorButton *m_pOpenOutputFolderBtn = nullptr;
+    IconButton *m_pOpenOutputFolderBtn = nullptr;
     QLabel *m_pPixelsLbl = nullptr;
     QLabel *m_pPixels_x_Lbl = nullptr;
     QLineEdit *m_pPixelsWidthLdt = nullptr;
@@ -79,11 +86,8 @@ private:
     QLabel *m_pFrameRateLbl = nullptr;
     QComboBox *m_pFrameRateCbb = nullptr;
     QPushButton *m_pPreviewBtn = nullptr;
-    QPushButton *m_pGenerationBtn = nullptr;
+    QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
-
-    ImportGuide *m_pImportGuide = nullptr;
-    QWidget *m_pImportGuideWidget = nullptr;
 
     ListView<SGifGenerationData> *m_pListView = nullptr;
     GifGenerationListDelegate *m_pListDelegate = nullptr;

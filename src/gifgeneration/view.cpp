@@ -25,70 +25,94 @@ void GifGenerationView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
-    QFont iconFont = Font::getIconFont(":/font/iconfont.ttf");
+    m_pTitleLbl = new QLabel(this);
+    m_pTitleLbl->setObjectName("GifGenerationView_m_pTitleLbl");
+    auto titleLabLayout = new QHBoxLayout();
+    titleLabLayout->setContentsMargins(20, 0, 0, 0);
+    titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
 
+    //
+    m_pImportGuide = new ImportGuide(this);
+    m_pImportGuideWidget = new QWidget(this);
+    QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
+    importGuideLayout->setContentsMargins(20, 20, 20, 20);
+    importGuideLayout->setSpacing(0);
+    importGuideLayout->addWidget(m_pImportGuide);
+
+    //
     QWidget *topWidget = new QWidget(this);
     topWidget->setFixedHeight(56);
 
-    m_pAddFileBtn = new VectorButton(topWidget);
-    m_pAddFileBtn->setObjectName("VectorButton_HW28_I20");
-    m_pAddFileBtn->setFont(iconFont);
-    m_pAddFileBtn->setText(QChar(0xe634));
+    m_pAddFileBtn = new IconButton(topWidget);
+    m_pAddFileBtn->setFixedSize(32, 32);
+    m_pAddFileBtn->setIconSize(32, 32);
+    m_pAddFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon32/icon32_add_file.png");
 
-    m_pAddFolderBtn = new VectorButton(topWidget);
-    m_pAddFolderBtn->setObjectName("VectorButton_HW28_I20");
-    m_pAddFolderBtn->setFont(iconFont);
-    m_pAddFolderBtn->setText(QChar(0xe634));
+    m_pAddFolderBtn = new IconButton(topWidget);
+    m_pAddFolderBtn->setFixedSize(32, 32);
+    m_pAddFolderBtn->setIconSize(32, 32);
+    m_pAddFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon32/icon32_add_folder.png");
 
-    m_pClearFileBtn = new VectorButton(topWidget);
-    m_pClearFileBtn->setObjectName("VectorButton_HW28_I20");
-    m_pClearFileBtn->setFont(iconFont);
-    m_pClearFileBtn->setText(QChar(0xe634));
+    m_pClearFileBtn = new IconButton(topWidget);
+    m_pClearFileBtn->setFixedSize(24, 24);
+    m_pClearFileBtn->setIconSize(24, 24);
+    m_pClearFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_delete.png");
 
-    m_pListModeSwitchBtn = new VectorButton(topWidget);
-    m_pListModeSwitchBtn->setObjectName("VectorButton_HW28_I20");
-    m_pListModeSwitchBtn->setFont(iconFont);
-    m_pListModeSwitchBtn->setText(QChar(0xe634));
+    m_pListModeSwitchBtn = new IconButton(topWidget);
+    m_pListModeSwitchBtn->setFixedSize(24, 24);
+    m_pListModeSwitchBtn->setIconSize(24, 24);
+    m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_thumbnail.png");
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    topWidgetLayout->setSpacing(8);
+    topWidgetLayout->setSpacing(12);
     topWidgetLayout->addWidget(m_pAddFileBtn);
     topWidgetLayout->addWidget(m_pAddFolderBtn);
-    topWidgetLayout->addWidget(m_pClearFileBtn);
     topWidgetLayout->addStretch();
+    topWidgetLayout->addWidget(m_pClearFileBtn);
     topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(80);
+    bottomWidget->setFixedHeight(70);
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
+    m_pOutputFolderLbl->setObjectName("GifGenerationView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
-    m_pOutputFolderCbb->setFixedWidth(120);
+    m_pOutputFolderCbb->setFixedSize(240, 24);
 
     m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
     m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     initOutputFolderCbbItem();
 
-    m_pOpenOutputFolderBtn = new VectorButton(bottomWidget);
-    m_pOpenOutputFolderBtn->setObjectName("VectorButton_HW28_I20");
-    m_pOpenOutputFolderBtn->setFont(iconFont);
-    m_pOpenOutputFolderBtn->setText(QChar(0xe634));
+    m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
+    m_pOpenOutputFolderBtn->setFixedSize(24, 24);
+    m_pOpenOutputFolderBtn->setIconSize(24, 24);
+    m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_file.png");
 
     m_pPixelsLbl = new QLabel(bottomWidget);
+    m_pPixelsLbl->setObjectName("GifGenerationView_m_pPixelsLbl");
     m_pPixels_x_Lbl = new QLabel(bottomWidget);
+    m_pPixels_x_Lbl->setObjectName("GifGenerationView_m_pPixels_x_Lbl");
 
     m_pPixelsWidthLdt = new QLineEdit(bottomWidget);
+    m_pPixelsWidthLdt->setFixedSize(48, 24);
     m_pPixelsHeightLdt = new QLineEdit(bottomWidget);
+    m_pPixelsHeightLdt->setFixedSize(48, 24);
 
     m_pFrameRateLbl = new QLabel(bottomWidget);
+    m_pFrameRateLbl->setObjectName("GifGenerationView_m_pFrameRateLbl");
     m_pFrameRateCbb = new QComboBox(bottomWidget);
     initFrameRateCbbItem();
 
     m_pPreviewBtn = new QPushButton(bottomWidget);
-    m_pGenerationBtn = new QPushButton(bottomWidget);
+    m_pPreviewBtn->setObjectName("GifGenerationView_m_pPreviewBtn");
+    m_pPreviewBtn->setFixedSize(110, 32);
+
+    m_pStartAllBtn = new QPushButton(bottomWidget);
+    m_pStartAllBtn->setObjectName("GifGenerationView_m_pStartAllBtn");
+    m_pStartAllBtn->setFixedSize(110, 32);
 
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
     bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -104,35 +128,40 @@ void GifGenerationView::createUi() {
     bottomWidgetLayout->addWidget(m_pFrameRateCbb);
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pPreviewBtn);
-    bottomWidgetLayout->addWidget(m_pGenerationBtn);
-
-    m_pImportGuide = new ImportGuide(this);
-    m_pImportGuideWidget = new QWidget(this);
-    QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
-    importGuideLayout->setAlignment(Qt::AlignCenter);
-    importGuideLayout->addWidget(m_pImportGuide);
+    bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
     m_pListView = new ListView<SGifGenerationData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new GifGenerationListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
+    auto listViewLayout = new QVBoxLayout();
+    listViewLayout->setContentsMargins(20, 0, 2, 0);
+    listViewLayout->setSpacing(0);
+    listViewLayout->addWidget(m_pListView, 1);
+
+    m_pContentWidget = new QWidget(this);
+    auto contentWidgetLayout = new QVBoxLayout(m_pContentWidget);
+    contentWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    contentWidgetLayout->setSpacing(0);
+    contentWidgetLayout->addWidget(topWidget);
+    contentWidgetLayout->addLayout(listViewLayout, 1);
+    contentWidgetLayout->addWidget(createDividingLine());
+    contentWidgetLayout->addWidget(bottomWidget);
 
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(m_pImportGuideWidget);
-    m_pStackedLayout->addWidget(m_pListView);
+    m_pStackedLayout->addWidget(m_pContentWidget);
+
     auto stackedMarginLayout = new QVBoxLayout();
-    stackedMarginLayout->setContentsMargins(8, 8, 2, 8);
+    stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
     stackedMarginLayout->addLayout(m_pStackedLayout, 1);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
-    layout->addWidget(topWidget);
-    layout->addWidget(createDividingLine());
+    layout->addLayout(titleLabLayout, 0);
     layout->addLayout(stackedMarginLayout, 1);
-    layout->addWidget(createDividingLine());
-    layout->addWidget(bottomWidget);
 }
 
 void GifGenerationView::connectSig() {
@@ -147,7 +176,7 @@ void GifGenerationView::connectSig() {
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifGenerationView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &GifGenerationView::onOpenOutputFolderBtnClicked);
     connect(m_pPreviewBtn, &QPushButton::clicked, this, &GifGenerationView::onPreviewBtnClicked);
-    connect(m_pGenerationBtn, &QPushButton::clicked, this, &GifGenerationView::onGenerationBtnClicked);
+    connect(m_pStartAllBtn, &QPushButton::clicked, this, &GifGenerationView::onStartAllClicked);
 }
 
 QWidget *GifGenerationView::createDividingLine() {
@@ -208,12 +237,13 @@ void GifGenerationView::initFrameRateCbbItem() {
 }
 
 void GifGenerationView::onLanguageChange() {
+    m_pTitleLbl->setText(tr("Gif Maker"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pPixelsLbl->setText(tr("Pixels:"));
     m_pPixels_x_Lbl->setText("x");
     m_pFrameRateLbl->setText(tr("FrameRate:"));
     m_pPreviewBtn->setText(tr("Preview"));
-    m_pGenerationBtn->setText(tr("Generation"));
+    m_pStartAllBtn->setText(tr("create GIF"));
 }
 
 void GifGenerationView::onAddFileBtnClicked() {
@@ -290,7 +320,7 @@ void GifGenerationView::onOpenOutputFolderBtnClicked() {
 void GifGenerationView::onPreviewBtnClicked() {
 }
 
-void GifGenerationView::onGenerationBtnClicked() {
+void GifGenerationView::onStartAllClicked() {
     GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
     GifGenerationTask task;
     QList<QString> filePaths;

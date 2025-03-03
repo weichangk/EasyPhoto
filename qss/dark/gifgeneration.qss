@@ -6,3 +6,47 @@ QWidget#GifGenerationView {
 QWidget#GifGenerationView_DividingLine {
     background-color: "#272336";
 }
+
+QPushButton#GifGenerationView_m_pPreviewBtn{
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#GifGenerationView_m_pPreviewBtn:hover{
+    background-color: "#ad85ff";
+}
+
+QPushButton#GifGenerationView_m_pPreviewBtn:pressed{
+    background-color: "#bb99ff";
+}
+
+QPushButton#GifGenerationView_m_pStartAllBtn{
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#GifGenerationView_m_pStartAllBtn:hover{
+    background-color: "#ad85ff";
+}
+
+QPushButton#GifGenerationView_m_pStartAllBtn:pressed{
+    background-color: "#bb99ff";
+}
+
+QLabel#GifGenerationView_m_pPixelsLbl,
+QLabel#GifGenerationView_m_pPixels_x_Lbl,
+QLabel#GifGenerationView_m_pFrameRateLbl,
+QLabel#GifGenerationView_m_pOutputFolderLbl{
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#GifGenerationView_m_pTitleLbl{
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
