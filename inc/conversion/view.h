@@ -86,7 +86,7 @@ Q_SLOTS:
     void onOutputFolderCbbClicked();
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
-    void onConversionBtnClicked();
+    void onStartAllBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -111,7 +111,7 @@ private:
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
-    QPushButton *m_pConversionBtn = nullptr;
+    QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
     ListView<SConversionData> *m_pListView = nullptr;

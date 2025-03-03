@@ -86,15 +86,22 @@ private Q_SLOTS:
     void onOutputFolderCbbClicked();
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
-    void onConversionBtnClicked();
+    void onStartAllBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
-    VectorButton *m_pAddFileBtn = nullptr;
-    VectorButton *m_pAddFolderBtn = nullptr;
-    VectorButton *m_pClearFileBtn = nullptr;
-    VectorButton *m_pListModeSwitchBtn = nullptr;
+    QLabel *m_pTitleLbl = nullptr;
+
+    ImportGuide *m_pImportGuide = nullptr;
+    QWidget *m_pImportGuideWidget = nullptr;
+
+    QWidget *m_pContentWidget = nullptr;
+
+    IconButton *m_pAddFileBtn = nullptr;
+    IconButton *m_pAddFolderBtn = nullptr;
+    IconButton *m_pClearFileBtn = nullptr;
+    IconButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
     QLineEdit *m_pOutputFormatEdit = nullptr;
@@ -103,12 +110,9 @@ private:
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
-    VectorButton *m_pOpenOutputFolderBtn = nullptr;
-    QPushButton *m_pConversionBtn = nullptr;
+    IconButton *m_pOpenOutputFolderBtn = nullptr;
+    QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
-
-    ImportGuide *m_pImportGuide = nullptr;
-    QWidget *m_pImportGuideWidget = nullptr;
 
     ListView<SCompressionData> *m_pListView = nullptr;
     CompressionListDelegate *m_pListDelegate = nullptr;

@@ -18,18 +18,18 @@ QCheckBox#ConversionView_m_pSelectAllCkb{
     color: "#c4c4cc";
 }
 
-QPushButton#ConversionView_m_pConversionBtn{
+QPushButton#ConversionView_m_pStartAllBtn{
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#ConversionView_m_pConversionBtn:hover{
+QPushButton#ConversionView_m_pStartAllBtn:hover{
     background-color: "#ad85ff";
 }
 
-QPushButton#ConversionView_m_pConversionBtn:pressed{
+QPushButton#ConversionView_m_pStartAllBtn:pressed{
     background-color: "#bb99ff";
 }
 

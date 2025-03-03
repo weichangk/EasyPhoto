@@ -6,3 +6,35 @@ QWidget#CompressionView {
 QWidget#CompressionView_DividingLine {
     background-color: "#272336";
 }
+
+QCheckBox#CompressionView_m_pSelectAllCkb{
+    font-size: 13px;
+    color: "#c4c4cc";
+}
+
+QPushButton#CompressionView_m_pStartAllBtn{
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#CompressionView_m_pStartAllBtn:hover{
+    background-color: "#ad85ff";
+}
+
+QPushButton#CompressionView_m_pStartAllBtn:pressed{
+    background-color: "#bb99ff";
+}
+
+QLabel#CompressionView_m_pOutputFormatLbl,
+QLabel#CompressionView_m_pOutputFolderLbl{
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#CompressionView_m_pTitleLbl{
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}

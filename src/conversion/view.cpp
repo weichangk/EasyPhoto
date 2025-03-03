@@ -171,9 +171,9 @@ void ConversionView::createUi() {
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_file.png");
 
-    m_pConversionBtn = new QPushButton(bottomWidget);
-    m_pConversionBtn->setObjectName("ConversionView_m_pConversionBtn");
-    m_pConversionBtn->setFixedSize(110, 32);
+    m_pStartAllBtn = new QPushButton(bottomWidget);
+    m_pStartAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
+    m_pStartAllBtn->setFixedSize(110, 32);
 
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
     bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -188,7 +188,7 @@ void ConversionView::createUi() {
     bottomWidgetLayout->addSpacing(4);
     bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
     bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pConversionBtn);
+    bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
     m_pListView = new ListView<SConversionData>(this);
     m_pListView->setSpacing(0);
@@ -237,7 +237,7 @@ void ConversionView::connectSig() {
     connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFolderCbbClicked);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
-    connect(m_pConversionBtn, &QPushButton::clicked, this, &ConversionView::onConversionBtnClicked);
+    connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConversionView::onStartAllBtnClicked);
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -348,7 +348,7 @@ void ConversionView::onLanguageChange() {
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
-    m_pConversionBtn->setText(tr("Start All"));
+    m_pStartAllBtn->setText(tr("Convert All"));
 }
 
 void ConversionView::onAddFileBtnClicked() {
@@ -437,7 +437,7 @@ void ConversionView::onOpenOutputFolderBtnClicked() {
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
-void ConversionView::onConversionBtnClicked() {
+void ConversionView::onStartAllBtnClicked() {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     ConversionTask task;
     for(auto data : prst->datas()) {
