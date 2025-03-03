@@ -86,6 +86,12 @@ void ConversionView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
+    m_pTitleLbl = new QLabel(this);
+    m_pTitleLbl->setObjectName("ConversionView_m_pTitleLbl");
+    auto titleLabLayout = new QHBoxLayout();
+    titleLabLayout->setContentsMargins(20, 0, 0, 0);
+    titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
+
     //
     m_pImportGuide = new ImportGuide(this);
     m_pImportGuideWidget = new QWidget(this);
@@ -214,6 +220,7 @@ void ConversionView::createUi() {
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
+    layout->addLayout(titleLabLayout, 0);
     layout->addLayout(stackedMarginLayout, 1);
 }
 
@@ -337,6 +344,7 @@ void ConversionView::ConversionView::setOutputFolder(const QString &path) {
 }
 
 void ConversionView::onLanguageChange() {
+    m_pTitleLbl->setText(tr("Converter"));
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));

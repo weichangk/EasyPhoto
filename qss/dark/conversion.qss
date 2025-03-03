@@ -38,3 +38,9 @@ QLabel#ConversionView_m_pOutputFolderLbl{
     color: "#ffffff";
     font-size: 13px;
 }
+
+QLabel#ConversionView_m_pTitleLbl{
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}

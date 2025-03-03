@@ -91,6 +91,8 @@ Q_SLOTS:
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
+    QLabel *m_pTitleLbl = nullptr;
+
     QWidget *m_pImportGuideWidget = nullptr;
     ImportGuide *m_pImportGuide = nullptr;
 
