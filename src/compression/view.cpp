@@ -290,7 +290,7 @@ void CompressionView::listViewNoDataState() {
     m_pClearFileBtn->setVisible(!isNoData);
     m_pListModeSwitchBtn->setVisible(!isNoData);
     m_pSelectAllCkb->setVisible(!isNoData);
-    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pListView);
+    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
 void CompressionView::selectAllState() {

@@ -217,7 +217,7 @@ void GifGenerationView::listViewNoDataState() {
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
     m_pListModeSwitchBtn->setVisible(!isNoData);
-    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pListView);
+    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
 void GifGenerationView::initOutputFolderCbbItem() {
