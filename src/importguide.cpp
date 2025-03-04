@@ -11,6 +11,22 @@ ImportGuide::ImportGuide(QWidget *parent) :
     onLanguageChange();
 }
 
+void ImportGuide::setIconPixmapPath(const QString &path) {
+    m_pIconBtn->setNormalPixmapPath(path);
+}
+
+void ImportGuide::setTitle(const QString &title) {
+    m_pTitleLab->setText(title);
+}
+
+void ImportGuide::setDec(const QString &dec) {
+    // m_pDecLab->setText(dec);
+}
+
+void ImportGuide::setImportBtnText(const QString &text) {
+    m_pImportBtn->setText(text);
+}
+
 void ImportGuide::mousePressEvent(QMouseEvent *event) {
     QWidget::mousePressEvent(event);
     if (event->button() == Qt::LeftButton) {
@@ -73,8 +89,11 @@ void ImportGuide::createUi() {
     m_pIconBtn->setAttribute(Qt::WA_TransparentForMouseEvents);
     m_pIconBtn->setNormalPixmapPath(QString(":/qtmaterial/img/vcu/%1/icon148/image148_Conversion.png").arg(qtmaterialcore::Theme::currentTheme()));
 
-    m_pDecLab = new QLabel(this);
-    m_pDecLab->setObjectName("ImportGuide_m_pDecLab");
+    m_pTitleLab = new QLabel(this);
+    m_pTitleLab->setObjectName("ImportGuide_m_pTitleLab");
+
+    // m_pDecLab = new QLabel(this);
+    // m_pDecLab->setObjectName("ImportGuide_m_m_pDecLab");
 
     m_pImportBtn = new HorIconTextButton(this);
     m_pImportBtn->setObjectName("ImportGuide_m_pImportBtn");
@@ -89,7 +108,7 @@ void ImportGuide::createUi() {
     m_pMainLayout->addStretch();
     m_pMainLayout->addWidget(m_pIconBtn, 0, Qt::AlignHCenter);
     m_pMainLayout->addSpacing(10);
-    m_pMainLayout->addWidget(m_pDecLab, 0, Qt::AlignHCenter);
+    m_pMainLayout->addWidget(m_pTitleLab, 0, Qt::AlignHCenter);
     m_pMainLayout->addSpacing(40);
     m_pMainLayout->addWidget(m_pImportBtn, 0, Qt::AlignHCenter);
     m_pMainLayout->addStretch();
@@ -136,6 +155,7 @@ void ImportGuide::openFileDialog() {
 }
 
 void ImportGuide::onLanguageChange() {
-    m_pDecLab->setText(tr("Add or drag image files here to start converting"));
+    m_pTitleLab->setText(tr("Add or drag image files here to start converting"));
+    // m_pDecLab->setText("");
     m_pImportBtn->setText(tr("Add Files"));
 }

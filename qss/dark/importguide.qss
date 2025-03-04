@@ -16,7 +16,7 @@ QWidget#ImportGuide_DividingLine {
     background-color: "#323242";
 }
 
-QLabel#ImportGuide_m_pDecLab {
+QLabel#ImportGuide_m_pTitleLab {
     font-size: 18px;
     font-weight: 600;
     color: #ffffff;

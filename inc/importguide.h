@@ -16,6 +16,11 @@ public:
     explicit ImportGuide(QWidget *parent = nullptr);
     ~ImportGuide() override {
     }
+    
+    void setIconPixmapPath(const QString &path);
+    void setTitle(const QString &title);
+    void setDec(const QString &dec);
+    void setImportBtnText(const QString &text);
 
 Q_SIGNALS:
     void sigImportFile(QStringList);
@@ -40,6 +45,7 @@ private:
     LanguageFilter *m_pLanguageFilter = nullptr;
     QVBoxLayout *m_pMainLayout = nullptr;
     IconButton *m_pIconBtn = nullptr;
+    QLabel *m_pTitleLab = nullptr;
     QLabel *m_pDecLab = nullptr;
     HorIconTextButton *m_pImportBtn = nullptr;
     QWidget *m_pDividingLine = nullptr;
