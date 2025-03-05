@@ -2,6 +2,8 @@
 #include "gifgeneration/presenter.h"
 #include "gifgeneration/gifgenerationtask.h"
 #include "settings.h"
+#include "message/funcchangemessage.h"
+#include "funcenum.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -318,6 +320,8 @@ void GifGenerationView::onOpenOutputFolderBtnClicked() {
 }
 
 void GifGenerationView::onPreviewBtnClicked() {
+    FuncChangeMessage msg(EFunc::FuncGifPreview);
+    presenter()->sendMessage(&msg);
 }
 
 void GifGenerationView::onStartAllClicked() {

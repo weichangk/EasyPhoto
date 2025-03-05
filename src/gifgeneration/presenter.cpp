@@ -1,5 +1,6 @@
 #include "gifgeneration/presenter.h"
 #include "gifgeneration/repository.h"
+#include "message/funcchangemessage.h"
 
 #include <QFileInfo>
 
@@ -67,4 +68,23 @@ void GifGenerationPresenter::clearData() {
     GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
     rep->clearData();
     filePathsSet.clear();
+}
+
+void GifGenerationPresenter::funcChangeSubjectAttach(IFuncChangeObserver *observer) {
+    m_pFuncChangeObserver.attach(observer);
+}
+
+void GifGenerationPresenter::funcChangeSubjectDetach(IFuncChangeObserver *observer) {
+    m_pFuncChangeObserver.detach(observer);
+}
+
+bool GifGenerationPresenter::handleMessage(IMessage *message) {
+    if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
+        funcChangeSubjectNotify((EFunc)msg->code());
+    }
+    return false;
+}
+
+void GifGenerationPresenter::funcChangeSubjectNotify(EFunc func) {
+    m_pFuncChangeObserver.notify(&IFuncChangeObserver::funcChangeHandle, func);
 }

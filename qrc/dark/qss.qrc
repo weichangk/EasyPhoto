@@ -18,5 +18,6 @@
       <file>../../qss/dark/gifgeneration.qss</file> 
       <file>../../qss/dark/inpaintingview.qss</file>
       <file>../../qss/dark/importguide.qss</file>
+      <file>../../qss/dark/gifpreviewview.qss</file>
   </qresource>
 </RCC>
