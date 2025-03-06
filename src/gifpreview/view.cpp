@@ -1,4 +1,6 @@
-#include "gifpreviewview.h"
+#include "gifpreview/view.h"
+#include "message/funcchangemessage.h"
+#include "funcenum.h"
 
 GifPreviewView::GifPreviewView(QWidget *parent) :
     QWidget(parent) {
@@ -74,6 +76,8 @@ void GifPreviewView::exit() {
 
 void GifPreviewView::onExitBtnClicked() {
     exit();
+    // FuncChangeMessage msg(EFunc::FuncGifPreview);
+    // presenter()->sendMessage(&msg);
 }
 
 void GifPreviewView::onPlayBtnClicked() {

@@ -1,12 +1,14 @@
 #pragma once
 #include "globalview.h"
+#include "mvp/view.h"
 #include "widget/button.h"
 
 #include <QMovie>
 
+using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
 
-class GifPreviewView : public QWidget {
+class GifPreviewView : public QWidget, public View {
     Q_OBJECT
 public:
     explicit GifPreviewView(QWidget *parent = nullptr);

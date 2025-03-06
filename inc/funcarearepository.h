@@ -11,6 +11,7 @@
 #include "erase/repository.h"
 #include "gifgeneration/repository.h"
 #include "inpainting/repository.h"
+#include "gifpreview/repository.h"
 
 using namespace qtmaterialmvp;
 
@@ -29,6 +30,7 @@ public:
     EraseRepository *eraseRepository() const;
     GifGenerationRepository *gifGenerationRepository() const;
     InpaintingRepository *inpaintingRepository() const;
+    GifPreviewRepository *gifPreviewRepository() const;
 
 private:
     HomeRepository *m_pHomeRepository = nullptr;
@@ -41,4 +43,5 @@ private:
     EraseRepository *m_pEraseRepository = nullptr;
     GifGenerationRepository *m_pGifGenerationRepository = nullptr;
     InpaintingRepository *m_pInpaintingRepository = nullptr;
+    GifPreviewRepository *m_pGifPreviewRepository = nullptr;
 };

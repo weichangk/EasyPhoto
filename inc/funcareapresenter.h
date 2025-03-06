@@ -13,6 +13,7 @@
 #include "erase/presenter.h"
 #include "gifgeneration/presenter.h"
 #include "inpainting/presenter.h"
+#include "gifpreview/presenter.h"
 
 using namespace qtmaterialmvp;
 
@@ -21,16 +22,17 @@ public:
     explicit FuncAreaPresenter(IView *view, IRepository *repository);
     ~FuncAreaPresenter();
 
-    HomePresenter *homePresente();
-    MyFilePresenter *myFilePresenter();
-    CompressionPresenter *compressionPresenter();
-    ConversionPresenter *conversionPresenter();
-    CroppingPresenter *croppingPresenter();
-    EffectsPresenter *effectsPresenter();
-    EnhancementPresenter *enhancementPresenter();
-    ErasePresenter *erasePresenter();
-    GifGenerationPresenter *gifGenerationPresenter();
-    InpaintingPresenter *inpaintingPresenter();
+    HomePresenter *homePresente() const;
+    MyFilePresenter *myFilePresenter() const;
+    CompressionPresenter *compressionPresenter() const;
+    ConversionPresenter *conversionPresenter() const;
+    CroppingPresenter *croppingPresenter() const;
+    EffectsPresenter *effectsPresenter() const;
+    EnhancementPresenter *enhancementPresenter() const;
+    ErasePresenter *erasePresenter() const;
+    GifGenerationPresenter *gifGenerationPresenter() const;
+    InpaintingPresenter *inpaintingPresenter() const;
+    GifPreviewPresenter *gifPreviewPresenter() const;
 
 private:
     void funcChangeHandle(EFunc) override;
@@ -46,4 +48,5 @@ private:
     ErasePresenter *m_pErasePresenter = nullptr;
     GifGenerationPresenter *m_pGifGenerationPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;
+    GifPreviewPresenter *m_pGifPreviewPresenter = nullptr;
 };

@@ -106,6 +106,12 @@ void FuncAreaView::setCurrentFuncView(EFunc func) {
 bool FuncAreaView::handleMessage(IMessage* message) {
     if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
         setCurrentFuncView((EFunc)msg->code());
+        // if(m_rFuncNavigationHistory.getUndoStack()->count() == 0) {
+        //     m_rFuncNavigationHistory.executeCommand(0, msg->code(), setCurrentFuncView);
+        // }
+        // else if(m_rFuncNavigationHistory.getUndoStack()->count() > 0) {
+        //     m_rFuncNavigationHistory.executeCommand(m_rFuncNavigationHistory.getUndoStack()->count(), msg->code(), setCurrentFuncView);
+        // }
     }
     return false;
 }

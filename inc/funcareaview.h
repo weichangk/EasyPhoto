@@ -12,8 +12,9 @@
 #include "erase/view.h"
 #include "gifgeneration/view.h"
 #include "inpainting/view.h"
-#include "gifpreviewview.h"
+#include "gifpreview/view.h"
 #include "imagepreviewview.h"
+#include "funcnavigationhistory.h"
 
 #include <QStackedLayout>
 
@@ -45,9 +46,11 @@ private:
     void setCurrentFuncView(EFunc);
 
 private:
-    bool handleMessage(IMessage* message) override;
+    bool handleMessage(IMessage *message) override;
 
 private:
+    FuncNavigationHistory m_rFuncNavigationHistory;
+
     QStackedLayout *m_pStackedLayout = nullptr;
     HomeView *m_pHomeView = nullptr;
     MyFileView *m_pMyFileView = nullptr;

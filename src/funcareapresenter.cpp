@@ -18,50 +18,55 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
         m_pErasePresenter = new ErasePresenter(funcAreaView->eraseView(), funcRepository->eraseRepository());
         m_pGifGenerationPresenter = new GifGenerationPresenter(funcAreaView->gifGenerationView(), funcRepository->gifGenerationRepository());
         m_pInpaintingPresenter = new InpaintingPresenter(funcAreaView->inpaintingView(), funcRepository->inpaintingRepository());
+        m_pGifPreviewPresenter = new GifPreviewPresenter(funcAreaView->gifPreviewView(), funcRepository->gifPreviewRepository());
     }
 }
 
 FuncAreaPresenter::~FuncAreaPresenter() {
 }
 
-HomePresenter *FuncAreaPresenter::homePresente() {
+HomePresenter *FuncAreaPresenter::homePresente() const {
     return m_pHomePresenter;
 }
 
-MyFilePresenter *FuncAreaPresenter::myFilePresenter() {
+MyFilePresenter *FuncAreaPresenter::myFilePresenter() const {
     return m_pMyFilePresenter;
 }
 
-CompressionPresenter *FuncAreaPresenter::compressionPresenter() {
+CompressionPresenter *FuncAreaPresenter::compressionPresenter() const {
     return m_pCompressionPresenter;
 }
 
-ConversionPresenter *FuncAreaPresenter::conversionPresenter() {
+ConversionPresenter *FuncAreaPresenter::conversionPresenter() const {
     return m_pConversionPresenter;
 }
 
-CroppingPresenter *FuncAreaPresenter::croppingPresenter() {
+CroppingPresenter *FuncAreaPresenter::croppingPresenter() const {
     return m_pCroppingPresenter;
 }
 
-EffectsPresenter *FuncAreaPresenter::effectsPresenter() {
+EffectsPresenter *FuncAreaPresenter::effectsPresenter() const {
     return m_pEffectsPresenter;
 }
 
-EnhancementPresenter *FuncAreaPresenter::enhancementPresenter() {
+EnhancementPresenter *FuncAreaPresenter::enhancementPresenter() const {
     return m_pEnhancementPresenter;
 }
 
-ErasePresenter *FuncAreaPresenter::erasePresenter() {
+ErasePresenter *FuncAreaPresenter::erasePresenter() const {
     return m_pErasePresenter;
 }
 
-GifGenerationPresenter *FuncAreaPresenter::gifGenerationPresenter() {
+GifGenerationPresenter *FuncAreaPresenter::gifGenerationPresenter() const {
     return m_pGifGenerationPresenter;
 }
 
-InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() {
+InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() const {
     return m_pInpaintingPresenter;
+}
+
+GifPreviewPresenter *FuncAreaPresenter::gifPreviewPresenter() const {
+    return m_pGifPreviewPresenter;
 }
 
 void FuncAreaPresenter::funcChangeHandle(EFunc func) {

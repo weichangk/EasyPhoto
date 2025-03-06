@@ -11,6 +11,7 @@ FuncAreaRepository::FuncAreaRepository() {
     m_pEraseRepository = new EraseRepository();
     m_pGifGenerationRepository = new GifGenerationRepository();
     m_pInpaintingRepository = new InpaintingRepository();
+    m_pGifPreviewRepository = new GifPreviewRepository();
 }
 
 FuncAreaRepository::~FuncAreaRepository() {
@@ -54,4 +55,8 @@ GifGenerationRepository *FuncAreaRepository::gifGenerationRepository() const {
 
 InpaintingRepository *FuncAreaRepository::inpaintingRepository() const {
     return m_pInpaintingRepository;
+}
+
+GifPreviewRepository *FuncAreaRepository::gifPreviewRepository() const {
+    return m_pGifPreviewRepository;
 }

@@ -25,8 +25,6 @@ using namespace qtmaterialwidget;
 using namespace qtmaterialcore;
 using namespace qtmaterialfilter;
 
-using namespace qtmaterialmvp;
-
 class GifGenerationView : public QWidget, public View {
     Q_OBJECT
 public:
