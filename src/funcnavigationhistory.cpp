@@ -3,7 +3,7 @@
 
 #include <QDebug>
 
-void FuncNavigationHistory::executeCommand(const QString &prev, const QString &curr, std::function<void(QString)> func) {
+void FuncNavigationHistory::executeCommand(EFunc prev, EFunc curr, std::function<void(EFunc)> func) {
     m_rUndoStack.push(new FuncNavigateCommand(prev, curr, func));
 }
 

@@ -105,13 +105,20 @@ void FuncAreaView::setCurrentFuncView(EFunc func) {
 
 bool FuncAreaView::handleMessage(IMessage* message) {
     if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
-        setCurrentFuncView((EFunc)msg->code());
-        // if(m_rFuncNavigationHistory.getUndoStack()->count() == 0) {
-        //     m_rFuncNavigationHistory.executeCommand(0, msg->code(), setCurrentFuncView);
-        // }
-        // else if(m_rFuncNavigationHistory.getUndoStack()->count() > 0) {
-        //     m_rFuncNavigationHistory.executeCommand(m_rFuncNavigationHistory.getUndoStack()->count(), msg->code(), setCurrentFuncView);
-        // }
+        EFunc ef = (EFunc)msg->code();
+        // setCurrentFuncView(ef);
+        std::function<void(EFunc)> func = [&](EFunc e) {
+            setCurrentFuncView(e);
+        };
+        if (ef == EFunc::FuncUndo || ef == EFunc::FuncRedo) {
+            ef == EFunc::FuncUndo ? m_rFuncNavigationHistory.undo() : m_rFuncNavigationHistory.redo();
+        } else {
+            m_ePreviousFunc = m_eCurrentFunc;
+            m_eCurrentFunc = ef;
+            if (m_ePreviousFunc != m_eCurrentFunc) {
+                m_rFuncNavigationHistory.executeCommand(m_ePreviousFunc, ef, func);
+            }
+        }
     }
     return false;
 }

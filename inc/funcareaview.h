@@ -50,6 +50,8 @@ private:
 
 private:
     FuncNavigationHistory m_rFuncNavigationHistory;
+    EFunc m_ePreviousFunc = EFunc::FuncHome;
+    EFunc m_eCurrentFunc = EFunc::FuncHome;
 
     QStackedLayout *m_pStackedLayout = nullptr;
     HomeView *m_pHomeView = nullptr;

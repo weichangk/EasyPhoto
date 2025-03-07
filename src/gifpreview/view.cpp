@@ -76,8 +76,8 @@ void GifPreviewView::exit() {
 
 void GifPreviewView::onExitBtnClicked() {
     exit();
-    // FuncChangeMessage msg(EFunc::FuncGifPreview);
-    // presenter()->sendMessage(&msg);
+    FuncChangeMessage msg(EFunc::FuncUndo);
+    presenter()->sendMessage(&msg);
 }
 
 void GifPreviewView::onPlayBtnClicked() {

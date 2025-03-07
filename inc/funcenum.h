@@ -13,4 +13,6 @@ using EFunc = enum {
     FuncGifMaker,
     FuncImagePreview,
     FuncGifPreview,
+    FuncUndo,
+    FuncRedo,
 };
