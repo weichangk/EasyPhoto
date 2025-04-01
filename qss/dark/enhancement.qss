@@ -2,3 +2,9 @@ QWidget#EnhancementView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
+
+QLabel#EnhancementView_m_pTitleLbl{
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
