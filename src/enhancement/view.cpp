@@ -1,4 +1,5 @@
 #include "enhancement/view.h"
+#include "enhancement/presenter.h"
 #include "settings.h"
 
 #include <QCoreApplication>
@@ -8,6 +9,11 @@ EnhancementView::EnhancementView(QWidget *parent) :
     createUi();
     connectSig();
     onLanguageChange();
+}
+
+void EnhancementView::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+    firstShow();
 }
 
 void EnhancementView::createUi() {
@@ -135,13 +141,20 @@ void EnhancementView::createUi() {
     layout->setSpacing(0);
     layout->addLayout(titleLabLayout, 0);
     layout->addWidget(m_pBodyWidget, 1);
-
-    loadSampleImage();
-    initOutputFolderCbbItem();
 }
 
 void EnhancementView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &EnhancementView::onLanguageChange);
+}
+
+void EnhancementView::firstShow() {
+    static bool firstShow = true;
+    if(firstShow) {
+        firstShow = false;
+        loadSampleImage();
+        initOutputFolderCbbItem();
+        loadModelList();
+    }
 }
 
 void EnhancementView::loadSampleImage() {
@@ -152,6 +165,11 @@ void EnhancementView::loadSampleImage() {
 
 void EnhancementView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->enhanceOutPath());
+}
+
+void EnhancementView::loadModelList() {
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    m_pModelListView->changeData(prst->getModelDatas());
 }
 
 void EnhancementView::onLanguageChange() {

@@ -34,11 +34,16 @@ public:
     ~EnhancementView() override {
     }
 
+protected:
+    void showEvent(QShowEvent *event) override;
+
 private:
     void createUi();
     void connectSig();
+    void firstShow();
     void loadSampleImage();
     void initOutputFolderCbbItem();
+    void loadModelList();
 
 private Q_SLOTS:
     void onLanguageChange();
