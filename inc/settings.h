@@ -52,6 +52,10 @@ public:
     QString gifGenerationOutPath() const;
     void setGifGenerationOutPath(const QString &path);
 
+    // Enhance
+    QString enhanceOutPath() const;
+    void setEnhanceOutPath(const QString &path);
+
 private:
     QSettings m_Settings;
 
@@ -77,6 +81,9 @@ private:
     int m_nGifGenerationFps;
     bool m_bGifGenerationRepeat;
     QString m_strGifGenerationOutPath;
+
+    // Enhance
+    QString m_strEnhanceOutPath;
 };
 
 #define SETTINGS Settings::getInstance()

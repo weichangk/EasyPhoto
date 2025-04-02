@@ -11,6 +11,9 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "importguide.h"
+#include "model.h"
+#include "inputlistdelegate.h"
+#include "modellistdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -35,6 +38,7 @@ private:
     void createUi();
     void connectSig();
     void loadSampleImage();
+    void initOutputFolderCbbItem();
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -51,18 +55,23 @@ private:
     QStackedLayout *m_pLeftWidgetStackedLayout = nullptr;
 
     QWidget *m_pImportGuideWidget = nullptr;
+    ImportGuide *m_pImportGuide = nullptr;
     QWidget *m_pSmapleWidget = nullptr;
     QLabel *m_pSmapleTitleLbl = nullptr;
     QLabel *m_pSmaple1ImageLbl = nullptr;
     QLabel *m_pSmaple2ImageLbl = nullptr;
-    ImportGuide *m_pImportGuide = nullptr;
 
+    IconButton *m_pClearFileBtn = nullptr;
+    IconButton *m_pPreviewBtn = nullptr;
+
+    QLabel *m_pChooseModelLbl = nullptr;
+    ListView<SEnhanceModelData> *m_pModelListView = nullptr;
+    EnhanceModelListDelegate *m_pModelListDelegate = nullptr;
+
+    QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
 
-    IconButton *m_pClearFileBtn = nullptr;
-    IconButton *m_pPreviewBtn = nullptr;
-    IconButton *m_pStartAllBtn = nullptr;
 };

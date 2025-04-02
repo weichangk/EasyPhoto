@@ -35,6 +35,9 @@ static int gifGenerationHeight = 640;
 static int gifGenerationQuality = 100;
 static int gifGenerationFps = 25;
 static bool gifGenerationRepeat = true;
+
+// Enhance
+static QString enhanceOutPath = defOutPath("Enhance");
 } // namespace Default
 
 Settings::Settings() :
@@ -58,7 +61,10 @@ Settings::Settings() :
     m_nGifGenerationQuality(Default::gifGenerationQuality),
     m_nGifGenerationFps(Default::gifGenerationFps),
     m_bGifGenerationRepeat(Default::gifGenerationRepeat),
-    m_strGifGenerationOutPath(Default::gifGenerationOutPath){
+    m_strGifGenerationOutPath(Default::gifGenerationOutPath),
+    // Enhance
+    m_strEnhanceOutPath(Default::enhanceOutPath)
+{
 }
 
 void Settings::load() {
@@ -255,5 +261,17 @@ void Settings::setGifGenerationOutPath(const QString &path) {
     m_strGifGenerationOutPath = path;
     m_Settings.beginGroup("GifGeneration");
     m_Settings.setValue(QStringLiteral("GifGenerationOutPath"), m_strGifGenerationOutPath);
+    m_Settings.endGroup();
+}
+
+// Enhance
+QString Settings::enhanceOutPath() const {
+    return m_strEnhanceOutPath;
+}
+
+void Settings::setEnhanceOutPath(const QString &path) {
+    m_strEnhanceOutPath = path;
+    m_Settings.beginGroup("Enhance");
+    m_Settings.setValue(QStringLiteral("EnhanceOutPath"), m_strEnhanceOutPath);
     m_Settings.endGroup();
 }
