@@ -13,22 +13,22 @@ QList<SEnhanceModelData> EnhancementPresenter::getModelDatas() {
     return rep->getModelDatas();
 }
 
-QList<SEnhanceInputData> EnhancementPresenter::getInputDatas() {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-    return rep->getInputDatas();
-}
+// QList<SEnhanceInputData> EnhancementPresenter::getInputDatas() {
+//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+//     return rep->getInputDatas();
+// }
 
-void EnhancementPresenter::appendInputData(QList<SEnhanceInputData> datas) {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-    rep->appendInputData(datas);
-}
+// void EnhancementPresenter::appendInputData(QList<SEnhanceInputData> datas) {
+//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+//     rep->appendInputData(datas);
+// }
 
-void EnhancementPresenter::deleteInputData(const QStringList filePaths) {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-    rep->deleteInputData(filePaths);
-}
+// void EnhancementPresenter::deleteInputData(const QStringList filePaths) {
+//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+//     rep->deleteInputData(filePaths);
+// }
 
-void EnhancementPresenter::clearInputData() {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-    rep->clearInputData();
-}
+// void EnhancementPresenter::clearInputData() {
+//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+//     rep->clearInputData();
+// }

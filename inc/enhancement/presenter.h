@@ -12,8 +12,8 @@ public:
     ~EnhancementPresenter();
 
     QList<SEnhanceModelData> getModelDatas();
-    QList<SEnhanceInputData> getInputDatas();
-    void appendInputData(QList<SEnhanceInputData> datas);
-    void deleteInputData(const QStringList filePaths);
-    void clearInputData();
+    // QList<SEnhanceInputData> getInputDatas();
+    // void appendInputData(QList<SEnhanceInputData> datas);
+    // void deleteInputData(const QStringList filePaths);
+    // void clearInputData();
 };

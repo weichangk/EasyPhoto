@@ -12,8 +12,9 @@
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "model.h"
-#include "inputlistdelegate.h"
 #include "modellistdelegate.h"
+#include "preview/imageviewer.h"
+#include "import/importlistview.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -74,7 +75,8 @@ private:
     // IconButton *m_pPreviewBtn = nullptr;
 
     QWidget *m_pWorkspaceWidget = nullptr;
-
+    ImageViewer *m_pImageViewer = nullptr;
+    ImportListView *m_pImportListView = nullptr;
 
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;

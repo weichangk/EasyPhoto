@@ -84,8 +84,20 @@ void EnhancementView::createUi() {
     importGuideLayout->addWidget(m_pImportGuide, 1);
     importGuideLayout->addSpacing(14);
     importGuideLayout->addWidget(m_pSmapleWidget);
+
+    m_pWorkspaceWidget = new QWidget(this);
+    QVBoxLayout *workspaceWidgetLayout = new QVBoxLayout(m_pWorkspaceWidget);
+    workspaceWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    workspaceWidgetLayout->setSpacing(0);
+
+    m_pImageViewer = new ImageViewer(this);
+    m_pImportListView = new ImportListView(this);
+
+    workspaceWidgetLayout->addWidget(m_pImageViewer, 1);
+    workspaceWidgetLayout->addWidget(m_pImportListView);
     
     m_pLeftWidgetStackedLayout->addWidget(m_pImportGuideWidget);
+    m_pLeftWidgetStackedLayout->addWidget(m_pWorkspaceWidget);
 
     auto leftWidgetStackedMarginLayout = new QVBoxLayout();
     leftWidgetStackedMarginLayout->setContentsMargins(0, 0, 0, 0);
