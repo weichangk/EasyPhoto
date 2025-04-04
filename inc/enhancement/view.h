@@ -10,7 +10,7 @@
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
-#include "importguide.h"
+#include "import/importguide.h"
 #include "model.h"
 #include "inputlistdelegate.h"
 #include "modellistdelegate.h"
@@ -66,12 +66,15 @@ private:
     QLabel *m_pSmaple1ImageLbl = nullptr;
     QLabel *m_pSmaple2ImageLbl = nullptr;
 
-    IconButton *m_pClearFileBtn = nullptr;
-    IconButton *m_pPreviewBtn = nullptr;
-
     QLabel *m_pChooseModelLbl = nullptr;
     ListView<SEnhanceModelData> *m_pModelListView = nullptr;
     EnhanceModelListDelegate *m_pModelListDelegate = nullptr;
+
+    // IconButton *m_pClearFileBtn = nullptr;
+    // IconButton *m_pPreviewBtn = nullptr;
+
+    QWidget *m_pWorkspaceWidget = nullptr;
+
 
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;

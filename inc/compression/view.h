@@ -10,7 +10,7 @@
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
-#include "importguide.h"
+#include "import/importguide.h"
 #include "model.h"
 #include "listdelegate.h"
 #include "outputformatdelegate.h"

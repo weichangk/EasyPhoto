@@ -7,7 +7,7 @@
 #include "core/object.h"
 #include "filter/languagefilter.h"
 #include "filter/comboboxfilter.h"
-#include "importguide.h"
+#include "import/importguide.h"
 #include "model.h"
 #include "listdelegate.h"
 
