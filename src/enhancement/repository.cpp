@@ -1,5 +1,7 @@
 #include "enhancement/repository.h"
 
+#include <QCoreApplication>
+
 EnhancementRepository::EnhancementRepository() {
 }
 
@@ -11,21 +13,12 @@ QList<SEnhanceModelData> EnhancementRepository::getModelDatas() {
     return datas;
 }
 
-// QList<SEnhanceInputData> EnhancementRepository::getInputDatas() {
-//     return m_pInputDatas;
-// }
+QString EnhancementRepository::getSampleImage1Path() {
+    QString execDir = QCoreApplication::applicationDirPath();
+    return QString("%1/sample1.webp").arg(execDir);
+}
 
-// void EnhancementRepository::appendInputData(QList<SEnhanceInputData> datas) {
-//     m_pInputDatas.append(datas);
-// }
-
-// void EnhancementRepository::deleteInputData(const QStringList filePaths) {
-//     auto func = [](const SEnhanceInputData &cd, const QStringList &filePaths) {
-//         return filePaths.contains(cd.path);
-//     };
-//     m_pInputDatas.erase(std::remove_if(m_pInputDatas.begin(), m_pInputDatas.end(), std::bind(func, std::placeholders::_1, filePaths)), m_pInputDatas.end());
-// }
-
-// void EnhancementRepository::clearInputData() {
-//     m_pInputDatas.clear();
-// }
+QString EnhancementRepository::getSampleImage2Path() {
+    QString execDir = QCoreApplication::applicationDirPath();
+    return QString("%1/sample2.webp").arg(execDir);
+}

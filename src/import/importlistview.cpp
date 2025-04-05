@@ -1,9 +1,37 @@
 #include "import/importlistview.h"
+#include "import/importlistpresenter.h"
 
-ImportListView::ImportListView(QWidget *parent) :
-    QWidget(parent) {
+#include <QFileDialog>
+#include <QStandardPaths>
+
+ImportListView::ImportListView(QWidget *parent, QString fileFilter) :
+    QWidget(parent),
+    m_FileFilter(fileFilter) {
     createUi();
     connectSig();
+}
+
+void ImportListView::importFile(const QStringList &filePaths) {
+    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    prst->appendData(filePaths);
+    m_pImportListView->changeData(prst->getDatas());
+    emit sigImportListCountChange(prst->getDatas().count());
+}
+
+void ImportListView::deleteFile(const QString &filePath) {
+    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    QStringList filePaths;
+    filePaths.append(filePath);
+    prst->deleteData(filePaths);
+    m_pImportListView->changeData(prst->getDatas());
+    emit sigImportListCountChange(prst->getDatas().count());
+}
+
+void ImportListView::clearFile() {
+    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    prst->clearData();
+    m_pImportListView->changeData(prst->getDatas());
+    emit sigImportListCountChange(0);
 }
 
 void ImportListView::createUi() {
@@ -47,7 +75,15 @@ void ImportListView::connectSig() {
 }
 
 void ImportListView::onAddBtnClicked() {
+    QString title = tr("Open");
+    QString directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+    QString filter = tr("image files");
+    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, QString("%1 %2").arg(filter).arg(m_FileFilter));
+    if (!filePaths.isEmpty()) {
+        importFile(filePaths);
+    }
 }
 
 void ImportListView::onClearBtnClicked() {
+    clearFile();
 }

@@ -13,22 +13,12 @@ QList<SEnhanceModelData> EnhancementPresenter::getModelDatas() {
     return rep->getModelDatas();
 }
 
-// QList<SEnhanceInputData> EnhancementPresenter::getInputDatas() {
-//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-//     return rep->getInputDatas();
-// }
+QString EnhancementPresenter::getSampleImage1Path() {
+    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+    return rep->getSampleImage1Path();
+}
 
-// void EnhancementPresenter::appendInputData(QList<SEnhanceInputData> datas) {
-//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-//     rep->appendInputData(datas);
-// }
-
-// void EnhancementPresenter::deleteInputData(const QStringList filePaths) {
-//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-//     rep->deleteInputData(filePaths);
-// }
-
-// void EnhancementPresenter::clearInputData() {
-//     EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
-//     rep->clearInputData();
-// }
+QString EnhancementPresenter::getSampleImage2Path() {
+    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+    return rep->getSampleImage2Path();
+}

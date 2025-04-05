@@ -2,8 +2,6 @@
 #include "enhancement/presenter.h"
 #include "settings.h"
 
-#include <QCoreApplication>
-
 EnhancementView::EnhancementView(QWidget *parent) :
     QWidget(parent) {
     createUi();
@@ -65,9 +63,9 @@ void EnhancementView::createUi() {
     m_pSmapleTitleLbl = new QLabel(this);
     m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
 
-    m_pSmaple1ImageLbl = new QLabel(this);
+    m_pSmaple1ImageLbl = new ClickableLabel(this);
     m_pSmaple1ImageLbl->setFixedSize(128, 72);
-    m_pSmaple2ImageLbl = new QLabel(this);
+    m_pSmaple2ImageLbl = new ClickableLabel(this);
     m_pSmaple2ImageLbl->setFixedSize(128, 72);
 
     auto sampleImageLayout = new QHBoxLayout();
@@ -95,7 +93,7 @@ void EnhancementView::createUi() {
 
     workspaceWidgetLayout->addWidget(m_pImageViewer, 1);
     workspaceWidgetLayout->addWidget(m_pImportListView);
-    
+
     m_pLeftWidgetStackedLayout->addWidget(m_pImportGuideWidget);
     m_pLeftWidgetStackedLayout->addWidget(m_pWorkspaceWidget);
 
@@ -157,6 +155,9 @@ void EnhancementView::createUi() {
 
 void EnhancementView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &EnhancementView::onLanguageChange);
+    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple1ImageLblClicked);
+    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple2ImageLblClicked);
+    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &EnhancementView::onImportListCountChange);
 }
 
 void EnhancementView::firstShow() {
@@ -170,9 +171,23 @@ void EnhancementView::firstShow() {
 }
 
 void EnhancementView::loadSampleImage() {
-    QString execDir = QCoreApplication::applicationDirPath();
-    m_pSmaple1ImageLbl->setPixmap(QPixmap(QString("%1/sample1.webp").arg(execDir)).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pSmaple2ImageLbl->setPixmap(QPixmap(QString("%1/sample2.webp").arg(execDir)).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    m_pSmaple1ImageLbl->setPixmap(QPixmap(prst->getSampleImage1Path()).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pSmaple2ImageLbl->setPixmap(QPixmap(prst->getSampleImage2Path()).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+}
+
+void EnhancementView::importSampleImage1() {
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    QStringList paths;
+    paths.append(prst->getSampleImage1Path());
+    m_pImportListView->importFile(paths);
+}
+
+void EnhancementView::importSampleImage2() {
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    QStringList paths;
+    paths.append(prst->getSampleImage2Path());
+    m_pImportListView->importFile(paths);
 }
 
 void EnhancementView::initOutputFolderCbbItem() {
@@ -184,10 +199,34 @@ void EnhancementView::loadModelList() {
     m_pModelListView->changeData(prst->getModelDatas());
 }
 
+void EnhancementView::gotoImportGuide() {
+    m_pLeftWidgetStackedLayout->setCurrentWidget(m_pImportGuideWidget);
+}
+
+void EnhancementView::gotoWorkspace() {
+    m_pLeftWidgetStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
+}
+
 void EnhancementView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pChooseModelLbl->setText(tr("Choose AI Model"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
+}
+
+void EnhancementView::onSmaple1ImageLblClicked() {
+    importSampleImage1();
+}
+
+void EnhancementView::onSmaple2ImageLblClicked() {
+    importSampleImage2();
+}
+
+void EnhancementView::onImportListCountChange(int count) {
+    if(count > 0) {
+        gotoWorkspace();
+    } else {
+        gotoImportGuide();
+    }
 }

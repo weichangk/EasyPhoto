@@ -11,10 +11,7 @@ public:
     ~EnhancementRepository();
 
     QList<SEnhanceModelData> getModelDatas();
-    // QList<SEnhanceInputData> getInputDatas();
-    // void appendInputData(QList<SEnhanceInputData> datas);
-    // void deleteInputData(const QStringList filePaths);
-    // void clearInputData();
-private:
-    // QList<SEnhanceInputData> m_pInputDatas;
+
+    QString getSampleImage1Path();
+    QString getSampleImage2Path();
 };

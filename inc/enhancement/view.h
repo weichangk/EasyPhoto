@@ -2,6 +2,7 @@
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+#include "widget/label.h"
 #include "widget/listview.h"
 #include "core/font.h"
 #include "core/object.h"
@@ -43,11 +44,18 @@ private:
     void connectSig();
     void firstShow();
     void loadSampleImage();
+    void importSampleImage1();
+    void importSampleImage2();
     void initOutputFolderCbbItem();
     void loadModelList();
+    void gotoImportGuide();
+    void gotoWorkspace();
 
 private Q_SLOTS:
     void onLanguageChange();
+    void onSmaple1ImageLblClicked();
+    void onSmaple2ImageLblClicked();
+    void onImportListCountChange(int count);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -64,8 +72,8 @@ private:
     ImportGuide *m_pImportGuide = nullptr;
     QWidget *m_pSmapleWidget = nullptr;
     QLabel *m_pSmapleTitleLbl = nullptr;
-    QLabel *m_pSmaple1ImageLbl = nullptr;
-    QLabel *m_pSmaple2ImageLbl = nullptr;
+    ClickableLabel *m_pSmaple1ImageLbl = nullptr;
+    ClickableLabel *m_pSmaple2ImageLbl = nullptr;
 
     QLabel *m_pChooseModelLbl = nullptr;
     ListView<SEnhanceModelData> *m_pModelListView = nullptr;
