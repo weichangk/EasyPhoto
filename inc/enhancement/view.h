@@ -36,6 +36,8 @@ public:
     ~EnhancementView() override {
     }
 
+    ImportListView *getImportListView();
+    
 protected:
     void showEvent(QShowEvent *event) override;
 

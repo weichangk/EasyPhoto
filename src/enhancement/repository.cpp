@@ -3,6 +3,7 @@
 #include <QCoreApplication>
 
 EnhancementRepository::EnhancementRepository() {
+    m_pImportListRepository = new ImportListRepository();
 }
 
 EnhancementRepository::~EnhancementRepository() {
@@ -21,4 +22,8 @@ QString EnhancementRepository::getSampleImage1Path() {
 QString EnhancementRepository::getSampleImage2Path() {
     QString execDir = QCoreApplication::applicationDirPath();
     return QString("%1/sample2.webp").arg(execDir);
+}
+
+ImportListRepository *EnhancementRepository::getImportListRepository() {
+    return m_pImportListRepository;
 }

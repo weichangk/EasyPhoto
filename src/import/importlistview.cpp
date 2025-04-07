@@ -40,6 +40,11 @@ void ImportListView::createUi() {
     setFixedHeight(120);
 
     m_pImportListView = new ListView<SImportListItem>(this);
+    m_pImportListView->setViewMode(QListView::ListMode);
+    m_pImportListView->setResizeMode(QListView::Adjust);
+    m_pImportListView->setFlow(QListView::LeftToRight);
+    m_pImportListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_pImportListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_pImportListView->setSpacing(8);
     m_pImportListDelegate = new ImportListDelegate(m_pImportListView);
     m_pImportListView->setItemDelegate(m_pImportListDelegate);
@@ -55,18 +60,18 @@ void ImportListView::createUi() {
     m_pClearBtn->setIconSize(24, 24);
     m_pClearBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_file.png");
 
-    auto btnLayout = new QHBoxLayout();
-    btnLayout->setContentsMargins(0, 0, 0, 0);
+    auto btnLayout = new QVBoxLayout();
+    btnLayout->setContentsMargins(0, 8, 0, 8);
     btnLayout->setSpacing(0);
     btnLayout->addWidget(m_pAddBtn);
     btnLayout->addStretch();
     btnLayout->addWidget(m_pClearBtn);
 
-    auto mainLayout = new QHBoxLayout();
+    auto mainLayout = new QHBoxLayout(this);
     mainLayout->setContentsMargins(12, 12, 12, 12);
     mainLayout->setSpacing(8);
-    mainLayout->addWidget(m_pImportListView, 1);
     mainLayout->addLayout(btnLayout);
+    mainLayout->addWidget(m_pImportListView, 1);
 }
 
 void ImportListView::connectSig() {

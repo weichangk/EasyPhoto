@@ -9,6 +9,10 @@ EnhancementView::EnhancementView(QWidget *parent) :
     onLanguageChange();
 }
 
+ImportListView *EnhancementView::getImportListView() {
+    return m_pImportListView;
+}
+
 void EnhancementView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();

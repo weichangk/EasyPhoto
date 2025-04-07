@@ -2,6 +2,7 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 #include "model.h"
+#include "import/importlistrepository.h"
 
 using namespace qtmaterialmvp;
 
@@ -14,4 +15,9 @@ public:
 
     QString getSampleImage1Path();
     QString getSampleImage2Path();
+
+    ImportListRepository *getImportListRepository();
+
+private:
+    ImportListRepository *m_pImportListRepository = nullptr;
 };
