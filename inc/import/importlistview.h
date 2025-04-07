@@ -20,8 +20,12 @@ public:
     void deleteFile(const QString &filePath);
     void clearFile();
 
+    void setImportListCurrentIndex(int index);
+    int getImportListCount();
+
 Q_SIGNALS:
     void sigImportListCountChange(int count);
+    void sigImportListCurrentChanged(const QString &filePath);
 
 private:
     void createUi();
@@ -32,6 +36,7 @@ private Q_SLOTS:
     void onAddBtnClicked();
     void onClearBtnClicked();
     void onListViewClicked(const QModelIndex &index);
+    void onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     ListView<SImportListItem> *m_pImportListView = nullptr;

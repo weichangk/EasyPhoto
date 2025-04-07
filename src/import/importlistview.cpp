@@ -17,6 +17,7 @@ void ImportListView::importFile(const QStringList &filePaths) {
     prst->appendData(filePaths);
     m_pImportListView->changeData(prst->getDatas());
     emit sigImportListCountChange(prst->getDatas().count());
+    setImportListCurrentIndex(getImportListCount() - 1);
 }
 
 void ImportListView::deleteFile(const QString &filePath) {
@@ -33,6 +34,16 @@ void ImportListView::clearFile() {
     prst->clearData();
     m_pImportListView->changeData(prst->getDatas());
     emit sigImportListCountChange(0);
+}
+
+void ImportListView::setImportListCurrentIndex(int index) {
+    QModelIndex modelIndex = m_pImportListView->model()->index(index, 0);
+    m_pImportListView->setCurrentIndex(modelIndex);
+}
+
+int ImportListView::getImportListCount() {
+    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    return prst->getDatas().count();
 }
 
 void ImportListView::createUi() {
@@ -79,6 +90,7 @@ void ImportListView::connectSig() {
     connect(m_pAddBtn, &IconButton::clicked, this, &ImportListView::onAddBtnClicked);
     connect(m_pClearBtn, &IconButton::clicked, this, &ImportListView::onClearBtnClicked);
     connect(m_pImportListView, &QListView::clicked, this, &ImportListView::onListViewClicked);
+    connect(m_pImportListView, &AbstractListView::sigCurrentChanged, this, &ImportListView::onListViewCurrentChanged);
 }
 
 void ImportListView::listItemDelete(const QString &filePath) {
@@ -115,4 +127,9 @@ void ImportListView::onListViewClicked(const QModelIndex &index) {
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.path);
     }
+}
+
+void ImportListView::onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
+    auto data = current.data(Qt::UserRole).value<SImportListItem>();
+    emit sigImportListCurrentChanged(data.path);
 }

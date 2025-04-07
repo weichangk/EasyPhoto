@@ -162,6 +162,7 @@ void EnhancementView::connectSig() {
     connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple1ImageLblClicked);
     connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple2ImageLblClicked);
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &EnhancementView::onImportListCountChange);
+    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &EnhancementView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &EnhancementView::onGuideImportFile);
 }
 
@@ -212,6 +213,10 @@ void EnhancementView::gotoWorkspace() {
     m_pLeftWidgetStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
 }
 
+void EnhancementView::imageViewerLoad(const QString &filePath) {
+    m_pImageViewer->loadImage(filePath);
+}
+
 void EnhancementView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
@@ -234,6 +239,10 @@ void EnhancementView::onImportListCountChange(int count) {
     } else {
         gotoImportGuide();
     }
+}
+
+void EnhancementView::onImportListCurrentChanged(const QString filePath) {
+    imageViewerLoad(filePath);
 }
 
 void EnhancementView::onGuideImportFile(const QStringList &filePaths) {

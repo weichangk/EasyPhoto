@@ -52,12 +52,14 @@ private:
     void loadModelList();
     void gotoImportGuide();
     void gotoWorkspace();
+    void imageViewerLoad(const QString &filePath);
 
 private Q_SLOTS:
     void onLanguageChange();
     void onSmaple1ImageLblClicked();
     void onSmaple2ImageLblClicked();
     void onImportListCountChange(int count);
+    void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
 
 private:
