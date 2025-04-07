@@ -26,10 +26,12 @@ Q_SIGNALS:
 private:
     void createUi();
     void connectSig();
+    void listItemDelete(const QString &filePath);
 
 private Q_SLOTS:
     void onAddBtnClicked();
     void onClearBtnClicked();
+    void onListViewClicked(const QModelIndex &index);
 
 private:
     ListView<SImportListItem> *m_pImportListView = nullptr;

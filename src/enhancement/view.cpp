@@ -162,6 +162,7 @@ void EnhancementView::connectSig() {
     connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple1ImageLblClicked);
     connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple2ImageLblClicked);
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &EnhancementView::onImportListCountChange);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &EnhancementView::onGuideImportFile);
 }
 
 void EnhancementView::firstShow() {
@@ -233,4 +234,9 @@ void EnhancementView::onImportListCountChange(int count) {
     } else {
         gotoImportGuide();
     }
+}
+
+void EnhancementView::onGuideImportFile(const QStringList &filePaths) {
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    m_pImportListView->importFile(filePaths);
 }

@@ -1,5 +1,6 @@
 #include "import/importlistview.h"
 #include "import/importlistpresenter.h"
+#include "import/importmodel.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -77,6 +78,16 @@ void ImportListView::createUi() {
 void ImportListView::connectSig() {
     connect(m_pAddBtn, &IconButton::clicked, this, &ImportListView::onAddBtnClicked);
     connect(m_pClearBtn, &IconButton::clicked, this, &ImportListView::onClearBtnClicked);
+    connect(m_pImportListView, &QListView::clicked, this, &ImportListView::onListViewClicked);
+}
+
+void ImportListView::listItemDelete(const QString &filePath) {
+    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    QStringList filePaths;
+    filePaths.append(filePath);
+    prst->deleteData(filePaths);
+    m_pImportListView->changeData(prst->getDatas());
+    emit sigImportListCountChange(prst->getDatas().count());
 }
 
 void ImportListView::onAddBtnClicked() {
@@ -91,4 +102,17 @@ void ImportListView::onAddBtnClicked() {
 
 void ImportListView::onClearBtnClicked() {
     clearFile();
+}
+
+void ImportListView::onListViewClicked(const QModelIndex &index) {
+    auto data = index.data(Qt::UserRole).value<SImportListItem>();
+    QRect rc = m_pImportListView->visualRect(index);
+    int posx = m_pImportListView->mapFromGlobal(QCursor::pos()).x();
+    int posy = m_pImportListView->mapFromGlobal(QCursor::pos()).y();
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
+    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+    if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
+        && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
+        listItemDelete(data.path);
+    }
 }

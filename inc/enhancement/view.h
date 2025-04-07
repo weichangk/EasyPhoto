@@ -37,7 +37,7 @@ public:
     }
 
     ImportListView *getImportListView();
-    
+
 protected:
     void showEvent(QShowEvent *event) override;
 
@@ -58,6 +58,7 @@ private Q_SLOTS:
     void onSmaple1ImageLblClicked();
     void onSmaple2ImageLblClicked();
     void onImportListCountChange(int count);
+    void onGuideImportFile(const QStringList &filePaths);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
