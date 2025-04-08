@@ -38,8 +38,8 @@ void EnhanceModelListDelegate::paint(QPainter *painter, const QStyleOptionViewIt
     auto pixmapRect = rc.adjusted(4, 4, -4, -28);
     Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
 
-    if (hover) {
-        QColor borderColor = QColor("#703eff");
+    if (selected) {
+        QColor borderColor = QColor("#a070ff");
         QPen pen(borderColor);
         painter->setPen(pen);
         painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);

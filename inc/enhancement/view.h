@@ -53,6 +53,9 @@ private:
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
+    void setModelListCurrentIndex(int index);
+    void initUpscaleCbbItem();
+    void upscaleSettingVisible(bool visible);
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -61,6 +64,7 @@ private Q_SLOTS:
     void onImportListCountChange(int count);
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
+    void ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -83,9 +87,9 @@ private:
     QLabel *m_pChooseModelLbl = nullptr;
     ListView<SEnhanceModelData> *m_pModelListView = nullptr;
     EnhanceModelListDelegate *m_pModelListDelegate = nullptr;
-
-    // IconButton *m_pClearFileBtn = nullptr;
-    // IconButton *m_pPreviewBtn = nullptr;
+    QLabel *m_pUpscaleLbl = nullptr;
+    QComboBox *m_pUpscaleCbb = nullptr;
+    ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;
 
     QWidget *m_pWorkspaceWidget = nullptr;
     ImageViewer *m_pImageViewer = nullptr;

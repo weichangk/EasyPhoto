@@ -112,10 +112,19 @@ void EnhancementView::createUi() {
     m_pChooseModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
     m_pModelListView = new ListView<SEnhanceModelData>(this);
+    m_pModelListView->setFixedHeight(360);
     m_pModelListView->setSpacing(8);
     m_pModelListDelegate = new EnhanceModelListDelegate(m_pModelListView);
     m_pModelListView->setItemDelegate(m_pModelListDelegate);
     m_pModelListView->viewport()->installEventFilter(m_pModelListDelegate);
+
+    m_pUpscaleLbl = new QLabel(this);
+    m_pUpscaleLbl->setObjectName("EnhancementView_m_pUpscaleLbl");
+    m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_pUpscaleCbb = new QComboBox(this);
+    m_pUpscaleCbb->setFixedHeight(32);
+    m_pUpscaleCbbFilter = new ComboBoxFilter(m_pUpscaleCbb);
+    m_pUpscaleCbb->installEventFilter(m_pUpscaleCbbFilter);
 
     m_pExportBtn = new QPushButton(this);
     m_pExportBtn->setObjectName("EnhancementView_m_pExportBtn");
@@ -145,7 +154,9 @@ void EnhancementView::createUi() {
     outputFolderLayout->addWidget(m_pOpenOutputFolderBtn);
 
     rightWidgetLayout->addWidget(m_pChooseModelLbl);
-    rightWidgetLayout->addWidget(m_pModelListView, 1);
+    rightWidgetLayout->addWidget(m_pModelListView);
+    rightWidgetLayout->addWidget(m_pUpscaleLbl);
+    rightWidgetLayout->addWidget(m_pUpscaleCbb);
     rightWidgetLayout->addStretch();
     rightWidgetLayout->addWidget(m_pExportBtn);
     rightWidgetLayout->addLayout(outputFolderLayout);
@@ -164,6 +175,7 @@ void EnhancementView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &EnhancementView::onImportListCountChange);
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &EnhancementView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &EnhancementView::onGuideImportFile);
+    connect(m_pModelListView, &AbstractListView::sigCurrentChanged, this, &EnhancementView::ondModelListViewCurrentChanged);
 }
 
 void EnhancementView::firstShow() {
@@ -173,6 +185,7 @@ void EnhancementView::firstShow() {
         loadSampleImage();
         initOutputFolderCbbItem();
         loadModelList();
+        initUpscaleCbbItem();
     }
 }
 
@@ -203,6 +216,7 @@ void EnhancementView::initOutputFolderCbbItem() {
 void EnhancementView::loadModelList() {
     EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
     m_pModelListView->changeData(prst->getModelDatas());
+    setModelListCurrentIndex(0);
 }
 
 void EnhancementView::gotoImportGuide() {
@@ -217,10 +231,29 @@ void EnhancementView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
 }
 
+void EnhancementView::setModelListCurrentIndex(int index) {
+    QModelIndex modelIndex = m_pModelListView->model()->index(index, 0);
+    m_pModelListView->setCurrentIndex(modelIndex);
+}
+
+void EnhancementView::initUpscaleCbbItem() {
+    QStringList texts;
+    texts.append("2x");
+    texts.append("4x");
+    texts.append("8x");
+    m_pUpscaleCbb->addItems(texts);
+}
+
+void EnhancementView::upscaleSettingVisible(bool visible) {
+    m_pUpscaleLbl->setVisible(visible);
+    m_pUpscaleCbb->setVisible(visible);
+}
+
 void EnhancementView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pChooseModelLbl->setText(tr("Choose AI Model"));
+    m_pUpscaleLbl->setText(tr("Upscaler Setting"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
 }
@@ -248,4 +281,9 @@ void EnhancementView::onImportListCurrentChanged(const QString filePath) {
 void EnhancementView::onGuideImportFile(const QStringList &filePaths) {
     EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
     m_pImportListView->importFile(filePaths);
+}
+
+void EnhancementView::ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
+    auto data = current.data(Qt::UserRole).value<SEnhanceModelData>();
+    upscaleSettingVisible(data.id == 5);
 }

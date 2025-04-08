@@ -10,8 +10,45 @@ EnhancementRepository::~EnhancementRepository() {
 }
 
 QList<SEnhanceModelData> EnhancementRepository::getModelDatas() {
-    QList<SEnhanceModelData> datas;
-    return datas;
+    QString execDir = QCoreApplication::applicationDirPath();
+    return {
+        SEnhanceModelData{
+            0,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+        SEnhanceModelData{
+            1,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+        SEnhanceModelData{
+            2,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+        SEnhanceModelData{
+            3,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+        SEnhanceModelData{
+            4,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+        SEnhanceModelData{
+            5,
+            "sample1",
+            QString("%1/sample1.webp").arg(execDir),
+            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+        },
+    };
 }
 
 QString EnhancementRepository::getSampleImage1Path() {
