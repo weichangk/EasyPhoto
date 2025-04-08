@@ -27,15 +27,18 @@ Q_SIGNALS:
     void sigImportListCountChange(int count);
     void sigImportListCurrentChanged(const QString &filePath);
 
+protected:
+    bool eventFilter(QObject* watched, QEvent* event);
+
 private:
     void createUi();
     void connectSig();
-    void listItemDelete(const QString &filePath);
+    bool listViewClicked(const QModelIndex &index, QMouseEvent *mouseEvent);
+    bool isListViewCurrent(const QString &filePath);
 
 private Q_SLOTS:
     void onAddBtnClicked();
     void onClearBtnClicked();
-    void onListViewClicked(const QModelIndex &index);
     void onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:

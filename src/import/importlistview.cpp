@@ -22,11 +22,21 @@ void ImportListView::importFile(const QStringList &filePaths) {
 
 void ImportListView::deleteFile(const QString &filePath) {
     ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
+    int index = prst->getDataIndex(filePath);
+    bool isCurrent = false;
+    if (isListViewCurrent(filePath)) {
+        isCurrent = true;
+    }
     QStringList filePaths;
     filePaths.append(filePath);
     prst->deleteData(filePaths);
     m_pImportListView->changeData(prst->getDatas());
     emit sigImportListCountChange(prst->getDatas().count());
+    if (isCurrent) {
+        setImportListCurrentIndex(index - 1);
+    } else {
+        setImportListCurrentIndex(index);
+    }
 }
 
 void ImportListView::clearFile() {
@@ -46,6 +56,19 @@ int ImportListView::getImportListCount() {
     return prst->getDatas().count();
 }
 
+bool ImportListView::eventFilter(QObject *watched, QEvent *event) {
+    if (watched == m_pImportListView->viewport() && event->type() == QEvent::MouseButtonPress) {
+        QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
+        QModelIndex index = m_pImportListView->indexAt(mouseEvent->pos());
+        if (!index.isValid()) return false;
+        bool handle = listViewClicked(index, mouseEvent);
+        if (handle) {
+            return true;
+        }
+    }
+    return QWidget::eventFilter(watched, event);
+}
+
 void ImportListView::createUi() {
     setObjectName("ImportListView");
     setAttribute(Qt::WA_StyledBackground);
@@ -61,6 +84,7 @@ void ImportListView::createUi() {
     m_pImportListDelegate = new ImportListDelegate(m_pImportListView);
     m_pImportListView->setItemDelegate(m_pImportListDelegate);
     m_pImportListView->viewport()->installEventFilter(m_pImportListDelegate);
+    m_pImportListView->viewport()->installEventFilter(this);
 
     m_pAddBtn = new IconButton(this);
     m_pAddBtn->setFixedSize(24, 24);
@@ -89,17 +113,26 @@ void ImportListView::createUi() {
 void ImportListView::connectSig() {
     connect(m_pAddBtn, &IconButton::clicked, this, &ImportListView::onAddBtnClicked);
     connect(m_pClearBtn, &IconButton::clicked, this, &ImportListView::onClearBtnClicked);
-    connect(m_pImportListView, &QListView::clicked, this, &ImportListView::onListViewClicked);
     connect(m_pImportListView, &AbstractListView::sigCurrentChanged, this, &ImportListView::onListViewCurrentChanged);
 }
 
-void ImportListView::listItemDelete(const QString &filePath) {
-    ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
-    QStringList filePaths;
-    filePaths.append(filePath);
-    prst->deleteData(filePaths);
-    m_pImportListView->changeData(prst->getDatas());
-    emit sigImportListCountChange(prst->getDatas().count());
+bool ImportListView::listViewClicked(const QModelIndex &index, QMouseEvent *mouseEvent) {
+    QRect rc = m_pImportListView->visualRect(index);
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
+    QRect delRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+
+    if (delRect.contains(mouseEvent->pos())) {
+        auto data = index.data(Qt::UserRole).value<SImportListItem>();
+        deleteFile(data.path);
+        return true;
+    }
+    return false;
+}
+
+bool ImportListView::isListViewCurrent(const QString &filePath) {
+    auto index = m_pImportListView->currentIndex();
+    auto data = index.data(Qt::UserRole).value<SImportListItem>();
+    return data.path == filePath;
 }
 
 void ImportListView::onAddBtnClicked() {
@@ -114,19 +147,6 @@ void ImportListView::onAddBtnClicked() {
 
 void ImportListView::onClearBtnClicked() {
     clearFile();
-}
-
-void ImportListView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SImportListItem>();
-    QRect rc = m_pImportListView->visualRect(index);
-    int posx = m_pImportListView->mapFromGlobal(QCursor::pos()).x();
-    int posy = m_pImportListView->mapFromGlobal(QCursor::pos()).y();
-    auto bgRect = rc.adjusted(0, 0, 0, 0);
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
-    if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
-        && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
-        listItemDelete(data.path);
-    }
 }
 
 void ImportListView::onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {

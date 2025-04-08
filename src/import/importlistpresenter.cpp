@@ -18,11 +18,11 @@ QList<SImportListItem> ImportListPresenter::getDatas() {
 void ImportListPresenter::appendData(const QStringList filePaths) {
     QList<SImportListItem> tempDatas;
     for (const QString &filePath : filePaths) {
-        // if (filePathsSet.contains(filePath)) {
-        //     continue;
-        // } else {
-        //     filePathsSet.insert(filePath);
-        // }
+        if (filePathsSet.contains(filePath)) {
+            continue;
+        } else {
+            filePathsSet.insert(filePath);
+        }
         SImportListItem data;
         data.path = filePath;
         data.name = QFileInfo(filePath).fileName();
@@ -41,9 +41,18 @@ void ImportListPresenter::appendData(const QStringList filePaths) {
 void ImportListPresenter::deleteData(const QStringList filePaths) {
     ImportListRepository *rep = dynamic_cast<ImportListRepository *>(repository());
     rep->deleteData(filePaths);
+    for(auto path : filePaths) {
+        filePathsSet.remove(path);
+    }
 }
 
 void ImportListPresenter::clearData() {
     ImportListRepository *rep = dynamic_cast<ImportListRepository *>(repository());
     rep->clearData();
+    filePathsSet.clear();
+}
+
+int ImportListPresenter::getDataIndex(const QString filePath) {
+    ImportListRepository *rep = dynamic_cast<ImportListRepository *>(repository());
+    return rep->getDataIndex(filePath);
 }

@@ -15,4 +15,8 @@ public:
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void clearData();
+    int getDataIndex(const QString filePath);
+
+private:
+    QSet<QString> filePathsSet;
 };

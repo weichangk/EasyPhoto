@@ -14,6 +14,7 @@ public:
     void appendData(QList<SImportListItem> datas);
     void deleteData(const QStringList filePaths);
     void clearData();
+    int getDataIndex(const QString filePath);
 private:
     QList<SImportListItem> m_pDatas;
 };

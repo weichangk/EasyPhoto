@@ -24,3 +24,19 @@ void ImportListRepository::deleteData(const QStringList filePaths) {
 void ImportListRepository::clearData() {
     m_pDatas.clear();
 }
+
+int ImportListRepository::getDataIndex(const QString filePath) {
+    int index = -1;
+    bool match = false;
+    foreach (const SImportListItem &item, m_pDatas) {
+        index += 1;
+        if (item.path == filePath) {
+            match = true;
+            return index;
+        }
+    }
+    if (!match) {
+        index = -1;
+    }
+    return index;
+}
