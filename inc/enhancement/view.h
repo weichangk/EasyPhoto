@@ -70,12 +70,8 @@ private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
     QLabel *m_pTitleLbl = nullptr;
-    QWidget *m_pBodyWidget = nullptr;
 
-    QWidget *m_pLeftWidget = nullptr;
-    QWidget *m_pRightWidget = nullptr;
-
-    QStackedLayout *m_pLeftWidgetStackedLayout = nullptr;
+    QStackedLayout *m_pStackedLayout = nullptr;
 
     QWidget *m_pImportGuideWidget = nullptr;
     ImportGuide *m_pImportGuide = nullptr;
@@ -84,16 +80,19 @@ private:
     ClickableLabel *m_pSmaple1ImageLbl = nullptr;
     ClickableLabel *m_pSmaple2ImageLbl = nullptr;
 
+    QWidget *m_pWorkspaceWidget = nullptr;
+    QWidget *m_pLeftWidget = nullptr;
+    QWidget *m_pRightWidget = nullptr;
+
+    ImageViewer *m_pImageViewer = nullptr;
+    ImportListView *m_pImportListView = nullptr;
+
     QLabel *m_pChooseModelLbl = nullptr;
     ListView<SEnhanceModelData> *m_pModelListView = nullptr;
     EnhanceModelListDelegate *m_pModelListDelegate = nullptr;
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;
     ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;
-
-    QWidget *m_pWorkspaceWidget = nullptr;
-    ImageViewer *m_pImageViewer = nullptr;
-    ImportListView *m_pImportListView = nullptr;
 
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;

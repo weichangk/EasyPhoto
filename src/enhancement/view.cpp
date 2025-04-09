@@ -24,33 +24,14 @@ void EnhancementView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
+    //
     m_pTitleLbl = new QLabel(this);
     m_pTitleLbl->setObjectName("EnhancementView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
 
-    m_pBodyWidget = new QWidget(this);
-    auto bodyWidgetLayout = new QHBoxLayout(m_pBodyWidget);
-    bodyWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    bodyWidgetLayout->setSpacing(0);
-
-    m_pLeftWidget = new QWidget(this);
-    auto LeftWidgetLayout = new QHBoxLayout(m_pLeftWidget);
-    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    LeftWidgetLayout->setSpacing(0);
-
-    m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(320);
-    auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    rightWidgetLayout->setSpacing(0);
-
-    bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
-    bodyWidgetLayout->addWidget(m_pRightWidget);
-
-    m_pLeftWidgetStackedLayout = new QStackedLayout();
-
+    //
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
     importGuideLayout->setContentsMargins(20, 20, 20, 20);
@@ -87,26 +68,33 @@ void EnhancementView::createUi() {
     importGuideLayout->addSpacing(14);
     importGuideLayout->addWidget(m_pSmapleWidget);
 
+    //
     m_pWorkspaceWidget = new QWidget(this);
-    QVBoxLayout *workspaceWidgetLayout = new QVBoxLayout(m_pWorkspaceWidget);
-    workspaceWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    workspaceWidgetLayout->setSpacing(0);
+    auto bodyWidgetLayout = new QHBoxLayout(m_pWorkspaceWidget);
+    bodyWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    bodyWidgetLayout->setSpacing(0);
 
+    m_pLeftWidget = new QWidget(this);
+    auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
+    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setSpacing(0);
+
+    m_pRightWidget = new QWidget(this);
+    m_pRightWidget->setFixedWidth(320);
+    auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
+    rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    rightWidgetLayout->setSpacing(0);
+
+    bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
+    bodyWidgetLayout->addWidget(m_pRightWidget);
+
+    //
     m_pImageViewer = new ImageViewer(this);
     m_pImportListView = new ImportListView(this);
+    LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addWidget(m_pImportListView);
 
-    workspaceWidgetLayout->addWidget(m_pImageViewer, 1);
-    workspaceWidgetLayout->addWidget(m_pImportListView);
-
-    m_pLeftWidgetStackedLayout->addWidget(m_pImportGuideWidget);
-    m_pLeftWidgetStackedLayout->addWidget(m_pWorkspaceWidget);
-
-    auto leftWidgetStackedMarginLayout = new QVBoxLayout();
-    leftWidgetStackedMarginLayout->setContentsMargins(0, 0, 0, 0);
-    leftWidgetStackedMarginLayout->addLayout(m_pLeftWidgetStackedLayout, 1);
-
-    LeftWidgetLayout->addLayout(leftWidgetStackedMarginLayout, 1);
-
+    //
     m_pChooseModelLbl = new QLabel(this);
     m_pChooseModelLbl->setObjectName("EnhancementView_m_pChooseModelLbl");
     m_pChooseModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -161,11 +149,21 @@ void EnhancementView::createUi() {
     rightWidgetLayout->addWidget(m_pExportBtn);
     rightWidgetLayout->addLayout(outputFolderLayout);
 
+    //
+    m_pStackedLayout = new QStackedLayout();
+    m_pStackedLayout->addWidget(m_pImportGuideWidget);
+    m_pStackedLayout->addWidget(m_pWorkspaceWidget);
+
+    auto stackedMarginLayout = new QVBoxLayout();
+    stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
+    stackedMarginLayout->addLayout(m_pStackedLayout, 1);
+
+    //
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
     layout->addLayout(titleLabLayout, 0);
-    layout->addWidget(m_pBodyWidget, 1);
+    layout->addLayout(stackedMarginLayout, 1);
 }
 
 void EnhancementView::connectSig() {
@@ -220,11 +218,11 @@ void EnhancementView::loadModelList() {
 }
 
 void EnhancementView::gotoImportGuide() {
-    m_pLeftWidgetStackedLayout->setCurrentWidget(m_pImportGuideWidget);
+    m_pStackedLayout->setCurrentWidget(m_pImportGuideWidget);
 }
 
 void EnhancementView::gotoWorkspace() {
-    m_pLeftWidgetStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
+    m_pStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
 }
 
 void EnhancementView::imageViewerLoad(const QString &filePath) {
