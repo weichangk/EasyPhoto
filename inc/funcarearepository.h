@@ -11,6 +11,9 @@
 #include "erase/repository.h"
 #include "gifgeneration/repository.h"
 #include "inpainting/repository.h"
+#include "bgremover/repository.h"
+#include "thumbmaker/repository.h"
+#include "downloader/repository.h"
 #include "gifpreview/repository.h"
 
 using namespace qtmaterialmvp;
@@ -30,6 +33,9 @@ public:
     EraseRepository *eraseRepository() const;
     GifGenerationRepository *gifGenerationRepository() const;
     InpaintingRepository *inpaintingRepository() const;
+    ThumbnailMakerRepository *thumbnailMakerRepository() const;
+    DownloaderRepository *downloaderRepository() const;
+    BackgroungRemoverRepository *backgroungRemoverRepository() const;
     GifPreviewRepository *gifPreviewRepository() const;
 
 private:
@@ -43,5 +49,8 @@ private:
     EraseRepository *m_pEraseRepository = nullptr;
     GifGenerationRepository *m_pGifGenerationRepository = nullptr;
     InpaintingRepository *m_pInpaintingRepository = nullptr;
+    ThumbnailMakerRepository *m_pThumbnailMakerRepository = nullptr;
+    DownloaderRepository *m_pDownloaderRepository = nullptr;
+    BackgroungRemoverRepository *m_pBackgroungRemoverRepository = nullptr;
     GifPreviewRepository *m_pGifPreviewRepository = nullptr;
 };

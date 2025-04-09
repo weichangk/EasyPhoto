@@ -18,6 +18,9 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
         m_pErasePresenter = new ErasePresenter(funcAreaView->eraseView(), funcRepository->eraseRepository());
         m_pGifGenerationPresenter = new GifGenerationPresenter(funcAreaView->gifGenerationView(), funcRepository->gifGenerationRepository());
         m_pInpaintingPresenter = new InpaintingPresenter(funcAreaView->inpaintingView(), funcRepository->inpaintingRepository());
+        m_pBackgroungRemoverPresenter = new BackgroungRemoverPresenter(funcAreaView->backgroundRemoverView(), funcRepository->backgroungRemoverRepository());
+        m_pThumbnailMakerPresenter = new ThumbnailMakerPresenter(funcAreaView->thumbnailMakerView(), funcRepository->thumbnailMakerRepository());
+        m_pDownloaderPresenter = new DownloaderPresenter(funcAreaView->downloaderView(), funcRepository->downloaderRepository());
         m_pGifPreviewPresenter = new GifPreviewPresenter(funcAreaView->gifPreviewView(), funcRepository->gifPreviewRepository());
     }
 }
@@ -63,6 +66,18 @@ GifGenerationPresenter *FuncAreaPresenter::gifGenerationPresenter() const {
 
 InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() const {
     return m_pInpaintingPresenter;
+}
+
+BackgroungRemoverPresenter *FuncAreaPresenter::backgroungRemoverPresenter() const {
+    return m_pBackgroungRemoverPresenter;
+}
+
+ThumbnailMakerPresenter *FuncAreaPresenter::thumbnailMakerPresenter() const {
+    return m_pThumbnailMakerPresenter;
+}
+
+DownloaderPresenter *FuncAreaPresenter::downloaderPresenter() const {
+    return m_pDownloaderPresenter;
 }
 
 GifPreviewPresenter *FuncAreaPresenter::gifPreviewPresenter() const {

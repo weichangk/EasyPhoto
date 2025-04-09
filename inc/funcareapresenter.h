@@ -14,6 +14,9 @@
 #include "gifgeneration/presenter.h"
 #include "inpainting/presenter.h"
 #include "gifpreview/presenter.h"
+#include "bgremover/presenter.h"
+#include "thumbmaker/presenter.h"
+#include "downloader/presenter.h"
 
 using namespace qtmaterialmvp;
 
@@ -32,6 +35,9 @@ public:
     ErasePresenter *erasePresenter() const;
     GifGenerationPresenter *gifGenerationPresenter() const;
     InpaintingPresenter *inpaintingPresenter() const;
+    BackgroungRemoverPresenter *backgroungRemoverPresenter() const;
+    ThumbnailMakerPresenter *thumbnailMakerPresenter() const;
+    DownloaderPresenter *downloaderPresenter() const;
     GifPreviewPresenter *gifPreviewPresenter() const;
 
 private:
@@ -48,5 +54,8 @@ private:
     ErasePresenter *m_pErasePresenter = nullptr;
     GifGenerationPresenter *m_pGifGenerationPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;
+    BackgroungRemoverPresenter *m_pBackgroungRemoverPresenter = nullptr;
+    ThumbnailMakerPresenter *m_pThumbnailMakerPresenter = nullptr;
+    DownloaderPresenter *m_pDownloaderPresenter = nullptr;
     GifPreviewPresenter *m_pGifPreviewPresenter = nullptr;
 };

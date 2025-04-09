@@ -11,6 +11,9 @@ FuncAreaRepository::FuncAreaRepository() {
     m_pEraseRepository = new EraseRepository();
     m_pGifGenerationRepository = new GifGenerationRepository();
     m_pInpaintingRepository = new InpaintingRepository();
+    m_pBackgroungRemoverRepository = new BackgroungRemoverRepository();
+    m_pThumbnailMakerRepository = new ThumbnailMakerRepository();
+    m_pDownloaderRepository = new DownloaderRepository();
     m_pGifPreviewRepository = new GifPreviewRepository();
 }
 
@@ -55,6 +58,18 @@ GifGenerationRepository *FuncAreaRepository::gifGenerationRepository() const {
 
 InpaintingRepository *FuncAreaRepository::inpaintingRepository() const {
     return m_pInpaintingRepository;
+}
+
+BackgroungRemoverRepository *FuncAreaRepository::backgroungRemoverRepository() const {
+    return m_pBackgroungRemoverRepository;
+}
+
+ThumbnailMakerRepository *FuncAreaRepository::thumbnailMakerRepository() const {
+    return m_pThumbnailMakerRepository;
+}
+
+DownloaderRepository *FuncAreaRepository::downloaderRepository() const {
+    return m_pDownloaderRepository;
 }
 
 GifPreviewRepository *FuncAreaRepository::gifPreviewRepository() const {

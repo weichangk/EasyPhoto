@@ -47,6 +47,18 @@ InpaintingView *FuncAreaView::inpaintingView() const {
     return m_pInpaintingView;
 }
 
+BackgroungRemoverView *FuncAreaView::backgroundRemoverView() const {
+    return m_pBackgroundRemoverView;
+}
+
+ThumbnailMakerView *FuncAreaView::thumbnailMakerView() const {
+    return m_pThumbnailMakerView;
+}
+
+DownloaderView *FuncAreaView::downloaderView() const {
+    return m_pDownloaderView;
+}
+
 ImagePreviewView *FuncAreaView::imagePreviewView() const {
     return m_pImagePreviewView;
 }
@@ -73,6 +85,9 @@ void FuncAreaView::createUi() {
     m_pEraseView = new EraseView(this);
     m_pGifGenerationView = new GifGenerationView(this);
     m_pInpaintingView = new InpaintingView(this);
+    m_pBackgroundRemoverView = new BackgroungRemoverView(this);
+    m_pThumbnailMakerView = new ThumbnailMakerView(this);
+    m_pDownloaderView = new DownloaderView(this);
     m_pImagePreviewView = new ImagePreviewView(this);
     m_pGifPreviewView = new GifPreviewView(this);
 
@@ -82,10 +97,13 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
     m_pStackedLayout->insertWidget(EFunc::FuncEnhancement, m_pEnhancementView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
+    m_pStackedLayout->insertWidget(EFunc::FuncBackgroungRemover, m_pBackgroundRemoverView);
     m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);
+    m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifGenerationView);
+    m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);
+    m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
     m_pStackedLayout->insertWidget(EFunc::FuncEffects, m_pEffectsView);
-    m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifGenerationView);
     m_pStackedLayout->insertWidget(EFunc::FuncImagePreview, m_pImagePreviewView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 

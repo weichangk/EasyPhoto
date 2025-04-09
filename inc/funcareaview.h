@@ -13,6 +13,9 @@
 #include "gifgeneration/view.h"
 #include "inpainting/view.h"
 #include "gifpreview/view.h"
+#include "bgremover/view.h"
+#include "thumbmaker/view.h"
+#include "downloader/view.h"
 #include "imagepreviewview.h"
 #include "funcnavigationhistory.h"
 
@@ -37,6 +40,9 @@ public:
     EraseView *eraseView() const;
     GifGenerationView *gifGenerationView() const;
     InpaintingView *inpaintingView() const;
+    BackgroungRemoverView *backgroundRemoverView() const;
+    ThumbnailMakerView *thumbnailMakerView() const;
+    DownloaderView *downloaderView() const;
     ImagePreviewView *imagePreviewView() const;
     GifPreviewView *gifPreviewView() const;
 
@@ -64,7 +70,9 @@ private:
     EraseView *m_pEraseView = nullptr;
     GifGenerationView *m_pGifGenerationView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;
-
+    BackgroungRemoverView *m_pBackgroundRemoverView = nullptr;
+    ThumbnailMakerView *m_pThumbnailMakerView = nullptr;
+    DownloaderView *m_pDownloaderView = nullptr;
     ImagePreviewView *m_pImagePreviewView = nullptr;
     GifPreviewView *m_pGifPreviewView = nullptr;
 };
