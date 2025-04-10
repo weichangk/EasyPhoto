@@ -2,14 +2,19 @@
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+#include "widget/label.h"
 #include "widget/listview.h"
 #include "core/font.h"
 #include "core/object.h"
+#include "core/file.h"
 #include "filter/languagefilter.h"
+#include "filter/popupwindow.h"
+#include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "model.h"
-#include "listdelegate.h"
+#include "preview/imageviewer.h"
+#include "import/importlistview.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -30,41 +35,55 @@ public:
     ~CroppingView() override {
     }
 
+    ImportListView *getImportListView();
+
 protected:
     void showEvent(QShowEvent *event) override;
 
 private:
     void createUi();
     void connectSig();
-    QWidget *createDividingLine();
+    void firstShow();
+    void loadSampleImage();
+    void importSampleImage1();
+    void importSampleImage2();
+    void initOutputFolderCbbItem();
+    void gotoImportGuide();
+    void gotoWorkspace();
+    void imageViewerLoad(const QString &filePath);
 
 private Q_SLOTS:
     void onLanguageChange();
+    void onSmaple1ImageLblClicked();
+    void onSmaple2ImageLblClicked();
+    void onImportListCountChange(int count);
+    void onImportListCurrentChanged(const QString filePath);
+    void onGuideImportFile(const QStringList &filePaths);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
     QLabel *m_pTitleLbl = nullptr;
 
+    QStackedLayout *m_pStackedLayout = nullptr;
+
     QWidget *m_pImportGuideWidget = nullptr;
     ImportGuide *m_pImportGuide = nullptr;
+    QWidget *m_pSmapleWidget = nullptr;
+    QLabel *m_pSmapleTitleLbl = nullptr;
+    ClickableLabel *m_pSmaple1ImageLbl = nullptr;
+    ClickableLabel *m_pSmaple2ImageLbl = nullptr;
 
-    QWidget *m_pContentWidget = nullptr;
+    QWidget *m_pWorkspaceWidget = nullptr;
+    QWidget *m_pLeftWidget = nullptr;
+    QWidget *m_pRightWidget = nullptr;
 
-    IconButton *m_pAddFileBtn = nullptr;
-    IconButton *m_pAddFolderBtn = nullptr;
-    IconButton *m_pClearFileBtn = nullptr;
-    QLabel *m_pOutputFormatLbl = nullptr;
-    QLineEdit *m_pOutputFormatEdit = nullptr;
-    QComboBox *m_pOutputFormatCbb = nullptr;
-    ComboBoxFilter *m_pOutputFormatCbbFilter = nullptr;
+    ImageViewer *m_pImageViewer = nullptr;
+    ImportListView *m_pImportListView = nullptr;
+
+    QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
-    QPushButton *m_pStartAllBtn = nullptr;
-    QStackedLayout *m_pStackedLayout = nullptr;
-
-    ListView<SCroppingData> *m_pListView = nullptr;
-    CroppingListDelegate *m_pListDelegate = nullptr;
 };

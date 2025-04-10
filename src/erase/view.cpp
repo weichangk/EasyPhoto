@@ -198,7 +198,7 @@ void EraseView::imageViewerLoad(const QString &filePath) {
 }
 
 void EraseView::onLanguageChange() {
-    m_pTitleLbl->setText(tr("Ai Image Enhancer"));
+    m_pTitleLbl->setText(tr("Watermaker Eraser"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));

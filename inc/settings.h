@@ -68,6 +68,10 @@ public:
     QString eraseOutPath() const;
     void setEraseOutPath(const QString &path);
 
+    // cropping
+    QString croppingOutPath() const;
+    void setCroppingOutPath(const QString &path);
+
 private:
     QSettings m_Settings;
 
@@ -104,6 +108,9 @@ private:
 
     // erase
     QString m_strEraseOutPath;
+
+    // cropping
+    QString m_strCroppingOutPath;
 };
 
 #define SETTINGS Settings::getInstance()
