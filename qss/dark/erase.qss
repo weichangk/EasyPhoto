@@ -2,3 +2,29 @@ QWidget#EraseView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
+
+QLabel#EraseView_m_pTitleLbl {
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
+
+QPushButton#EraseView_m_pExportBtn {
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#EraseView_m_pExportBtn:hover {
+    background-color: "#ad85ff";
+}
+
+QPushButton#EraseView_m_pExportBtn:pressed {
+    background-color: "#bb99ff";
+}
+
+QLabel#EraseView_m_pOutputFolderLbl {
+    color: "#ffffff";
+    font-size: 13px;
+}

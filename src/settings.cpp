@@ -43,6 +43,10 @@ static QString backgroundRemoverLastAddFolderPath = QDir::homePath();
 
 // Enhance
 static QString enhanceOutPath = defOutPath("Enhance");
+
+// erase
+static QString eraseOutPath = defOutPath("Erase");
+
 } // namespace Default
 
 Settings::Settings() :
@@ -72,7 +76,9 @@ Settings::Settings() :
     m_strBackgroungRemoverLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
     m_strBackgroungRemoverOutPath(Default::backgroundRemoverOutPath),
     // Enhance
-    m_strEnhanceOutPath(Default::enhanceOutPath)
+    m_strEnhanceOutPath(Default::enhanceOutPath),
+    // Enhance
+    m_strEraseOutPath(Default::eraseOutPath)
 {
 }
 
@@ -316,5 +322,17 @@ void Settings::setEnhanceOutPath(const QString &path) {
     m_strEnhanceOutPath = path;
     m_Settings.beginGroup("Enhance");
     m_Settings.setValue(QStringLiteral("EnhanceOutPath"), m_strEnhanceOutPath);
+    m_Settings.endGroup();
+}
+
+// erase
+QString Settings::eraseOutPath() const {
+    return m_strEraseOutPath;
+}
+
+void Settings::setEraseOutPath(const QString &path) {
+    m_strEraseOutPath = path;
+    m_Settings.beginGroup("Erase");
+    m_Settings.setValue(QStringLiteral("EraseOutPath"), m_strEraseOutPath);
     m_Settings.endGroup();
 }

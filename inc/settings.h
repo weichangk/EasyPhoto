@@ -64,6 +64,10 @@ public:
     QString enhanceOutPath() const;
     void setEnhanceOutPath(const QString &path);
 
+    // erase
+    QString eraseOutPath() const;
+    void setEraseOutPath(const QString &path);
+
 private:
     QSettings m_Settings;
 
@@ -97,6 +101,9 @@ private:
 
     // Enhance
     QString m_strEnhanceOutPath;
+
+    // erase
+    QString m_strEraseOutPath;
 };
 
 #define SETTINGS Settings::getInstance()
