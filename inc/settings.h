@@ -52,6 +52,14 @@ public:
     QString gifGenerationOutPath() const;
     void setGifGenerationOutPath(const QString &path);
 
+    // BackgroungRemover
+    QString backgroungRemoverLastAddFilePath() const;
+    void setBackgroungRemoverLastAddFilePath(const QString &path);
+    QString backgroungRemoverLastAddFolderPath() const;
+    void setBackgroungRemoverLastAddFolderPath(const QString &path);
+    QString backgroungRemoverOutPath() const;
+    void setBackgroungRemoverOutPath(const QString &path);
+
     // Enhance
     QString enhanceOutPath() const;
     void setEnhanceOutPath(const QString &path);
@@ -81,6 +89,11 @@ private:
     int m_nGifGenerationFps;
     bool m_bGifGenerationRepeat;
     QString m_strGifGenerationOutPath;
+
+    // BackgroungRemover
+    QString m_strBackgroungRemoverLastAddFilePath;
+    QString m_strBackgroungRemoverLastAddFolderPath;
+    QString m_strBackgroungRemoverOutPath;
 
     // Enhance
     QString m_strEnhanceOutPath;

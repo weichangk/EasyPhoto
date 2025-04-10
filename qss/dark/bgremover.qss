@@ -2,3 +2,38 @@ QWidget#BackgroungRemoverView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
+
+QWidget#BackgroungRemoverView_DividingLine {
+    background-color: "#272336";
+}
+
+QCheckBox#BackgroungRemoverView_m_pSelectAllCkb {
+    font-size: 13px;
+    color: "#c4c4cc";
+}
+
+QPushButton#BackgroungRemoverView_m_pStartAllBtn {
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#BackgroungRemoverView_m_pStartAllBtn:hover {
+    background-color: "#ad85ff";
+}
+
+QPushButton#BackgroungRemoverView_m_pStartAllBtn:pressed {
+    background-color: "#bb99ff";
+}
+
+QLabel#BackgroungRemoverView_m_pOutputFolderLbl {
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#BackgroungRemoverView_m_pTitleLbl {
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
