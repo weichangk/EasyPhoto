@@ -35,13 +35,16 @@ void NavbarView::createUi() {
 
     auto navlayout = createNavBtns();
 
+    m_FreeTrialTimerView = new FreeTrialTimerView(this);
+
     auto layout = new QVBoxLayout(this);
     layout->setAlignment(Qt::AlignCenter);
-    layout->setContentsMargins(0, 16, 0, 0);
+    layout->setContentsMargins(0, 16, 0, 20);
     layout->setSpacing(0);
     layout->addWidget(m_pProjectLogo, 0, Qt::AlignCenter);
     layout->addLayout(navlayout);
     layout->addStretch();
+    layout->addWidget(m_FreeTrialTimerView, 0, Qt::AlignCenter);
 
     m_pLang = new LanguageFilter(this);
     auto movefilter = new MoveTitleBar(this, this->parentWidget());

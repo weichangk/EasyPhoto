@@ -3,6 +3,7 @@
 #include "funcenum.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+#include "freetrialtimerview.h"
 
 #include <QButtonGroup>
 
@@ -46,4 +47,6 @@ private:
     HorIconTextButton *m_pEffectsBtn = nullptr;
     HorIconTextButton *m_pGifgenerationBtn = nullptr;
     QButtonGroup *m_pNavBtnGroup = nullptr;
+
+    FreeTrialTimerView *m_FreeTrialTimerView = nullptr;
 };
