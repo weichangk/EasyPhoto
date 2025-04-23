@@ -174,6 +174,7 @@ void EnhancementView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &EnhancementView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &EnhancementView::onGuideImportFile);
     connect(m_pModelListView, &AbstractListView::sigCurrentChanged, this, &EnhancementView::ondModelListViewCurrentChanged);
+    connect(m_pExportBtn, &QPushButton::clicked, this, &EnhancementView::onExportBtnClicked);
 }
 
 void EnhancementView::firstShow() {
@@ -284,4 +285,9 @@ void EnhancementView::onGuideImportFile(const QStringList &filePaths) {
 void EnhancementView::ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
     auto data = current.data(Qt::UserRole).value<SEnhanceModelData>();
     upscaleSettingVisible(data.id == 5);
+}
+
+void EnhancementView::onExportBtnClicked() {
+    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+    prst->Enhancement();
 }

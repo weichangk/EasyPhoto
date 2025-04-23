@@ -65,6 +65,7 @@ private Q_SLOTS:
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
     void ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void onExportBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;

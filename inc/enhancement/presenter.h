@@ -17,6 +17,8 @@ public:
     QString getSampleImage1Path();
     QString getSampleImage2Path();
 
+    void Enhancement();
+
 private:
     ImportListPresenter * m_pImportListPresenter = nullptr;
 };
