@@ -43,9 +43,10 @@ void EnhancementPresenter::Enhancement() {
         payload.scale = 1;
         payload.modelName = "upscayl-standard-4x";
         payload.gpuId = "";
-        payload.useSaveAsFormat = false;
+        payload.compression = 0;
+        payload.saveAsFormat = upscayl::EFormat::PNG;
         payload.useCustomWidth = false;
-        payload.useCompression = false;
+        payload.customWidth = 1000;
         payload.tileSize = 0;
         payload.ttaMode = false;
         upscayl::Upscayl upscayl;

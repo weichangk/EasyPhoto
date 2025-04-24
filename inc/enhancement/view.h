@@ -98,9 +98,9 @@ private:
     ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;
     QCheckBox *m_pCustomOutputWidthCkb = nullptr;
     QLineEdit *m_pCustomOutputWidthLdt = nullptr;
-    QCheckBox *m_pCompressionCkb = nullptr;
+    QLabel *m_pCompressionLbl = nullptr;
     QComboBox *m_pCompressionCbb = nullptr;
-    QCheckBox *m_pSaveAsFormatCkb = nullptr;
+    QLabel *m_pSaveAsFormatLbl = nullptr;
     QComboBox *m_pSaveAsFormatCbb = nullptr;
 
     QPushButton *m_pExportBtn = nullptr;

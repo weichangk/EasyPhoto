@@ -132,21 +132,27 @@ void EnhancementView::createUi() {
     m_pUpscaleCbb->installEventFilter(m_pUpscaleCbbFilter);
 
     settingLWidgetLayout->addWidget(m_pUpscaleLbl);
+    settingLWidgetLayout->addSpacing(4);
     settingLWidgetLayout->addWidget(m_pUpscaleCbb);
 
     m_pCustomOutputWidthCkb = new QCheckBox(this);
     m_pCustomOutputWidthLdt = new QLineEdit(this);
     settingRWidgetLayout->addWidget(m_pCustomOutputWidthCkb);
+    settingRWidgetLayout->addSpacing(4);
     settingRWidgetLayout->addWidget(m_pCustomOutputWidthLdt);
 
-    m_pCompressionCkb = new QCheckBox(this);
+    m_pCompressionLbl = new QLabel(this);
     m_pCompressionCbb = new QComboBox(this);
-    settingLWidgetLayout->addWidget(m_pCompressionCkb);
+    settingLWidgetLayout->addSpacing(8);
+    settingLWidgetLayout->addWidget(m_pCompressionLbl);
+    settingLWidgetLayout->addSpacing(4);
     settingLWidgetLayout->addWidget(m_pCompressionCbb);
 
-    m_pSaveAsFormatCkb = new QCheckBox(this);
+    m_pSaveAsFormatLbl = new QLabel(this);
     m_pSaveAsFormatCbb = new QComboBox(this);
-    settingRWidgetLayout->addWidget(m_pSaveAsFormatCkb);
+    settingRWidgetLayout->addSpacing(8);
+    settingRWidgetLayout->addWidget(m_pSaveAsFormatLbl);
+    settingRWidgetLayout->addSpacing(4);
     settingRWidgetLayout->addWidget(m_pSaveAsFormatCbb);
 
     settingLWidgetLayout->addStretch();
@@ -306,7 +312,6 @@ void EnhancementView::initCompressionCbbItem() {
 
 void EnhancementView::initSaveAsFormatCbbItem() {
     QStringList texts;
-    texts.append("Same as source");
     texts.append("png");
     texts.append("jpg");
     texts.append("jpeg");
@@ -320,8 +325,8 @@ void EnhancementView::onLanguageChange() {
     m_pChooseModelLbl->setText(tr("Choose AI Model"));
     m_pUpscaleLbl->setText(tr("Upscaler Setting"));
     m_pCustomOutputWidthCkb->setText(tr("Custom width"));
-    m_pCompressionCkb->setText(tr("Compression"));
-    m_pSaveAsFormatCkb->setText(tr("Save as format"));
+    m_pCompressionLbl->setText(tr("Compression"));
+    m_pSaveAsFormatLbl->setText(tr("Save as format"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
 }
