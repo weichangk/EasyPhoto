@@ -106,6 +106,23 @@ void EnhancementView::createUi() {
     m_pModelListView->setItemDelegate(m_pModelListDelegate);
     m_pModelListView->viewport()->installEventFilter(m_pModelListDelegate);
 
+    auto settingWidget = new QWidget(this);
+    auto settingLWidget = new QWidget(this);
+    auto settingRWidget = new QWidget(this);
+    auto settingWidgetLayout = new QHBoxLayout(settingWidget);
+    settingWidgetLayout->setContentsMargins(8, 8, 20, 0);
+    settingWidgetLayout->setSpacing(8);
+    settingWidgetLayout->addWidget(settingLWidget, 1);
+    settingWidgetLayout->addWidget(settingRWidget, 1);
+
+    auto settingLWidgetLayout = new QVBoxLayout(settingLWidget);
+    settingLWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    settingLWidgetLayout->setSpacing(0);
+
+    auto settingRWidgetLayout = new QVBoxLayout(settingRWidget);
+    settingRWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    settingRWidgetLayout->setSpacing(0);
+
     m_pUpscaleLbl = new QLabel(this);
     m_pUpscaleLbl->setObjectName("EnhancementView_m_pUpscaleLbl");
     m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -113,6 +130,27 @@ void EnhancementView::createUi() {
     m_pUpscaleCbb->setFixedHeight(32);
     m_pUpscaleCbbFilter = new ComboBoxFilter(m_pUpscaleCbb);
     m_pUpscaleCbb->installEventFilter(m_pUpscaleCbbFilter);
+
+    settingLWidgetLayout->addWidget(m_pUpscaleLbl);
+    settingLWidgetLayout->addWidget(m_pUpscaleCbb);
+
+    m_pCustomOutputWidthCkb = new QCheckBox(this);
+    m_pCustomOutputWidthLdt = new QLineEdit(this);
+    settingRWidgetLayout->addWidget(m_pCustomOutputWidthCkb);
+    settingRWidgetLayout->addWidget(m_pCustomOutputWidthLdt);
+
+    m_pCompressionCkb = new QCheckBox(this);
+    m_pCompressionCbb = new QComboBox(this);
+    settingLWidgetLayout->addWidget(m_pCompressionCkb);
+    settingLWidgetLayout->addWidget(m_pCompressionCbb);
+
+    m_pSaveAsFormatCkb = new QCheckBox(this);
+    m_pSaveAsFormatCbb = new QComboBox(this);
+    settingRWidgetLayout->addWidget(m_pSaveAsFormatCkb);
+    settingRWidgetLayout->addWidget(m_pSaveAsFormatCbb);
+
+    settingLWidgetLayout->addStretch();
+    settingRWidgetLayout->addStretch();
 
     m_pExportBtn = new QPushButton(this);
     m_pExportBtn->setObjectName("EnhancementView_m_pExportBtn");
@@ -143,8 +181,7 @@ void EnhancementView::createUi() {
 
     rightWidgetLayout->addWidget(m_pChooseModelLbl);
     rightWidgetLayout->addWidget(m_pModelListView);
-    rightWidgetLayout->addWidget(m_pUpscaleLbl);
-    rightWidgetLayout->addWidget(m_pUpscaleCbb);
+    rightWidgetLayout->addWidget(settingWidget);
     rightWidgetLayout->addStretch();
     rightWidgetLayout->addWidget(m_pExportBtn);
     rightWidgetLayout->addLayout(outputFolderLayout);
@@ -185,6 +222,8 @@ void EnhancementView::firstShow() {
         initOutputFolderCbbItem();
         loadModelList();
         initUpscaleCbbItem();
+        initCompressionCbbItem();
+        initSaveAsFormatCbbItem();
     }
 }
 
@@ -237,6 +276,7 @@ void EnhancementView::setModelListCurrentIndex(int index) {
 
 void EnhancementView::initUpscaleCbbItem() {
     QStringList texts;
+    texts.append("1x");
     texts.append("2x");
     texts.append("4x");
     texts.append("8x");
@@ -248,11 +288,40 @@ void EnhancementView::upscaleSettingVisible(bool visible) {
     m_pUpscaleCbb->setVisible(visible);
 }
 
+void EnhancementView::initCompressionCbbItem() {
+    QStringList texts;
+    texts.append("0%");
+    texts.append("10%");
+    texts.append("20%");
+    texts.append("30%");
+    texts.append("40%");
+    texts.append("50%");
+    texts.append("60%");
+    texts.append("70%");
+    texts.append("80%");
+    texts.append("90%");
+    texts.append("100%");
+    m_pCompressionCbb->addItems(texts);
+}
+
+void EnhancementView::initSaveAsFormatCbbItem() {
+    QStringList texts;
+    texts.append("Same as source");
+    texts.append("png");
+    texts.append("jpg");
+    texts.append("jpeg");
+    texts.append("webp");
+    m_pSaveAsFormatCbb->addItems(texts);
+}
+
 void EnhancementView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pChooseModelLbl->setText(tr("Choose AI Model"));
     m_pUpscaleLbl->setText(tr("Upscaler Setting"));
+    m_pCustomOutputWidthCkb->setText(tr("Custom width"));
+    m_pCompressionCkb->setText(tr("Compression"));
+    m_pSaveAsFormatCkb->setText(tr("Save as format"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
 }

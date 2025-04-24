@@ -56,6 +56,8 @@ private:
     void setModelListCurrentIndex(int index);
     void initUpscaleCbbItem();
     void upscaleSettingVisible(bool visible);
+    void initCompressionCbbItem();
+    void initSaveAsFormatCbbItem();
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -94,6 +96,12 @@ private:
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;
     ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;
+    QCheckBox *m_pCustomOutputWidthCkb = nullptr;
+    QLineEdit *m_pCustomOutputWidthLdt = nullptr;
+    QCheckBox *m_pCompressionCkb = nullptr;
+    QComboBox *m_pCompressionCbb = nullptr;
+    QCheckBox *m_pSaveAsFormatCkb = nullptr;
+    QComboBox *m_pSaveAsFormatCbb = nullptr;
 
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
