@@ -17,5 +17,5 @@ private:
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
     bool m_bIsListMode = false;
-    int n_ListItemHeight = 24 + 8;
+    int n_ListItemHeight = 24 + 8 + 8;
 };

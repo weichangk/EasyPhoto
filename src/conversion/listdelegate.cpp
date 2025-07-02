@@ -27,7 +27,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     auto bgRect = rc.adjusted(0, 0, -8, -8);
     int radius = 4;
 
-    QColor bgColor = QColor("#241f37");
+    QColor bgColor = QColor("#202031");
     if (hover) {
         bgColor = QColor("#2d2741");
     }
@@ -36,19 +36,20 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->setBrush(Qt::NoBrush);
 
     if (!m_bIsListMode) {
-        auto pixmapRect = rc.adjusted(4, 24, -12, -12);
+        auto pixmapRect = rc.adjusted(4, 24 + 8, -12, -12);
         Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
     }
 
+    QColor borderColor = QColor("#2a2a3c");
     if (hover) {
-        QColor borderColor = QColor("#703eff");
-        QPen pen(borderColor);
-        painter->setPen(pen);
-        painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
-        painter->setPen(Qt::NoPen);
+        borderColor = QColor("#703eff");
     }
+    QPen borderPen(borderColor);
+    painter->setPen(borderPen);
+    painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
+    painter->setPen(Qt::NoPen);
 
-    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
+    auto checkedRect = QRect(bgRect.x() + 8, bgRect.y() + 8, 16, 16);
     if (data.is_checked) {
         QColor checkBgColor = QColor("#a070ff");
         if(checkedRect.contains(m_CurPos)) {
@@ -84,7 +85,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         painter->setPen(Qt::NoPen);
     }
 
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+    auto delRect = QRect(bgRect.right() - 8 - 16, bgRect.y() + 8, 16, 16);
     QColor delBgColor = QColor("#fa7681");
     if(delRect.contains(m_CurPos)) {
         if (hover) {

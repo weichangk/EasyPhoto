@@ -21,7 +21,7 @@ void TitlebarView::switchMaximizeBtn(bool bCurIsMaximize) {
 void TitlebarView::createUi() {
     setObjectName("TitlebarView");
     setAttribute(Qt::WA_StyledBackground);
-    setFixedHeight(48);
+    setFixedHeight(48 - 12);
 
     m_pCloseBtn = new IconButton(this);
     m_pCloseBtn->setFixedSize(24, 24);
@@ -53,7 +53,7 @@ void TitlebarView::createUi() {
     m_pUserInfoBtn->setNormalPixmapPath(QString(":/qtmaterial/img/vcu/%1/other/image48_avatar_free.svg").arg(qtmaterialcore::Theme::currentTheme()));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setContentsMargins(16, 0, 12, 0);
+    layout->setContentsMargins(16, 12, 12, 0);
     layout->setSpacing(0);
 
     layout->addStretch();

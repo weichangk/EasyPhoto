@@ -80,6 +80,19 @@ void ConversionView::showEvent(QShowEvent *event) {
     selectAllState();
 }
 
+void ConversionView::resizeEvent(QResizeEvent *event) {
+    QWidget::resizeEvent(event);
+
+    m_pOutputFormatLbl->setGeometry(16, 14, 100, 24);
+    m_pOutputFormatCbb->setGeometry(m_pOutputFormatLbl->geometry().right() + 6, 14, 226, 24);
+
+    m_pOutputFolderLbl->setGeometry(16, 44, 100, 24);
+    m_pOutputFolderCbb->setGeometry(m_pOutputFolderLbl->geometry().right() + 6, 44, 226, 24);
+    m_pOpenOutputFolderBtn->setGeometry(m_pOutputFolderCbb->geometry().right() + 6, 44, 24, 24);
+
+    m_pStartAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
+}
+
 void ConversionView::createUi() {
     setObjectName("ConversionView");
     setAttribute(Qt::WA_StyledBackground);
@@ -138,13 +151,13 @@ void ConversionView::createUi() {
     topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(70);
+    bottomWidget->setFixedHeight(84);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
     m_pOutputFormatLbl->setObjectName("ConversionView_m_pOutputFormatLbl");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
-    m_pOutputFormatCbb->setFixedSize(60, 24);
+    m_pOutputFormatCbb->setFixedSize(226, 24);
 
     m_pOutputFormatEdit = new QLineEdit(m_pOutputFormatCbb);
     m_pOutputFormatEdit->setReadOnly(true);
@@ -159,7 +172,7 @@ void ConversionView::createUi() {
     m_pOutputFolderLbl->setObjectName("ConversionView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
-    m_pOutputFolderCbb->setFixedSize(240, 24);
+    m_pOutputFolderCbb->setFixedSize(226, 24);
 
     m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
     m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
@@ -175,20 +188,20 @@ void ConversionView::createUi() {
     m_pStartAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
-    auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    bottomWidgetLayout->setSpacing(0);
-    bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
-    bottomWidgetLayout->addSpacing(12);
-    bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pStartAllBtn);
+    // auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
+    // bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
+    // bottomWidgetLayout->setSpacing(0);
+    // bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
+    // bottomWidgetLayout->addSpacing(12);
+    // bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
+    // bottomWidgetLayout->addStretch();
+    // bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
     m_pListView = new ListView<SConversionData>(this);
     m_pListView->setSpacing(0);
@@ -262,10 +275,9 @@ void ConversionView::onListModeSwitchBtnClicked() {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
         m_pListView->changeData(prst->datas());
-        if(m_pListModeSwitchBtn->fourPixmapPath().contains("thumbnail")) {
+        if (m_pListModeSwitchBtn->fourPixmapPath().contains("thumbnail")) {
             m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_list.png");
-        }
-        else {
+        } else {
             m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_thumbnail.png");
         }
     }
@@ -400,8 +412,8 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
     auto bgRect = rc.adjusted(0, 0, -8, -8);
-    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+    auto checkedRect = QRect(bgRect.x() + 8, bgRect.y() + 8, 16, 16);
+    auto delRect = QRect(bgRect.right() - 8 - 16, bgRect.y() + 8, 16, 16);
     if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.file_path);
@@ -440,8 +452,8 @@ void ConversionView::onOpenOutputFolderBtnClicked() {
 void ConversionView::onStartAllBtnClicked() {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     ConversionTask task;
-    for(auto data : prst->datas()) {
-        if(data.is_checked) {
+    for (auto data : prst->datas()) {
+        if (data.is_checked) {
             task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());
         }
     }
