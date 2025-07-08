@@ -3,8 +3,12 @@
 #include "model.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
+#include "task/asynctask.h"
+#include "task/taskresult.h"
+#include "import/importfilehelper.h"
 
 using namespace qtmaterialmvp;
+using namespace qtmaterialtask;
 
 class ConversionPresenter : public Presenter {
 public:
@@ -17,6 +21,9 @@ public:
     void clearData();
     void switchCheckedData(const QString filePath);
     void checkedAllData(bool checked);
+
+    TaskResult<SImportFileResult<QList<SConversionData>>> importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *self);
+    void appendData(const QList<SConversionData> datas);
 
 private:
     QSet<QString> filePathsSet;

@@ -2,6 +2,7 @@
 #include "conversion/presenter.h"
 #include "settings.h"
 #include "conversion/conversiontask.h"
+#include "import/importfilehelper.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -263,10 +264,24 @@ QWidget *ConversionView::createDividingLine() {
 
 void ConversionView::listViewImportFile(const QStringList &filePaths) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
-    prst->appendData(filePaths);
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-    selectAllState();
+    // prst->appendData(filePaths);
+    // m_pListView->changeData(prst->datas());
+    // listViewNoDataState();
+    // selectAllState();
+    ImportFileHelper ihp;
+    connect(&ihp, &ImportFileHelper::sigSucceeded, this, [this, prst](const QVariant &result) {
+        SImportFileResult<QList<SConversionData>> res = result.value<SImportFileResult<QList<SConversionData>>>();
+        prst->appendData(res.value);
+        m_pListView->changeData(prst->datas());
+        listViewNoDataState();
+        selectAllState();
+    });
+    ihp.start<SImportFileData, SImportFileResult<QList<SConversionData>>>(
+        [prst](AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *task) {
+            return prst->importFileAsync(task);
+        },
+        TaskData<SImportFileData>({filePaths})
+    );
 }
 
 void ConversionView::onListModeSwitchBtnClicked() {
