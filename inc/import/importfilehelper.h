@@ -80,7 +80,8 @@ public:
         auto task = TaskFactory::instance()->createTask<I, O>(func, callback, data);
 
         auto dialog = new ProgressDialog(nullptr);
-        dialog->setCancelable(true);
+        dialog->setCancelVisible(true);
+        dialog->setTitleText(tr("Add Files"));
         connect(dialog, &ProgressDialog::canceled, this, [task]() {
             task->cancel();
         });
