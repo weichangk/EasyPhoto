@@ -162,23 +162,13 @@ void ConversionView::createUi() {
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedSize(226, 24);
 
-    m_pOutputFormatEdit = new QLineEdit(m_pOutputFormatCbb);
-    m_pOutputFormatEdit->setReadOnly(true);
-    m_pOutputFormatCbb->setLineEdit(m_pOutputFormatEdit);
-
-    setOutputFormatCbbText(SETTINGS->conversionOutFormat());
-
-    m_pOutputFormatCbbFilter = new ComboBoxFilter(m_pOutputFormatCbb);
-    m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
+    initOutputFormatCbbItem();
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
     m_pOutputFolderLbl->setObjectName("ConversionView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(226, 24);
-
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     initOutputFolderCbbItem();
 
@@ -283,8 +273,7 @@ void ConversionView::connectSig() {
     connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
-    connect(m_pOutputFormatCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFormatCbbClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFolderCbbClicked);
+    connect(m_pOutputFormatCbb, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this, &ConversionView::onOutputFormatCbbCurrentTextChanged);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConversionView::onStartAllBtnClicked);
@@ -384,23 +373,16 @@ void ConversionView::selectAllState() {
     }
 }
 
-void ConversionView::showOutputFormatView() {
-    if (!m_pOutputFormatView) {
-        m_pOutputFormatView = new ConversionOutputFormatView(this);
-        connect(m_pOutputFormatView, &ConversionOutputFormatView::sigSelectionChanged, this, &ConversionView::setOutputFormatCbbText);
+void ConversionView::initOutputFormatCbbItem() {
+    QString format = CONV_OUTPUT_FORMATS;
+    QStringList formats = format.split(' ');
+    QList<SConversionOuputFormat> formatDatas;
+    for (auto &item : formats) {
+        m_pOutputFormatCbb->addItem(item.toUpper());
     }
-
-    m_pOutputFormatView->setSelection(SETTINGS->conversionOutFormat());
-
-    auto btnPos = m_pOutputFormatCbb->mapToGlobal(QPoint(0, 0));
-    auto pos = btnPos - QPoint(0, m_pOutputFormatView->height() + 8);
-
-    m_pOutputFormatView->move(pos);
-    m_pOutputFormatView->show();
-}
-
-void ConversionView::setOutputFormatCbbText(const QString &text) {
-    m_pOutputFormatEdit->setText(text.toUpper());
+    blockSignalsFunc(m_pOutputFormatCbb, [&]() {
+        m_pOutputFormatCbb->setCurrentText(SETTINGS->conversionOutFormat().toUpper());
+    });
 }
 
 void ConversionView::initOutputFolderCbbItem() {
@@ -488,11 +470,14 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void ConversionView::onOutputFormatCbbClicked() {
-    showOutputFormatView();
-}
-
-void ConversionView::onOutputFolderCbbClicked() {
+void ConversionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
+    QString format = text.toLower();
+    SETTINGS->setConversionOutFormat(format);
+    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    for (auto &data : prst->datas()) {
+        data.output_format = format; 
+    }
+    m_pListView->changeData(prst->datas());
 }
 
 void ConversionView::onOutputFolderCbbIndexChanged(int index) {

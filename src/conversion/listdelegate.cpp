@@ -1,6 +1,7 @@
 #include "conversion/listdelegate.h"
 #include "conversion/model.h"
 #include "core/painter.h"
+#include "widget/listview.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -11,6 +12,7 @@
 #include <QListView>
 
 using namespace qtmaterialcore;
+using namespace qtmaterialwidget;
 
 QString conversionOutputFormatComboBoxStyle = R"(
     QComboBox#conversionOutputFormatComboBox
@@ -181,8 +183,8 @@ ConversionListDelegate::ConversionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex & index) const
-{
+QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SConversionData>();
     m_editingIndex = index;
     QComboBox *editor = new QComboBox(parent);
     editor->setObjectName("conversionOutputFormatComboBox");
@@ -193,6 +195,7 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
         formats.append(item.toUpper());
     }
     editor->addItems(formats);
+    editor->setCurrentText(data.output_format.toUpper());
 
     if (index == m_popupComboIndex) {
         QTimer::singleShot(0, editor, [editor]() {
@@ -201,18 +204,18 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
     }
 
     connect(editor, &QComboBox::currentTextChanged, this,
-            [model = const_cast<QAbstractItemModel *>(index.model()), index](const QString &text) {
+            [model = const_cast<QAbstractItemModel *>(index.model()), index, this](const QString &text) {
                 auto data = index.data(Qt::UserRole).value<SConversionData>();
                 data.output_format = text.toLower();
-                model->setData(index, QVariant::fromValue(data), Qt::UserRole);
-                // view->update(index);
+                ListViewModel<SConversionData> *md = dynamic_cast<ListViewModel<SConversionData> *>(model);
+                md->changeData(index.row(), data);
+                m_editingIndex = QModelIndex();
             });
 
     return editor;
 }
 
-void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
+void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<SConversionData>();
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     QString value = data.output_format.toUpper();
@@ -221,21 +224,18 @@ void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &i
         combo->setCurrentIndex(idx);
 }
 
-void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
-{
-    auto data = index.data(Qt::UserRole).value<SConversionData>();
-    QComboBox *combo = qobject_cast<QComboBox *>(editor);
-    data.output_format = combo->currentText().toLower();
-    model->setData(index, QVariant::fromValue(data), Qt::UserRole);
-    QListView *view = qobject_cast<QListView *>(this->parent());
-    view->update(index);
+void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
+    // QComboBox *combo = qobject_cast<QComboBox *>(editor);
+    // auto data = index.data(Qt::UserRole).value<SConversionData>();
+    // data.output_format = combo->currentText().toLower();
+    // ListViewModel<SConversionData>* md = dynamic_cast<ListViewModel<SConversionData>*>(model);
+    // md->changeData(index.row(), data);
     m_editingIndex = QModelIndex();
     m_popupComboIndex = QModelIndex();
     QStyledItemDelegate::setModelData(editor, model, index);
 }
 
-void ConversionListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const
-{
+void ConversionListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     QRect rect = QRect(option.rect.right() - 320, option.rect.y() + 4, 70, 24);
     editor->setGeometry(rect);
 }
@@ -300,7 +300,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     auto checkedRect = QRect(bgRect.x() + 24, bgRect.y() + 8, 16, 16);
     if (data.is_checked) {
         QColor checkBgColor = QColor("#a070ff");
-        if(checkedRect.contains(m_CurPos)) {
+        if (checkedRect.contains(m_CurPos)) {
             if (hover) {
                 checkBgColor = QColor("#ad84ff");
             }
@@ -314,7 +314,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         Painter::paintPixmap(painter, checkedRect, data.checked_icon, 1, 0, true);
     } else {
         QColor checkBgColor = QColor("#2f2f36");
-        if(checkedRect.contains(m_CurPos)) {
+        if (checkedRect.contains(m_CurPos)) {
             if (hover) {
                 checkBgColor = QColor("#3a3a43");
             }
@@ -335,7 +335,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     auto delRect = QRect(bgRect.right() - 20 - 16, bgRect.y() + 8, 16, 16);
     QColor delBgColor = QColor("#fa7681");
-    if(delRect.contains(m_CurPos)) {
+    if (delRect.contains(m_CurPos)) {
         if (hover) {
             delBgColor.setAlpha(200);
         }
@@ -369,14 +369,16 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
 
     painter->setPen(Qt::NoPen);
 
-    if (index != m_editingIndex)
-    {
+    if (index != m_editingIndex) {
         auto comboRect = QRect(rc.right() - 320, rc.y() + 4, 70, 24);
         int comboRadius = 12;
-        // QColor comboBgColor = QColor("#1a1627");
-        // painter->setBrush(comboBgColor);
-        // painter->drawRoundedRect(comboRect, comboRadius, comboRadius);
-        // painter->setBrush(Qt::NoBrush);
+        QColor comboBgColor = QColor("#1a1627");
+        if(hover) {
+            comboBgColor = QColor("#2c2c3f");
+        }
+        painter->setBrush(comboBgColor);
+        painter->drawRoundedRect(comboRect, comboRadius, comboRadius);
+        painter->setBrush(Qt::NoBrush);
 
         QColor comboBorderColor = QColor("#39394c");
         QPen comboBorderPen(comboBorderColor);
@@ -384,7 +386,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         painter->drawRoundedRect(comboRect.adjusted(1, 1, -1, -1), comboRadius, comboRadius);
         painter->setPen(Qt::NoPen);
 
-        auto comboTextRect = QRect(comboRect.left() + 8, comboRect.y(), comboRect.width() - 24, comboRect.height());
+        auto comboTextRect = QRect(comboRect.left() + 5, comboRect.y(), comboRect.width() - 24, comboRect.height());
         QColor comboTextColor = QColor("#ffffff");
         QPen comboTextPen(comboTextColor);
         painter->setPen(comboTextPen);
@@ -401,8 +403,6 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         arrowOpt.state = QStyle::State_Enabled;
         QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &arrowOpt, painter);
     }
-
-
 }
 
 bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
@@ -421,7 +421,7 @@ bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
 }
 
 QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    if(m_bIsListMode) {
+    if (m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         // return QSize(parent->width() - 10, n_ListItemHeight);
         return QSize(parent->width(), n_ListItemHeight);

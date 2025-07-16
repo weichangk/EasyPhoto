@@ -69,8 +69,7 @@ private:
     void listItemDelete(const QString &filePath);
     void listViewNoDataState();
     void selectAllState();
-    void showOutputFormatView();
-    void setOutputFormatCbbText(const QString &text);
+    void initOutputFormatCbbItem();
     void initOutputFolderCbbItem();
     void setOutputFolder(const QString &path);
 
@@ -83,8 +82,7 @@ Q_SLOTS:
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
     void onListViewClicked(const QModelIndex &index);
-    void onOutputFormatCbbClicked();
-    void onOutputFolderCbbClicked();
+    void onOutputFormatCbbCurrentTextChanged(const QString &text);
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onStartAllBtnClicked();
@@ -105,12 +103,9 @@ private:
     IconButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
-    QLineEdit *m_pOutputFormatEdit = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
-    ComboBoxFilter *m_pOutputFormatCbbFilter = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
@@ -124,6 +119,4 @@ private:
 
     ListView<SConversionData> *m_pListView = nullptr;
     ConversionListDelegate *m_pListDelegate = nullptr;
-
-    ConversionOutputFormatView *m_pOutputFormatView = nullptr;
 };
