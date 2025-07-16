@@ -10,37 +10,41 @@ QWidget#ConversionView_DividingLine {
 QWidget#OutputFormatView {
     background-color: "#211c34";
     border-radius: 8px;
-    border: 1px solid #353049; 
+    border: 1px solid #353049;
 }
 
-QCheckBox#ConversionView_m_pSelectAllCkb{
+QCheckBox#ConversionView_m_pSelectAllCkb {
     font-size: 13px;
     color: "#c4c4cc";
 }
 
-QPushButton#ConversionView_m_pStartAllBtn{
+QPushButton#ConversionView_m_pStartAllBtn {
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#ConversionView_m_pStartAllBtn:hover{
+QPushButton#ConversionView_m_pStartAllBtn:hover {
     background-color: "#ad85ff";
 }
 
-QPushButton#ConversionView_m_pStartAllBtn:pressed{
+QPushButton#ConversionView_m_pStartAllBtn:pressed {
     background-color: "#bb99ff";
 }
 
 QLabel#ConversionView_m_pOutputFormatLbl,
-QLabel#ConversionView_m_pOutputFolderLbl{
+QLabel#ConversionView_m_pOutputFolderLbl {
     color: "#ffffff";
     font-size: 13px;
 }
 
-QLabel#ConversionView_m_pTitleLbl{
+QLabel#ConversionView_m_pTitleLbl {
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;
+}
+
+QWidget#ConversionView_m_pListViewColumnName {
+    background-color: "#1a1627";
 }

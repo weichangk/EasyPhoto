@@ -1,5 +1,7 @@
 #pragma once
 
+#include "settings.h"
+
 #include <QString>
 #include <QPixmap>
 
@@ -16,6 +18,8 @@ struct SConversionData {
     QPixmap checked_icon = QPixmap();
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
+    QSize resolution = QSize(0, 0);
+    QString output_format = Default::conversionOutFormat;
 };
 Q_DECLARE_METATYPE(SConversionData)
 

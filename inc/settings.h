@@ -7,6 +7,57 @@
 
 using namespace qtmaterialcore;
 
+static QString defOutPath(const QString &folderName) {
+    QString fullPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);
+    QString picturesFolder = QStandardPaths::writableLocation(QStandardPaths::PicturesLocation);
+    if (!picturesFolder.isEmpty()) {
+        QDir additionalFolder(picturesFolder);
+        additionalFolder.mkpath(folderName);
+        fullPath = additionalFolder.filePath(folderName);
+    }
+    return fullPath;
+}
+
+namespace Default {
+// Conversion
+static QString conversionOutPath = defOutPath("Conversion");
+static QString conversionOutFormat = "png";
+static QString conversionLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString conversionLastAddFolderPath = QDir::homePath();
+
+// Compression
+static QString compressionOutPath = defOutPath("Compression");
+static QString compressionOutFormat = "sameassource";
+static QString compressionLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString compressionLastAddFolderPath = QDir::homePath();
+static int compressionQuality = 60;
+
+// GifGeneration
+static QString gifGenerationOutPath = defOutPath("GifGeneration");
+static QString gifGenerationLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString gifGenerationLastAddFolderPath = QDir::homePath();
+static int gifGenerationWidth = 640;
+static int gifGenerationHeight = 640;
+static int gifGenerationQuality = 100;
+static int gifGenerationFps = 25;
+static bool gifGenerationRepeat = true;
+
+// BackgroungRemover
+static QString backgroundRemoverOutPath = defOutPath("BackgroundRemover");
+static QString backgroundRemoverLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString backgroundRemoverLastAddFolderPath = QDir::homePath();
+
+// Enhance
+static QString enhanceOutPath = defOutPath("Enhance");
+
+// erase
+static QString eraseOutPath = defOutPath("Erase");
+
+// cropping
+static QString croppingOutPath = defOutPath("Cropping");
+
+} // namespace Default
+
 class Settings: public Singlton<Settings> {
 public:
     Settings();

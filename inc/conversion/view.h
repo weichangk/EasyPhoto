@@ -115,6 +115,13 @@ private:
     QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
+    QWidget *m_pListViewColumnName = nullptr;
+    QCheckBox *m_pColumnFileNameCkb = nullptr;
+    QLabel *m_pColumnResolutionLbl = nullptr;
+    QLabel *m_pColumnOutputFormatLbl = nullptr;
+    QLabel *m_pColumnStatusLbl = nullptr;
+    QLabel *m_pColumnActionLbl = nullptr;
+
     ListView<SConversionData> *m_pListView = nullptr;
     ConversionListDelegate *m_pListDelegate = nullptr;
 

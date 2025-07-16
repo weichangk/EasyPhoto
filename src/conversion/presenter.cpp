@@ -27,8 +27,8 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
+        QPixmap thPixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.thumbnail = thPixmap;
         QPixmap delIcon = QPixmap(":/icon16_close");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
@@ -39,6 +39,8 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
+        data.resolution = QSize(pixmap.width(), pixmap.height());
+        data.output_format = SETTINGS->conversionOutFormat();
         tempDatas.append(data);
     }
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
@@ -94,8 +96,8 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
-        pixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
-        data.thumbnail = pixmap;
+        QPixmap thPixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        data.thumbnail = thPixmap;
         QPixmap delIcon = QPixmap(":/icon16_close");
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
@@ -106,6 +108,8 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
+        data.resolution = QSize(pixmap.width(), pixmap.height());
+        data.output_format = SETTINGS->conversionOutFormat();
         tempDatas.append(data);
     }
 

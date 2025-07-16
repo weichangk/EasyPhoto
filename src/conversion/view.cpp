@@ -135,11 +135,13 @@ void ConversionView::createUi() {
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
     m_pSelectAllCkb->setObjectName("ConversionView_m_pSelectAllCkb");
+    m_pSelectAllCkb->setVisible(false);
 
     m_pListModeSwitchBtn = new IconButton(topWidget);
     m_pListModeSwitchBtn->setFixedSize(24, 24);
     m_pListModeSwitchBtn->setIconSize(24, 24);
     m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/old/icon/icon_state/icon24/icon24_thumbnail.png");
+    m_pListModeSwitchBtn->setVisible(false);
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -204,14 +206,46 @@ void ConversionView::createUi() {
     // bottomWidgetLayout->addStretch();
     // bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
+    m_pListViewColumnName = new QWidget(this);
+    m_pListViewColumnName->setObjectName("ConversionView_m_pListViewColumnName");
+    m_pListViewColumnName->setFixedHeight(40);
+    auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
+    listViewColumnNameLayout->setContentsMargins(24, 0, 60, 0);
+    listViewColumnNameLayout->setSpacing(0);
+    m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
+    m_pColumnFileNameCkb->setObjectName("ConversionView_m_pColumnFileNameCkb");
+    m_pColumnFileNameCkb->setFixedWidth(300);
+    m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnResolutionLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnOutputFormatLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnStatusLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnActionLbl->setObjectName("ConversionView_m_pColumnLbl");
+
+    listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb);
+    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
+    listViewColumnNameLayout->addStretch();
+    listViewColumnNameLayout->addWidget(m_pColumnOutputFormatLbl);
+    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addWidget(m_pColumnStatusLbl);
+    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
+
     m_pListView = new ListView<SConversionData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new ConversionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
+    m_pListView->setItemDelegateForColumn(0, m_pListDelegate);
+    m_pListView->setMouseTracking(true);
+    m_pListView->setEditTriggers(QListView::AllEditTriggers);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
     auto listViewLayout = new QVBoxLayout();
-    listViewLayout->setContentsMargins(20, 0, 2, 0);
+    listViewLayout->setContentsMargins(0, 0, 0, 0);
     listViewLayout->setSpacing(0);
+    listViewLayout->addWidget(m_pListViewColumnName);
     listViewLayout->addWidget(m_pListView, 1);
 
     m_pContentWidget = new QWidget(this);
@@ -219,6 +253,7 @@ void ConversionView::createUi() {
     contentWidgetLayout->setContentsMargins(0, 0, 0, 0);
     contentWidgetLayout->setSpacing(0);
     contentWidgetLayout->addWidget(topWidget);
+    contentWidgetLayout->addWidget(createDividingLine());
     contentWidgetLayout->addLayout(listViewLayout, 1);
     contentWidgetLayout->addWidget(createDividingLine());
     contentWidgetLayout->addWidget(bottomWidget);
@@ -244,7 +279,8 @@ void ConversionView::connectSig() {
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileBtnClicked);
     connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderBtnClicked);
     connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConversionView::onClearFileBtnClicked);
-    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
+    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
+    connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
     connect(m_pOutputFormatCbbFilter, &ComboBoxFilter::sigClicked, this, &ConversionView::onOutputFormatCbbClicked);
@@ -302,7 +338,10 @@ void ConversionView::listItemSelectChanged(const QString &filePath) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
-    blockSignalsFunc(m_pSelectAllCkb, [&]() {
+    // blockSignalsFunc(m_pSelectAllCkb, [&]() {
+    //     selectAllState();
+    // });
+    blockSignalsFunc(m_pColumnFileNameCkb, [&]() {
         selectAllState();
     });
 }
@@ -321,8 +360,9 @@ void ConversionView::listViewNoDataState() {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
-    m_pListModeSwitchBtn->setVisible(!isNoData);
-    m_pSelectAllCkb->setVisible(!isNoData);
+    // m_pListModeSwitchBtn->setVisible(!isNoData);
+    // m_pSelectAllCkb->setVisible(!isNoData);
+    m_pColumnFileNameCkb->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
@@ -331,13 +371,16 @@ void ConversionView::selectAllState() {
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
-                m_pSelectAllCkb->setChecked(false);
+                // m_pSelectAllCkb->setChecked(false);
+                m_pColumnFileNameCkb->setChecked(false);
                 return;
             }
         }
-        m_pSelectAllCkb->setChecked(true);
+        // m_pSelectAllCkb->setChecked(true);
+        m_pColumnFileNameCkb->setChecked(true);
     } else {
-        m_pSelectAllCkb->setChecked(false);
+        // m_pSelectAllCkb->setChecked(false);
+        m_pColumnFileNameCkb->setChecked(false);
     }
 }
 
@@ -376,6 +419,12 @@ void ConversionView::onLanguageChange() {
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pStartAllBtn->setText(tr("Convert All"));
+
+    m_pColumnFileNameCkb->setText(tr("File Name"));
+    m_pColumnResolutionLbl->setText(tr("Resolution"));
+    m_pColumnOutputFormatLbl->setText(tr("Output Format"));
+    m_pColumnStatusLbl->setText(tr("Status"));
+    m_pColumnActionLbl->setText(tr("Action"));
 }
 
 void ConversionView::onAddFileBtnClicked() {
@@ -426,9 +475,9 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
-    auto checkedRect = QRect(bgRect.x() + 8, bgRect.y() + 8, 16, 16);
-    auto delRect = QRect(bgRect.right() - 8 - 16, bgRect.y() + 8, 16, 16);
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
+    auto checkedRect = QRect(bgRect.x() + 24, bgRect.y() + 8, 16, 16);
+    auto delRect = QRect(bgRect.right() - 20 - 16, bgRect.y() + 8, 16, 16);
     if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.file_path);
