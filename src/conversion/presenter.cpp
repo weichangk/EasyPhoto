@@ -52,10 +52,10 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         data.resolution = QSize(pixmap.width(), pixmap.height());
         data.output_format = SETTINGS->conversionOutFormat();
         data.state_icons = {
-            {EConvState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EConvState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EConvState_Success, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EConvState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EConvState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EConvState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EConvState_Success, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EConvState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
     }
@@ -127,10 +127,10 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
         data.resolution = QSize(pixmap.width(), pixmap.height());
         data.output_format = SETTINGS->conversionOutFormat();
         data.state_icons = {
-            {EConvState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EConvState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EConvState_Success, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EConvState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/old/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EConvState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EConvState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EConvState_Success, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EConvState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
     }

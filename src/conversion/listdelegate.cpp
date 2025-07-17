@@ -66,27 +66,27 @@ QString conversionOutputFormatComboBoxStyle = R"(
         width: 16px;
         height: 16px;
         subcontrol-origin: content;
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:on
     {
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:hover
     {
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:pressed
     {
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:disabled
     {
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox QAbstractItemView{
@@ -132,7 +132,7 @@ QString conversionOutputFormatComboBoxStyle = R"(
 
     QComboBox#conversionOutputFormatComboBox QAbstractItemView::indicator:checked
     {
-        image: url(:/qtmaterial/img/vcu/dark/icon16/icon16_add.svg); 
+        image: url(:/qtmaterial/img/vcu/dark/v16/icon16/icon16_add.svg); 
     }
 
     QComboBox#conversionOutputFormatComboBox QScrollBar::vertical
