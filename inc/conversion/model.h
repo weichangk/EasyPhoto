@@ -10,6 +10,13 @@
 
 #define CONV_OUTPUT_FORMATS "jpg png svg webp avif bmp ico tiff psd eps xbm"
 
+enum EConvState {
+    EConvState_Waiting = 0,
+    EConvState_Loading,
+    EConvState_Success,
+    EConvState_Fail,
+};
+
 struct SConversionData {
     QString file_name = "";
     QString file_path = "";
@@ -17,9 +24,11 @@ struct SConversionData {
     QPixmap delete_icon = QPixmap();
     QPixmap checked_icon = QPixmap();
     QPixmap unchecked_icon = QPixmap();
+    QMap<EConvState, QPixmap> state_icons;
     bool is_checked = false;
     QSize resolution = QSize(0, 0);
     QString output_format = Default::conversionOutFormat;
+    EConvState state = EConvState_Waiting;
 };
 Q_DECLARE_METATYPE(SConversionData)
 

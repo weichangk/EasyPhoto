@@ -15,6 +15,8 @@ public:
     explicit ConversionPresenter(IView* view, IRepository *repository);
     ~ConversionPresenter();
     QList<SConversionData> datas();
+    void updateData(const SConversionData &data);
+    void updateData(const QString filePath, const SConversionData &data);
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();

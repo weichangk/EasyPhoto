@@ -72,6 +72,14 @@ private:
     void initOutputFormatCbbItem();
     void initOutputFolderCbbItem();
     void setOutputFolder(const QString &path);
+    void setStartAllBtnVisible(bool visible);
+
+    QList<SConversionData> getListViewModels() const;
+    SConversionData getListViewModel(const QString &filePath) const;
+    int getListViewModelIndex(const QString &filePath) const;
+
+    void startConvAllTask();
+    void startConvTask(const QString &path);
 
 private 
 Q_SLOTS:
@@ -86,6 +94,7 @@ Q_SLOTS:
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onStartAllBtnClicked();
+    void onCancelAllBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -108,6 +117,7 @@ private:
     QComboBox *m_pOutputFolderCbb = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
+    QPushButton *m_pCancelAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
     QWidget *m_pListViewColumnName = nullptr;

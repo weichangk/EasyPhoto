@@ -3,11 +3,17 @@
 #include "settings.h"
 #include "conversion/conversiontask.h"
 #include "import/importfilehelper.h"
+#include "task/asynctask.h"
+#include "task/taskfactory.h"
+#include "task/taskdata.h"
+#include "task/taskresult.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QDesktopServices>
+
+using namespace qtmaterialtask;
 
 ConversionOutputFormatView::ConversionOutputFormatView(QWidget *parent) :
     QWidget(parent) {
@@ -92,6 +98,7 @@ void ConversionView::resizeEvent(QResizeEvent *event) {
     m_pOpenOutputFolderBtn->setGeometry(m_pOutputFolderCbb->geometry().right() + 6, 44, 24, 24);
 
     m_pStartAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
+    m_pCancelAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
 }
 
 void ConversionView::createUi() {
@@ -181,6 +188,12 @@ void ConversionView::createUi() {
     m_pStartAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
+    m_pCancelAllBtn = new QPushButton(bottomWidget);
+    m_pCancelAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
+    m_pCancelAllBtn->setFixedSize(110, 32);
+
+    setStartAllBtnVisible(true);
+
     // auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
     // bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
     // bottomWidgetLayout->setSpacing(0);
@@ -204,7 +217,6 @@ void ConversionView::createUi() {
     listViewColumnNameLayout->setSpacing(0);
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
     m_pColumnFileNameCkb->setObjectName("ConversionView_m_pColumnFileNameCkb");
-    m_pColumnFileNameCkb->setFixedWidth(300);
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
     m_pColumnResolutionLbl->setObjectName("ConversionView_m_pColumnLbl");
     m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
@@ -214,10 +226,10 @@ void ConversionView::createUi() {
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
     m_pColumnActionLbl->setObjectName("ConversionView_m_pColumnLbl");
 
-    listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb);
-    listViewColumnNameLayout->addSpacing(60);
-    listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
+    listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
+    listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
+    listViewColumnNameLayout->addSpacing(60);
     listViewColumnNameLayout->addWidget(m_pColumnOutputFormatLbl);
     listViewColumnNameLayout->addSpacing(60);
     listViewColumnNameLayout->addWidget(m_pColumnStatusLbl);
@@ -277,6 +289,11 @@ void ConversionView::connectSig() {
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConversionView::onStartAllBtnClicked);
+    connect(m_pCancelAllBtn, &QPushButton::clicked, this, &ConversionView::onCancelAllBtnClicked);
+    connect(m_pListDelegate, &ConversionListDelegate::sigUpdateData, this, [this](const SConversionData &data) {
+        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+        prst->updateData(data);
+    });
 }
 
 QWidget *ConversionView::createDividingLine() {
@@ -395,12 +412,107 @@ void ConversionView::ConversionView::setOutputFolder(const QString &path) {
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
+void ConversionView::setStartAllBtnVisible(bool visible) {
+    m_pStartAllBtn->setVisible(visible);
+    m_pCancelAllBtn->setVisible(!visible);
+}
+
+QList<SConversionData> ConversionView::getListViewModels() const {
+    QList<SConversionData> datas;
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        datas.append(data);
+    }
+    return datas;
+}
+
+SConversionData ConversionView::getListViewModel(const QString &filePath) const {
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        if (data.file_path == filePath) {
+            return data;
+        }
+    }
+    return SConversionData();
+}
+
+int ConversionView::getListViewModelIndex(const QString &filePath) const {
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        if (data.file_path == filePath) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void ConversionView::startConvAllTask() {
+    auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
+        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+        ConversionTask convTask;
+        for (auto data : prst->datas()) {
+            if(m_pStartAllBtn->isVisible()) {
+                return TaskResult<void*>::Success(nullptr);
+            }
+            if (data.is_checked) {
+                data.state = EConvState_Loading; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+                auto result = convTask.exec(SConvParam{
+                    data.file_path.toStdString(),
+                    SETTINGS->conversionOutPath().toStdString(),
+                    data.output_format.toStdString()});
+                data.state = result.success ?  EConvState_Success : EConvState_Fail; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+            }
+        }
+
+        QMetaObject::invokeMethod(this, [this]() {
+            setStartAllBtnVisible(true);
+        }, Qt::QueuedConnection);
+
+        return TaskResult<void*>::Success(nullptr);
+    };
+    auto task = TaskFactory::instance()->createTask<void*, void*>(func, nullptr, TaskData<void*>());
+    task->start();
+}
+
+void ConversionView::startConvTask(const QString &path) {
+    auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
+        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+        ConversionTask convTask;
+        for (auto data : prst->datas()) {
+            if (data.file_path == path && data.state != EConvState_Loading) {
+                data.state = EConvState_Loading; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+                auto result = convTask.exec(SConvParam{
+                    data.file_path.toStdString(),
+                    SETTINGS->conversionOutPath().toStdString(),
+                    data.output_format.toStdString()});
+                data.state = result.success ?  EConvState_Success : EConvState_Fail; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+                return TaskResult<void*>::Success(nullptr);
+            }
+        }
+        return TaskResult<void*>::Success(nullptr);
+    };
+    auto task = TaskFactory::instance()->createTask<void*, void*>(func, nullptr, TaskData<void*>());
+    task->start();
+}
+
 void ConversionView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Converter"));
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pStartAllBtn->setText(tr("Convert All"));
+    m_pCancelAllBtn->setText(tr("Cancel All"));
 
     m_pColumnFileNameCkb->setText(tr("File Name"));
     m_pColumnResolutionLbl->setText(tr("Resolution"));
@@ -460,6 +572,7 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     auto bgRect = rc.adjusted(0, 0, 0, 0);
     auto checkedRect = QRect(bgRect.x() + 24, bgRect.y() + 8, 16, 16);
     auto delRect = QRect(bgRect.right() - 20 - 16, bgRect.y() + 8, 16, 16);
+    auto convRect = QRect(bgRect.right() - 114, bgRect.center().y() - 10, 70, 20);
     if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.file_path);
@@ -467,6 +580,10 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
         && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
         listItemSelectChanged(data.file_path);
+    }
+    if (posx >= convRect.x() && posx <= convRect.x() + convRect.width()
+        && posy >= convRect.y() && posy <= convRect.y() + convRect.height()) {
+        startConvTask(data.file_path);
     }
 }
 
@@ -476,6 +593,7 @@ void ConversionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     for (auto &data : prst->datas()) {
         data.output_format = format; 
+        prst->updateData(data.file_path, data);
     }
     m_pListView->changeData(prst->datas());
 }
@@ -499,11 +617,10 @@ void ConversionView::onOpenOutputFolderBtnClicked() {
 }
 
 void ConversionView::onStartAllBtnClicked() {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
-    ConversionTask task;
-    for (auto data : prst->datas()) {
-        if (data.is_checked) {
-            task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());
-        }
-    }
+    setStartAllBtnVisible(false);
+    startConvAllTask();
+}
+
+void ConversionView::onCancelAllBtnClicked() {
+    setStartAllBtnVisible(true);
 }

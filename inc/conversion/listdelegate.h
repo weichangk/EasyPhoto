@@ -1,4 +1,6 @@
 #pragma once
+#include "model.h"
+
 #include <QStyledItemDelegate>
 #include <QEvent>
 
@@ -16,6 +18,9 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void setListMode(bool b);
     bool isListMode() const;
+
+Q_SIGNALS:
+    void sigUpdateData(const SConversionData &data);
 
 private:
     QSize m_Size = QSize(208 + 8, 200 + 8);

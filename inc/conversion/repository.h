@@ -10,6 +10,8 @@ public:
     explicit ConversionRepository();
     ~ConversionRepository();
     QList<SConversionData> datas();
+    void updateData(const SConversionData &data);
+    void updateData(const QString filePath, const SConversionData &data);
     void appendData(QList<SConversionData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();

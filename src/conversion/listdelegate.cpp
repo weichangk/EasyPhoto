@@ -1,6 +1,7 @@
 #include "conversion/listdelegate.h"
 #include "conversion/model.h"
 #include "core/painter.h"
+#include "core/object.h"
 #include "widget/listview.h"
 
 #include <QMouseEvent>
@@ -195,7 +196,10 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
         formats.append(item.toUpper());
     }
     editor->addItems(formats);
-    editor->setCurrentText(data.output_format.toUpper());
+
+    blockSignalsFunc(editor, [&]() {
+        editor->setCurrentText(data.output_format.toUpper());
+    });
 
     if (index == m_popupComboIndex) {
         QTimer::singleShot(0, editor, [editor]() {
@@ -210,6 +214,7 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
                 ListViewModel<SConversionData> *md = dynamic_cast<ListViewModel<SConversionData> *>(model);
                 md->changeData(index.row(), data);
                 m_editingIndex = QModelIndex();
+                emit const_cast<ConversionListDelegate*>(this)->sigUpdateData(data);
             });
 
     return editor;
@@ -236,15 +241,15 @@ void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
 }
 
 void ConversionListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    QRect rect = QRect(option.rect.right() - 320, option.rect.y() + 4, 70, 24);
-    editor->setGeometry(rect);
+    auto comboRect = QRect(option.rect.right() - 356, option.rect.center().y() - 12, 70, 24);
+    editor->setGeometry(comboRect);
 }
 
 bool ConversionListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) {
     if (event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         QPoint pos = mouseEvent->pos();
-        QRect comboRect = QRect(option.rect.right() - 320, option.rect.y() + 4, 70, 24);
+        auto comboRect = QRect(option.rect.right() - 356, option.rect.center().y() - 12, 70, 24);
         if (comboRect.contains(pos)) {
             m_popupComboIndex = index;
         }
@@ -358,19 +363,19 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     fontName.setPixelSize(12);
     painter->setFont(fontName);
     QString fileName = data.file_name;
-    QFontMetricsF metrics(fontName);
-    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
+    QFontMetricsF fileMetrics(fontName);
+    if (fileMetrics.horizontalAdvance(fileName) > nameRect.width()) {
+        fileName = fileMetrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
     }
     painter->drawText(nameRect, Qt::AlignLeft | Qt::AlignVCenter, fileName);
 
-    auto resolutionRect = QRect(nameRect.right() + 60, nameRect.y(), 80, 16);
+    auto resolutionRect = QRect(rc.right() - 504, rc.center().y() - 8, 80, 16);
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
     painter->setPen(Qt::NoPen);
 
     if (index != m_editingIndex) {
-        auto comboRect = QRect(rc.right() - 320, rc.y() + 4, 70, 24);
+        auto comboRect = QRect(rc.right() - 356, rc.y() + 4, 70, 24);
         int comboRadius = 12;
         QColor comboBgColor = QColor("#1a1627");
         if(hover) {
@@ -394,7 +399,6 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         comboTextFont.setPixelSize(12);
         painter->setFont(comboTextFont);
         QString comboText = data.output_format.toUpper();
-        QFontMetricsF metrics(comboTextFont);
         painter->drawText(comboTextRect, Qt::AlignLeft | Qt::AlignVCenter, comboText);
         painter->setPen(Qt::NoPen);
 
@@ -403,6 +407,39 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         arrowOpt.state = QStyle::State_Enabled;
         QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &arrowOpt, painter);
     }
+
+    auto stateRect = QRect(rc.right() - 196, rc.center().y() - 8, 16, 16);
+    Painter::paintPixmap(painter, stateRect, data.state_icons[data.state], 1, 0, true);
+
+    auto convRect = QRect(rc.right() - 114, rc.center().y() - 10, 70, 20);
+    int convRadius = 10;
+    QColor convBgColor = QColor("#2c2c3f");
+    if(hover) {
+        convBgColor = QColor("#433767");
+    }
+    if(pressed) {
+        convBgColor = QColor("#2f2b47");
+    }
+    painter->setBrush(convBgColor);
+    painter->drawRoundedRect(convRect, convRadius, convRadius);
+    painter->setBrush(Qt::NoBrush);
+
+    QColor convBorderColor = QColor("#a070ff");
+    QPen convBorderPen(convBorderColor);
+    painter->setPen(convBorderPen);
+    painter->drawRoundedRect(convRect.adjusted(1, 1, -1, -1), convRadius, convRadius);
+    painter->setPen(Qt::NoPen);
+
+    auto convTextRect = convRect;
+    QColor convTextColor = QColor("#ffffff");
+    QPen convTextPen(convTextColor);
+    painter->setPen(convTextPen);
+    QFont convTextFont = painter->font();
+    convTextFont.setPixelSize(12);
+    painter->setFont(convTextFont);
+    QString convText = tr("Convert");
+    painter->drawText(convTextRect, Qt::AlignCenter, convText);
+    painter->setPen(Qt::NoPen);
 }
 
 bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
