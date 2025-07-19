@@ -1,5 +1,6 @@
 #include "conversion/listdelegate.h"
 #include "conversion/model.h"
+#include "conversion/define.h"
 #include "core/painter.h"
 #include "core/object.h"
 #include "widget/listview.h"
@@ -241,7 +242,7 @@ void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
 }
 
 void ConversionListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto comboRect = QRect(option.rect.right() - 356, option.rect.center().y() - 12, 70, 24);
+    auto comboRect = convListComboRect(option.rect);
     editor->setGeometry(comboRect);
 }
 
@@ -249,7 +250,7 @@ bool ConversionListDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
     if (event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         QPoint pos = mouseEvent->pos();
-        auto comboRect = QRect(option.rect.right() - 356, option.rect.center().y() - 12, 70, 24);
+        auto comboRect = convListComboRect(option.rect);
         if (comboRect.contains(pos)) {
             m_popupComboIndex = index;
         }
@@ -302,7 +303,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     // painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
     // painter->setPen(Qt::NoPen);
 
-    auto checkedRect = QRect(bgRect.x() + 24, bgRect.y() + 8, 16, 16);
+    auto checkedRect = convListCheckedRect(bgRect);
     if (data.is_checked) {
         QColor checkBgColor = QColor("#a070ff");
         if (checkedRect.contains(m_CurPos)) {
@@ -338,7 +339,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         painter->setPen(Qt::NoPen);
     }
 
-    auto delRect = QRect(bgRect.right() - 20 - 16, bgRect.y() + 8, 16, 16);
+    auto delRect = convListDelRect(bgRect);
     QColor delBgColor = QColor("#fa7681");
     if (delRect.contains(m_CurPos)) {
         if (hover) {
@@ -355,7 +356,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         Painter::paintPixmap(painter, delRect, data.delete_icon, 1, 0, true);
     }
 
-    auto nameRect = QRect(checkedRect.right() + 8, checkedRect.y(), 280, 16);
+    auto nameRect = convListNameRect(bgRect);
     QColor nameColor = QColor("#ffffff");
     QPen penName(nameColor);
     painter->setPen(penName);
@@ -369,13 +370,13 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     }
     painter->drawText(nameRect, Qt::AlignLeft | Qt::AlignVCenter, fileName);
 
-    auto resolutionRect = QRect(rc.right() - 504, rc.center().y() - 8, 80, 16);
+    auto resolutionRect = convListResolutionRect(bgRect);
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
     painter->setPen(Qt::NoPen);
 
     if (index != m_editingIndex) {
-        auto comboRect = QRect(rc.right() - 356, rc.y() + 4, 70, 24);
+        auto comboRect = convListComboRect(bgRect);
         int comboRadius = 12;
         QColor comboBgColor = QColor("#1a1627");
         if(hover) {
@@ -408,10 +409,10 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
         QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &arrowOpt, painter);
     }
 
-    auto stateRect = QRect(rc.right() - 196, rc.center().y() - 8, 16, 16);
+    auto stateRect = convListStateRect(bgRect);
     Painter::paintPixmap(painter, stateRect, data.state_icons[data.state], 1, 0, true);
 
-    auto convRect = QRect(rc.right() - 114, rc.center().y() - 10, 70, 20);
+    auto convRect = convListConvRect(bgRect);
     int convRadius = 10;
     QColor convBgColor = QColor("#2c2c3f");
     if(hover) {

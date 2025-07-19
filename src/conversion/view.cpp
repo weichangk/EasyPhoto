@@ -1,5 +1,6 @@
 #include "conversion/view.h"
 #include "conversion/presenter.h"
+#include "conversion/define.h"
 #include "settings.h"
 #include "conversion/conversiontask.h"
 #include "import/importfilehelper.h"
@@ -570,9 +571,9 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
     auto bgRect = rc.adjusted(0, 0, 0, 0);
-    auto checkedRect = QRect(bgRect.x() + 24, bgRect.y() + 8, 16, 16);
-    auto delRect = QRect(bgRect.right() - 20 - 16, bgRect.y() + 8, 16, 16);
-    auto convRect = QRect(bgRect.right() - 114, bgRect.center().y() - 10, 70, 20);
+    auto checkedRect = convListCheckedRect(bgRect);
+    auto delRect = convListDelRect(bgRect);
+    auto convRect = convListConvRect(bgRect);
     if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.file_path);
