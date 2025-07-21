@@ -82,6 +82,7 @@ public:
         auto dialog = new ProgressDialog(nullptr);
         dialog->setCancelVisible(true);
         dialog->setTitleText(tr("Add Files"));
+        dialog->setRange(0, data.value.filePaths.size());
         connect(dialog, &ProgressDialog::canceled, this, [task]() {
             task->cancel();
         });

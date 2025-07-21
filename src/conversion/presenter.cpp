@@ -99,6 +99,7 @@ void ConversionPresenter::checkedAllData(bool checked) {
 
 TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *self) {
     QList<SConversionData> tempDatas;
+    int index = 0;
     for (const QString &filePath : self->getData().value.filePaths) {
         if(self->isCanceled()) {
             return TaskResult<SImportFileResult<QList<SConversionData>>>::Failure("");
@@ -133,6 +134,7 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
             {EConvState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
+        self->progress(++index, "Adding images:" + data.file_name.toStdString());
     }
 
     SImportFileResult<QList<SConversionData>> result = {tempDatas, 100};
