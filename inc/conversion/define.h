@@ -8,7 +8,7 @@ inline QRect convListComboRect(QRect rc) {
 }
 
 inline QRect convListCheckedRect(QRect rc) {
-    return QRect(rc.x() + 24, rc.y() + 8, 16, 16);
+    return QRect(rc.x() + 24, rc.y() + 8, 12, 12);
 }
 
 inline QRect convListNameRect(QRect rc) {

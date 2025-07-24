@@ -214,27 +214,26 @@ void ConversionView::createUi() {
     m_pListViewColumnName->setObjectName("ConversionView_m_pListViewColumnName");
     m_pListViewColumnName->setFixedHeight(40);
     auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
-    listViewColumnNameLayout->setContentsMargins(24, 0, 60, 0);
+    listViewColumnNameLayout->setContentsMargins(24, 0, 66, 0);
     listViewColumnNameLayout->setSpacing(0);
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
-    m_pColumnFileNameCkb->setObjectName("ConversionView_m_pColumnFileNameCkb");
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnResolutionLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnResolutionLbl->setObjectName("QLbl_H16_S12");
     m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnOutputFormatLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnOutputFormatLbl->setObjectName("QLbl_H16_S12");
     m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnStatusLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnStatusLbl->setObjectName("QLbl_H16_S12");
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnActionLbl->setObjectName("ConversionView_m_pColumnLbl");
+    m_pColumnActionLbl->setObjectName("QLbl_H16_S12");
 
     listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
     listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
-    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addSpacing(84);
     listViewColumnNameLayout->addWidget(m_pColumnOutputFormatLbl);
-    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addSpacing(78);
     listViewColumnNameLayout->addWidget(m_pColumnStatusLbl);
-    listViewColumnNameLayout->addSpacing(60);
+    listViewColumnNameLayout->addSpacing(70);
     listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
 
     m_pListView = new ListView<SConversionData>(this);
