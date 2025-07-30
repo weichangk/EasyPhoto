@@ -21,6 +21,7 @@ public:
 
 Q_SIGNALS:
     void sigUpdateData(const SConversionData &data);
+    void sigClicked(const QModelIndex &index);
 
 private:
     QSize m_Size = QSize(208 + 8, 200 + 8);

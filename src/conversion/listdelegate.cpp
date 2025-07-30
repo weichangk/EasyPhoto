@@ -453,6 +453,13 @@ bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
             m_CurPos = pos;
             QWidget *curWidget = static_cast<QWidget *>(object);
             curWidget->update();
+            if(type == QEvent::MouseButtonPress)
+            {
+                // 使用了 Editor 后， QListView::clicked 信号第一次点击不生效，点击信号改为这里触发
+                QListView *view = static_cast<QListView *>(this->parent());
+                QModelIndex index = view->indexAt(pos);
+                sigClicked(index);
+            }
         }
     }
     return QStyledItemDelegate::eventFilter(object, event);

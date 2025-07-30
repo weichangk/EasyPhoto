@@ -284,7 +284,7 @@ void ConversionView::connectSig() {
     // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
-    connect(m_pListView, &QListView::clicked, this, &ConversionView::onListViewClicked);
+    connect(m_pListDelegate, &ConversionListDelegate::sigClicked, this, &ConversionView::onListViewClicked);
     connect(m_pOutputFormatCbb, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this, &ConversionView::onOutputFormatCbbCurrentTextChanged);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
