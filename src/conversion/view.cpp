@@ -8,6 +8,7 @@
 #include "task/taskfactory.h"
 #include "task/taskdata.h"
 #include "task/taskresult.h"
+#include "widget/messagebox.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -552,6 +553,10 @@ void ConversionView::onAddFolderBtnClicked() {
 }
 
 void ConversionView::onClearFileBtnClicked() {
+    MessageBox msgBox(MessageBox::MessageIcon::Message, tr("Information"), tr("Are you sure you want to delete all tasks?"), "", tr("Cancel"), tr("Delete"));
+    if(msgBox.exec() == QDialog::Rejected) {
+        return;
+    }
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     prst->clearData();
     m_pListView->changeData(prst->datas());
