@@ -10,6 +10,8 @@ public:
     explicit CompressionRepository();
     ~CompressionRepository();
     QList<SCompressionData> datas();
+    void updateData(const SCompressionData &data);
+    void updateData(const QString filePath, const SCompressionData &data);
     void appendData(QList<SCompressionData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();

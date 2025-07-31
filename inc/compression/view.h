@@ -59,6 +59,7 @@ public:
 
 protected:
     void showEvent(QShowEvent *event) override;
+    void resizeEvent(QResizeEvent *event) override;
 
 private:
     void createUi();
@@ -69,10 +70,17 @@ private:
     void listItemDelete(const QString &filePath);
     void listViewNoDataState();
     void selectAllState();
-    void showOutputFormatView();
-    void setOutputFormatCbbText(const QString &text);
+    void initOutputFormatCbbItem();
     void initOutputFolderCbbItem();
     void setOutputFolder(const QString &path);
+    void setStartAllBtnVisible(bool visible);
+
+    QList<SCompressionData> getListViewModels() const;
+    SCompressionData getListViewModel(const QString &filePath) const;
+    int getListViewModelIndex(const QString &filePath) const;
+
+    void startAllTask();
+    void startTask(const QString &path);
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -82,11 +90,11 @@ private Q_SLOTS:
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
     void onListViewClicked(const QModelIndex &index);
-    void onOutputFormatCbbClicked();
-    void onOutputFolderCbbClicked();
+    void onOutputFormatCbbCurrentTextChanged(const QString &text);
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onStartAllBtnClicked();
+    void onCancelAllBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -104,18 +112,21 @@ private:
     IconButton *m_pListModeSwitchBtn = nullptr;
     QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
-    QLineEdit *m_pOutputFormatEdit = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
-    ComboBoxFilter *m_pOutputFormatCbbFilter = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
+    QPushButton *m_pCancelAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
+
+    QWidget *m_pListViewColumnName = nullptr;
+    QCheckBox *m_pColumnFileNameCkb = nullptr;
+    QLabel *m_pColumnResolutionLbl = nullptr;
+    QLabel *m_pColumnOutputFormatLbl = nullptr;
+    QLabel *m_pColumnStatusLbl = nullptr;
+    QLabel *m_pColumnActionLbl = nullptr;
 
     ListView<SCompressionData> *m_pListView = nullptr;
     CompressionListDelegate *m_pListDelegate = nullptr;
-
-    CompressionOutputFormatView *m_pOutputFormatView = nullptr;
 };

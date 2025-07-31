@@ -1,6 +1,13 @@
 #include "compression/view.h"
+#include "compression/definerect.h"
 #include "compression/presenter.h"
 #include "compression/compressiontask.h"
+#include "import/importfilehelper.h"
+#include "task/asynctask.h"
+#include "task/taskfactory.h"
+#include "task/taskdata.h"
+#include "task/taskresult.h"
+#include "widget/messagebox.h"
 #include "settings.h"
 
 #include <QFileInfo>
@@ -80,6 +87,20 @@ void CompressionView::showEvent(QShowEvent *event) {
     selectAllState();
 }
 
+void CompressionView::resizeEvent(QResizeEvent *event) {
+    QWidget::resizeEvent(event);
+
+    m_pOutputFormatLbl->setGeometry(16, 14, 100, 24);
+    m_pOutputFormatCbb->setGeometry(m_pOutputFormatLbl->geometry().right() + 6, 14, 226, 24);
+
+    m_pOutputFolderLbl->setGeometry(16, 44, 100, 24);
+    m_pOutputFolderCbb->setGeometry(m_pOutputFolderLbl->geometry().right() + 6, 44, 226, 24);
+    m_pOpenOutputFolderBtn->setGeometry(m_pOutputFolderCbb->geometry().right() + 6, 44, 24, 24);
+
+    m_pStartAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
+    m_pCancelAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
+}
+
 void CompressionView::createUi() {
     setObjectName("CompressionView");
     setAttribute(Qt::WA_StyledBackground);
@@ -121,11 +142,13 @@ void CompressionView::createUi() {
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
     m_pSelectAllCkb->setObjectName("CompressionView_m_pSelectAllCkb");
+    m_pSelectAllCkb->setVisible(false);
 
     m_pListModeSwitchBtn = new IconButton(topWidget);
     m_pListModeSwitchBtn->setFixedSize(24, 24);
     m_pListModeSwitchBtn->setIconSize(24, 24);
     m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_thumbnail.png");
+    m_pListModeSwitchBtn->setVisible(false);
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -138,31 +161,21 @@ void CompressionView::createUi() {
     topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(70);
+    bottomWidget->setFixedHeight(84);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
     m_pOutputFormatLbl->setObjectName("CompressionView_m_pOutputFormatLbl");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
-    m_pOutputFormatCbb->setFixedSize(60, 24);
+    m_pOutputFormatCbb->setFixedSize(226, 24);
 
-    m_pOutputFormatEdit = new QLineEdit(m_pOutputFormatCbb);
-    m_pOutputFormatEdit->setReadOnly(true);
-    m_pOutputFormatCbb->setLineEdit(m_pOutputFormatEdit);
-
-    setOutputFormatCbbText(SETTINGS->compressionOutFormat());
-
-    m_pOutputFormatCbbFilter = new ComboBoxFilter(m_pOutputFormatCbb);
-    m_pOutputFormatCbb->installEventFilter(m_pOutputFormatCbbFilter);
+    initOutputFormatCbbItem();
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
     m_pOutputFolderLbl->setObjectName("CompressionView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
-    m_pOutputFolderCbb->setFixedSize(240, 24);
-
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
+    m_pOutputFolderCbb->setFixedSize(226, 24);
 
     initOutputFolderCbbItem();
 
@@ -175,29 +188,65 @@ void CompressionView::createUi() {
     m_pStartAllBtn->setObjectName("CompressionView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
-    auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    bottomWidgetLayout->setSpacing(0);
-    bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
-    bottomWidgetLayout->addSpacing(12);
-    bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pStartAllBtn);
+    m_pCancelAllBtn = new QPushButton(bottomWidget);
+    m_pCancelAllBtn->setObjectName("CompressionView_m_pStartAllBtn");
+    m_pCancelAllBtn->setFixedSize(110, 32);
+
+    setStartAllBtnVisible(true);
+
+    // auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
+    // bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
+    // bottomWidgetLayout->setSpacing(0);
+    // bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
+    // bottomWidgetLayout->addSpacing(12);
+    // bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
+    // bottomWidgetLayout->addSpacing(4);
+    // bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
+    // bottomWidgetLayout->addStretch();
+    // bottomWidgetLayout->addWidget(m_pStartAllBtn);
+
+    m_pListViewColumnName = new QWidget(this);
+    m_pListViewColumnName->setObjectName("CompressionView_m_pListViewColumnName");
+    m_pListViewColumnName->setFixedHeight(40);
+    auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
+    listViewColumnNameLayout->setContentsMargins(24, 0, 66, 0);
+    listViewColumnNameLayout->setSpacing(0);
+    m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
+    m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnResolutionLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnOutputFormatLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnStatusLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnActionLbl->setObjectName("QLbl_H16_S12");
+
+    listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
+    listViewColumnNameLayout->addStretch();
+    listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
+    listViewColumnNameLayout->addSpacing(84);
+    listViewColumnNameLayout->addWidget(m_pColumnOutputFormatLbl);
+    listViewColumnNameLayout->addSpacing(78);
+    listViewColumnNameLayout->addWidget(m_pColumnStatusLbl);
+    listViewColumnNameLayout->addSpacing(70);
+    listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
 
     m_pListView = new ListView<SCompressionData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new CompressionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
+    m_pListView->setItemDelegateForColumn(0, m_pListDelegate);
+    m_pListView->setMouseTracking(true);
+    m_pListView->setEditTriggers(QListView::AllEditTriggers);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
     auto listViewLayout = new QVBoxLayout();
-    listViewLayout->setContentsMargins(20, 0, 2, 0);
+    listViewLayout->setContentsMargins(0, 0, 0, 0);
     listViewLayout->setSpacing(0);
+    listViewLayout->addWidget(m_pListViewColumnName);
     listViewLayout->addWidget(m_pListView, 1);
 
     m_pContentWidget = new QWidget(this);
@@ -205,6 +254,7 @@ void CompressionView::createUi() {
     contentWidgetLayout->setContentsMargins(0, 0, 0, 0);
     contentWidgetLayout->setSpacing(0);
     contentWidgetLayout->addWidget(topWidget);
+    contentWidgetLayout->addWidget(createDividingLine());
     contentWidgetLayout->addLayout(listViewLayout, 1);
     contentWidgetLayout->addWidget(createDividingLine());
     contentWidgetLayout->addWidget(bottomWidget);
@@ -230,14 +280,14 @@ void CompressionView::connectSig() {
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &CompressionView::onAddFileBtnClicked);
     connect(m_pAddFolderBtn, &QPushButton::clicked, this, &CompressionView::onAddFolderBtnClicked);
     connect(m_pClearFileBtn, &QPushButton::clicked, this, &CompressionView::onClearFileBtnClicked);
-    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &CompressionView::onSelectAllStateChanged);
+    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &CompressionView::onSelectAllStateChanged);
+    connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &CompressionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &CompressionView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &CompressionView::onListViewClicked);
-    connect(m_pOutputFormatCbbFilter, &ComboBoxFilter::sigClicked, this, &CompressionView::onOutputFormatCbbClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &CompressionView::onOutputFolderCbbClicked);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CompressionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &CompressionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &CompressionView::onStartAllBtnClicked);
+    connect(m_pCancelAllBtn, &QPushButton::clicked, this, &CompressionView::onCancelAllBtnClicked);
 }
 
 QWidget *CompressionView::createDividingLine() {
@@ -269,7 +319,10 @@ void CompressionView::listItemSelectChanged(const QString &filePath) {
     CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
-    blockSignalsFunc(m_pSelectAllCkb, [&]() {
+    // blockSignalsFunc(m_pSelectAllCkb, [&]() {
+    //     selectAllState();
+    // });
+    blockSignalsFunc(m_pColumnFileNameCkb, [&]() {
         selectAllState();
     });
 }
@@ -288,8 +341,9 @@ void CompressionView::listViewNoDataState() {
     CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
-    m_pListModeSwitchBtn->setVisible(!isNoData);
-    m_pSelectAllCkb->setVisible(!isNoData);
+    // m_pListModeSwitchBtn->setVisible(!isNoData);
+    // m_pSelectAllCkb->setVisible(!isNoData);
+    m_pColumnFileNameCkb->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
@@ -298,33 +352,33 @@ void CompressionView::selectAllState() {
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
-                m_pSelectAllCkb->setChecked(false);
+                // m_pSelectAllCkb->setChecked(false);
+                m_pColumnFileNameCkb->setChecked(false);
                 return;
             }
         }
-        m_pSelectAllCkb->setChecked(true);
+        // m_pSelectAllCkb->setChecked(true);
+        m_pColumnFileNameCkb->setChecked(true);
     } else {
-        m_pSelectAllCkb->setChecked(false);
+        // m_pSelectAllCkb->setChecked(false);
+        m_pColumnFileNameCkb->setChecked(false);
     }
 }
 
-void CompressionView::showOutputFormatView() {
-    if (!m_pOutputFormatView) {
-        m_pOutputFormatView = new CompressionOutputFormatView(this);
-        connect(m_pOutputFormatView, &CompressionOutputFormatView::sigSelectionChanged, this, &CompressionView::setOutputFormatCbbText);
+void CompressionView::initOutputFormatCbbItem() {
+    QString format = COMP_OUT_FORMATS;
+    QStringList formats = format.split(' ');
+    QList<SCompressionOuputFormat> formatDatas;
+    QString fmt = "sameassource";
+    for (auto &item : formats) {
+        if(item != "sameassource") {
+            fmt = item.toUpper();
+        }
+        m_pOutputFormatCbb->addItem(fmt);
     }
-
-    m_pOutputFormatView->setSelection(SETTINGS->compressionOutFormat());
-
-    auto btnPos = m_pOutputFormatCbb->mapToGlobal(QPoint(0, 0));
-    auto pos = btnPos - QPoint(0, m_pOutputFormatView->height() + 8);
-
-    m_pOutputFormatView->move(pos);
-    m_pOutputFormatView->show();
-}
-
-void CompressionView::setOutputFormatCbbText(const QString &text) {
-    m_pOutputFormatEdit->setText(text.toUpper());
+    blockSignalsFunc(m_pOutputFormatCbb, [&]() {
+        m_pOutputFormatCbb->setCurrentText(SETTINGS->compressionOutFormat() != "sameassource" ? SETTINGS->compressionOutFormat().toUpper() : "sameassource");
+    });
 }
 
 void CompressionView::initOutputFolderCbbItem() {
@@ -337,12 +391,64 @@ void CompressionView::CompressionView::setOutputFolder(const QString &path) {
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
+void CompressionView::setStartAllBtnVisible(bool visible) {
+    m_pStartAllBtn->setVisible(visible);
+    m_pCancelAllBtn->setVisible(!visible);
+}
+
+QList<SCompressionData> CompressionView::getListViewModels() const {
+    QList<SCompressionData> datas;
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        datas.append(data);
+    }
+    return datas;
+}
+
+SCompressionData CompressionView::getListViewModel(const QString &filePath) const {
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        if (data.file_path == filePath) {
+            return data;
+        }
+    }
+    return SCompressionData();
+}
+
+int CompressionView::getListViewModelIndex(const QString &filePath) const {
+    for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
+        auto index = m_pListView->model()->index(i, 0);
+        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        if (data.file_path == filePath) {
+            return i;
+        }
+    }
+    return -1;
+}
+
+void CompressionView::startAllTask() {
+
+}
+
+void CompressionView::startTask(const QString &path) {
+
+}
+
 void CompressionView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Compressor"));
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pStartAllBtn->setText(tr("Compress All"));
+    m_pCancelAllBtn->setText(tr("Cancel All"));
+
+    m_pColumnFileNameCkb->setText(tr("File Name"));
+    m_pColumnResolutionLbl->setText(tr("Resolution"));
+    m_pColumnOutputFormatLbl->setText(tr("Output Format"));
+    m_pColumnStatusLbl->setText(tr("Status"));
+    m_pColumnActionLbl->setText(tr("Action"));
 }
 
 void CompressionView::onAddFileBtnClicked() {
@@ -393,9 +499,10 @@ void CompressionView::onListViewClicked(const QModelIndex &index) {
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
-    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
+    auto checkedRect = convListCheckedRect(bgRect);
+    auto delRect = convListDelRect(bgRect);
+    auto convRect = convListConvRect(bgRect);
     if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
         && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
         listItemDelete(data.file_path);
@@ -406,11 +513,15 @@ void CompressionView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void CompressionView::onOutputFormatCbbClicked() {
-    showOutputFormatView();
-}
-
-void CompressionView::onOutputFolderCbbClicked() {
+void CompressionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
+    QString format = text.toLower();
+    SETTINGS->setCompressionOutFormat(format);
+    CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
+    for (auto &data : prst->datas()) {
+        data.output_format = format; 
+        prst->updateData(data.file_path, data);
+    }
+    m_pListView->changeData(prst->datas());
 }
 
 void CompressionView::onOutputFolderCbbIndexChanged(int index) {
@@ -432,13 +543,19 @@ void CompressionView::onOpenOutputFolderBtnClicked() {
 }
 
 void CompressionView::onStartAllBtnClicked() {
-    CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
-    CompressTask task;
-    for(auto data : prst->datas()) {
-        if (data.is_checked) {
-            QFileInfo fileInfo = File::fileInfo(data.file_path);
-            QString outSuffix = SETTINGS->compressionOutFormat() == "sameassource" ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
-            task.exec(data.file_path, SETTINGS->compressionOutPath(), outSuffix, SETTINGS->compressQuality());
-        }
-    }
+    // CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
+    // CompressTask task;
+    // for(auto data : prst->datas()) {
+    //     if (data.is_checked) {
+    //         QFileInfo fileInfo = File::fileInfo(data.file_path);
+    //         QString outSuffix = SETTINGS->compressionOutFormat() == "sameassource" ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+    //         task.exec(data.file_path, SETTINGS->compressionOutPath(), outSuffix, SETTINGS->compressQuality());
+    //     }
+    // }
+    setStartAllBtnVisible(false);
+    startAllTask();
+}
+
+void CompressionView::onCancelAllBtnClicked() {
+    setStartAllBtnVisible(true);
 }

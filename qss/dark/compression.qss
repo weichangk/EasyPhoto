@@ -38,3 +38,7 @@ QLabel#CompressionView_m_pTitleLbl{
     font-size: 20px;
     font-weight: 600;
 }
+
+QWidget#CompressionView_m_pListViewColumnName {
+    background-color: "#1a1627";
+}

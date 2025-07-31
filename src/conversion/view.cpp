@@ -1,7 +1,6 @@
 #include "conversion/view.h"
+#include "conversion/definerect.h"
 #include "conversion/presenter.h"
-#include "conversion/define.h"
-#include "settings.h"
 #include "conversion/conversiontask.h"
 #include "import/importfilehelper.h"
 #include "task/asynctask.h"
@@ -9,6 +8,7 @@
 #include "task/taskdata.h"
 #include "task/taskresult.h"
 #include "widget/messagebox.h"
+#include "settings.h"
 
 #include <QFileInfo>
 #include <QFileDialog>

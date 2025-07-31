@@ -1,6 +1,6 @@
 #include "conversion/listdelegate.h"
 #include "conversion/model.h"
-#include "conversion/define.h"
+#include "conversion/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"
 #include "widget/listview.h"

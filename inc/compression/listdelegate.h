@@ -16,6 +16,6 @@ private:
     QSize m_Size = QSize(200 + 8, 200 + 8);
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
-    bool m_bIsListMode = false;
+    bool m_bIsListMode = true;
     int n_ListItemHeight = 24 + 8;
 };
