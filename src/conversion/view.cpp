@@ -245,6 +245,7 @@ void ConversionView::createUi() {
     m_pListView->setMouseTracking(true);
     m_pListView->setEditTriggers(QListView::AllEditTriggers);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
+    m_pListView->setEditable(true);
     auto listViewLayout = new QVBoxLayout();
     listViewLayout->setContentsMargins(0, 0, 0, 0);
     listViewLayout->setSpacing(0);
