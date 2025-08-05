@@ -50,7 +50,15 @@ void CompressionPresenter::appendData(const QStringList filePaths) {
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
         data.resolution = QSize(pixmap.width(), pixmap.height());
-        data.output_format = SETTINGS->compressionOutFormat();
+        QFileInfo fileInfo(filePath);
+        QString size = "0";
+        if (fileInfo.exists() && fileInfo.isFile()) {
+            float fileSize = fileInfo.size() / 1024.0 / 1024.0;
+            QString sizeStr = QString("%1 MB").arg(QString::number(fileSize, 'f', 2));
+            size = sizeStr;
+        }
+        data.intput_size = size;
+        data.output_size = size;
         data.state_icons = {
             {ECompreState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
             {ECompreState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
@@ -126,7 +134,15 @@ TaskResult<SImportFileResult<QList<SCompressionData>>> CompressionPresenter::imp
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
         data.resolution = QSize(pixmap.width(), pixmap.height());
-        data.output_format = SETTINGS->compressionOutFormat();
+        QFileInfo fileInfo(filePath);
+        QString size = "0";
+        if (fileInfo.exists() && fileInfo.isFile()) {
+            float fileSize = fileInfo.size() / 1024.0 / 1024.0;
+            QString sizeStr = QString("%1 MB").arg(QString::number(fileSize, 'f', 2));
+            size = sizeStr;
+        }
+        data.intput_size = size;
+        data.output_size = size;
         data.state_icons = {
             {ECompreState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
             {ECompreState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},

@@ -218,8 +218,8 @@ void CompressionView::createUi() {
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
     m_pColumnResolutionLbl->setObjectName("QLbl_H16_S12");
-    m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnOutputFormatLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnSizeLbl = new QLabel(m_pListViewColumnName);
+    m_pColumnSizeLbl->setObjectName("QLbl_H16_S12");
     m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
     m_pColumnStatusLbl->setObjectName("QLbl_H16_S12");
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
@@ -228,9 +228,9 @@ void CompressionView::createUi() {
     listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
     listViewColumnNameLayout->addWidget(m_pColumnResolutionLbl);
-    listViewColumnNameLayout->addSpacing(84);
-    listViewColumnNameLayout->addWidget(m_pColumnOutputFormatLbl);
-    listViewColumnNameLayout->addSpacing(78);
+    listViewColumnNameLayout->addSpacing(84 + 16);
+    listViewColumnNameLayout->addWidget(m_pColumnSizeLbl);
+    listViewColumnNameLayout->addSpacing(78 + 45);
     listViewColumnNameLayout->addWidget(m_pColumnStatusLbl);
     listViewColumnNameLayout->addSpacing(70);
     listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
@@ -446,7 +446,7 @@ void CompressionView::onLanguageChange() {
 
     m_pColumnFileNameCkb->setText(tr("File Name"));
     m_pColumnResolutionLbl->setText(tr("Resolution"));
-    m_pColumnOutputFormatLbl->setText(tr("Output Format"));
+    m_pColumnSizeLbl->setText(tr("Size"));
     m_pColumnStatusLbl->setText(tr("Status"));
     m_pColumnActionLbl->setText(tr("Action"));
 }

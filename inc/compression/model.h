@@ -27,6 +27,8 @@ struct SCompressionData {
     bool is_checked = false;
     QSize resolution = QSize(0, 0);
     QString output_format = Default::compressionOutFormat;
+    QString intput_size = "";
+    QString output_size = "";
     ECompreState state = ECompreState_Waiting;
 };
 Q_DECLARE_METATYPE(SCompressionData)

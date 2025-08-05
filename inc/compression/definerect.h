@@ -3,7 +3,7 @@
 
 #include <QRect>
 
-inline QRect convListComboRect(QRect rc) {
+inline QRect convListSizeRect(QRect rc) {
     return QRect(rc.right() - 356, rc.center().y() - 12, 70, 24);
 }
 

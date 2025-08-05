@@ -123,7 +123,7 @@ private:
     QWidget *m_pListViewColumnName = nullptr;
     QCheckBox *m_pColumnFileNameCkb = nullptr;
     QLabel *m_pColumnResolutionLbl = nullptr;
-    QLabel *m_pColumnOutputFormatLbl = nullptr;
+    QLabel *m_pColumnSizeLbl = nullptr;
     QLabel *m_pColumnStatusLbl = nullptr;
     QLabel *m_pColumnActionLbl = nullptr;
 

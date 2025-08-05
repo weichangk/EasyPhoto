@@ -134,6 +134,9 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     auto resolutionRect = convListResolutionRect(bgRect);
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
+    auto sizeRect = convListSizeRect(bgRect);
+    painter->drawText(sizeRect, Qt::AlignLeft | Qt::AlignVCenter, data.intput_size);
+
     painter->setPen(Qt::NoPen);
 
     auto stateRect = convListStateRect(bgRect);
