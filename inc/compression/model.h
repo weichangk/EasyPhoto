@@ -5,6 +5,7 @@
 #include <QString>
 #include <QPixmap>
 
+#define COMP_INPUT_FORMATS "(*.jpg *.jpeg *.png *.gif *.webp)"
 #define COMP_OUT_FORMATS "sameassource jpg png"
 #define COMP_OUT_QUALITY "10 20 30 40 50 60 70 80 90"
 

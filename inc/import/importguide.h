@@ -13,7 +13,7 @@ using namespace qtmaterialfilter;
 class ImportGuide : public QWidget {
     Q_OBJECT
 public:
-    explicit ImportGuide(QWidget *parent = nullptr);
+    explicit ImportGuide(QWidget *parent = nullptr, const QString &filter = "All Files (*)");
     ~ImportGuide() override {
     }
     
@@ -37,11 +37,14 @@ private:
     QWidget *createDividingLine();
     void getAllFilesInDirectory(const QString &dirPath, QList<QString> &files);
     void openFileDialog();
+    QStringList extractExtensions(const QString &filter);
 
 private:
     void onLanguageChange();
 
 private:
+    QString m_strFilter;
+
     LanguageFilter *m_pLanguageFilter = nullptr;
     QVBoxLayout *m_pMainLayout = nullptr;
     IconButton *m_pIconBtn = nullptr;

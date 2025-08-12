@@ -4,8 +4,8 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
-ImportGuide::ImportGuide(QWidget *parent) :
-    QWidget(parent) {
+ImportGuide::ImportGuide(QWidget *parent, const QString &filter) :
+    QWidget(parent), m_strFilter(filter) {
     createUi();
     connectSig();
     onLanguageChange();
@@ -56,6 +56,7 @@ void ImportGuide::dragEnterEvent(QDragEnterEvent *event) {
 void ImportGuide::dropEvent(QDropEvent *event) {
     const QList<QUrl> urls = event->mimeData()->urls();
     QStringList filePaths;
+    QStringList allowedExts = extractExtensions(m_strFilter);
     for (const QUrl &url : urls) {
         // 获取文件路径
         QString filePath = url.toLocalFile();
@@ -63,9 +64,16 @@ void ImportGuide::dropEvent(QDropEvent *event) {
         if (fileInfo.isDir()) {
             QList<QString> allFiles;
             getAllFilesInDirectory(filePath, allFiles);
-            filePaths.append(allFiles);
+            for (const QString &f : allFiles) {
+                QFileInfo fi(f);
+                if (allowedExts.isEmpty() || allowedExts.contains(fi.suffix().toLower())) {
+                    filePaths.append(f);
+                }
+            }
         } else {
-            filePaths.append(filePath);
+            if (allowedExts.isEmpty() || allowedExts.contains(fileInfo.suffix().toLower())) {
+                filePaths.append(filePath);
+            }
         }
     }
     if (!filePaths.isEmpty()) {
@@ -148,10 +156,38 @@ void ImportGuide::getAllFilesInDirectory(const QString &dirPath, QList<QString> 
 void ImportGuide::openFileDialog() {
     QString title = tr("Open");
     QString directory = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
+    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, m_strFilter);
     if (!filePaths.isEmpty()) {
         emit sigImportFile(filePaths);
     }
+}
+
+QStringList ImportGuide::extractExtensions(const QString &filter) {
+    QStringList extensions;
+
+    // 如果包含 All Files 或者通配符 *，直接返回空表示不过滤
+    if (filter.contains("*") && !filter.contains("*.")) {
+        return extensions; // 空 -> 不过滤
+    }
+
+    // 多组过滤器用 ";;" 分割
+    QStringList groups = filter.split(";;", Qt::SkipEmptyParts);
+    for (const QString &group : groups) {
+        int start = group.indexOf("(");
+        int end = group.indexOf(")", start);
+        if (start != -1 && end != -1 && end > start) {
+            QString inside = group.mid(start + 1, end - start - 1);
+            // 分割 *.png *.jpg 这种
+            QStringList patterns = inside.split(QRegExp("\\s+"), Qt::SkipEmptyParts);
+            for (QString p : patterns) {
+                if (p.startsWith("*.")) {
+                    p.remove("*.");
+                }
+                extensions.append(p.toLower());
+            }
+        }
+    }
+    return extensions;
 }
 
 void ImportGuide::onLanguageChange() {

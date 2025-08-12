@@ -118,7 +118,7 @@ void CompressionView::createUi() {
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
 
     //
-    m_pImportGuide = new ImportGuide(this);
+    m_pImportGuide = new ImportGuide(this, QString("Files %1").arg(COMP_INPUT_FORMATS));
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
     importGuideLayout->setContentsMargins(20, 20, 20, 20);
