@@ -28,7 +28,9 @@ QPushButton#CompressionView_m_pStartAllBtn:pressed{
 }
 
 QLabel#CompressionView_m_pOutputFormatLbl,
-QLabel#CompressionView_m_pOutputFolderLbl{
+QLabel#CompressionView_m_pOutputFolderLbl,
+QLabel#CompressionView_m_pCompreToLbl,
+QLabel#CompressionView_m_pComprePercentLbl {
     color: "#ffffff";
     font-size: 13px;
 }

@@ -92,6 +92,10 @@ void CompressionView::resizeEvent(QResizeEvent *event) {
 
     m_pOutputFormatLbl->setGeometry(16, 14, 100, 24);
     m_pOutputFormatCbb->setGeometry(m_pOutputFormatLbl->geometry().right() + 6, 14, 226, 24);
+    m_pCompreToLbl->setGeometry(m_pOutputFormatCbb->geometry().right() + 60, 14, 100, 24);
+    m_pCompreSlider->setGeometry(m_pCompreToLbl->geometry().right() + 6, 14, 100, 24);
+    m_pCompreValueEdit->setGeometry(m_pCompreSlider->geometry().right() + 6, 14, 48, 24);
+    m_pComprePercentLbl->setGeometry(m_pCompreValueEdit->geometry().right() + 6, 14, 24, 24);
 
     m_pOutputFolderLbl->setGeometry(16, 44, 100, 24);
     m_pOutputFolderCbb->setGeometry(m_pOutputFolderLbl->geometry().right() + 6, 44, 226, 24);
@@ -183,6 +187,24 @@ void CompressionView::createUi() {
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pCompreToLbl = new QLabel(bottomWidget);
+    m_pCompreToLbl->setObjectName("CompressionView_m_pCompreToLbl");
+
+    m_pCompreSlider = new QSlider(Qt::Horizontal, bottomWidget);
+    m_pCompreSlider->setObjectName("CompressionView_m_pCompreSlider");
+    m_pCompreSlider->setRange(1, 100);
+    m_pCompreSlider->setTickInterval(1);
+    m_pCompreSlider->setValue(SETTINGS->compressQuality());
+
+    m_pCompreValueEdit = new QLineEdit(bottomWidget);
+    m_pCompreValueEdit->setObjectName("CompressionView_m_pCompreValueEdit");
+    QIntValidator *validator = new QIntValidator(1, 100, m_pCompreValueEdit);
+    m_pCompreValueEdit->setValidator(validator);
+    m_pCompreValueEdit->setText(QString::number(SETTINGS->compressQuality()));
+
+    m_pComprePercentLbl = new QLabel(bottomWidget);
+    m_pComprePercentLbl->setObjectName("CompressionView_m_pComprePercentLbl");
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
     m_pStartAllBtn->setObjectName("CompressionView_m_pStartAllBtn");
@@ -288,6 +310,8 @@ void CompressionView::connectSig() {
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &CompressionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &CompressionView::onStartAllBtnClicked);
     connect(m_pCancelAllBtn, &QPushButton::clicked, this, &CompressionView::onCancelAllBtnClicked);
+    connect(m_pCompreSlider, &QSlider::valueChanged, this, &CompressionView::onCompreSliderValueChanged);
+    connect(m_pCompreValueEdit, &QLineEdit::textEdited, this, &CompressionView::onCompreValueEdited);
 }
 
 QWidget *CompressionView::createDividingLine() {
@@ -441,6 +465,8 @@ void CompressionView::onLanguageChange() {
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
+    m_pCompreToLbl->setText(tr("Compress All to:"));
+    m_pComprePercentLbl->setText(tr("%"));
     m_pStartAllBtn->setText(tr("Compress All"));
     m_pCancelAllBtn->setText(tr("Cancel All"));
 
@@ -558,4 +584,18 @@ void CompressionView::onStartAllBtnClicked() {
 
 void CompressionView::onCancelAllBtnClicked() {
     setStartAllBtnVisible(true);
+}
+
+void CompressionView::onCompreSliderValueChanged(int value) {
+    m_pCompreValueEdit->setText(QString::number(value));
+    SETTINGS->setCompressQuality(value);
+}
+
+void CompressionView::onCompreValueEdited(const QString &text) {
+    int value = text.toInt();
+    if (value < 1) value = 1;
+    else if (value > 100) value = 100;
+    m_pCompreValueEdit->setText(QString::number(value));
+    m_pCompreSlider->setValue(value);
+    SETTINGS->setCompressQuality(value);
 }

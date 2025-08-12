@@ -21,6 +21,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QSlider>
 
 using namespace qtmaterialmvp;
 using namespace qtmaterialwidget;
@@ -95,6 +96,8 @@ private Q_SLOTS:
     void onOpenOutputFolderBtnClicked();
     void onStartAllBtnClicked();
     void onCancelAllBtnClicked();
+    void onCompreSliderValueChanged(int value);
+    void onCompreValueEdited(const QString &text);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -116,6 +119,10 @@ private:
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
+    QLabel *m_pCompreToLbl = nullptr;
+    QSlider *m_pCompreSlider = nullptr;
+    QLineEdit *m_pCompreValueEdit = nullptr;
+    QLabel *m_pComprePercentLbl = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
     QPushButton *m_pCancelAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
