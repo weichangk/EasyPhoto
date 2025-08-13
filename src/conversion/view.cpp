@@ -16,6 +16,7 @@
 #include <QDesktopServices>
 
 using namespace qtmaterialtask;
+using namespace imagecore;
 
 ConversionOutputFormatView::ConversionOutputFormatView(QWidget *parent) :
     QWidget(parent) {

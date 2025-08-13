@@ -15,6 +15,8 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
+using namespace imagecore;
+
 CompressionOutputFormatView::CompressionOutputFormatView(QWidget *parent) :
     QWidget(parent) {
     createUi();
@@ -453,7 +455,38 @@ int CompressionView::getListViewModelIndex(const QString &filePath) const {
 }
 
 void CompressionView::startAllTask() {
+    auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
+        CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
+        CompressTask compreTask;
+        for (auto data : prst->datas()) {
+            if(m_pStartAllBtn->isVisible()) {
+                return TaskResult<void*>::Success(nullptr);
+            }
+            if (data.is_checked) {
+                data.state = ECompreState_Loading; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+                QFileInfo fileInfo = File::fileInfo(data.file_path);
+                QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+                auto result = compreTask.exec(SCompreParam{
+                    data.file_path.toStdString(),
+                    SETTINGS->compressionOutPath().toStdString(),
+                    outSuffix.toStdString(),
+                    SETTINGS->compressQuality()});
+                data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+            }
+        }
 
+        QMetaObject::invokeMethod(this, [this]() {
+            setStartAllBtnVisible(true);
+        }, Qt::QueuedConnection);
+
+        return TaskResult<void*>::Success(nullptr);
+    };
+    auto task = TaskFactory::instance()->createTask<void*, void*>(func, nullptr, TaskData<void*>());
+    task->start();
 }
 
 void CompressionView::startTask(const QString &path) {
@@ -569,15 +602,6 @@ void CompressionView::onOpenOutputFolderBtnClicked() {
 }
 
 void CompressionView::onStartAllBtnClicked() {
-    // CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
-    // CompressTask task;
-    // for(auto data : prst->datas()) {
-    //     if (data.is_checked) {
-    //         QFileInfo fileInfo = File::fileInfo(data.file_path);
-    //         QString outSuffix = SETTINGS->compressionOutFormat() == "sameassource" ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
-    //         task.exec(data.file_path, SETTINGS->compressionOutPath(), outSuffix, SETTINGS->compressQuality());
-    //     }
-    // }
     setStartAllBtnVisible(false);
     startAllTask();
 }
