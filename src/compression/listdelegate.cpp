@@ -135,8 +135,12 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
     auto sizeRect = convListSizeRect(bgRect);
-    painter->drawText(sizeRect, Qt::AlignLeft | Qt::AlignVCenter, data.intput_size);
-
+    if(data.state == ECompreState_Success) {
+        painter->drawText(sizeRect, Qt::AlignCenter, QString("%1 --> %2").arg(data.intput_size).arg(data.output_size));
+    }
+    else {
+        painter->drawText(sizeRect, Qt::AlignCenter, data.intput_size);
+    }
     painter->setPen(Qt::NoPen);
 
     auto stateRect = convListStateRect(bgRect);
@@ -168,7 +172,7 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     QFont convTextFont = painter->font();
     convTextFont.setPixelSize(12);
     painter->setFont(convTextFont);
-    QString convText = tr("Convert");
+    QString convText = tr("Compress");
     painter->drawText(convTextRect, Qt::AlignCenter, convText);
     painter->setPen(Qt::NoPen);
 }

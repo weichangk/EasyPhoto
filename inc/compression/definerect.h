@@ -4,7 +4,7 @@
 #include <QRect>
 
 inline QRect convListSizeRect(QRect rc) {
-    return QRect(rc.right() - 356, rc.center().y() - 12, 70, 24);
+    return QRect(rc.right() - 356 - 50, rc.center().y() - 12, 140, 24);
 }
 
 inline QRect convListCheckedRect(QRect rc) {

@@ -464,8 +464,10 @@ void CompressionView::startAllTask() {
             }
             if (data.is_checked) {
                 data.state = ECompreState_Loading; 
+                data.output_size = data.intput_size;
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
                 QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
                 auto result = compreTask.exec(SCompreParam{
@@ -473,7 +475,9 @@ void CompressionView::startAllTask() {
                     SETTINGS->compressionOutPath().toStdString(),
                     outSuffix.toStdString(),
                     SETTINGS->compressQuality()});
+                    
                 data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
+                data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
             }
@@ -490,7 +494,36 @@ void CompressionView::startAllTask() {
 }
 
 void CompressionView::startTask(const QString &path) {
+    auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
+        CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
+        CompressTask compreTask;
+        for (auto data : prst->datas()) {
+            if (data.file_path == path && data.state != ECompreState_Loading) {
+                data.state = ECompreState_Loading; 
+                data.output_size = data.intput_size;
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
 
+                QFileInfo fileInfo = File::fileInfo(data.file_path);
+                QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+                auto result = compreTask.exec(SCompreParam {
+                    data.file_path.toStdString(),
+                    SETTINGS->compressionOutPath().toStdString(),
+                    outSuffix.toStdString(),
+                    SETTINGS->compressQuality()});
+
+                data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
+                data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
+                prst->updateData(data.file_path, data);
+                m_pListView->changeData(getListViewModelIndex(data.file_path), data);
+
+                return TaskResult<void*>::Success(nullptr);
+            }
+        }
+        return TaskResult<void*>::Success(nullptr);
+    };
+    auto task = TaskFactory::instance()->createTask<void*, void*>(func, nullptr, TaskData<void*>());
+    task->start();
 }
 
 void CompressionView::onLanguageChange() {
@@ -569,6 +602,10 @@ void CompressionView::onListViewClicked(const QModelIndex &index) {
     if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
         && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
         listItemSelectChanged(data.file_path);
+    }
+    if (posx >= convRect.x() && posx <= convRect.x() + convRect.width()
+        && posy >= convRect.y() && posy <= convRect.y() + convRect.height()) {
+        startTask(data.file_path);
     }
 }
 
