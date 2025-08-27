@@ -3,7 +3,7 @@
 #include "mvp/repository.h"
 #include "model.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class GifGenerationRepository : public Repository {
     public:

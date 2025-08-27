@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 CompressionOutputFormatDelegate::CompressionOutputFormatDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {

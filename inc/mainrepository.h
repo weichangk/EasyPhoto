@@ -5,7 +5,7 @@
 #include "funcarearepository.h"
 #include "mvp/repository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class MainRepository : public Repository {
 public:

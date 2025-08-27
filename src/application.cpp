@@ -9,7 +9,7 @@
 // #include <Magick++.h>
 
 // using namespace Magick;
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 Application::Application(int argc, char *argv[]) :
     QApplication(argc, argv) {
@@ -20,9 +20,9 @@ Application::Application(int argc, char *argv[]) :
     SETTINGS->load();
     QStringList prefixs;
     prefixs.append("");
-    qtmaterialcore::Theme::setTheme(qtmaterialcore::Theme::DARK, prefixs);
-    qtmaterialcore::Font::setFont(qtmaterialcore::Font::ROBOTO_REGULAR);
-    qtmaterialcore::Font::setIconFont(":/font/iconfont.ttf");
+    QtmCore::Theme::setTheme(QtmCore::Theme::DARK, prefixs);
+    QtmCore::Font::setFont(QtmCore::Font::ROBOTO_REGULAR);
+    QtmCore::Font::setIconFont(":/font/iconfont.ttf");
     // InitializeMagick(*argv);
 #if QT_VERSION < 0x060000
     setAttribute(Qt::AA_UseHighDpiPixmaps, true);

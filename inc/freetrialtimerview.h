@@ -3,7 +3,7 @@
 
 #include <QTimer>
 
-using namespace qtmaterialfilter;
+using namespace QtmFilter;
 
 class FreeTrialTimerView : public QWidget {
     Q_OBJECT

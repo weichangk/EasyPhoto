@@ -3,7 +3,7 @@
 #include "mvp/repository.h"
 #include "importmodel.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class ImportListRepository : public Repository {
 public:

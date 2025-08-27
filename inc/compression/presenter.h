@@ -7,8 +7,8 @@
 #include "task/taskresult.h"
 #include "import/importfilehelper.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialtask;
+using namespace QtmMvp;
+using namespace QtmTask;
 
 class CompressionPresenter : public Presenter {
 public:

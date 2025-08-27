@@ -5,8 +5,8 @@
 #include "mvp/presenter.h"
 #include "core/subject.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialcore;
+using namespace QtmMvp;
+using namespace QtmCore;
 
 class TitlebarPresenter : public Presenter, public ITitlebarFuncSubject {
 public:

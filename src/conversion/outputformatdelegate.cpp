@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 ConversionOutputFormatDelegate::ConversionOutputFormatDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {

@@ -2,7 +2,7 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class GifPreviewRepository : public Repository {
     public:

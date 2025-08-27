@@ -5,8 +5,8 @@
 
 #include <QMovie>
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
+using namespace QtmMvp;
+using namespace QtmWidget;
 
 class GifPreviewView : public QWidget, public View {
     Q_OBJECT

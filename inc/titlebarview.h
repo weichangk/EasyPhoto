@@ -3,10 +3,10 @@
 #include "mvp/view.h"
 #include "widget/button.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
-using namespace qtmaterialcore;
-using namespace qtmaterialfilter;
+using namespace QtmMvp;
+using namespace QtmWidget;
+using namespace QtmCore;
+using namespace QtmFilter;
 
 class TitlebarView : public QWidget, public View {
     Q_OBJECT

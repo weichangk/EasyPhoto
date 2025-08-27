@@ -6,9 +6,9 @@
 #include <QDropEvent>
 #include <QMimeData>
 
-using namespace qtmaterialwidget;
-using namespace qtmaterialcore;
-using namespace qtmaterialfilter;
+using namespace QtmWidget;
+using namespace QtmCore;
+using namespace QtmFilter;
 
 class ImportGuide : public QWidget {
     Q_OBJECT

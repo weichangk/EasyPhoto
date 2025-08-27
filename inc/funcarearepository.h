@@ -16,7 +16,7 @@
 #include "downloader/repository.h"
 #include "gifpreview/repository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class FuncAreaRepository : public Repository {
 public:

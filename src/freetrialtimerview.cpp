@@ -57,7 +57,7 @@ void FreeTrialTimerView::createUi() {
     m_pFreeTrialLab->setAlignment(Qt::AlignCenter);
 
     for (int i = 0; i <= 9; ++i) {
-        QString path = QString(":/qtmaterial/img/vcu/dark/trial/small-number-%1.png").arg(i);
+        QString path = QString(":/QtmImg/img/dark/trial/small-number-%1.png").arg(i);
         m_digitPixmaps[i] = QPixmap(path);
     }
 

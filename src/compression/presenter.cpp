@@ -60,10 +60,10 @@ void CompressionPresenter::appendData(const QStringList filePaths) {
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {ECompreState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {ECompreState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {ECompreState_Success, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {ECompreState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {ECompreState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {ECompreState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {ECompreState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {ECompreState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
     }
@@ -144,10 +144,10 @@ TaskResult<SImportFileResult<QList<SCompressionData>>> CompressionPresenter::imp
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {ECompreState_Waiting, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {ECompreState_Loading, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {ECompreState_Success, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {ECompreState_Fail, QPixmap(":/qtmaterial/img/vcu/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {ECompreState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {ECompreState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {ECompreState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {ECompreState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
         self->progress(++index, "Adding images:" + data.file_name.toStdString());

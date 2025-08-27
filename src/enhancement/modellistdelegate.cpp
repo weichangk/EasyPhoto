@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 EnhanceModelListDelegate::EnhanceModelListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {

@@ -6,7 +6,7 @@
 #include "mvp/presenter.h"
 #include "core/subject.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class NavbarPresenter : public Presenter, public IFuncChangeSubject, public INavbarCheckedObserver {
 public:
@@ -24,5 +24,5 @@ private:
     bool handleMessage(IMessage* message) override;
 
 private:
-    qtmaterialcore::Subject<IFuncChangeObserver> m_pFuncChangeObserver;
+    QtmCore::Subject<IFuncChangeObserver> m_pFuncChangeObserver;
 };

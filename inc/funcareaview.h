@@ -21,7 +21,7 @@
 
 #include <QStackedLayout>
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class FuncAreaView : public QWidget, public View {
     Q_OBJECT

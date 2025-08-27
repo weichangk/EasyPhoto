@@ -95,7 +95,7 @@ void ImportGuide::createUi() {
     m_pIconBtn->setFixedSize(148, 148);
     m_pIconBtn->setIconSize(148, 148);
     m_pIconBtn->setAttribute(Qt::WA_TransparentForMouseEvents);
-    m_pIconBtn->setNormalPixmapPath(QString(":/qtmaterial/img/vcu/%1/v16/icon148/image148_Conversion.png").arg(qtmaterialcore::Theme::currentTheme()));
+    m_pIconBtn->setNormalPixmapPath(QString(":/QtmImg/img/%1/v16/icon148/image148_Conversion.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pTitleLab = new QLabel(this);
     m_pTitleLab->setObjectName("ImportGuide_m_pTitleLab");
@@ -107,7 +107,7 @@ void ImportGuide::createUi() {
     m_pImportBtn->setObjectName("ImportGuide_m_pImportBtn");
     m_pImportBtn->setFixedSize(290, 48);
     m_pImportBtn->setAdjustWidth(false);
-    m_pImportBtn->setFourPixmapPath(QString(":/qtmaterial/img/vcu/%1/v16/icon24/icon24_add.svg").arg(qtmaterialcore::Theme::currentTheme()));
+    m_pImportBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon24/icon24_add.svg").arg(QtmCore::Theme::currentTheme()));
     m_pImportBtn->setIconSize(24, 24);
 
     m_pMainLayout = new QVBoxLayout(this);

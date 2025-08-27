@@ -3,7 +3,7 @@
 #include "model.h"
 #include "mvp/repository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class CompressionRepository : public Repository {
 public:

@@ -6,8 +6,8 @@
 #include "importmodel.h"
 #include "importlistdelegate.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
+using namespace QtmMvp;
+using namespace QtmWidget;
 
 class ImportListView : public QWidget, public View {
     Q_OBJECT

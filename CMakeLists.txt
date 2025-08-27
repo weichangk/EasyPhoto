@@ -10,12 +10,12 @@ project(
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/public.cmake)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial)
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/ImageCore)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
     ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
-    ${CMAKE_SOURCE_DIR}/3rdparty/ImageCore/inc
+    ${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore/inc
 )
 
 MY_ADD_QT_PACK_FUNC(
@@ -24,7 +24,7 @@ MY_ADD_QT_PACK_FUNC(
 
 MY_ADD_LINK_LIB_FUNC(
     QtMaterial
-    ImageCore
+    ImageKitCore
 )
 
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/option.cmake)

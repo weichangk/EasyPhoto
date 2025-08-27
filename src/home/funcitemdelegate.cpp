@@ -6,7 +6,7 @@
 #include <QPainter>
 #include <QFontMetricsF>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 FuncItemDelegate::FuncItemDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {

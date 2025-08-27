@@ -6,8 +6,8 @@
 #include "observer/ifuncchangesubject.h"
 #include "core/subject.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialcore;
+using namespace QtmMvp;
+using namespace QtmCore;
 
 class GifGenerationPresenter : public Presenter, public IFuncChangeSubject {
 public:

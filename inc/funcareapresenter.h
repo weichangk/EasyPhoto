@@ -18,7 +18,7 @@
 #include "thumbmaker/presenter.h"
 #include "downloader/presenter.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class FuncAreaPresenter : public Presenter, public IFuncChangeObserver {
 public:

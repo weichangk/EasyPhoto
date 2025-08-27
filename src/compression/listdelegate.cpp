@@ -13,7 +13,7 @@
 #include <QTimer>
 #include <QListView>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 CompressionListDelegate::CompressionListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {

@@ -174,7 +174,7 @@ void EnhancementView::createUi() {
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     auto outputFolderLayout = new QHBoxLayout();
     outputFolderLayout->setContentsMargins(0, 0, 0, 0);

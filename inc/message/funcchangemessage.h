@@ -2,7 +2,7 @@
 
 #include "mvp/message.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class FuncChangeMessage : public Message {
 public:

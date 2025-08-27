@@ -7,9 +7,9 @@
 
 #include <QButtonGroup>
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
-using namespace qtmaterialfilter;
+using namespace QtmMvp;
+using namespace QtmWidget;
+using namespace QtmFilter;
 
 class NavbarView : public QWidget, public View {
     Q_OBJECT

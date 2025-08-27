@@ -5,7 +5,7 @@
 #include "upscayl/types.h"
 #include "core/file.h"
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 EnhancementPresenter::EnhancementPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {

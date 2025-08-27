@@ -4,7 +4,7 @@
 #include "model.h"
 #include "import/importlistrepository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class EraseRepository : public Repository {
 public:

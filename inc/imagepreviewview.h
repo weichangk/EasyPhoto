@@ -4,7 +4,7 @@
 
 #include <QMovie>
 
-using namespace qtmaterialwidget;
+using namespace QtmWidget;
 
 class ImagePreviewView : public QWidget {
     Q_OBJECT

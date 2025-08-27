@@ -23,10 +23,10 @@
 #include <QLineEdit>
 #include <QPushButton>
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
-using namespace qtmaterialcore;
-using namespace qtmaterialfilter;
+using namespace QtmMvp;
+using namespace QtmWidget;
+using namespace QtmCore;
+using namespace QtmFilter;
 
 class CroppingView : public QWidget, public View {
     Q_OBJECT

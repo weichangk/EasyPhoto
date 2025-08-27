@@ -8,8 +8,8 @@
 #include <QObject>
 #include <QVariant>
 
-using namespace qtmaterialtask;
-using namespace qtmaterialwidget;
+using namespace QtmTask;
+using namespace QtmWidget;
 
 struct SImportFileData {
     QList<QString> filePaths;

@@ -4,7 +4,7 @@
 #include "mvp/presenter.h"
 #include "importmodel.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class ImportListPresenter : public Presenter {
 public:

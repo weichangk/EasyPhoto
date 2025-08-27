@@ -7,7 +7,7 @@
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class MainPresenter : public Presenter, public ITitlebarFuncObserver {
 public:

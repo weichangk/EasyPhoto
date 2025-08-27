@@ -5,7 +5,7 @@
 #include "model.h"
 #include "import/importlistpresenter.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class EnhancementPresenter : public Presenter {
 public:

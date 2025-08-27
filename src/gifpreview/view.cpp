@@ -30,12 +30,12 @@ void GifPreviewView::createUi() {
     m_pExitBtn = new IconButton(this);
     m_pExitBtn->setFixedSize(24, 24);
     m_pExitBtn->setIconSize(24, 24);
-    m_pExitBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_delete.png");
+    m_pExitBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
 
     m_pPlayBtn = new IconButton(this);
     m_pPlayBtn->setFixedSize(24, 24);
     m_pPlayBtn->setIconSize(24, 24);
-    m_pPlayBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_delete.png");
+    m_pPlayBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
     m_pPlayBtn->setVisible(false);
 
     m_pGifLabel = new QLabel(this);
@@ -82,10 +82,10 @@ void GifPreviewView::onExitBtnClicked() {
 
 void GifPreviewView::onPlayBtnClicked() {
     if(m_pPlayBtn->fourPixmapPath().contains("start")) {
-        m_pPlayBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_delete.png");
+        m_pPlayBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
         stop();
     } else {
-        m_pPlayBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_delete.png");
+        m_pPlayBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
         start();
     }
 }

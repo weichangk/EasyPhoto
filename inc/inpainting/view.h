@@ -2,7 +2,7 @@
 #include "globalview.h"
 #include "mvp/view.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class InpaintingView : public QWidget, public View {
     Q_OBJECT

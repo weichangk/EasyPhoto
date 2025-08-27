@@ -89,12 +89,12 @@ void ImportListView::createUi() {
     m_pAddBtn = new IconButton(this);
     m_pAddBtn->setFixedSize(24, 24);
     m_pAddBtn->setIconSize(24, 24);
-    m_pAddBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pAddBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     m_pClearBtn = new IconButton(this);
     m_pClearBtn->setFixedSize(24, 24);
     m_pClearBtn->setIconSize(24, 24);
-    m_pClearBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pClearBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     auto btnLayout = new QVBoxLayout();
     btnLayout->setContentsMargins(0, 8, 0, 8);

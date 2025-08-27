@@ -7,8 +7,8 @@
 #include "funcareaview.h"
 #include "titlebarenum.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialfilter;
+using namespace QtmMvp;
+using namespace QtmFilter;
 
 class MainView : public QWidget, public View {
     Q_OBJECT

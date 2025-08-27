@@ -5,8 +5,8 @@
 #include "model.h"
 #include "funcitemdelegate.h"
 
-using namespace qtmaterialmvp;
-using namespace qtmaterialwidget;
+using namespace QtmMvp;
+using namespace QtmWidget;
 class HomeView : public QWidget, public View {
     Q_OBJECT
 public:

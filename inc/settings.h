@@ -5,7 +5,7 @@
 #include <QDir>
 #include <QStandardPaths>
 
-using namespace qtmaterialcore;
+using namespace QtmCore;
 
 static QString defOutPath(const QString &folderName) {
     QString fullPath = QStandardPaths::writableLocation(QStandardPaths::ApplicationsLocation);

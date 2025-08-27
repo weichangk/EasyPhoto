@@ -134,17 +134,17 @@ void CompressionView::createUi() {
     m_pAddFileBtn = new IconButton(topWidget);
     m_pAddFileBtn->setFixedSize(32, 32);
     m_pAddFileBtn->setIconSize(32, 32);
-    m_pAddFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon32/icon32_add_file.png");
+    m_pAddFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_file.png");
 
     m_pAddFolderBtn = new IconButton(topWidget);
     m_pAddFolderBtn->setFixedSize(32, 32);
     m_pAddFolderBtn->setIconSize(32, 32);
-    m_pAddFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon32/icon32_add_folder.png");
+    m_pAddFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_folder.png");
 
     m_pClearFileBtn = new IconButton(topWidget);
     m_pClearFileBtn->setFixedSize(24, 24);
     m_pClearFileBtn->setIconSize(24, 24);
-    m_pClearFileBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_delete.png");
+    m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
     m_pSelectAllCkb->setObjectName("CompressionView_m_pSelectAllCkb");
@@ -153,7 +153,7 @@ void CompressionView::createUi() {
     m_pListModeSwitchBtn = new IconButton(topWidget);
     m_pListModeSwitchBtn->setFixedSize(24, 24);
     m_pListModeSwitchBtn->setIconSize(24, 24);
-    m_pListModeSwitchBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_thumbnail.png");
+    m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
     m_pListModeSwitchBtn->setVisible(false);
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
@@ -188,7 +188,7 @@ void CompressionView::createUi() {
     m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/qtmaterial/img/vcu/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     m_pCompreToLbl = new QLabel(bottomWidget);
     m_pCompreToLbl->setObjectName("CompressionView_m_pCompreToLbl");

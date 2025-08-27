@@ -2,7 +2,7 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 
-using namespace qtmaterialmvp;
+using namespace QtmMvp;
 
 class DownloaderRepository : public Repository {
 public:
