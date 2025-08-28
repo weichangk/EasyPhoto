@@ -1,7 +1,7 @@
 #include "compression/view.h"
 #include "compression/definerect.h"
 #include "compression/presenter.h"
-#include "compression/compressiontask.h"
+#include "cmp/task.h"
 #include "import/importfilehelper.h"
 #include "task/asynctask.h"
 #include "task/taskfactory.h"
@@ -14,8 +14,6 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 #include <QDesktopServices>
-
-using namespace imagecore;
 
 CompressionOutputFormatView::CompressionOutputFormatView(QWidget *parent) :
     QWidget(parent) {
@@ -457,7 +455,7 @@ int CompressionView::getListViewModelIndex(const QString &filePath) const {
 void CompressionView::startAllTask() {
     auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
-        CompressTask compreTask;
+        ImgKitCore::CMP::Task cmpTask;
         for (auto data : prst->datas()) {
             if(m_pStartAllBtn->isVisible()) {
                 return TaskResult<void*>::Success(nullptr);
@@ -470,7 +468,7 @@ void CompressionView::startAllTask() {
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
                 QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
-                auto result = compreTask.exec(SCompreParam{
+                auto result = cmpTask.exec(ImgKitCore::CMP::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->compressionOutPath().toStdString(),
                     outSuffix.toStdString(),
@@ -496,7 +494,7 @@ void CompressionView::startAllTask() {
 void CompressionView::startTask(const QString &path) {
     auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
-        CompressTask compreTask;
+        ImgKitCore::CMP::Task cmpTask;
         for (auto data : prst->datas()) {
             if (data.file_path == path && data.state != ECompreState_Loading) {
                 data.state = ECompreState_Loading; 
@@ -506,7 +504,7 @@ void CompressionView::startTask(const QString &path) {
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
                 QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
-                auto result = compreTask.exec(SCompreParam {
+                auto result = cmpTask.exec(ImgKitCore::CMP::SParam {
                     data.file_path.toStdString(),
                     SETTINGS->compressionOutPath().toStdString(),
                     outSuffix.toStdString(),

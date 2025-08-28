@@ -1,6 +1,6 @@
 #include "gifgeneration/view.h"
 #include "gifgeneration/presenter.h"
-#include "gifgeneration/gifgenerationtask.h"
+#include "gifmk/task.h"
 #include "settings.h"
 #include "message/funcchangemessage.h"
 #include "funcenum.h"
@@ -326,12 +326,12 @@ void GifGenerationView::onPreviewBtnClicked() {
 
 void GifGenerationView::onStartAllClicked() {
     GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
-    GifGenerationTask task;
+    ImgKitCore::GIFMK::Task task;
     QList<QString> filePaths;
     for(auto data : prst->datas()) {
         filePaths.append(data.file_path);
     }
-    GifGenerationParam param = {
+    ImgKitCore::GIFMK::SParam param = {
         filePaths,
         SETTINGS->gifGenerationWidth(),
         SETTINGS->gifGenerationHeight(),

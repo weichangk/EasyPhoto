@@ -1,8 +1,8 @@
 #include "enhancement/presenter.h"
 #include "enhancement/repository.h"
 #include "enhancement/view.h"
-#include "upscayl/upscayl.h"
-#include "upscayl/types.h"
+#include "upsc/task.h"
+#include "upsc/types.h"
 #include "core/file.h"
 
 using namespace QtmCore;
@@ -37,19 +37,19 @@ void EnhancementPresenter::Enhancement() {
     foreach (auto data, datas) {
         QString outPath = data.path;
         File::renameIfExists(outPath);
-        upscayl::SUpscaylPayload payload;
-        payload.inputFile = data.path;
-        payload.outputFile = outPath;
-        payload.scale = 1;
-        payload.modelName = "upscayl-standard-4x";
-        payload.gpuId = "";
-        payload.compression = 0;
-        payload.saveAsFormat = upscayl::EFormat::PNG;
-        payload.useCustomWidth = false;
-        payload.customWidth = 1000;
-        payload.tileSize = 0;
-        payload.ttaMode = false;
-        upscayl::Upscayl upscayl;
-        upscayl.exec(payload);
+        ImgKitCore::UPSC::SParam param;
+        param.inputFile = data.path;
+        param.outputFile = outPath;
+        param.scale = 1;
+        param.modelName = "upscayl-standard-4x";
+        param.gpuId = "";
+        param.compression = 0;
+        param.saveAsFormat = ImgKitCore::UPSC::EFormat::PNG;
+        param.useCustomWidth = false;
+        param.customWidth = 1000;
+        param.tileSize = 0;
+        param.ttaMode = false;
+        ImgKitCore::UPSC::Task task;
+        task.exec(param);
     }
 }

@@ -1,7 +1,7 @@
 #include "conversion/view.h"
 #include "conversion/definerect.h"
 #include "conversion/presenter.h"
-#include "conversion/conversiontask.h"
+#include "conv/task.h"
 #include "import/importfilehelper.h"
 #include "task/asynctask.h"
 #include "task/taskfactory.h"
@@ -16,7 +16,6 @@
 #include <QDesktopServices>
 
 using namespace QtmTask;
-using namespace imagecore;
 
 ConversionOutputFormatView::ConversionOutputFormatView(QWidget *parent) :
     QWidget(parent) {
@@ -455,7 +454,7 @@ int ConversionView::getListViewModelIndex(const QString &filePath) const {
 void ConversionView::startConvAllTask() {
     auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
-        ConversionTask convTask;
+        ImgKitCore::CONV::Task convTask;
         for (auto data : prst->datas()) {
             if(m_pStartAllBtn->isVisible()) {
                 return TaskResult<void*>::Success(nullptr);
@@ -464,7 +463,7 @@ void ConversionView::startConvAllTask() {
                 data.state = EConvState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
-                auto result = convTask.exec(SConvParam{
+                auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->conversionOutPath().toStdString(),
                     data.output_format.toStdString()});
@@ -487,13 +486,13 @@ void ConversionView::startConvAllTask() {
 void ConversionView::startConvTask(const QString &path) {
     auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
-        ConversionTask convTask;
+        ImgKitCore::CONV::Task convTask;
         for (auto data : prst->datas()) {
             if (data.file_path == path && data.state != EConvState_Loading) {
                 data.state = EConvState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
-                auto result = convTask.exec(SConvParam{
+                auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->conversionOutPath().toStdString(),
                     data.output_format.toStdString()});
