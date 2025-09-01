@@ -9,7 +9,7 @@
 #include "effects/repository.h"
 #include "enhancement/repository.h"
 #include "erase/repository.h"
-#include "gifgeneration/repository.h"
+#include "gifmk/repository.h"
 #include "inpainting/repository.h"
 #include "bgremover/repository.h"
 #include "thumbmaker/repository.h"
@@ -31,7 +31,7 @@ public:
     EffectsRepository *effectsRepository() const;
     EnhancementRepository *enhancementRepository() const;
     EraseRepository *eraseRepository() const;
-    GifGenerationRepository *gifGenerationRepository() const;
+    GifMkRepository *gifMkRepository() const;
     InpaintingRepository *inpaintingRepository() const;
     ThumbnailMakerRepository *thumbnailMakerRepository() const;
     DownloaderRepository *downloaderRepository() const;
@@ -47,7 +47,7 @@ private:
     EffectsRepository *m_pEffectsRepository = nullptr;
     EnhancementRepository *m_pEnhancementRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;
-    GifGenerationRepository *m_pGifGenerationRepository = nullptr;
+    GifMkRepository *m_pGifMkRepository = nullptr;
     InpaintingRepository *m_pInpaintingRepository = nullptr;
     ThumbnailMakerRepository *m_pThumbnailMakerRepository = nullptr;
     DownloaderRepository *m_pDownloaderRepository = nullptr;

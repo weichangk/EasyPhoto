@@ -1,5 +1,5 @@
-#include "gifgeneration/view.h"
-#include "gifgeneration/presenter.h"
+#include "gifmk/view.h"
+#include "gifmk/presenter.h"
 #include "gifmk/task.h"
 #include "settings.h"
 #include "message/funcchangemessage.h"
@@ -9,26 +9,26 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
-GifGenerationView::GifGenerationView(QWidget *parent) :
+GifMkView::GifMkView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
     onLanguageChange();
 }
 
-void GifGenerationView::showEvent(QShowEvent *event) {
+void GifMkView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     listViewNoDataState();
 }
 
-void GifGenerationView::createUi() {
-    setObjectName("GifGenerationView");
+void GifMkView::createUi() {
+    setObjectName("GifMkView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("GifGenerationView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("GifMkView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -78,7 +78,7 @@ void GifGenerationView::createUi() {
     bottomWidget->setFixedHeight(70);
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
-    m_pOutputFolderLbl->setObjectName("GifGenerationView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("GifMkView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(240, 24);
@@ -94,9 +94,9 @@ void GifGenerationView::createUi() {
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     m_pPixelsLbl = new QLabel(bottomWidget);
-    m_pPixelsLbl->setObjectName("GifGenerationView_m_pPixelsLbl");
+    m_pPixelsLbl->setObjectName("GifMkView_m_pPixelsLbl");
     m_pPixels_x_Lbl = new QLabel(bottomWidget);
-    m_pPixels_x_Lbl->setObjectName("GifGenerationView_m_pPixels_x_Lbl");
+    m_pPixels_x_Lbl->setObjectName("GifMkView_m_pPixels_x_Lbl");
 
     m_pPixelsWidthLdt = new QLineEdit(bottomWidget);
     m_pPixelsWidthLdt->setFixedSize(48, 24);
@@ -104,16 +104,16 @@ void GifGenerationView::createUi() {
     m_pPixelsHeightLdt->setFixedSize(48, 24);
 
     m_pFrameRateLbl = new QLabel(bottomWidget);
-    m_pFrameRateLbl->setObjectName("GifGenerationView_m_pFrameRateLbl");
+    m_pFrameRateLbl->setObjectName("GifMkView_m_pFrameRateLbl");
     m_pFrameRateCbb = new QComboBox(bottomWidget);
     initFrameRateCbbItem();
 
     m_pPreviewBtn = new QPushButton(bottomWidget);
-    m_pPreviewBtn->setObjectName("GifGenerationView_m_pPreviewBtn");
+    m_pPreviewBtn->setObjectName("GifMkView_m_pPreviewBtn");
     m_pPreviewBtn->setFixedSize(110, 32);
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
-    m_pStartAllBtn->setObjectName("GifGenerationView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("GifMkView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
@@ -132,9 +132,9 @@ void GifGenerationView::createUi() {
     bottomWidgetLayout->addWidget(m_pPreviewBtn);
     bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
-    m_pListView = new ListView<SGifGenerationData>(this);
+    m_pListView = new ListView<SGifMkData>(this);
     m_pListView->setSpacing(0);
-    m_pListDelegate = new GifGenerationListDelegate(m_pListView);
+    m_pListDelegate = new GifMkListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
     auto listViewLayout = new QVBoxLayout();
@@ -166,38 +166,38 @@ void GifGenerationView::createUi() {
     layout->addLayout(stackedMarginLayout, 1);
 }
 
-void GifGenerationView::connectSig() {
-    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &GifGenerationView::onLanguageChange);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &GifGenerationView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &GifGenerationView::onAddFileBtnClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &GifGenerationView::onAddFolderBtnClicked);
-    connect(m_pClearFileBtn, &QPushButton::clicked, this, &GifGenerationView::onClearFileBtnClicked);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &GifGenerationView::onListModeSwitchBtnClicked);
-    connect(m_pListView, &QListView::clicked, this, &GifGenerationView::onListViewClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &GifGenerationView::onOutputFolderCbbClicked);
-    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifGenerationView::onOutputFolderCbbIndexChanged);
-    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &GifGenerationView::onOpenOutputFolderBtnClicked);
-    connect(m_pPreviewBtn, &QPushButton::clicked, this, &GifGenerationView::onPreviewBtnClicked);
-    connect(m_pStartAllBtn, &QPushButton::clicked, this, &GifGenerationView::onStartAllClicked);
+void GifMkView::connectSig() {
+    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &GifMkView::onLanguageChange);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &GifMkView::listViewImportFile);
+    connect(m_pAddFileBtn, &QPushButton::clicked, this, &GifMkView::onAddFileBtnClicked);
+    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &GifMkView::onAddFolderBtnClicked);
+    connect(m_pClearFileBtn, &QPushButton::clicked, this, &GifMkView::onClearFileBtnClicked);
+    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &GifMkView::onListModeSwitchBtnClicked);
+    connect(m_pListView, &QListView::clicked, this, &GifMkView::onListViewClicked);
+    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &GifMkView::onOutputFolderCbbClicked);
+    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifMkView::onOutputFolderCbbIndexChanged);
+    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &GifMkView::onOpenOutputFolderBtnClicked);
+    connect(m_pPreviewBtn, &QPushButton::clicked, this, &GifMkView::onPreviewBtnClicked);
+    connect(m_pStartAllBtn, &QPushButton::clicked, this, &GifMkView::onStartAllClicked);
 }
 
-QWidget *GifGenerationView::createDividingLine() {
+QWidget *GifMkView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("GifGenerationView_DividingLine");
+    dividingLine->setObjectName("GifMkView_DividingLine");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }
 
-void GifGenerationView::listViewImportFile(const QStringList &filePaths) {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::listViewImportFile(const QStringList &filePaths) {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     prst->appendData(filePaths);
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
 }
 
-void GifGenerationView::onListModeSwitchBtnClicked() {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::onListModeSwitchBtnClicked() {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     if (!prst->datas().isEmpty()) {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
@@ -205,8 +205,8 @@ void GifGenerationView::onListModeSwitchBtnClicked() {
     }
 }
 
-void GifGenerationView::listItemDelete(const QString &filePath) {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::listItemDelete(const QString &filePath) {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     QStringList filePaths;
     filePaths.append(filePath);
     prst->deleteData(filePaths);
@@ -214,31 +214,31 @@ void GifGenerationView::listItemDelete(const QString &filePath) {
     listViewNoDataState();
 };
 
-void GifGenerationView::listViewNoDataState() {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::listViewNoDataState() {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
     m_pListModeSwitchBtn->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
-void GifGenerationView::initOutputFolderCbbItem() {
+void GifMkView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->compressionOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
-void GifGenerationView::GifGenerationView::setOutputFolder(const QString &path) {
+void GifMkView::GifMkView::setOutputFolder(const QString &path) {
     SETTINGS->setCompressionOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
-void GifGenerationView::initFrameRateCbbItem() {
+void GifMkView::initFrameRateCbbItem() {
     for(int i = GIFGENERATION_OUTPUT_MINFRAMERATE; i <= GIFGENERATION_OUTPUT_MAXFRAMERATE; i++) {
         m_pFrameRateCbb->addItem(QString::number(i));
     }
 }
 
-void GifGenerationView::onLanguageChange() {
+void GifMkView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Gif Maker"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pPixelsLbl->setText(tr("Pixels:"));
@@ -248,7 +248,7 @@ void GifGenerationView::onLanguageChange() {
     m_pStartAllBtn->setText(tr("create GIF"));
 }
 
-void GifGenerationView::onAddFileBtnClicked() {
+void GifMkView::onAddFileBtnClicked() {
     QString title = tr("Open");
     QString directory = SETTINGS->compressionLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
@@ -260,7 +260,7 @@ void GifGenerationView::onAddFileBtnClicked() {
     }
 }
 
-void GifGenerationView::onAddFolderBtnClicked() {
+void GifMkView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
     QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->compressionLastAddFolderPath());
     if (!folderPath.isEmpty()) {
@@ -278,15 +278,15 @@ void GifGenerationView::onAddFolderBtnClicked() {
     }
 }
 
-void GifGenerationView::onClearFileBtnClicked() {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::onClearFileBtnClicked() {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     prst->clearData();
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
 }
 
-void GifGenerationView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SGifGenerationData>();
+void GifMkView::onListViewClicked(const QModelIndex &index) {
+    auto data = index.data(Qt::UserRole).value<SGifMkData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
@@ -298,10 +298,10 @@ void GifGenerationView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void GifGenerationView::onOutputFolderCbbClicked() {
+void GifMkView::onOutputFolderCbbClicked() {
 }
 
-void GifGenerationView::onOutputFolderCbbIndexChanged(int index) {
+void GifMkView::onOutputFolderCbbIndexChanged(int index) {
     if (index == 1) {
         blockSignalsFunc(m_pOutputFolderCbb, [&]() {
             m_pOutputFolderCbb->setCurrentIndex(0);
@@ -314,18 +314,18 @@ void GifGenerationView::onOutputFolderCbbIndexChanged(int index) {
     }
 }
 
-void GifGenerationView::onOpenOutputFolderBtnClicked() {
+void GifMkView::onOpenOutputFolderBtnClicked() {
     QString folderPath = SETTINGS->compressionOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
-void GifGenerationView::onPreviewBtnClicked() {
+void GifMkView::onPreviewBtnClicked() {
     FuncChangeMessage msg(EFunc::FuncGifPreview);
     presenter()->sendMessage(&msg);
 }
 
-void GifGenerationView::onStartAllClicked() {
-    GifGenerationPresenter *prst = dynamic_cast<GifGenerationPresenter *>(presenter());
+void GifMkView::onStartAllClicked() {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     ImgKitCore::GIFMK::Task task;
     QList<QString> filePaths;
     for(auto data : prst->datas()) {

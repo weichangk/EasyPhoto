@@ -39,8 +39,8 @@ EraseView *FuncAreaView::eraseView() const {
     return m_pEraseView;
 }
 
-GifGenerationView *FuncAreaView::gifGenerationView() const {
-    return m_pGifGenerationView;
+GifMkView *FuncAreaView::gifMkView() const {
+    return m_pGifMkView;
 }
 
 InpaintingView *FuncAreaView::inpaintingView() const {
@@ -83,7 +83,7 @@ void FuncAreaView::createUi() {
     m_pEffectsView = new EffectsView(this);
     m_pEnhancementView = new EnhancementView(this);
     m_pEraseView = new EraseView(this);
-    m_pGifGenerationView = new GifGenerationView(this);
+    m_pGifMkView = new GifMkView(this);
     m_pInpaintingView = new InpaintingView(this);
     m_pBackgroundRemoverView = new BackgroungRemoverView(this);
     m_pThumbnailMakerView = new ThumbnailMakerView(this);
@@ -99,7 +99,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
     m_pStackedLayout->insertWidget(EFunc::FuncBackgroungRemover, m_pBackgroundRemoverView);
     m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);
-    m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifGenerationView);
+    m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);

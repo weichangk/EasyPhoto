@@ -10,7 +10,7 @@
 #include "effects/view.h"
 #include "enhancement/view.h"
 #include "erase/view.h"
-#include "gifgeneration/view.h"
+#include "gifmk/view.h"
 #include "inpainting/view.h"
 #include "gifpreview/view.h"
 #include "bgremover/view.h"
@@ -38,7 +38,7 @@ public:
     EffectsView *effectsView() const;
     EnhancementView *enhancementView() const;
     EraseView *eraseView() const;
-    GifGenerationView *gifGenerationView() const;
+    GifMkView *gifMkView() const;
     InpaintingView *inpaintingView() const;
     BackgroungRemoverView *backgroundRemoverView() const;
     ThumbnailMakerView *thumbnailMakerView() const;
@@ -68,7 +68,7 @@ private:
     EffectsView *m_pEffectsView = nullptr;
     EnhancementView *m_pEnhancementView = nullptr;
     EraseView *m_pEraseView = nullptr;
-    GifGenerationView *m_pGifGenerationView = nullptr;
+    GifMkView *m_pGifMkView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;
     BackgroungRemoverView *m_pBackgroundRemoverView = nullptr;
     ThumbnailMakerView *m_pThumbnailMakerView = nullptr;

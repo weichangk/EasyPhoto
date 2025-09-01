@@ -7,7 +7,7 @@
 #define GIFGENERATION_OUTPUT_MINFRAMERATE 1
 #define GIFGENERATION_OUTPUT_MAXFRAMERATE 60
 
-struct SGifGenerationData {
+struct SGifMkData {
     QString file_name = "";
     QString file_path = "";
     QPixmap thumbnail = QPixmap();
@@ -16,4 +16,4 @@ struct SGifGenerationData {
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
 };
-Q_DECLARE_METATYPE(SGifGenerationData)
+Q_DECLARE_METATYPE(SGifMkData)

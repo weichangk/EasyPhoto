@@ -14,6 +14,7 @@ add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
     ${CMAKE_SOURCE_DIR}/inc
+    ${CMAKE_SOURCE_DIR}/3rdparty
     ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
     ${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore/inc
 )

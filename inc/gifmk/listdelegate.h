@@ -2,10 +2,10 @@
 #include <QStyledItemDelegate>
 #include <QEvent>
 
-class GifGenerationListDelegate : public QStyledItemDelegate {
+class GifMkListDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit GifGenerationListDelegate(QObject *parent);
+    explicit GifMkListDelegate(QObject *parent);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool eventFilter(QObject *object, QEvent *event) override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;

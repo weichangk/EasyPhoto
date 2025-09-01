@@ -11,7 +11,7 @@
 #include "effects/presenter.h"
 #include "enhancement/presenter.h"
 #include "erase/presenter.h"
-#include "gifgeneration/presenter.h"
+#include "gifmk/presenter.h"
 #include "inpainting/presenter.h"
 #include "gifpreview/presenter.h"
 #include "bgremover/presenter.h"
@@ -33,7 +33,7 @@ public:
     EffectsPresenter *effectsPresenter() const;
     EnhancementPresenter *enhancementPresenter() const;
     ErasePresenter *erasePresenter() const;
-    GifGenerationPresenter *gifGenerationPresenter() const;
+    GifMkPresenter *gifMkPresenter() const;
     InpaintingPresenter *inpaintingPresenter() const;
     BackgroungRemoverPresenter *backgroungRemoverPresenter() const;
     ThumbnailMakerPresenter *thumbnailMakerPresenter() const;
@@ -52,7 +52,7 @@ private:
     EffectsPresenter *m_pEffectsPresenter = nullptr;
     EnhancementPresenter *m_pEnhancementPresenter = nullptr;
     ErasePresenter *m_pErasePresenter = nullptr;
-    GifGenerationPresenter *m_pGifGenerationPresenter = nullptr;
+    GifMkPresenter *m_pGifMkPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;
     BackgroungRemoverPresenter *m_pBackgroungRemoverPresenter = nullptr;
     ThumbnailMakerPresenter *m_pThumbnailMakerPresenter = nullptr;

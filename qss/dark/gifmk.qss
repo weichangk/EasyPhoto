@@ -1,51 +1,51 @@
-QWidget#GifGenerationView {
+QWidget#GifMkView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
 
-QWidget#GifGenerationView_DividingLine {
+QWidget#GifMkView_DividingLine {
     background-color: "#272336";
 }
 
-QPushButton#GifGenerationView_m_pPreviewBtn{
+QPushButton#GifMkView_m_pPreviewBtn{
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#GifGenerationView_m_pPreviewBtn:hover{
+QPushButton#GifMkView_m_pPreviewBtn:hover{
     background-color: "#ad85ff";
 }
 
-QPushButton#GifGenerationView_m_pPreviewBtn:pressed{
+QPushButton#GifMkView_m_pPreviewBtn:pressed{
     background-color: "#bb99ff";
 }
 
-QPushButton#GifGenerationView_m_pStartAllBtn{
+QPushButton#GifMkView_m_pStartAllBtn{
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#GifGenerationView_m_pStartAllBtn:hover{
+QPushButton#GifMkView_m_pStartAllBtn:hover{
     background-color: "#ad85ff";
 }
 
-QPushButton#GifGenerationView_m_pStartAllBtn:pressed{
+QPushButton#GifMkView_m_pStartAllBtn:pressed{
     background-color: "#bb99ff";
 }
 
-QLabel#GifGenerationView_m_pPixelsLbl,
-QLabel#GifGenerationView_m_pPixels_x_Lbl,
-QLabel#GifGenerationView_m_pFrameRateLbl,
-QLabel#GifGenerationView_m_pOutputFolderLbl{
+QLabel#GifMkView_m_pPixelsLbl,
+QLabel#GifMkView_m_pPixels_x_Lbl,
+QLabel#GifMkView_m_pFrameRateLbl,
+QLabel#GifMkView_m_pOutputFolderLbl{
     color: "#ffffff";
     font-size: 13px;
 }
 
-QLabel#GifGenerationView_m_pTitleLbl{
+QLabel#GifMkView_m_pTitleLbl{
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;

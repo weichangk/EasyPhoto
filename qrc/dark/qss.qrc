@@ -15,7 +15,7 @@
       <file>../../qss/dark/effects.qss</file> 
       <file>../../qss/dark/enhancement.qss</file> 
       <file>../../qss/dark/erase.qss</file> 
-      <file>../../qss/dark/gifgeneration.qss</file> 
+      <file>../../qss/dark/gifmk.qss</file> 
       <file>../../qss/dark/inpaintingview.qss</file>
       <file>../../qss/dark/bgremover.qss</file>
       <file>../../qss/dark/downloader.qss</file>

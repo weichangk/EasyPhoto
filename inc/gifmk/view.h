@@ -11,7 +11,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "listdelegate.h"
 
 #include <QStackedLayout>
@@ -25,11 +25,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class GifGenerationView : public QWidget, public View {
+class GifMkView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit GifGenerationView(QWidget *parent = nullptr);
-    ~GifGenerationView() override {
+    explicit GifMkView(QWidget *parent = nullptr);
+    ~GifMkView() override {
     }
 
 protected:
@@ -87,6 +87,6 @@ private:
     QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
-    ListView<SGifGenerationData> *m_pListView = nullptr;
-    GifGenerationListDelegate *m_pListDelegate = nullptr;
+    ListView<SGifMkData> *m_pListView = nullptr;
+    GifMkListDelegate *m_pListDelegate = nullptr;
 };

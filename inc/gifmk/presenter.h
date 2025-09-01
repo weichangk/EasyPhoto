@@ -2,18 +2,18 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
-#include "model.h"
+#include "types.h"
 #include "observer/ifuncchangesubject.h"
 #include "core/subject.h"
 
 using namespace QtmMvp;
 using namespace QtmCore;
 
-class GifGenerationPresenter : public Presenter, public IFuncChangeSubject {
+class GifMkPresenter : public Presenter, public IFuncChangeSubject {
 public:
-    explicit GifGenerationPresenter(IView *view, IRepository *repository);
-    ~GifGenerationPresenter();
-    QList<SGifGenerationData> datas();
+    explicit GifMkPresenter(IView *view, IRepository *repository);
+    ~GifMkPresenter();
+    QList<SGifMkData> datas();
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();

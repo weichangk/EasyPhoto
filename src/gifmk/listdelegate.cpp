@@ -1,5 +1,5 @@
-#include "gifgeneration/listdelegate.h"
-#include "gifgeneration/model.h"
+#include "gifmk/listdelegate.h"
+#include "gifmk/types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>
@@ -8,12 +8,12 @@
 
 using namespace QtmCore;
 
-GifGenerationListDelegate::GifGenerationListDelegate(QObject *parent) :
+GifMkListDelegate::GifMkListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void GifGenerationListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SGifGenerationData>();
+void GifMkListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SGifMkData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -117,7 +117,7 @@ void GifGenerationListDelegate::paint(QPainter *painter, const QStyleOptionViewI
     painter->setPen(Qt::NoPen);
 }
 
-bool GifGenerationListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool GifMkListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -132,7 +132,7 @@ bool GifGenerationListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize GifGenerationListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize GifMkListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if(m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         return QSize(parent->width(), n_ListItemHeight);
@@ -140,10 +140,10 @@ QSize GifGenerationListDelegate::sizeHint(const QStyleOptionViewItem &option, co
     return m_Size;
 }
 
-void GifGenerationListDelegate::setListMode(bool b) {
+void GifMkListDelegate::setListMode(bool b) {
     m_bIsListMode = b;
 }
 
-bool GifGenerationListDelegate::isListMode() const {
+bool GifMkListDelegate::isListMode() const {
     return m_bIsListMode;
 }

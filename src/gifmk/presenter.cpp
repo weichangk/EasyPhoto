@@ -1,30 +1,30 @@
-#include "gifgeneration/presenter.h"
-#include "gifgeneration/repository.h"
+#include "gifmk/presenter.h"
+#include "gifmk/repository.h"
 #include "message/funcchangemessage.h"
 
 #include <QFileInfo>
 
-GifGenerationPresenter::GifGenerationPresenter(IView *view, IRepository *repository) :
+GifMkPresenter::GifMkPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
 }
 
-GifGenerationPresenter::~GifGenerationPresenter() {
+GifMkPresenter::~GifMkPresenter() {
 }
 
-QList<SGifGenerationData> GifGenerationPresenter::datas() {
-    GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
+QList<SGifMkData> GifMkPresenter::datas() {
+    GifMkRepository *rep = dynamic_cast<GifMkRepository *>(repository());
     return rep->datas();
 }
 
-void GifGenerationPresenter::appendData(const QStringList filePaths) {
-    QList<SGifGenerationData> tempDatas;
+void GifMkPresenter::appendData(const QStringList filePaths) {
+    QList<SGifMkData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SGifGenerationData data;
+        SGifMkData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -42,20 +42,20 @@ void GifGenerationPresenter::appendData(const QStringList filePaths) {
         data.is_checked = true;
         tempDatas.append(data);
     }
-    GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
+    GifMkRepository *rep = dynamic_cast<GifMkRepository *>(repository());
     rep->appendData(tempDatas);
 }
 
-void GifGenerationPresenter::deleteData(const QStringList filePaths) {
-    GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
+void GifMkPresenter::deleteData(const QStringList filePaths) {
+    GifMkRepository *rep = dynamic_cast<GifMkRepository *>(repository());
     rep->deleteData(filePaths);
     for(auto path : filePaths) {
         filePathsSet.remove(path);
     }
 }
 
-void GifGenerationPresenter::deleteCheckedData() {
-    GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
+void GifMkPresenter::deleteCheckedData() {
+    GifMkRepository *rep = dynamic_cast<GifMkRepository *>(repository());
     rep->deleteCheckedData();
     for(auto data : rep->datas()) {
         if(data.is_checked) {
@@ -64,27 +64,27 @@ void GifGenerationPresenter::deleteCheckedData() {
     }
 }
 
-void GifGenerationPresenter::clearData() {
-    GifGenerationRepository *rep = dynamic_cast<GifGenerationRepository *>(repository());
+void GifMkPresenter::clearData() {
+    GifMkRepository *rep = dynamic_cast<GifMkRepository *>(repository());
     rep->clearData();
     filePathsSet.clear();
 }
 
-void GifGenerationPresenter::funcChangeSubjectAttach(IFuncChangeObserver *observer) {
+void GifMkPresenter::funcChangeSubjectAttach(IFuncChangeObserver *observer) {
     m_pFuncChangeObserver.attach(observer);
 }
 
-void GifGenerationPresenter::funcChangeSubjectDetach(IFuncChangeObserver *observer) {
+void GifMkPresenter::funcChangeSubjectDetach(IFuncChangeObserver *observer) {
     m_pFuncChangeObserver.detach(observer);
 }
 
-bool GifGenerationPresenter::handleMessage(IMessage *message) {
+bool GifMkPresenter::handleMessage(IMessage *message) {
     if (FuncChangeMessage *msg = dynamic_cast<FuncChangeMessage *>(message)) {
         funcChangeSubjectNotify((EFunc)msg->code());
     }
     return false;
 }
 
-void GifGenerationPresenter::funcChangeSubjectNotify(EFunc func) {
+void GifMkPresenter::funcChangeSubjectNotify(EFunc func) {
     m_pFuncChangeObserver.notify(&IFuncChangeObserver::funcChangeHandle, func);
 }
