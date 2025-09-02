@@ -16,9 +16,14 @@ GifMkView::GifMkView(QWidget *parent) :
     onLanguageChange();
 }
 
+ImportListView *GifMkView::getImportListView() {
+    return m_pImportListView;
+}
+
 void GifMkView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
-    listViewNoDataState();
+    firstShow();
+    initFrameRateCbbItem();
 }
 
 void GifMkView::createUi() {
@@ -27,6 +32,7 @@ void GifMkView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
+    //
     m_pTitleLbl = new QLabel(this);
     m_pTitleLbl->setObjectName("GifMkView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
@@ -42,123 +48,103 @@ void GifMkView::createUi() {
     importGuideLayout->addWidget(m_pImportGuide);
 
     //
-    QWidget *topWidget = new QWidget(this);
-    topWidget->setFixedHeight(56);
+    m_pWorkspaceWidget = new QWidget(this);
+    auto bodyWidgetLayout = new QHBoxLayout(m_pWorkspaceWidget);
+    bodyWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    bodyWidgetLayout->setSpacing(0);
 
-    m_pAddFileBtn = new IconButton(topWidget);
-    m_pAddFileBtn->setFixedSize(32, 32);
-    m_pAddFileBtn->setIconSize(32, 32);
-    m_pAddFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_file.png");
+    m_pLeftWidget = new QWidget(this);
+    auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
+    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setSpacing(0);
 
-    m_pAddFolderBtn = new IconButton(topWidget);
-    m_pAddFolderBtn->setFixedSize(32, 32);
-    m_pAddFolderBtn->setIconSize(32, 32);
-    m_pAddFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_folder.png");
+    m_pRightWidget = new QWidget(this);
+    m_pRightWidget->setFixedWidth(240);
+    auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
+    rightWidgetLayout->setContentsMargins(20, 24, 20, 24);
+    rightWidgetLayout->setSpacing(0);
 
-    m_pClearFileBtn = new IconButton(topWidget);
-    m_pClearFileBtn->setFixedSize(24, 24);
-    m_pClearFileBtn->setIconSize(24, 24);
-    m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
+    bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
+    bodyWidgetLayout->addWidget(m_pRightWidget);
 
-    m_pListModeSwitchBtn = new IconButton(topWidget);
-    m_pListModeSwitchBtn->setFixedSize(24, 24);
-    m_pListModeSwitchBtn->setIconSize(24, 24);
-    m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
+    //
+    m_pImageViewer = new ImageViewer(this);
+    m_pImportListView = new ImportListView(this);
+    LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addWidget(m_pImportListView);
 
-    auto topWidgetLayout = new QHBoxLayout(topWidget);
-    topWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    topWidgetLayout->setSpacing(12);
-    topWidgetLayout->addWidget(m_pAddFileBtn);
-    topWidgetLayout->addWidget(m_pAddFolderBtn);
-    topWidgetLayout->addStretch();
-    topWidgetLayout->addWidget(m_pClearFileBtn);
-    topWidgetLayout->addWidget(m_pListModeSwitchBtn);
+    //
+    m_pPixelsLbl = new QLabel(this);
+    m_pPixelsLbl->setObjectName("GifMkView_m_pPixelsLbl");
+    rightWidgetLayout->addWidget(m_pPixelsLbl);
 
-    QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(70);
+    m_pPixelsWidthLdt = new QLineEdit(this);
+    m_pPixelsWidthLdt->setFixedSize(48, 24);
+    m_pPixels_x_Lbl = new QLabel(this);
+    m_pPixels_x_Lbl->setObjectName("GifMkView_m_pPixels_x_Lbl");
+    m_pPixelsHeightLdt = new QLineEdit(this);
+    m_pPixelsHeightLdt->setFixedSize(48, 24);
 
-    m_pOutputFolderLbl = new QLabel(bottomWidget);
+    auto pixelsLayout = new QHBoxLayout();
+    pixelsLayout->setContentsMargins(0, 0, 0, 0);
+    pixelsLayout->addWidget(m_pPixelsWidthLdt);
+    pixelsLayout->addWidget(m_pPixels_x_Lbl);
+    pixelsLayout->addWidget(m_pPixelsHeightLdt);
+    pixelsLayout->addStretch();
+    rightWidgetLayout->addLayout(pixelsLayout);
+
+    rightWidgetLayout->addSpacing(20);
+
+    m_pFrameRateLbl = new QLabel(this);
+    m_pFrameRateLbl->setObjectName("GifMkView_m_pFrameRateLbl");
+    rightWidgetLayout->addWidget(m_pFrameRateLbl);
+    m_pFrameRateCbb = new QComboBox(this);
+    rightWidgetLayout->addWidget(m_pFrameRateCbb);
+
+    rightWidgetLayout->addSpacing(20);
+
+    m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("GifMkView_m_pOutputFolderLbl");
+    rightWidgetLayout->addWidget(m_pOutputFolderLbl);
 
-    m_pOutputFolderCbb = new QComboBox(bottomWidget);
-    m_pOutputFolderCbb->setFixedSize(240, 24);
+    m_pOutputFolderCbb = new QComboBox(this);
+    m_pOutputFolderCbb->setFixedHeight(24);
 
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
-
-    initOutputFolderCbbItem();
-
-    m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
+    m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
-    m_pPixelsLbl = new QLabel(bottomWidget);
-    m_pPixelsLbl->setObjectName("GifMkView_m_pPixelsLbl");
-    m_pPixels_x_Lbl = new QLabel(bottomWidget);
-    m_pPixels_x_Lbl->setObjectName("GifMkView_m_pPixels_x_Lbl");
+    auto folderLayout = new QHBoxLayout();
+    folderLayout->setContentsMargins(0, 0, 0, 0);
+    folderLayout->addWidget(m_pOutputFolderCbb, 1);
+    folderLayout->addWidget(m_pOpenOutputFolderBtn);
+    rightWidgetLayout->addLayout(folderLayout);
 
-    m_pPixelsWidthLdt = new QLineEdit(bottomWidget);
-    m_pPixelsWidthLdt->setFixedSize(48, 24);
-    m_pPixelsHeightLdt = new QLineEdit(bottomWidget);
-    m_pPixelsHeightLdt->setFixedSize(48, 24);
+    rightWidgetLayout->addStretch();
 
-    m_pFrameRateLbl = new QLabel(bottomWidget);
-    m_pFrameRateLbl->setObjectName("GifMkView_m_pFrameRateLbl");
-    m_pFrameRateCbb = new QComboBox(bottomWidget);
-    initFrameRateCbbItem();
-
-    m_pPreviewBtn = new QPushButton(bottomWidget);
+    m_pPreviewBtn = new QPushButton(this);
     m_pPreviewBtn->setObjectName("GifMkView_m_pPreviewBtn");
-    m_pPreviewBtn->setFixedSize(110, 32);
+    m_pPreviewBtn->setFixedHeight(32);
+    rightWidgetLayout->addWidget(m_pPreviewBtn);
 
-    m_pStartAllBtn = new QPushButton(bottomWidget);
+    rightWidgetLayout->addSpacing(10);
+
+    m_pStartAllBtn = new QPushButton(this);
     m_pStartAllBtn->setObjectName("GifMkView_m_pStartAllBtn");
-    m_pStartAllBtn->setFixedSize(110, 32);
+    m_pStartAllBtn->setFixedHeight(32);
+    rightWidgetLayout->addWidget(m_pStartAllBtn);
 
-    auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    bottomWidgetLayout->setSpacing(0);
-    bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    bottomWidgetLayout->addWidget(m_pPixelsLbl);
-    bottomWidgetLayout->addWidget(m_pPixelsWidthLdt);
-    bottomWidgetLayout->addWidget(m_pPixels_x_Lbl);
-    bottomWidgetLayout->addWidget(m_pPixelsHeightLdt);
-    bottomWidgetLayout->addWidget(m_pFrameRateLbl);
-    bottomWidgetLayout->addWidget(m_pFrameRateCbb);
-    bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pPreviewBtn);
-    bottomWidgetLayout->addWidget(m_pStartAllBtn);
-
-    m_pListView = new ListView<SGifMkData>(this);
-    m_pListView->setSpacing(0);
-    m_pListDelegate = new GifMkListDelegate(m_pListView);
-    m_pListView->setItemDelegate(m_pListDelegate);
-    m_pListView->viewport()->installEventFilter(m_pListDelegate);
-    auto listViewLayout = new QVBoxLayout();
-    listViewLayout->setContentsMargins(20, 0, 2, 0);
-    listViewLayout->setSpacing(0);
-    listViewLayout->addWidget(m_pListView, 1);
-
-    m_pContentWidget = new QWidget(this);
-    auto contentWidgetLayout = new QVBoxLayout(m_pContentWidget);
-    contentWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    contentWidgetLayout->setSpacing(0);
-    contentWidgetLayout->addWidget(topWidget);
-    contentWidgetLayout->addLayout(listViewLayout, 1);
-    contentWidgetLayout->addWidget(createDividingLine());
-    contentWidgetLayout->addWidget(bottomWidget);
-
+    //
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(m_pImportGuideWidget);
-    m_pStackedLayout->addWidget(m_pContentWidget);
+    m_pStackedLayout->addWidget(m_pWorkspaceWidget);
 
     auto stackedMarginLayout = new QVBoxLayout();
     stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
     stackedMarginLayout->addLayout(m_pStackedLayout, 1);
 
+    //
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -168,17 +154,22 @@ void GifMkView::createUi() {
 
 void GifMkView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &GifMkView::onLanguageChange);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &GifMkView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &GifMkView::onAddFileBtnClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &GifMkView::onAddFolderBtnClicked);
-    connect(m_pClearFileBtn, &QPushButton::clicked, this, &GifMkView::onClearFileBtnClicked);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &GifMkView::onListModeSwitchBtnClicked);
-    connect(m_pListView, &QListView::clicked, this, &GifMkView::onListViewClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &GifMkView::onOutputFolderCbbClicked);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifMkView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &GifMkView::onOpenOutputFolderBtnClicked);
     connect(m_pPreviewBtn, &QPushButton::clicked, this, &GifMkView::onPreviewBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &GifMkView::onStartAllClicked);
+    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &GifMkView::onImportListCountChange);
+    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &GifMkView::onImportListCurrentChanged);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &GifMkView::onGuideImportFile);
+}
+
+void GifMkView::firstShow() {
+    static bool firstShow = true;
+    if (firstShow) {
+        firstShow = false;
+        initOutputFolderCbbItem();
+        initFrameRateCbbItem();
+    }
 }
 
 QWidget *GifMkView::createDividingLine() {
@@ -189,53 +180,32 @@ QWidget *GifMkView::createDividingLine() {
     return dividingLine;
 }
 
-void GifMkView::listViewImportFile(const QStringList &filePaths) {
-    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    prst->appendData(filePaths);
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-}
-
-void GifMkView::onListModeSwitchBtnClicked() {
-    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    if (!prst->datas().isEmpty()) {
-        m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
-        m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
-        m_pListView->changeData(prst->datas());
-    }
-}
-
-void GifMkView::listItemDelete(const QString &filePath) {
-    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    QStringList filePaths;
-    filePaths.append(filePath);
-    prst->deleteData(filePaths);
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-};
-
-void GifMkView::listViewNoDataState() {
-    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    bool isNoData = prst->datas().isEmpty();
-    m_pClearFileBtn->setVisible(!isNoData);
-    m_pListModeSwitchBtn->setVisible(!isNoData);
-    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
-}
-
 void GifMkView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->compressionOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
-void GifMkView::GifMkView::setOutputFolder(const QString &path) {
+void GifMkView::setOutputFolder(const QString &path) {
     SETTINGS->setCompressionOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
 void GifMkView::initFrameRateCbbItem() {
-    for(int i = GIFGENERATION_OUTPUT_MINFRAMERATE; i <= GIFGENERATION_OUTPUT_MAXFRAMERATE; i++) {
+    for (int i = GIFGENERATION_OUTPUT_MINFRAMERATE; i <= GIFGENERATION_OUTPUT_MAXFRAMERATE; i++) {
         m_pFrameRateCbb->addItem(QString::number(i));
     }
+}
+
+void GifMkView::gotoImportGuide() {
+    m_pStackedLayout->setCurrentWidget(m_pImportGuideWidget);
+}
+
+void GifMkView::gotoWorkspace() {
+    m_pStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
+}
+
+void GifMkView::imageViewerLoad(const QString &filePath) {
+    m_pImageViewer->loadImage(filePath);
 }
 
 void GifMkView::onLanguageChange() {
@@ -246,59 +216,6 @@ void GifMkView::onLanguageChange() {
     m_pFrameRateLbl->setText(tr("FrameRate:"));
     m_pPreviewBtn->setText(tr("Preview"));
     m_pStartAllBtn->setText(tr("create GIF"));
-}
-
-void GifMkView::onAddFileBtnClicked() {
-    QString title = tr("Open");
-    QString directory = SETTINGS->compressionLastAddFilePath();
-    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
-    if (!filePaths.isEmpty()) {
-        QFileInfo fileInfo(filePaths.first());
-        QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setCompressionLastAddFilePath(lastDirectory);
-        listViewImportFile(filePaths);
-    }
-}
-
-void GifMkView::onAddFolderBtnClicked() {
-    QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->compressionLastAddFolderPath());
-    if (!folderPath.isEmpty()) {
-        SETTINGS->setCompressionLastAddFolderPath(folderPath);
-        QDir dir(folderPath);
-        QStringList files = dir.entryList(QDir::Files);
-        QStringList filePaths;
-        for (const QString &file : files) {
-            QString filePath = dir.absoluteFilePath(file);
-            filePaths.append(filePath);
-        }
-        if (!filePaths.isEmpty()) {
-            listViewImportFile(filePaths);
-        }
-    }
-}
-
-void GifMkView::onClearFileBtnClicked() {
-    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    prst->clearData();
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-}
-
-void GifMkView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SGifMkData>();
-    QRect rc = m_pListView->visualRect(index);
-    int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
-    int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
-    if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
-        && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
-        listItemDelete(data.file_path);
-    }
-}
-
-void GifMkView::onOutputFolderCbbClicked() {
 }
 
 void GifMkView::onOutputFolderCbbIndexChanged(int index) {
@@ -328,8 +245,8 @@ void GifMkView::onStartAllClicked() {
     GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     ImgKitCore::GIFMK::Task task;
     QList<QString> filePaths;
-    for(auto data : prst->datas()) {
-        filePaths.append(data.file_path);
+    for (auto data : prst->getDatas()) {
+        filePaths.append(data.path);
     }
     ImgKitCore::GIFMK::SParam param = {
         filePaths,
@@ -341,4 +258,21 @@ void GifMkView::onStartAllClicked() {
         SETTINGS->gifGenerationOutPath(),
     };
     task.exec(param);
+}
+
+void GifMkView::onImportListCountChange(int count) {
+    if (count > 0) {
+        gotoWorkspace();
+    } else {
+        gotoImportGuide();
+    }
+}
+
+void GifMkView::onImportListCurrentChanged(const QString filePath) {
+    imageViewerLoad(filePath);
+}
+
+void GifMkView::onGuideImportFile(const QStringList &filePaths) {
+    GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
+    m_pImportListView->importFile(filePaths);
 }

@@ -13,6 +13,8 @@
 #include "import/importguide.h"
 #include "types.h"
 #include "listdelegate.h"
+#include "preview/imageviewer.h"
+#include "import/importlistview.h"
 
 #include <QStackedLayout>
 #include <QLabel>
@@ -32,50 +34,55 @@ public:
     ~GifMkView() override {
     }
 
+    ImportListView *getImportListView();
+
 protected:
     void showEvent(QShowEvent *event) override;
 
 private:
     void createUi();
     void connectSig();
-    QWidget *createDividingLine();
-    void listViewImportFile(const QStringList &filePaths);
-    void listItemDelete(const QString &filePath);
-    void listViewNoDataState();
+    void firstShow();
     void initOutputFolderCbbItem();
+    QWidget *createDividingLine();
     void setOutputFolder(const QString &path);
     void initFrameRateCbbItem();
+    void gotoImportGuide();
+    void gotoWorkspace();
+    void imageViewerLoad(const QString &filePath);
 
 private Q_SLOTS:
     void onLanguageChange();
-    void onAddFileBtnClicked();
-    void onAddFolderBtnClicked();
-    void onListModeSwitchBtnClicked();
-    void onClearFileBtnClicked();
-    void onListViewClicked(const QModelIndex &index);
-    void onOutputFolderCbbClicked();
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onPreviewBtnClicked();
     void onStartAllClicked();
+    void onImportListCountChange(int count);
+    void onImportListCurrentChanged(const QString filePath);
+    void onGuideImportFile(const QStringList &filePaths);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
 
     QLabel *m_pTitleLbl = nullptr;
 
-    ImportGuide *m_pImportGuide = nullptr;
+    QStackedLayout *m_pStackedLayout = nullptr;
+
     QWidget *m_pImportGuideWidget = nullptr;
+    ImportGuide *m_pImportGuide = nullptr;
+
+    QWidget *m_pWorkspaceWidget = nullptr;
+    QWidget *m_pLeftWidget = nullptr;
+    QWidget *m_pRightWidget = nullptr;
+
+    ImageViewer *m_pImageViewer = nullptr;
+    ImportListView *m_pImportListView = nullptr;
+
 
     QWidget *m_pContentWidget = nullptr;
 
-    IconButton *m_pAddFileBtn = nullptr;
-    IconButton *m_pAddFolderBtn = nullptr;
-    IconButton *m_pClearFileBtn = nullptr;
-    IconButton *m_pListModeSwitchBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
     QLabel *m_pPixelsLbl = nullptr;
     QLabel *m_pPixels_x_Lbl = nullptr;
@@ -85,8 +92,4 @@ private:
     QComboBox *m_pFrameRateCbb = nullptr;
     QPushButton *m_pPreviewBtn = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
-    QStackedLayout *m_pStackedLayout = nullptr;
-
-    ListView<SGifMkData> *m_pListView = nullptr;
-    GifMkListDelegate *m_pListDelegate = nullptr;
 };

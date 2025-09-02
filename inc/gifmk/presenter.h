@@ -5,6 +5,7 @@
 #include "types.h"
 #include "observer/ifuncchangesubject.h"
 #include "core/subject.h"
+#include "import/importlistpresenter.h"
 
 using namespace QtmMvp;
 using namespace QtmCore;
@@ -13,12 +14,9 @@ class GifMkPresenter : public Presenter, public IFuncChangeSubject {
 public:
     explicit GifMkPresenter(IView *view, IRepository *repository);
     ~GifMkPresenter();
-    QList<SGifMkData> datas();
-    void appendData(const QStringList filePaths);
-    void deleteData(const QStringList filePaths);
-    void deleteCheckedData();
-    void clearData();
 
+    QList<SImportListItem> getDatas();
+    
     void funcChangeSubjectAttach(IFuncChangeObserver *observer) override;
     void funcChangeSubjectDetach(IFuncChangeObserver *observer) override;
 
@@ -27,6 +25,6 @@ private:
     void funcChangeSubjectNotify(EFunc) override;
 
 private:
-    QSet<QString> filePathsSet;
     Subject<IFuncChangeObserver> m_pFuncChangeObserver;
+    ImportListPresenter * m_pImportListPresenter = nullptr;
 };
