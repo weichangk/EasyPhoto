@@ -37,9 +37,10 @@ QPushButton#GifMkView_m_pStartAllBtn:pressed{
     background-color: "#bb99ff";
 }
 
-QLabel#GifMkView_m_pPixelsLbl,
-QLabel#GifMkView_m_pPixels_x_Lbl,
-QLabel#GifMkView_m_pFrameRateLbl,
+QLabel#GifMkView_m_pSizeLbl,
+QLabel#GifMkView_m_pScaleLbl,
+QLabel#GifMkView_m_pPlayLbl,
+QLabel#GifMkView_m_pSpeedLbl,
 QLabel#GifMkView_m_pOutputFolderLbl{
     color: "#ffffff";
     font-size: 13px;

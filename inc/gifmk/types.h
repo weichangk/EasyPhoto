@@ -6,7 +6,7 @@
 #define GIFGENERATION_INPUT_FORMATS "jpg jpeg png bmp"
 #define GIFGENERATION_OUTPUT_MINFRAMERATE 1
 #define GIFGENERATION_OUTPUT_MAXFRAMERATE 60
-
+#define GIFMKSCALE "original 16:9 1:1"
 struct SGifMkData {
     QString file_name = "";
     QString file_path = "";

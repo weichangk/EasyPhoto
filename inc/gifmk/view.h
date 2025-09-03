@@ -21,6 +21,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QCheckBox>
 
 using namespace QtmMvp;
 using namespace QtmWidget;
@@ -46,7 +47,8 @@ private:
     void initOutputFolderCbbItem();
     QWidget *createDividingLine();
     void setOutputFolder(const QString &path);
-    void initFrameRateCbbItem();
+    void initScaleCbbItem();
+    void initSizeCbbItem();
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
@@ -81,15 +83,21 @@ private:
 
     QWidget *m_pContentWidget = nullptr;
 
+    QLabel *m_pScaleLbl = nullptr;
+    QComboBox *m_pScaleCbb = nullptr;
+    QLabel *m_pSizeLbl = nullptr;
+    QComboBox *m_pSizeCbb = nullptr;
+    IconButton *m_pLockScaleBtn = nullptr;
+    QLineEdit *m_pPixelsWidthLdt = nullptr;
+    QLineEdit *m_pPixelsHeightLdt = nullptr;
+    QLabel *m_pPlayLbl = nullptr;
+    QCheckBox *m_pLoopCkb = nullptr;
+    QCheckBox *m_pReverseCkb = nullptr;
+    QLabel *m_pSpeedLbl = nullptr;
+    QSlider *m_pSpeedSlider = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
-    QLabel *m_pPixelsLbl = nullptr;
-    QLabel *m_pPixels_x_Lbl = nullptr;
-    QLineEdit *m_pPixelsWidthLdt = nullptr;
-    QLineEdit *m_pPixelsHeightLdt = nullptr;
-    QLabel *m_pFrameRateLbl = nullptr;
-    QComboBox *m_pFrameRateCbb = nullptr;
     QPushButton *m_pPreviewBtn = nullptr;
     QPushButton *m_pStartAllBtn = nullptr;
 };

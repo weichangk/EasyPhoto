@@ -23,7 +23,6 @@ ImportListView *GifMkView::getImportListView() {
 void GifMkView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();
-    initFrameRateCbbItem();
 }
 
 void GifMkView::createUi() {
@@ -59,9 +58,9 @@ void GifMkView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(240);
+    m_pRightWidget->setFixedWidth(200);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(20, 24, 20, 24);
+    rightWidgetLayout->setContentsMargins(12, 24, 12, 24);
     rightWidgetLayout->setSpacing(0);
 
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
@@ -74,32 +73,58 @@ void GifMkView::createUi() {
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
-    m_pPixelsLbl = new QLabel(this);
-    m_pPixelsLbl->setObjectName("GifMkView_m_pPixelsLbl");
-    rightWidgetLayout->addWidget(m_pPixelsLbl);
+    m_pScaleLbl = new QLabel(this);
+    m_pScaleLbl->setObjectName("GifMkView_m_pScaleLbl");
+    rightWidgetLayout->addWidget(m_pScaleLbl);
+    m_pScaleCbb = new QComboBox(this);
+    rightWidgetLayout->addWidget(m_pScaleCbb);
+
+    rightWidgetLayout->addSpacing(20);
+
+    m_pSizeLbl = new QLabel(this);
+    m_pSizeLbl->setObjectName("GifMkView_m_pSizeLbl");
+    rightWidgetLayout->addWidget(m_pSizeLbl);
+    m_pSizeCbb = new QComboBox(this);
+    rightWidgetLayout->addWidget(m_pSizeCbb);
 
     m_pPixelsWidthLdt = new QLineEdit(this);
     m_pPixelsWidthLdt->setFixedSize(48, 24);
-    m_pPixels_x_Lbl = new QLabel(this);
-    m_pPixels_x_Lbl->setObjectName("GifMkView_m_pPixels_x_Lbl");
+    m_pLockScaleBtn = new IconButton(this);
+    m_pLockScaleBtn->setFixedSize(24, 24);
+    m_pLockScaleBtn->setIconSize(24, 24);
+    m_pLockScaleBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
     m_pPixelsHeightLdt = new QLineEdit(this);
     m_pPixelsHeightLdt->setFixedSize(48, 24);
 
     auto pixelsLayout = new QHBoxLayout();
     pixelsLayout->setContentsMargins(0, 0, 0, 0);
     pixelsLayout->addWidget(m_pPixelsWidthLdt);
-    pixelsLayout->addWidget(m_pPixels_x_Lbl);
+    pixelsLayout->addWidget(m_pLockScaleBtn);
     pixelsLayout->addWidget(m_pPixelsHeightLdt);
     pixelsLayout->addStretch();
     rightWidgetLayout->addLayout(pixelsLayout);
 
     rightWidgetLayout->addSpacing(20);
 
-    m_pFrameRateLbl = new QLabel(this);
-    m_pFrameRateLbl->setObjectName("GifMkView_m_pFrameRateLbl");
-    rightWidgetLayout->addWidget(m_pFrameRateLbl);
-    m_pFrameRateCbb = new QComboBox(this);
-    rightWidgetLayout->addWidget(m_pFrameRateCbb);
+    m_pPlayLbl = new QLabel(this);
+    m_pPlayLbl->setObjectName("GifMkView_m_pPlayLbl");
+    rightWidgetLayout->addWidget(m_pPlayLbl);
+
+    m_pLoopCkb = new QCheckBox(this);
+    rightWidgetLayout->addWidget(m_pLoopCkb);
+
+    m_pReverseCkb = new QCheckBox(this);
+    rightWidgetLayout->addWidget(m_pReverseCkb);
+
+    m_pSpeedLbl = new QLabel(this);
+    m_pSpeedLbl->setObjectName("GifMkView_m_pSpeedLbl");
+    rightWidgetLayout->addWidget(m_pSpeedLbl);
+
+    m_pSpeedSlider = new QSlider(Qt::Horizontal, this);
+    m_pSpeedSlider->setObjectName("GifMkView_m_pSpeedSlider");
+    m_pSpeedSlider->setRange(0.1, 3.0);
+    m_pSpeedSlider->setTickInterval(0.1);
+    rightWidgetLayout->addWidget(m_pSpeedSlider);
 
     rightWidgetLayout->addSpacing(20);
 
@@ -168,7 +193,8 @@ void GifMkView::firstShow() {
     if (firstShow) {
         firstShow = false;
         initOutputFolderCbbItem();
-        initFrameRateCbbItem();
+        initScaleCbbItem();
+        initSizeCbbItem();
     }
 }
 
@@ -190,9 +216,18 @@ void GifMkView::setOutputFolder(const QString &path) {
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
-void GifMkView::initFrameRateCbbItem() {
-    for (int i = GIFGENERATION_OUTPUT_MINFRAMERATE; i <= GIFGENERATION_OUTPUT_MAXFRAMERATE; i++) {
-        m_pFrameRateCbb->addItem(QString::number(i));
+void GifMkView::initScaleCbbItem() {
+    QString scale = GIFMKSCALE;
+    QStringList scales = scale.split(' ');
+    for (auto &item : scales) {
+        m_pScaleCbb->addItem(item);
+    }
+}
+
+void GifMkView::initSizeCbbItem() {
+    QStringList sizes = { "原始大小(最大1280p)", "240p", "360p", "450p", "480p", "750p" };
+    for (auto &item : sizes) {
+        m_pSizeCbb->addItem(item);
     }
 }
 
@@ -210,10 +245,13 @@ void GifMkView::imageViewerLoad(const QString &filePath) {
 
 void GifMkView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Gif Maker"));
-    m_pOutputFolderLbl->setText(tr("Output folder:"));
-    m_pPixelsLbl->setText(tr("Pixels:"));
-    m_pPixels_x_Lbl->setText("x");
-    m_pFrameRateLbl->setText(tr("FrameRate:"));
+    m_pSizeLbl->setText(tr("Size"));
+    m_pScaleLbl->setText(tr("Scale"));
+    m_pPlayLbl->setText(tr("Play"));
+    m_pLoopCkb->setText(tr("Loop"));
+    m_pReverseCkb->setText(tr("Reverse"));
+    m_pSpeedLbl->setText(tr("Speed"));
+    m_pOutputFolderLbl->setText(tr("Output folder"));
     m_pPreviewBtn->setText(tr("Preview"));
     m_pStartAllBtn->setText(tr("create GIF"));
 }
