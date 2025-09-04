@@ -12,7 +12,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
 
@@ -28,11 +28,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class CroppingView : public QWidget, public View {
+class CropView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit CroppingView(QWidget *parent = nullptr);
-    ~CroppingView() override {
+    explicit CropView(QWidget *parent = nullptr);
+    ~CropView() override {
     }
 
     ImportListView *getImportListView();

@@ -7,7 +7,7 @@
 #include "myfile/presenter.h"
 #include "compression/presenter.h"
 #include "conversion/presenter.h"
-#include "cropping/presenter.h"
+#include "crop/presenter.h"
 #include "effects/presenter.h"
 #include "enhancement/presenter.h"
 #include "erase/presenter.h"
@@ -29,7 +29,7 @@ public:
     MyFilePresenter *myFilePresenter() const;
     CompressionPresenter *compressionPresenter() const;
     ConversionPresenter *conversionPresenter() const;
-    CroppingPresenter *croppingPresenter() const;
+    CropPresenter *cropPresenter() const;
     EffectsPresenter *effectsPresenter() const;
     EnhancementPresenter *enhancementPresenter() const;
     ErasePresenter *erasePresenter() const;
@@ -48,7 +48,7 @@ private:
     MyFilePresenter *m_pMyFilePresenter = nullptr;
     CompressionPresenter *m_pCompressionPresenter = nullptr;
     ConversionPresenter *m_pConversionPresenter = nullptr;
-    CroppingPresenter *m_pCroppingPresenter = nullptr;
+    CropPresenter *m_pCropPresenter = nullptr;
     EffectsPresenter *m_pEffectsPresenter = nullptr;
     EnhancementPresenter *m_pEnhancementPresenter = nullptr;
     ErasePresenter *m_pErasePresenter = nullptr;

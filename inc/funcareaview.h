@@ -6,7 +6,7 @@
 #include "myfile/view.h"
 #include "compression/view.h"
 #include "conversion/view.h"
-#include "cropping/view.h"
+#include "crop/view.h"
 #include "effects/view.h"
 #include "enhancement/view.h"
 #include "erase/view.h"
@@ -34,7 +34,7 @@ public:
     MyFileView *myFileView() const;
     CompressionView *compressionView() const;
     ConversionView *conversionView() const;
-    CroppingView *croppingView() const;
+    CropView *cropView() const;
     EffectsView *effectsView() const;
     EnhancementView *enhancementView() const;
     EraseView *eraseView() const;
@@ -64,7 +64,7 @@ private:
     MyFileView *m_pMyFileView = nullptr;
     CompressionView *m_pCompressionView = nullptr;
     ConversionView *m_pConversionView = nullptr;
-    CroppingView *m_pCroppingView = nullptr;
+    CropView *m_pCropView = nullptr;
     EffectsView *m_pEffectsView = nullptr;
     EnhancementView *m_pEnhancementView = nullptr;
     EraseView *m_pEraseView = nullptr;

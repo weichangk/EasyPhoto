@@ -23,8 +23,8 @@ ConversionView *FuncAreaView::conversionView() const {
     return m_pConversionView;
 }
 
-CroppingView *FuncAreaView::croppingView() const {
-    return m_pCroppingView;
+CropView *FuncAreaView::cropView() const {
+    return m_pCropView;
 }
 
 EffectsView *FuncAreaView::effectsView() const {
@@ -79,7 +79,7 @@ void FuncAreaView::createUi() {
     m_pMyFileView = new MyFileView(this);
     m_pCompressionView = new CompressionView(this);
     m_pConversionView = new ConversionView(this);
-    m_pCroppingView = new CroppingView(this);
+    m_pCropView = new CropView(this);
     m_pEffectsView = new EffectsView(this);
     m_pEnhancementView = new EnhancementView(this);
     m_pEraseView = new EraseView(this);
@@ -98,7 +98,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncEnhancement, m_pEnhancementView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
     m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);
-    m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);
+    m_pStackedLayout->insertWidget(EFunc::FuncCrop, m_pCropView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);

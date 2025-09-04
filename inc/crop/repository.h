@@ -1,15 +1,15 @@
 #pragma once
 #include "globalpresenter.h"
 #include "mvp/repository.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistrepository.h"
 
 using namespace QtmMvp;
 
-class CroppingRepository : public Repository {
+class CropRepository : public Repository {
 public:
-    explicit CroppingRepository();
-    ~CroppingRepository();
+    explicit CropRepository();
+    ~CropRepository();
 
     QString getSampleImage1Path();
     QString getSampleImage2Path();

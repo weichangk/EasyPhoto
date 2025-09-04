@@ -1,30 +1,30 @@
-QWidget#CroppingView {
+QWidget#CropView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
 
-QLabel#CroppingView_m_pTitleLbl {
+QLabel#CropView_m_pTitleLbl {
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;
 }
 
-QPushButton#CroppingView_m_pExportBtn {
+QPushButton#CropView_m_pExportBtn {
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#CroppingView_m_pExportBtn:hover {
+QPushButton#CropView_m_pExportBtn:hover {
     background-color: "#ad85ff";
 }
 
-QPushButton#CroppingView_m_pExportBtn:pressed {
+QPushButton#CropView_m_pExportBtn:pressed {
     background-color: "#bb99ff";
 }
 
-QLabel#CroppingView_m_pOutputFolderLbl {
+QLabel#CropView_m_pOutputFolderLbl {
     color: "#ffffff";
     font-size: 13px;
 }

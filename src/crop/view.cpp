@@ -1,32 +1,32 @@
-#include "cropping/view.h"
-#include "cropping/presenter.h"
+#include "crop/view.h"
+#include "crop/presenter.h"
 #include "settings.h"
 
-CroppingView::CroppingView(QWidget *parent) :
+CropView::CropView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
     onLanguageChange();
 }
 
-ImportListView *CroppingView::getImportListView() {
+ImportListView *CropView::getImportListView() {
     return m_pImportListView;
 }
 
-void CroppingView::showEvent(QShowEvent *event) {
+void CropView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();
 }
 
-void CroppingView::createUi() {
-    setObjectName("CroppingView");
+void CropView::createUi() {
+    setObjectName("CropView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     //
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("CroppingView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("CropView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -96,11 +96,11 @@ void CroppingView::createUi() {
 
     //
     m_pExportBtn = new QPushButton(this);
-    m_pExportBtn->setObjectName("CroppingView_m_pExportBtn");
+    m_pExportBtn->setObjectName("CropView_m_pExportBtn");
     m_pExportBtn->setFixedHeight(32);
 
     m_pOutputFolderLbl = new QLabel(this);
-    m_pOutputFolderLbl->setObjectName("CroppingView_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("CropView_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
@@ -143,16 +143,16 @@ void CroppingView::createUi() {
     layout->addLayout(stackedMarginLayout, 1);
 }
 
-void CroppingView::connectSig() {
-    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &CroppingView::onLanguageChange);
-    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &CroppingView::onSmaple1ImageLblClicked);
-    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &CroppingView::onSmaple2ImageLblClicked);
-    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &CroppingView::onImportListCountChange);
-    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &CroppingView::onImportListCurrentChanged);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &CroppingView::onGuideImportFile);
+void CropView::connectSig() {
+    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &CropView::onLanguageChange);
+    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &CropView::onSmaple1ImageLblClicked);
+    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &CropView::onSmaple2ImageLblClicked);
+    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &CropView::onImportListCountChange);
+    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &CropView::onImportListCurrentChanged);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &CropView::onGuideImportFile);
 }
 
-void CroppingView::firstShow() {
+void CropView::firstShow() {
     static bool firstShow = true;
     if(firstShow) {
         firstShow = false;
@@ -161,58 +161,58 @@ void CroppingView::firstShow() {
     }
 }
 
-void CroppingView::loadSampleImage() {
-    CroppingPresenter *prst = dynamic_cast<CroppingPresenter *>(presenter());
+void CropView::loadSampleImage() {
+    CropPresenter *prst = dynamic_cast<CropPresenter *>(presenter());
     m_pSmaple1ImageLbl->setPixmap(QPixmap(prst->getSampleImage1Path()).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     m_pSmaple2ImageLbl->setPixmap(QPixmap(prst->getSampleImage2Path()).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void CroppingView::importSampleImage1() {
-    CroppingPresenter *prst = dynamic_cast<CroppingPresenter *>(presenter());
+void CropView::importSampleImage1() {
+    CropPresenter *prst = dynamic_cast<CropPresenter *>(presenter());
     QStringList paths;
     paths.append(prst->getSampleImage1Path());
     m_pImportListView->importFile(paths);
 }
 
-void CroppingView::importSampleImage2() {
-    CroppingPresenter *prst = dynamic_cast<CroppingPresenter *>(presenter());
+void CropView::importSampleImage2() {
+    CropPresenter *prst = dynamic_cast<CropPresenter *>(presenter());
     QStringList paths;
     paths.append(prst->getSampleImage2Path());
     m_pImportListView->importFile(paths);
 }
 
-void CroppingView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->croppingOutPath());
+void CropView::initOutputFolderCbbItem() {
+    m_pOutputFolderCbb->addItem(SETTINGS->cropOutPath());
 }
 
-void CroppingView::gotoImportGuide() {
+void CropView::gotoImportGuide() {
     m_pStackedLayout->setCurrentWidget(m_pImportGuideWidget);
 }
 
-void CroppingView::gotoWorkspace() {
+void CropView::gotoWorkspace() {
     m_pStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
 }
 
-void CroppingView::imageViewerLoad(const QString &filePath) {
+void CropView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
 }
 
-void CroppingView::onLanguageChange() {
+void CropView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Image Cropper"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
 }
 
-void CroppingView::onSmaple1ImageLblClicked() {
+void CropView::onSmaple1ImageLblClicked() {
     importSampleImage1();
 }
 
-void CroppingView::onSmaple2ImageLblClicked() {
+void CropView::onSmaple2ImageLblClicked() {
     importSampleImage2();
 }
 
-void CroppingView::onImportListCountChange(int count) {
+void CropView::onImportListCountChange(int count) {
     if(count > 0) {
         gotoWorkspace();
     } else {
@@ -220,11 +220,11 @@ void CroppingView::onImportListCountChange(int count) {
     }
 }
 
-void CroppingView::onImportListCurrentChanged(const QString filePath) {
+void CropView::onImportListCurrentChanged(const QString filePath) {
     imageViewerLoad(filePath);
 }
 
-void CroppingView::onGuideImportFile(const QStringList &filePaths) {
-    CroppingPresenter *prst = dynamic_cast<CroppingPresenter *>(presenter());
+void CropView::onGuideImportFile(const QStringList &filePaths) {
+    CropPresenter *prst = dynamic_cast<CropPresenter *>(presenter());
     m_pImportListView->importFile(filePaths);
 }

@@ -84,7 +84,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/QtmImg/img/dark/v16/icon24/icon24_add_white.svg"),
         },
         SFuncItemData{
-            EFunc::FuncCropping,
+            EFunc::FuncCrop,
             EFuncItemBtnType::AddFile,
             "Image Crop",
             "Automatically crop image.",

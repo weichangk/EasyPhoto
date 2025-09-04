@@ -2,15 +2,15 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistpresenter.h"
 
 using namespace QtmMvp;
 
-class CroppingPresenter : public Presenter {
+class CropPresenter : public Presenter {
 public:
-    explicit CroppingPresenter(IView* view, IRepository *repository);
-    ~CroppingPresenter();
+    explicit CropPresenter(IView* view, IRepository *repository);
+    ~CropPresenter();
 
     QString getSampleImage1Path();
     QString getSampleImage2Path();

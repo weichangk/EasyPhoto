@@ -5,7 +5,7 @@
 #include "myfile/repository.h"
 #include "compression/repository.h"
 #include "conversion/repository.h"
-#include "cropping/repository.h"
+#include "crop/repository.h"
 #include "effects/repository.h"
 #include "enhancement/repository.h"
 #include "erase/repository.h"
@@ -27,7 +27,7 @@ public:
     MyFileRepository *myFileRepository() const;
     CompressionRepository *compressionRepository() const;
     ConversionRepository *conversionRepository() const;
-    CroppingRepository *croppingRepository() const;
+    CropRepository *cropRepository() const;
     EffectsRepository *effectsRepository() const;
     EnhancementRepository *enhancementRepository() const;
     EraseRepository *eraseRepository() const;
@@ -43,7 +43,7 @@ private:
     MyFileRepository *m_pMyFileRepository = nullptr;
     CompressionRepository *m_pCompressionRepository = nullptr;
     ConversionRepository *m_pConversionRepository = nullptr;
-    CroppingRepository *m_pCroppingRepository = nullptr;
+    CropRepository *m_pCropRepository = nullptr;
     EffectsRepository *m_pEffectsRepository = nullptr;
     EnhancementRepository *m_pEnhancementRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;

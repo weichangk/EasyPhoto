@@ -31,8 +31,8 @@ Settings::Settings() :
     m_strEnhanceOutPath(Default::enhanceOutPath),
     // Enhance
     m_strEraseOutPath(Default::eraseOutPath),
-    // cropping
-    m_strCroppingOutPath(Default::croppingOutPath)
+    // crop
+    m_strCropOutPath(Default::cropOutPath)
 {
 }
 
@@ -291,14 +291,14 @@ void Settings::setEraseOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-// cropping
-QString Settings::croppingOutPath() const {
-    return m_strCroppingOutPath;
+// crop
+QString Settings::cropOutPath() const {
+    return m_strCropOutPath;
 }
 
-void Settings::setCroppingOutPath(const QString &path) {
-    m_strCroppingOutPath = path;
-    m_Settings.beginGroup("Cropping");
-    m_Settings.setValue(QStringLiteral("CroppingOutPath"), m_strCroppingOutPath);
+void Settings::setCropOutPath(const QString &path) {
+    m_strCropOutPath = path;
+    m_Settings.beginGroup("Crop");
+    m_Settings.setValue(QStringLiteral("CropOutPath"), m_strCropOutPath);
     m_Settings.endGroup();
 }

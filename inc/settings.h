@@ -53,8 +53,8 @@ static QString enhanceOutPath = defOutPath("Enhance");
 // erase
 static QString eraseOutPath = defOutPath("Erase");
 
-// cropping
-static QString croppingOutPath = defOutPath("Cropping");
+// crop
+static QString cropOutPath = defOutPath("Crop");
 
 } // namespace Default
 
@@ -119,9 +119,9 @@ public:
     QString eraseOutPath() const;
     void setEraseOutPath(const QString &path);
 
-    // cropping
-    QString croppingOutPath() const;
-    void setCroppingOutPath(const QString &path);
+    // crop
+    QString cropOutPath() const;
+    void setCropOutPath(const QString &path);
 
 private:
     QSettings m_Settings;
@@ -160,8 +160,8 @@ private:
     // erase
     QString m_strEraseOutPath;
 
-    // cropping
-    QString m_strCroppingOutPath;
+    // crop
+    QString m_strCropOutPath;
 };
 
 #define SETTINGS Settings::getInstance()
