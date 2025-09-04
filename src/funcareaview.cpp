@@ -27,10 +27,6 @@ CropView *FuncAreaView::cropView() const {
     return m_pCropView;
 }
 
-EffectsView *FuncAreaView::effectsView() const {
-    return m_pEffectsView;
-}
-
 UpscView *FuncAreaView::upscView() const {
     return m_pUpscView;
 }
@@ -80,7 +76,6 @@ void FuncAreaView::createUi() {
     m_pCompressionView = new CompressionView(this);
     m_pConversionView = new ConversionView(this);
     m_pCropView = new CropView(this);
-    m_pEffectsView = new EffectsView(this);
     m_pUpscView = new UpscView(this);
     m_pEraseView = new EraseView(this);
     m_pGifMkView = new GifMkView(this);
@@ -103,7 +98,6 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncThumbMk, m_pThumbMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
-    m_pStackedLayout->insertWidget(EFunc::FuncEffects, m_pEffectsView);
     m_pStackedLayout->insertWidget(EFunc::FuncImagePreview, m_pImagePreviewView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 

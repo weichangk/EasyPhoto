@@ -6,7 +6,6 @@
 #include "compression/repository.h"
 #include "conversion/repository.h"
 #include "crop/repository.h"
-#include "effects/repository.h"
 #include "upsc/repository.h"
 #include "erase/repository.h"
 #include "gifmk/repository.h"
@@ -28,7 +27,6 @@ public:
     CompressionRepository *compressionRepository() const;
     ConversionRepository *conversionRepository() const;
     CropRepository *cropRepository() const;
-    EffectsRepository *effectsRepository() const;
     UpscRepository *upscRepository() const;
     EraseRepository *eraseRepository() const;
     GifMkRepository *gifMkRepository() const;
@@ -44,7 +42,6 @@ private:
     CompressionRepository *m_pCompressionRepository = nullptr;
     ConversionRepository *m_pConversionRepository = nullptr;
     CropRepository *m_pCropRepository = nullptr;
-    EffectsRepository *m_pEffectsRepository = nullptr;
     UpscRepository *m_pUpscRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;
     GifMkRepository *m_pGifMkRepository = nullptr;

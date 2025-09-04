@@ -7,7 +7,6 @@
 #include "compression/view.h"
 #include "conversion/view.h"
 #include "crop/view.h"
-#include "effects/view.h"
 #include "upsc/view.h"
 #include "erase/view.h"
 #include "gifmk/view.h"
@@ -35,7 +34,6 @@ public:
     CompressionView *compressionView() const;
     ConversionView *conversionView() const;
     CropView *cropView() const;
-    EffectsView *effectsView() const;
     UpscView *upscView() const;
     EraseView *eraseView() const;
     GifMkView *gifMkView() const;
@@ -65,7 +63,6 @@ private:
     CompressionView *m_pCompressionView = nullptr;
     ConversionView *m_pConversionView = nullptr;
     CropView *m_pCropView = nullptr;
-    EffectsView *m_pEffectsView = nullptr;
     UpscView *m_pUpscView = nullptr;
     EraseView *m_pEraseView = nullptr;
     GifMkView *m_pGifMkView = nullptr;

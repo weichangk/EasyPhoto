@@ -6,7 +6,6 @@ FuncAreaRepository::FuncAreaRepository() {
     m_pCompressionRepository = new CompressionRepository();
     m_pConversionRepository = new ConversionRepository();
     m_pCropRepository = new CropRepository();
-    m_pEffectsRepository = new EffectsRepository();
     m_pUpscRepository = new UpscRepository();
     m_pEraseRepository = new EraseRepository();
     m_pGifMkRepository = new GifMkRepository();
@@ -38,10 +37,6 @@ ConversionRepository *FuncAreaRepository::conversionRepository() const {
 
 CropRepository *FuncAreaRepository::cropRepository() const {
     return m_pCropRepository;
-}
-
-EffectsRepository *FuncAreaRepository::effectsRepository() const {
-    return m_pEffectsRepository;
 }
 
 UpscRepository *FuncAreaRepository::upscRepository() const {
