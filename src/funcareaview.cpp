@@ -51,8 +51,8 @@ BgRmView *FuncAreaView::bgRmView() const {
     return m_pBgRmView;
 }
 
-ThumbnailMakerView *FuncAreaView::thumbnailMakerView() const {
-    return m_pThumbnailMakerView;
+ThumbMkView *FuncAreaView::thumbMkView() const {
+    return m_pThumbMkView;
 }
 
 DownloaderView *FuncAreaView::downloaderView() const {
@@ -86,7 +86,7 @@ void FuncAreaView::createUi() {
     m_pGifMkView = new GifMkView(this);
     m_pInpaintingView = new InpaintingView(this);
     m_pBgRmView = new BgRmView(this);
-    m_pThumbnailMakerView = new ThumbnailMakerView(this);
+    m_pThumbMkView = new ThumbMkView(this);
     m_pDownloaderView = new DownloaderView(this);
     m_pImagePreviewView = new ImagePreviewView(this);
     m_pGifPreviewView = new GifPreviewView(this);
@@ -100,7 +100,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);
     m_pStackedLayout->insertWidget(EFunc::FuncCrop, m_pCropView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifMk, m_pGifMkView);
-    m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);
+    m_pStackedLayout->insertWidget(EFunc::FuncThumbMk, m_pThumbMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
     m_pStackedLayout->insertWidget(EFunc::FuncEffects, m_pEffectsView);

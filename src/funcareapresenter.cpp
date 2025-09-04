@@ -19,7 +19,7 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
         m_pGifMkPresenter = new GifMkPresenter(funcAreaView->gifMkView(), funcRepository->gifMkRepository());
         m_pInpaintingPresenter = new InpaintingPresenter(funcAreaView->inpaintingView(), funcRepository->inpaintingRepository());
         m_pBgRmPresenter = new BgRmPresenter(funcAreaView->bgRmView(), funcRepository->bgRmRepository());
-        m_pThumbnailMakerPresenter = new ThumbnailMakerPresenter(funcAreaView->thumbnailMakerView(), funcRepository->thumbnailMakerRepository());
+        m_pThumbMkPresenter = new ThumbMkPresenter(funcAreaView->thumbMkView(), funcRepository->thumbMkRepository());
         m_pDownloaderPresenter = new DownloaderPresenter(funcAreaView->downloaderView(), funcRepository->downloaderRepository());
         m_pGifPreviewPresenter = new GifPreviewPresenter(funcAreaView->gifPreviewView(), funcRepository->gifPreviewRepository());
     }
@@ -72,8 +72,8 @@ BgRmPresenter *FuncAreaPresenter::bgRmPresenter() const {
     return m_pBgRmPresenter;
 }
 
-ThumbnailMakerPresenter *FuncAreaPresenter::thumbnailMakerPresenter() const {
-    return m_pThumbnailMakerPresenter;
+ThumbMkPresenter *FuncAreaPresenter::thumbMkPresenter() const {
+    return m_pThumbMkPresenter;
 }
 
 DownloaderPresenter *FuncAreaPresenter::downloaderPresenter() const {

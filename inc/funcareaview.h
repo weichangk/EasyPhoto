@@ -14,7 +14,7 @@
 #include "inpainting/view.h"
 #include "gifpreview/view.h"
 #include "bgrm/view.h"
-#include "thumbmaker/view.h"
+#include "thumbmk/view.h"
 #include "downloader/view.h"
 #include "imagepreviewview.h"
 #include "funcnavigationhistory.h"
@@ -41,7 +41,7 @@ public:
     GifMkView *gifMkView() const;
     InpaintingView *inpaintingView() const;
     BgRmView *bgRmView() const;
-    ThumbnailMakerView *thumbnailMakerView() const;
+    ThumbMkView *thumbMkView() const;
     DownloaderView *downloaderView() const;
     ImagePreviewView *imagePreviewView() const;
     GifPreviewView *gifPreviewView() const;
@@ -71,7 +71,7 @@ private:
     GifMkView *m_pGifMkView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;
     BgRmView *m_pBgRmView = nullptr;
-    ThumbnailMakerView *m_pThumbnailMakerView = nullptr;
+    ThumbMkView *m_pThumbMkView = nullptr;
     DownloaderView *m_pDownloaderView = nullptr;
     ImagePreviewView *m_pImagePreviewView = nullptr;
     GifPreviewView *m_pGifPreviewView = nullptr;

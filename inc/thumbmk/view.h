@@ -4,11 +4,11 @@
 
 using namespace QtmMvp;
 
-class ThumbnailMakerView : public QWidget, public View {
+class ThumbMkView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit ThumbnailMakerView(QWidget *parent = nullptr);
-    ~ThumbnailMakerView() override {
+    explicit ThumbMkView(QWidget *parent = nullptr);
+    ~ThumbMkView() override {
     }
 
 private:

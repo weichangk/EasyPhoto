@@ -12,7 +12,7 @@
 #include "gifmk/repository.h"
 #include "inpainting/repository.h"
 #include "bgrm/repository.h"
-#include "thumbmaker/repository.h"
+#include "thumbmk/repository.h"
 #include "downloader/repository.h"
 #include "gifpreview/repository.h"
 
@@ -33,7 +33,7 @@ public:
     EraseRepository *eraseRepository() const;
     GifMkRepository *gifMkRepository() const;
     InpaintingRepository *inpaintingRepository() const;
-    ThumbnailMakerRepository *thumbnailMakerRepository() const;
+    ThumbMkRepository *thumbMkRepository() const;
     DownloaderRepository *downloaderRepository() const;
     BgRmRepository *bgRmRepository() const;
     GifPreviewRepository *gifPreviewRepository() const;
@@ -49,7 +49,7 @@ private:
     EraseRepository *m_pEraseRepository = nullptr;
     GifMkRepository *m_pGifMkRepository = nullptr;
     InpaintingRepository *m_pInpaintingRepository = nullptr;
-    ThumbnailMakerRepository *m_pThumbnailMakerRepository = nullptr;
+    ThumbMkRepository *m_pThumbMkRepository = nullptr;
     DownloaderRepository *m_pDownloaderRepository = nullptr;
     BgRmRepository *m_pBgRmRepository = nullptr;
     GifPreviewRepository *m_pGifPreviewRepository = nullptr;

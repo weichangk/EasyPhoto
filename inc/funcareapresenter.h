@@ -15,7 +15,7 @@
 #include "inpainting/presenter.h"
 #include "gifpreview/presenter.h"
 #include "bgrm/presenter.h"
-#include "thumbmaker/presenter.h"
+#include "thumbmk/presenter.h"
 #include "downloader/presenter.h"
 
 using namespace QtmMvp;
@@ -36,7 +36,7 @@ public:
     GifMkPresenter *gifMkPresenter() const;
     InpaintingPresenter *inpaintingPresenter() const;
     BgRmPresenter *bgRmPresenter() const;
-    ThumbnailMakerPresenter *thumbnailMakerPresenter() const;
+    ThumbMkPresenter *thumbMkPresenter() const;
     DownloaderPresenter *downloaderPresenter() const;
     GifPreviewPresenter *gifPreviewPresenter() const;
 
@@ -55,7 +55,7 @@ private:
     GifMkPresenter *m_pGifMkPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;
     BgRmPresenter *m_pBgRmPresenter = nullptr;
-    ThumbnailMakerPresenter *m_pThumbnailMakerPresenter = nullptr;
+    ThumbMkPresenter *m_pThumbMkPresenter = nullptr;
     DownloaderPresenter *m_pDownloaderPresenter = nullptr;
     GifPreviewPresenter *m_pGifPreviewPresenter = nullptr;
 };
