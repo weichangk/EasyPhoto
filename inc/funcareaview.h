@@ -13,7 +13,7 @@
 #include "gifmk/view.h"
 #include "inpainting/view.h"
 #include "gifpreview/view.h"
-#include "bgremover/view.h"
+#include "bgrm/view.h"
 #include "thumbmaker/view.h"
 #include "downloader/view.h"
 #include "imagepreviewview.h"
@@ -40,7 +40,7 @@ public:
     EraseView *eraseView() const;
     GifMkView *gifMkView() const;
     InpaintingView *inpaintingView() const;
-    BackgroungRemoverView *backgroundRemoverView() const;
+    BgRmView *bgRmView() const;
     ThumbnailMakerView *thumbnailMakerView() const;
     DownloaderView *downloaderView() const;
     ImagePreviewView *imagePreviewView() const;
@@ -70,7 +70,7 @@ private:
     EraseView *m_pEraseView = nullptr;
     GifMkView *m_pGifMkView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;
-    BackgroungRemoverView *m_pBackgroundRemoverView = nullptr;
+    BgRmView *m_pBgRmView = nullptr;
     ThumbnailMakerView *m_pThumbnailMakerView = nullptr;
     DownloaderView *m_pDownloaderView = nullptr;
     ImagePreviewView *m_pImagePreviewView = nullptr;

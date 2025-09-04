@@ -47,8 +47,8 @@ InpaintingView *FuncAreaView::inpaintingView() const {
     return m_pInpaintingView;
 }
 
-BackgroungRemoverView *FuncAreaView::backgroundRemoverView() const {
-    return m_pBackgroundRemoverView;
+BgRmView *FuncAreaView::bgRmView() const {
+    return m_pBgRmView;
 }
 
 ThumbnailMakerView *FuncAreaView::thumbnailMakerView() const {
@@ -85,7 +85,7 @@ void FuncAreaView::createUi() {
     m_pEraseView = new EraseView(this);
     m_pGifMkView = new GifMkView(this);
     m_pInpaintingView = new InpaintingView(this);
-    m_pBackgroundRemoverView = new BackgroungRemoverView(this);
+    m_pBgRmView = new BgRmView(this);
     m_pThumbnailMakerView = new ThumbnailMakerView(this);
     m_pDownloaderView = new DownloaderView(this);
     m_pImagePreviewView = new ImagePreviewView(this);
@@ -97,7 +97,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
     m_pStackedLayout->insertWidget(EFunc::FuncEnhancement, m_pEnhancementView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
-    m_pStackedLayout->insertWidget(EFunc::FuncBackgroungRemover, m_pBackgroundRemoverView);
+    m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);
     m_pStackedLayout->insertWidget(EFunc::FuncCropping, m_pCroppingView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);

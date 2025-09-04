@@ -10,7 +10,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "listdelegate.h"
 
 #include <QStackedLayout>
@@ -25,11 +25,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class BackgroungRemoverView : public QWidget, public View {
+class BgRmView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit BackgroungRemoverView(QWidget *parent = nullptr);
-    ~BackgroungRemoverView() override {
+    explicit BgRmView(QWidget *parent = nullptr);
+    ~BgRmView() override {
     }
 
 protected:
@@ -84,6 +84,6 @@ private:
     QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
-    ListView<SBGRemoverData> *m_pListView = nullptr;
-    BackgroungRemoverListDelegate *m_pListDelegate = nullptr;
+    ListView<SBgRmData> *m_pListView = nullptr;
+    BgRmListDelegate *m_pListDelegate = nullptr;
 };

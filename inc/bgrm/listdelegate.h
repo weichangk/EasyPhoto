@@ -2,10 +2,10 @@
 #include <QStyledItemDelegate>
 #include <QEvent>
 
-class BackgroungRemoverListDelegate : public QStyledItemDelegate {
+class BgRmListDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit BackgroungRemoverListDelegate(QObject *parent);
+    explicit BgRmListDelegate(QObject *parent);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool eventFilter(QObject *object, QEvent *event) override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;

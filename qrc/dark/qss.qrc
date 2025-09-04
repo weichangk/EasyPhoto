@@ -17,7 +17,7 @@
       <file>../../qss/dark/erase.qss</file> 
       <file>../../qss/dark/gifmk.qss</file> 
       <file>../../qss/dark/inpaintingview.qss</file>
-      <file>../../qss/dark/bgremover.qss</file>
+      <file>../../qss/dark/bgrm.qss</file>
       <file>../../qss/dark/downloader.qss</file>
       <file>../../qss/dark/thumbmaker.qss</file>
       <file>../../qss/dark/importguide.qss</file>

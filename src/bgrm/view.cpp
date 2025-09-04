@@ -1,5 +1,5 @@
-#include "bgremover/view.h"
-#include "bgremover/presenter.h"
+#include "bgrm/view.h"
+#include "bgrm/presenter.h"
 #include "settings.h"
 
 #include <QFileInfo>
@@ -7,26 +7,26 @@
 #include <QStandardPaths>
 #include <QDesktopServices>
 
-BackgroungRemoverView::BackgroungRemoverView(QWidget *parent) :
+BgRmView::BgRmView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
     onLanguageChange();
 }
 
-void BackgroungRemoverView::showEvent(QShowEvent *event) {
+void BgRmView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();
 }
 
-void BackgroungRemoverView::createUi() {
-    setObjectName("BackgroungRemoverView");
+void BgRmView::createUi() {
+    setObjectName("BgRmView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("BackgroungRemoverView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("BgRmView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -59,7 +59,7 @@ void BackgroungRemoverView::createUi() {
     m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
-    m_pSelectAllCkb->setObjectName("BackgroungRemoverView_m_pSelectAllCkb");
+    m_pSelectAllCkb->setObjectName("BgRmView_m_pSelectAllCkb");
 
     m_pListModeSwitchBtn = new IconButton(topWidget);
     m_pListModeSwitchBtn->setFixedSize(24, 24);
@@ -80,7 +80,7 @@ void BackgroungRemoverView::createUi() {
     bottomWidget->setFixedHeight(70);
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
-    m_pOutputFolderLbl->setObjectName("BackgroungRemoverView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("BgRmView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(240, 24);
@@ -94,7 +94,7 @@ void BackgroungRemoverView::createUi() {
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
-    m_pStartAllBtn->setObjectName("BackgroungRemoverView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("BgRmView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
     auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
@@ -108,9 +108,9 @@ void BackgroungRemoverView::createUi() {
     bottomWidgetLayout->addStretch();
     bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
-    m_pListView = new ListView<SBGRemoverData>(this);
+    m_pListView = new ListView<SBgRmData>(this);
     m_pListView->setSpacing(0);
-    m_pListDelegate = new BackgroungRemoverListDelegate(m_pListView);
+    m_pListDelegate = new BgRmListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->viewport()->installEventFilter(m_pListDelegate);
     auto listViewLayout = new QVBoxLayout();
@@ -142,22 +142,22 @@ void BackgroungRemoverView::createUi() {
     layout->addLayout(stackedMarginLayout, 1);
 }
 
-void BackgroungRemoverView::connectSig() {
-    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &BackgroungRemoverView::onLanguageChange);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &BackgroungRemoverView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onAddFileBtnClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onAddFolderBtnClicked);
-    connect(m_pClearFileBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onClearFileBtnClicked);
-    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &BackgroungRemoverView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onListModeSwitchBtnClicked);
-    connect(m_pListView, &QListView::clicked, this, &BackgroungRemoverView::onListViewClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &BackgroungRemoverView::onOutputFolderCbbClicked);
-    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &BackgroungRemoverView::onOutputFolderCbbIndexChanged);
-    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onOpenOutputFolderBtnClicked);
-    connect(m_pStartAllBtn, &QPushButton::clicked, this, &BackgroungRemoverView::onStartAllBtnClicked);
+void BgRmView::connectSig() {
+    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &BgRmView::onLanguageChange);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &BgRmView::listViewImportFile);
+    connect(m_pAddFileBtn, &QPushButton::clicked, this, &BgRmView::onAddFileBtnClicked);
+    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &BgRmView::onAddFolderBtnClicked);
+    connect(m_pClearFileBtn, &QPushButton::clicked, this, &BgRmView::onClearFileBtnClicked);
+    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &BgRmView::onSelectAllStateChanged);
+    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &BgRmView::onListModeSwitchBtnClicked);
+    connect(m_pListView, &QListView::clicked, this, &BgRmView::onListViewClicked);
+    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &BgRmView::onOutputFolderCbbClicked);
+    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &BgRmView::onOutputFolderCbbIndexChanged);
+    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &BgRmView::onOpenOutputFolderBtnClicked);
+    connect(m_pStartAllBtn, &QPushButton::clicked, this, &BgRmView::onStartAllBtnClicked);
 }
 
-void BackgroungRemoverView::firstShow() {
+void BgRmView::firstShow() {
     static bool firstShow = true;
     if(firstShow) {
         firstShow = false;
@@ -165,24 +165,24 @@ void BackgroungRemoverView::firstShow() {
     }
 }
 
-QWidget *BackgroungRemoverView::createDividingLine() {
+QWidget *BgRmView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("BackgroungRemoverView_DividingLine");
+    dividingLine->setObjectName("BgRmView_DividingLine");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }
 
-void BackgroungRemoverView::listViewImportFile(const QStringList &filePaths) {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::listViewImportFile(const QStringList &filePaths) {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     prst->appendData(filePaths);
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
     selectAllState();
 }
 
-void BackgroungRemoverView::onListModeSwitchBtnClicked() {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::onListModeSwitchBtnClicked() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     if (!prst->datas().isEmpty()) {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
@@ -196,8 +196,8 @@ void BackgroungRemoverView::onListModeSwitchBtnClicked() {
     }
 }
 
-void BackgroungRemoverView::listItemSelectChanged(const QString &filePath) {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::listItemSelectChanged(const QString &filePath) {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
     blockSignalsFunc(m_pSelectAllCkb, [&]() {
@@ -205,8 +205,8 @@ void BackgroungRemoverView::listItemSelectChanged(const QString &filePath) {
     });
 }
 
-void BackgroungRemoverView::listItemDelete(const QString &filePath) {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::listItemDelete(const QString &filePath) {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     QStringList filePaths;
     filePaths.append(filePath);
     prst->deleteData(filePaths);
@@ -215,8 +215,8 @@ void BackgroungRemoverView::listItemDelete(const QString &filePath) {
     selectAllState();
 }
 
-void BackgroungRemoverView::listViewNoDataState() {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::listViewNoDataState() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
     m_pListModeSwitchBtn->setVisible(!isNoData);
@@ -224,8 +224,8 @@ void BackgroungRemoverView::listViewNoDataState() {
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pWorkspaceWidget);
 }
 
-void BackgroungRemoverView::selectAllState() {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::selectAllState() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
@@ -239,40 +239,40 @@ void BackgroungRemoverView::selectAllState() {
     }
 }
 
-void BackgroungRemoverView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->backgroungRemoverOutPath());
+void BgRmView::initOutputFolderCbbItem() {
+    m_pOutputFolderCbb->addItem(SETTINGS->bgRmOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
-void BackgroungRemoverView::BackgroungRemoverView::setOutputFolder(const QString &path) {
-    SETTINGS->setBackgroungRemoverOutPath(path);
+void BgRmView::BgRmView::setOutputFolder(const QString &path) {
+    SETTINGS->setBgRmOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
-void BackgroungRemoverView::onLanguageChange() {
+void BgRmView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Backgroung Remover"));
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pStartAllBtn->setText(tr("Start"));
 }
 
-void BackgroungRemoverView::onAddFileBtnClicked() {
+void BgRmView::onAddFileBtnClicked() {
     QString title = tr("Open");
-    QString directory = SETTINGS->backgroungRemoverLastAddFilePath();
+    QString directory = SETTINGS->bgRmLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
         QFileInfo fileInfo(filePaths.first());
         QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setBackgroungRemoverLastAddFilePath(lastDirectory);
+        SETTINGS->setBgRmLastAddFilePath(lastDirectory);
         listViewImportFile(filePaths);
     }
 }
 
-void BackgroungRemoverView::onAddFolderBtnClicked() {
+void BgRmView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->backgroungRemoverLastAddFolderPath());
+    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->bgRmLastAddFolderPath());
     if (!folderPath.isEmpty()) {
-        SETTINGS->setBackgroungRemoverLastAddFolderPath(folderPath);
+        SETTINGS->setBgRmLastAddFolderPath(folderPath);
         QDir dir(folderPath);
         QStringList files = dir.entryList(QDir::Files);
         QStringList filePaths;
@@ -286,21 +286,21 @@ void BackgroungRemoverView::onAddFolderBtnClicked() {
     }
 }
 
-void BackgroungRemoverView::onClearFileBtnClicked() {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::onClearFileBtnClicked() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     prst->clearData();
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
 }
 
-void BackgroungRemoverView::onSelectAllStateChanged(int state) {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
+void BgRmView::onSelectAllStateChanged(int state) {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
     prst->checkedAllData(state);
     m_pListView->changeData(prst->datas());
 }
 
-void BackgroungRemoverView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SBGRemoverData>();
+void BgRmView::onListViewClicked(const QModelIndex &index) {
+    auto data = index.data(Qt::UserRole).value<SBgRmData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
@@ -317,10 +317,10 @@ void BackgroungRemoverView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void BackgroungRemoverView::onOutputFolderCbbClicked() {
+void BgRmView::onOutputFolderCbbClicked() {
 }
 
-void BackgroungRemoverView::onOutputFolderCbbIndexChanged(int index) {
+void BgRmView::onOutputFolderCbbIndexChanged(int index) {
     if (index == 1) {
         blockSignalsFunc(m_pOutputFolderCbb, [&]() {
             m_pOutputFolderCbb->setCurrentIndex(0);
@@ -333,14 +333,14 @@ void BackgroungRemoverView::onOutputFolderCbbIndexChanged(int index) {
     }
 }
 
-void BackgroungRemoverView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->backgroungRemoverOutPath();
+void BgRmView::onOpenOutputFolderBtnClicked() {
+    QString folderPath = SETTINGS->bgRmOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
-void BackgroungRemoverView::onStartAllBtnClicked() {
-    BackgroungRemoverPresenter *prst = dynamic_cast<BackgroungRemoverPresenter *>(presenter());
-    // BackgroungRemoverTask task;
+void BgRmView::onStartAllBtnClicked() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
+    // BgRmTask task;
     // for(auto data : prst->datas()) {
     //     if(data.is_checked) {
     //         task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());

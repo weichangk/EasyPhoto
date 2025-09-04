@@ -7,7 +7,7 @@ using EFunc = enum {
     FuncCompression,
     FuncEnhancement,
     FuncErase,
-    FuncBackgroungRemover,
+    FuncBgRm,
     FuncCropping,
     FuncGifMaker,
     FuncThumbnailMaker,

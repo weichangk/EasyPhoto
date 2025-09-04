@@ -14,7 +14,7 @@
 #include "gifmk/presenter.h"
 #include "inpainting/presenter.h"
 #include "gifpreview/presenter.h"
-#include "bgremover/presenter.h"
+#include "bgrm/presenter.h"
 #include "thumbmaker/presenter.h"
 #include "downloader/presenter.h"
 
@@ -35,7 +35,7 @@ public:
     ErasePresenter *erasePresenter() const;
     GifMkPresenter *gifMkPresenter() const;
     InpaintingPresenter *inpaintingPresenter() const;
-    BackgroungRemoverPresenter *backgroungRemoverPresenter() const;
+    BgRmPresenter *bgRmPresenter() const;
     ThumbnailMakerPresenter *thumbnailMakerPresenter() const;
     DownloaderPresenter *downloaderPresenter() const;
     GifPreviewPresenter *gifPreviewPresenter() const;
@@ -54,7 +54,7 @@ private:
     ErasePresenter *m_pErasePresenter = nullptr;
     GifMkPresenter *m_pGifMkPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;
-    BackgroungRemoverPresenter *m_pBackgroungRemoverPresenter = nullptr;
+    BgRmPresenter *m_pBgRmPresenter = nullptr;
     ThumbnailMakerPresenter *m_pThumbnailMakerPresenter = nullptr;
     DownloaderPresenter *m_pDownloaderPresenter = nullptr;
     GifPreviewPresenter *m_pGifPreviewPresenter = nullptr;

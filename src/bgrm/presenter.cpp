@@ -1,29 +1,29 @@
-#include "bgremover/presenter.h"
-#include "bgremover/repository.h"
+#include "bgrm/presenter.h"
+#include "bgrm/repository.h"
 
 #include <QFileInfo>
 
-BackgroungRemoverPresenter::BackgroungRemoverPresenter(IView *view, IRepository *repository) :
+BgRmPresenter::BgRmPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
 }
 
-BackgroungRemoverPresenter::~BackgroungRemoverPresenter() {
+BgRmPresenter::~BgRmPresenter() {
 }
 
-QList<SBGRemoverData> BackgroungRemoverPresenter::datas() {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+QList<SBgRmData> BgRmPresenter::datas() {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     return rep->datas();
 }
 
-void BackgroungRemoverPresenter::appendData(const QStringList filePaths) {
-    QList<SBGRemoverData> tempDatas;
+void BgRmPresenter::appendData(const QStringList filePaths) {
+    QList<SBgRmData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SBGRemoverData data;
+        SBgRmData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -41,20 +41,20 @@ void BackgroungRemoverPresenter::appendData(const QStringList filePaths) {
         data.is_checked = true;
         tempDatas.append(data);
     }
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->appendData(tempDatas);
 }
 
-void BackgroungRemoverPresenter::deleteData(const QStringList filePaths) {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+void BgRmPresenter::deleteData(const QStringList filePaths) {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->deleteData(filePaths);
     for(auto path : filePaths) {
         filePathsSet.remove(path);
     }
 }
 
-void BackgroungRemoverPresenter::deleteCheckedData() {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+void BgRmPresenter::deleteCheckedData() {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->deleteCheckedData();
     for(auto data : rep->datas()) {
         if(data.is_checked) {
@@ -63,18 +63,18 @@ void BackgroungRemoverPresenter::deleteCheckedData() {
     }
 }
 
-void BackgroungRemoverPresenter::clearData() {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+void BgRmPresenter::clearData() {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->clearData();
     filePathsSet.clear();
 }
 
-void BackgroungRemoverPresenter::switchCheckedData(const QString filePath) {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+void BgRmPresenter::switchCheckedData(const QString filePath) {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->switchCheckedData(filePath);
 }
 
-void BackgroungRemoverPresenter::checkedAllData(bool checked) {
-    BackgroungRemoverRepository *rep = dynamic_cast<BackgroungRemoverRepository *>(repository());
+void BgRmPresenter::checkedAllData(bool checked) {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     rep->checkedAllData(checked);
 }

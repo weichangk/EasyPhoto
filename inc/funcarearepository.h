@@ -11,7 +11,7 @@
 #include "erase/repository.h"
 #include "gifmk/repository.h"
 #include "inpainting/repository.h"
-#include "bgremover/repository.h"
+#include "bgrm/repository.h"
 #include "thumbmaker/repository.h"
 #include "downloader/repository.h"
 #include "gifpreview/repository.h"
@@ -35,7 +35,7 @@ public:
     InpaintingRepository *inpaintingRepository() const;
     ThumbnailMakerRepository *thumbnailMakerRepository() const;
     DownloaderRepository *downloaderRepository() const;
-    BackgroungRemoverRepository *backgroungRemoverRepository() const;
+    BgRmRepository *bgRmRepository() const;
     GifPreviewRepository *gifPreviewRepository() const;
 
 private:
@@ -51,6 +51,6 @@ private:
     InpaintingRepository *m_pInpaintingRepository = nullptr;
     ThumbnailMakerRepository *m_pThumbnailMakerRepository = nullptr;
     DownloaderRepository *m_pDownloaderRepository = nullptr;
-    BackgroungRemoverRepository *m_pBackgroungRemoverRepository = nullptr;
+    BgRmRepository *m_pBgRmRepository = nullptr;
     GifPreviewRepository *m_pGifPreviewRepository = nullptr;
 };

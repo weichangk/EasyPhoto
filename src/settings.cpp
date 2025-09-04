@@ -23,10 +23,10 @@ Settings::Settings() :
     m_nGifGenerationFps(Default::gifGenerationFps),
     m_bGifGenerationRepeat(Default::gifGenerationRepeat),
     m_strGifGenerationOutPath(Default::gifGenerationOutPath),
-    // BackgroungRemover
-    m_strBackgroungRemoverLastAddFilePath(Default::backgroundRemoverLastAddFilePath),
-    m_strBackgroungRemoverLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
-    m_strBackgroungRemoverOutPath(Default::backgroundRemoverOutPath),
+    // BgRm
+    m_strBgRmLastAddFilePath(Default::backgroundRemoverLastAddFilePath),
+    m_strBgRmLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
+    m_strBgRmOutPath(Default::backgroundRemoverOutPath),
     // Enhance
     m_strEnhanceOutPath(Default::enhanceOutPath),
     // Enhance
@@ -233,37 +233,37 @@ void Settings::setGifGenerationOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-// BackgroungRemover
-QString Settings::backgroungRemoverLastAddFilePath() const {
-    return m_strBackgroungRemoverLastAddFilePath;
+// BgRm
+QString Settings::bgRmLastAddFilePath() const {
+    return m_strBgRmLastAddFilePath;
 }
 
-void Settings::setBackgroungRemoverLastAddFilePath(const QString &path) {
-    m_strBackgroungRemoverLastAddFilePath = path;
-    m_Settings.beginGroup("BackgroungRemover");
-    m_Settings.setValue(QStringLiteral("BackgroungRemoverLastAddFilePath"), m_strBackgroungRemoverLastAddFilePath);
+void Settings::setBgRmLastAddFilePath(const QString &path) {
+    m_strBgRmLastAddFilePath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("BgRmLastAddFilePath"), m_strBgRmLastAddFilePath);
     m_Settings.endGroup();
 }
 
-QString Settings::backgroungRemoverLastAddFolderPath() const {
-    return m_strBackgroungRemoverLastAddFolderPath;
+QString Settings::bgRmLastAddFolderPath() const {
+    return m_strBgRmLastAddFolderPath;
 }
 
-void Settings::setBackgroungRemoverLastAddFolderPath(const QString &path) {
-    m_strBackgroungRemoverLastAddFolderPath = path;
-    m_Settings.beginGroup("BackgroungRemover");
-    m_Settings.setValue(QStringLiteral("BackgroungRemoverLastAddFolderPath"), m_strBackgroungRemoverLastAddFolderPath);
+void Settings::setBgRmLastAddFolderPath(const QString &path) {
+    m_strBgRmLastAddFolderPath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("BgRmLastAddFolderPath"), m_strBgRmLastAddFolderPath);
     m_Settings.endGroup();
 }
 
-QString Settings::backgroungRemoverOutPath() const {
-    return m_strBackgroungRemoverOutPath;
+QString Settings::bgRmOutPath() const {
+    return m_strBgRmOutPath;
 }
 
-void Settings::setBackgroungRemoverOutPath(const QString &path) {
-    m_strBackgroungRemoverOutPath = path;
-    m_Settings.beginGroup("BackgroungRemover");
-    m_Settings.setValue(QStringLiteral("BackgroungRemoverOutPath"), m_strBackgroungRemoverOutPath);
+void Settings::setBgRmOutPath(const QString &path) {
+    m_strBgRmOutPath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("BgRmOutPath"), m_strBgRmOutPath);
     m_Settings.endGroup();
 }
 

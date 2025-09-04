@@ -1,5 +1,5 @@
-#include "bgremover/listdelegate.h"
-#include "bgremover/model.h"
+#include "bgrm/listdelegate.h"
+#include "bgrm/types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>
@@ -8,12 +8,12 @@
 
 using namespace QtmCore;
 
-BackgroungRemoverListDelegate::BackgroungRemoverListDelegate(QObject *parent) :
+BgRmListDelegate::BgRmListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void BackgroungRemoverListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SBGRemoverData>();
+void BgRmListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SBgRmData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -117,7 +117,7 @@ void BackgroungRemoverListDelegate::paint(QPainter *painter, const QStyleOptionV
     painter->setPen(Qt::NoPen);
 }
 
-bool BackgroungRemoverListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool BgRmListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -132,7 +132,7 @@ bool BackgroungRemoverListDelegate::eventFilter(QObject *object, QEvent *event) 
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize BackgroungRemoverListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize BgRmListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if(m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         return QSize(parent->width() - 10, n_ListItemHeight);
@@ -140,10 +140,10 @@ QSize BackgroungRemoverListDelegate::sizeHint(const QStyleOptionViewItem &option
     return m_Size;
 }
 
-void BackgroungRemoverListDelegate::setListMode(bool b) {
+void BgRmListDelegate::setListMode(bool b) {
     m_bIsListMode = b;
 }
 
-bool BackgroungRemoverListDelegate::isListMode() const {
+bool BgRmListDelegate::isListMode() const {
     return m_bIsListMode;
 }

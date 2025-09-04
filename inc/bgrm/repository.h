@@ -1,16 +1,16 @@
 #pragma once
 #include "globalpresenter.h"
-#include "model.h"
+#include "types.h"
 #include "mvp/repository.h"
 
 using namespace QtmMvp;
 
-class BackgroungRemoverRepository : public Repository {
+class BgRmRepository : public Repository {
 public:
-    explicit BackgroungRemoverRepository();
-    ~BackgroungRemoverRepository();
-    QList<SBGRemoverData> datas();
-    void appendData(QList<SBGRemoverData> datas);
+    explicit BgRmRepository();
+    ~BgRmRepository();
+    QList<SBgRmData> datas();
+    void appendData(QList<SBgRmData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
     void clearData();
@@ -18,5 +18,5 @@ public:
     void checkedAllData(bool checked);
 
 private:
-    QList<SBGRemoverData> m_datas;
+    QList<SBgRmData> m_datas;
 };

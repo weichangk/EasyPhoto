@@ -5,7 +5,7 @@
 
 #define BGREMOVER_INPUT_FORMATS "png jpg jpeg bmp"
 
-struct SBGRemoverData {
+struct SBgRmData {
     QString file_name = "";
     QString file_path = "";
     QPixmap thumbnail = QPixmap();
@@ -14,4 +14,4 @@ struct SBGRemoverData {
     QPixmap unchecked_icon = QPixmap();
     bool is_checked = false;
 };
-Q_DECLARE_METATYPE(SBGRemoverData)
+Q_DECLARE_METATYPE(SBgRmData)

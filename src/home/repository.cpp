@@ -69,7 +69,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/QtmImg/img/dark/v16/icon24/icon24_add_white.svg"),
         },
         SFuncItemData{
-            EFunc::FuncBackgroungRemover,
+            EFunc::FuncBgRm,
             EFuncItemBtnType::AddFile,
             "Backgroung Remover",
             "Automatically remove backgrounds from images.",

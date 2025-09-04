@@ -42,7 +42,7 @@ static int gifGenerationQuality = 100;
 static int gifGenerationFps = 25;
 static bool gifGenerationRepeat = true;
 
-// BackgroungRemover
+// BgRm
 static QString backgroundRemoverOutPath = defOutPath("BackgroundRemover");
 static QString backgroundRemoverLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 static QString backgroundRemoverLastAddFolderPath = QDir::homePath();
@@ -103,13 +103,13 @@ public:
     QString gifGenerationOutPath() const;
     void setGifGenerationOutPath(const QString &path);
 
-    // BackgroungRemover
-    QString backgroungRemoverLastAddFilePath() const;
-    void setBackgroungRemoverLastAddFilePath(const QString &path);
-    QString backgroungRemoverLastAddFolderPath() const;
-    void setBackgroungRemoverLastAddFolderPath(const QString &path);
-    QString backgroungRemoverOutPath() const;
-    void setBackgroungRemoverOutPath(const QString &path);
+    // BgRm
+    QString bgRmLastAddFilePath() const;
+    void setBgRmLastAddFilePath(const QString &path);
+    QString bgRmLastAddFolderPath() const;
+    void setBgRmLastAddFolderPath(const QString &path);
+    QString bgRmOutPath() const;
+    void setBgRmOutPath(const QString &path);
 
     // Enhance
     QString enhanceOutPath() const;
@@ -149,10 +149,10 @@ private:
     bool m_bGifGenerationRepeat;
     QString m_strGifGenerationOutPath;
 
-    // BackgroungRemover
-    QString m_strBackgroungRemoverLastAddFilePath;
-    QString m_strBackgroungRemoverLastAddFolderPath;
-    QString m_strBackgroungRemoverOutPath;
+    // BgRm
+    QString m_strBgRmLastAddFilePath;
+    QString m_strBgRmLastAddFolderPath;
+    QString m_strBgRmOutPath;
 
     // Enhance
     QString m_strEnhanceOutPath;
