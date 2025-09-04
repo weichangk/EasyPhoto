@@ -104,10 +104,10 @@ void ImportListView::createUi() {
     btnLayout->addWidget(m_pClearBtn);
 
     auto mainLayout = new QHBoxLayout(this);
-    mainLayout->setContentsMargins(12, 12, 12, 12);
+    mainLayout->setContentsMargins(0, 12, 0, 12);
     mainLayout->setSpacing(8);
-    mainLayout->addLayout(btnLayout);
     mainLayout->addWidget(m_pImportListView, 1);
+    mainLayout->addLayout(btnLayout);
 }
 
 void ImportListView::connectSig() {
