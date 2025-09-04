@@ -95,6 +95,12 @@ private:
     QCheckBox *m_pReverseCkb = nullptr;
     QLabel *m_pSpeedLbl = nullptr;
     QSlider *m_pSpeedSlider = nullptr;
+    QLabel *m_pBgLbl = nullptr;
+    IconButton *m_pBg1Btn = nullptr;
+    IconButton *m_pBg2Btn = nullptr;
+    IconButton *m_pBg3Btn = nullptr;
+    IconButton *m_pBg4Btn = nullptr;
+    IconButton *m_pBgSelectBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;

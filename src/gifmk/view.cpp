@@ -60,9 +60,10 @@ void GifMkView::createUi() {
     m_pRightWidget = new QWidget(this);
     m_pRightWidget->setFixedWidth(200);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(12, 24, 12, 24);
-    rightWidgetLayout->setSpacing(0);
+    rightWidgetLayout->setContentsMargins(12, 12, 12, 24);
+    rightWidgetLayout->setSpacing(8);
 
+    bodyWidgetLayout->addSpacing(12);
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
     bodyWidgetLayout->addWidget(m_pRightWidget);
 
@@ -79,8 +80,9 @@ void GifMkView::createUi() {
     m_pScaleCbb = new QComboBox(this);
     rightWidgetLayout->addWidget(m_pScaleCbb);
 
-    rightWidgetLayout->addSpacing(20);
+    rightWidgetLayout->addSpacing(16);
 
+    //
     m_pSizeLbl = new QLabel(this);
     m_pSizeLbl->setObjectName("GifMkView_m_pSizeLbl");
     rightWidgetLayout->addWidget(m_pSizeLbl);
@@ -88,34 +90,43 @@ void GifMkView::createUi() {
     rightWidgetLayout->addWidget(m_pSizeCbb);
 
     m_pPixelsWidthLdt = new QLineEdit(this);
-    m_pPixelsWidthLdt->setFixedSize(48, 24);
+    m_pPixelsWidthLdt->setFixedSize(72, 24);
     m_pLockScaleBtn = new IconButton(this);
     m_pLockScaleBtn->setFixedSize(24, 24);
     m_pLockScaleBtn->setIconSize(24, 24);
     m_pLockScaleBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
     m_pPixelsHeightLdt = new QLineEdit(this);
-    m_pPixelsHeightLdt->setFixedSize(48, 24);
+    m_pPixelsHeightLdt->setFixedSize(72, 24);
 
     auto pixelsLayout = new QHBoxLayout();
     pixelsLayout->setContentsMargins(0, 0, 0, 0);
     pixelsLayout->addWidget(m_pPixelsWidthLdt);
-    pixelsLayout->addWidget(m_pLockScaleBtn);
-    pixelsLayout->addWidget(m_pPixelsHeightLdt);
     pixelsLayout->addStretch();
+    pixelsLayout->addWidget(m_pLockScaleBtn);
+    pixelsLayout->addStretch();
+    pixelsLayout->addWidget(m_pPixelsHeightLdt);
     rightWidgetLayout->addLayout(pixelsLayout);
 
-    rightWidgetLayout->addSpacing(20);
+    rightWidgetLayout->addSpacing(16);
 
+    //
     m_pPlayLbl = new QLabel(this);
     m_pPlayLbl->setObjectName("GifMkView_m_pPlayLbl");
     rightWidgetLayout->addWidget(m_pPlayLbl);
 
     m_pLoopCkb = new QCheckBox(this);
-    rightWidgetLayout->addWidget(m_pLoopCkb);
-
     m_pReverseCkb = new QCheckBox(this);
-    rightWidgetLayout->addWidget(m_pReverseCkb);
 
+    auto playLayout = new QHBoxLayout();
+    playLayout->setContentsMargins(0, 0, 0, 0);
+    playLayout->addWidget(m_pLoopCkb);
+    playLayout->addStretch();
+    playLayout->addWidget(m_pReverseCkb);
+    rightWidgetLayout->addLayout(playLayout);
+
+    rightWidgetLayout->addSpacing(16);
+
+    //
     m_pSpeedLbl = new QLabel(this);
     m_pSpeedLbl->setObjectName("GifMkView_m_pSpeedLbl");
     rightWidgetLayout->addWidget(m_pSpeedLbl);
@@ -126,8 +137,50 @@ void GifMkView::createUi() {
     m_pSpeedSlider->setTickInterval(0.1);
     rightWidgetLayout->addWidget(m_pSpeedSlider);
 
-    rightWidgetLayout->addSpacing(20);
+    rightWidgetLayout->addSpacing(16);
 
+    //
+    m_pBgLbl = new QLabel(this);
+    m_pBgLbl->setObjectName("GifMkView_m_pBgLbl");
+    rightWidgetLayout->addWidget(m_pBgLbl);
+
+    m_pBg1Btn = new IconButton(this);
+    m_pBg1Btn->setFixedSize(24, 24);
+    m_pBg1Btn->setIconSize(24, 24);
+    m_pBg1Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBg2Btn = new IconButton(this);
+    m_pBg2Btn->setFixedSize(24, 24);
+    m_pBg2Btn->setIconSize(24, 24);
+    m_pBg2Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBg3Btn = new IconButton(this);
+    m_pBg3Btn->setFixedSize(24, 24);
+    m_pBg3Btn->setIconSize(24, 24);
+    m_pBg3Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBg4Btn = new IconButton(this);
+    m_pBg4Btn->setFixedSize(24, 24);
+    m_pBg4Btn->setIconSize(24, 24);
+    m_pBg4Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBgSelectBtn = new IconButton(this);
+    m_pBgSelectBtn->setFixedSize(24, 24);
+    m_pBgSelectBtn->setIconSize(24, 24);
+    m_pBgSelectBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    auto bgBtnLayout = new QHBoxLayout();
+    bgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgBtnLayout->addWidget(m_pBg1Btn);
+    bgBtnLayout->addWidget(m_pBg2Btn);
+    bgBtnLayout->addWidget(m_pBg3Btn);
+    bgBtnLayout->addWidget(m_pBg4Btn);
+    bgBtnLayout->addWidget(m_pBgSelectBtn);
+    rightWidgetLayout->addLayout(bgBtnLayout);
+
+    rightWidgetLayout->addSpacing(16);
+
+    //
     m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("GifMkView_m_pOutputFolderLbl");
     rightWidgetLayout->addWidget(m_pOutputFolderLbl);
@@ -148,12 +201,11 @@ void GifMkView::createUi() {
 
     rightWidgetLayout->addStretch();
 
+    //
     m_pPreviewBtn = new QPushButton(this);
     m_pPreviewBtn->setObjectName("GifMkView_m_pPreviewBtn");
     m_pPreviewBtn->setFixedHeight(32);
     rightWidgetLayout->addWidget(m_pPreviewBtn);
-
-    rightWidgetLayout->addSpacing(10);
 
     m_pStartAllBtn = new QPushButton(this);
     m_pStartAllBtn->setObjectName("GifMkView_m_pStartAllBtn");
@@ -251,6 +303,7 @@ void GifMkView::onLanguageChange() {
     m_pLoopCkb->setText(tr("Loop"));
     m_pReverseCkb->setText(tr("Reverse"));
     m_pSpeedLbl->setText(tr("Speed"));
+    m_pBgLbl->setText(tr("Background"));
     m_pOutputFolderLbl->setText(tr("Output folder"));
     m_pPreviewBtn->setText(tr("Preview"));
     m_pStartAllBtn->setText(tr("create GIF"));
@@ -275,8 +328,6 @@ void GifMkView::onOpenOutputFolderBtnClicked() {
 }
 
 void GifMkView::onPreviewBtnClicked() {
-    FuncChangeMessage msg(EFunc::FuncGifPreview);
-    presenter()->sendMessage(&msg);
 }
 
 void GifMkView::onStartAllClicked() {

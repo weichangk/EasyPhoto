@@ -41,6 +41,7 @@ QLabel#GifMkView_m_pSizeLbl,
 QLabel#GifMkView_m_pScaleLbl,
 QLabel#GifMkView_m_pPlayLbl,
 QLabel#GifMkView_m_pSpeedLbl,
+QLabel#GifMkView_m_pBgLbl,
 QLabel#GifMkView_m_pOutputFolderLbl{
     color: "#ffffff";
     font-size: 13px;
