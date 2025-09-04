@@ -11,7 +11,7 @@ using EFunc = enum {
     FuncCrop,
     FuncGifMk,
     FuncThumbMk,
-    FuncDownloader,
+    FuncImgDl,
     FuncImagePreview,
     FuncGifPreview,
     FuncUndo,

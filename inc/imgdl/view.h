@@ -4,11 +4,11 @@
 
 using namespace QtmMvp;
 
-class DownloaderView : public QWidget, public View {
+class ImgDlView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit DownloaderView(QWidget *parent = nullptr);
-    ~DownloaderView() override {
+    explicit ImgDlView(QWidget *parent = nullptr);
+    ~ImgDlView() override {
     }
 
 private:

@@ -11,7 +11,7 @@ FuncAreaRepository::FuncAreaRepository() {
     m_pGifMkRepository = new GifMkRepository();
     m_pBgRmRepository = new BgRmRepository();
     m_pThumbMkRepository = new ThumbMkRepository();
-    m_pDownloaderRepository = new DownloaderRepository();
+    m_pImgDlRepository = new ImgDlRepository();
     m_pGifPreviewRepository = new GifPreviewRepository();
 }
 
@@ -58,8 +58,8 @@ ThumbMkRepository *FuncAreaRepository::thumbMkRepository() const {
     return m_pThumbMkRepository;
 }
 
-DownloaderRepository *FuncAreaRepository::downloaderRepository() const {
-    return m_pDownloaderRepository;
+ImgDlRepository *FuncAreaRepository::imgDlRepository() const {
+    return m_pImgDlRepository;
 }
 
 GifPreviewRepository *FuncAreaRepository::gifPreviewRepository() const {

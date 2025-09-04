@@ -11,7 +11,7 @@
 #include "gifmk/repository.h"
 #include "bgrm/repository.h"
 #include "thumbmk/repository.h"
-#include "downloader/repository.h"
+#include "imgdl/repository.h"
 #include "gifpreview/repository.h"
 
 using namespace QtmMvp;
@@ -30,7 +30,7 @@ public:
     EraseRepository *eraseRepository() const;
     GifMkRepository *gifMkRepository() const;
     ThumbMkRepository *thumbMkRepository() const;
-    DownloaderRepository *downloaderRepository() const;
+    ImgDlRepository *imgDlRepository() const;
     BgRmRepository *bgRmRepository() const;
     GifPreviewRepository *gifPreviewRepository() const;
 
@@ -44,7 +44,7 @@ private:
     EraseRepository *m_pEraseRepository = nullptr;
     GifMkRepository *m_pGifMkRepository = nullptr;
     ThumbMkRepository *m_pThumbMkRepository = nullptr;
-    DownloaderRepository *m_pDownloaderRepository = nullptr;
+    ImgDlRepository *m_pImgDlRepository = nullptr;
     BgRmRepository *m_pBgRmRepository = nullptr;
     GifPreviewRepository *m_pGifPreviewRepository = nullptr;
 };

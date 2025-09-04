@@ -129,7 +129,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/QtmImg/img/dark/v16/icon24/icon24_add_white.svg"),
         },
         SFuncItemData{
-            EFunc::FuncDownloader,
+            EFunc::FuncImgDl,
             EFuncItemBtnType::StartNow,
             "Image Downloader",
             "Batch download images from Instagram.",

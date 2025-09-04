@@ -13,7 +13,7 @@
 #include "gifpreview/view.h"
 #include "bgrm/view.h"
 #include "thumbmk/view.h"
-#include "downloader/view.h"
+#include "imgdl/view.h"
 #include "imagepreviewview.h"
 #include "funcnavigationhistory.h"
 
@@ -38,7 +38,7 @@ public:
     GifMkView *gifMkView() const;
     BgRmView *bgRmView() const;
     ThumbMkView *thumbMkView() const;
-    DownloaderView *downloaderView() const;
+    ImgDlView *imgDlView() const;
     ImagePreviewView *imagePreviewView() const;
     GifPreviewView *gifPreviewView() const;
 
@@ -66,7 +66,7 @@ private:
     GifMkView *m_pGifMkView = nullptr;
     BgRmView *m_pBgRmView = nullptr;
     ThumbMkView *m_pThumbMkView = nullptr;
-    DownloaderView *m_pDownloaderView = nullptr;
+    ImgDlView *m_pImgDlView = nullptr;
     ImagePreviewView *m_pImagePreviewView = nullptr;
     GifPreviewView *m_pGifPreviewView = nullptr;
 };
