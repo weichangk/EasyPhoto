@@ -39,7 +39,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/QtmImg/img/dark/v16/icon24/icon24_add_white.svg"),
         },
         SFuncItemData{
-            EFunc::FuncEnhancement,
+            EFunc::FuncUpsc,
             EFuncItemBtnType::AddFile,
             "Image Enhancer",
             "Batch enhance images with AI for improved clarity and quality.",

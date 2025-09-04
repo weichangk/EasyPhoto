@@ -1,48 +1,48 @@
-#include "enhancement/repository.h"
+#include "upsc/repository.h"
 
 #include <QCoreApplication>
 
-EnhancementRepository::EnhancementRepository() {
+UpscRepository::UpscRepository() {
     m_pImportListRepository = new ImportListRepository();
 }
 
-EnhancementRepository::~EnhancementRepository() {
+UpscRepository::~UpscRepository() {
 }
 
-QList<SEnhanceModelData> EnhancementRepository::getModelDatas() {
+QList<SUpscModelData> UpscRepository::getModelDatas() {
     QString execDir = QCoreApplication::applicationDirPath();
     return {
-        SEnhanceModelData{
+        SUpscModelData{
             0,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
             QPixmap(QString("%1/sample1.webp").arg(execDir)),
         },
-        SEnhanceModelData{
+        SUpscModelData{
             1,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
             QPixmap(QString("%1/sample1.webp").arg(execDir)),
         },
-        SEnhanceModelData{
+        SUpscModelData{
             2,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
             QPixmap(QString("%1/sample1.webp").arg(execDir)),
         },
-        SEnhanceModelData{
+        SUpscModelData{
             3,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
             QPixmap(QString("%1/sample1.webp").arg(execDir)),
         },
-        SEnhanceModelData{
+        SUpscModelData{
             4,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
             QPixmap(QString("%1/sample1.webp").arg(execDir)),
         },
-        SEnhanceModelData{
+        SUpscModelData{
             5,
             "sample1",
             QString("%1/sample1.webp").arg(execDir),
@@ -51,16 +51,16 @@ QList<SEnhanceModelData> EnhancementRepository::getModelDatas() {
     };
 }
 
-QString EnhancementRepository::getSampleImage1Path() {
+QString UpscRepository::getSampleImage1Path() {
     QString execDir = QCoreApplication::applicationDirPath();
     return QString("%1/sample1.webp").arg(execDir);
 }
 
-QString EnhancementRepository::getSampleImage2Path() {
+QString UpscRepository::getSampleImage2Path() {
     QString execDir = QCoreApplication::applicationDirPath();
     return QString("%1/sample2.webp").arg(execDir);
 }
 
-ImportListRepository *EnhancementRepository::getImportListRepository() {
+ImportListRepository *UpscRepository::getImportListRepository() {
     return m_pImportListRepository;
 }

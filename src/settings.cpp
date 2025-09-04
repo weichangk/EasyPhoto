@@ -27,9 +27,9 @@ Settings::Settings() :
     m_strBgRmLastAddFilePath(Default::backgroundRemoverLastAddFilePath),
     m_strBgRmLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
     m_strBgRmOutPath(Default::backgroundRemoverOutPath),
-    // Enhance
-    m_strEnhanceOutPath(Default::enhanceOutPath),
-    // Enhance
+    // Upsc
+    m_strUpscOutPath(Default::upscOutPath),
+    // Upsc
     m_strEraseOutPath(Default::eraseOutPath),
     // crop
     m_strCropOutPath(Default::cropOutPath)
@@ -267,15 +267,15 @@ void Settings::setBgRmOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-// Enhance
-QString Settings::enhanceOutPath() const {
-    return m_strEnhanceOutPath;
+// Upsc
+QString Settings::upscOutPath() const {
+    return m_strUpscOutPath;
 }
 
-void Settings::setEnhanceOutPath(const QString &path) {
-    m_strEnhanceOutPath = path;
-    m_Settings.beginGroup("Enhance");
-    m_Settings.setValue(QStringLiteral("EnhanceOutPath"), m_strEnhanceOutPath);
+void Settings::setUpscOutPath(const QString &path) {
+    m_strUpscOutPath = path;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("UpscOutPath"), m_strUpscOutPath);
     m_Settings.endGroup();
 }
 

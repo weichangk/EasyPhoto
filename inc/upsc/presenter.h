@@ -2,22 +2,22 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistpresenter.h"
 
 using namespace QtmMvp;
 
-class EnhancementPresenter : public Presenter {
+class UpscPresenter : public Presenter {
 public:
-    explicit EnhancementPresenter(IView* view, IRepository *repository);
-    ~EnhancementPresenter();
+    explicit UpscPresenter(IView* view, IRepository *repository);
+    ~UpscPresenter();
 
-    QList<SEnhanceModelData> getModelDatas();
+    QList<SUpscModelData> getModelDatas();
 
     QString getSampleImage1Path();
     QString getSampleImage2Path();
 
-    void Enhancement();
+    void Upsc();
 
 private:
     ImportListPresenter * m_pImportListPresenter = nullptr;

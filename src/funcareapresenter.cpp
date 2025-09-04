@@ -14,7 +14,7 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
         m_pConversionPresenter = new ConversionPresenter(funcAreaView->conversionView(), funcRepository->conversionRepository());
         m_pCropPresenter = new CropPresenter(funcAreaView->cropView(), funcRepository->cropRepository());
         m_pEffectsPresenter = new EffectsPresenter(funcAreaView->effectsView(), funcRepository->effectsRepository());
-        m_pEnhancementPresenter = new EnhancementPresenter(funcAreaView->enhancementView(), funcRepository->enhancementRepository());
+        m_pUpscPresenter = new UpscPresenter(funcAreaView->upscView(), funcRepository->upscRepository());
         m_pErasePresenter = new ErasePresenter(funcAreaView->eraseView(), funcRepository->eraseRepository());
         m_pGifMkPresenter = new GifMkPresenter(funcAreaView->gifMkView(), funcRepository->gifMkRepository());
         m_pInpaintingPresenter = new InpaintingPresenter(funcAreaView->inpaintingView(), funcRepository->inpaintingRepository());
@@ -52,8 +52,8 @@ EffectsPresenter *FuncAreaPresenter::effectsPresenter() const {
     return m_pEffectsPresenter;
 }
 
-EnhancementPresenter *FuncAreaPresenter::enhancementPresenter() const {
-    return m_pEnhancementPresenter;
+UpscPresenter *FuncAreaPresenter::upscPresenter() const {
+    return m_pUpscPresenter;
 }
 
 ErasePresenter *FuncAreaPresenter::erasePresenter() const {

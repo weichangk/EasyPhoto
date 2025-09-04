@@ -1,17 +1,17 @@
 #pragma once
 #include "globalpresenter.h"
 #include "mvp/repository.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistrepository.h"
 
 using namespace QtmMvp;
 
-class EnhancementRepository : public Repository {
+class UpscRepository : public Repository {
 public:
-    explicit EnhancementRepository();
-    ~EnhancementRepository();
+    explicit UpscRepository();
+    ~UpscRepository();
 
-    QList<SEnhanceModelData> getModelDatas();
+    QList<SUpscModelData> getModelDatas();
 
     QString getSampleImage1Path();
     QString getSampleImage2Path();

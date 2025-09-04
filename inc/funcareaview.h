@@ -8,7 +8,7 @@
 #include "conversion/view.h"
 #include "crop/view.h"
 #include "effects/view.h"
-#include "enhancement/view.h"
+#include "upsc/view.h"
 #include "erase/view.h"
 #include "gifmk/view.h"
 #include "inpainting/view.h"
@@ -36,7 +36,7 @@ public:
     ConversionView *conversionView() const;
     CropView *cropView() const;
     EffectsView *effectsView() const;
-    EnhancementView *enhancementView() const;
+    UpscView *upscView() const;
     EraseView *eraseView() const;
     GifMkView *gifMkView() const;
     InpaintingView *inpaintingView() const;
@@ -66,7 +66,7 @@ private:
     ConversionView *m_pConversionView = nullptr;
     CropView *m_pCropView = nullptr;
     EffectsView *m_pEffectsView = nullptr;
-    EnhancementView *m_pEnhancementView = nullptr;
+    UpscView *m_pUpscView = nullptr;
     EraseView *m_pEraseView = nullptr;
     GifMkView *m_pGifMkView = nullptr;
     InpaintingView *m_pInpaintingView = nullptr;

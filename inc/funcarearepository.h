@@ -7,7 +7,7 @@
 #include "conversion/repository.h"
 #include "crop/repository.h"
 #include "effects/repository.h"
-#include "enhancement/repository.h"
+#include "upsc/repository.h"
 #include "erase/repository.h"
 #include "gifmk/repository.h"
 #include "inpainting/repository.h"
@@ -29,7 +29,7 @@ public:
     ConversionRepository *conversionRepository() const;
     CropRepository *cropRepository() const;
     EffectsRepository *effectsRepository() const;
-    EnhancementRepository *enhancementRepository() const;
+    UpscRepository *upscRepository() const;
     EraseRepository *eraseRepository() const;
     GifMkRepository *gifMkRepository() const;
     InpaintingRepository *inpaintingRepository() const;
@@ -45,7 +45,7 @@ private:
     ConversionRepository *m_pConversionRepository = nullptr;
     CropRepository *m_pCropRepository = nullptr;
     EffectsRepository *m_pEffectsRepository = nullptr;
-    EnhancementRepository *m_pEnhancementRepository = nullptr;
+    UpscRepository *m_pUpscRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;
     GifMkRepository *m_pGifMkRepository = nullptr;
     InpaintingRepository *m_pInpaintingRepository = nullptr;

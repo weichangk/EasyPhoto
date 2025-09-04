@@ -5,7 +5,7 @@ using EFunc = enum {
     FuncMyFile,
     FuncConversion,
     FuncCompression,
-    FuncEnhancement,
+    FuncUpsc,
     FuncErase,
     FuncBgRm,
     FuncCrop,

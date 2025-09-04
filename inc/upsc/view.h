@@ -12,7 +12,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "modellistdelegate.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
@@ -29,11 +29,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class EnhancementView : public QWidget, public View {
+class UpscView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit EnhancementView(QWidget *parent = nullptr);
-    ~EnhancementView() override {
+    explicit UpscView(QWidget *parent = nullptr);
+    ~UpscView() override {
     }
 
     ImportListView *getImportListView();
@@ -91,8 +91,8 @@ private:
     ImportListView *m_pImportListView = nullptr;
 
     QLabel *m_pChooseModelLbl = nullptr;
-    ListView<SEnhanceModelData> *m_pModelListView = nullptr;
-    EnhanceModelListDelegate *m_pModelListDelegate = nullptr;
+    ListView<SUpscModelData> *m_pModelListView = nullptr;
+    UpscModelListDelegate *m_pModelListDelegate = nullptr;
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;
     ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;

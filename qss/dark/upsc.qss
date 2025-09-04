@@ -1,37 +1,37 @@
-QWidget#EnhancementView {
+QWidget#UpscView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
 
-QLabel#EnhancementView_m_pTitleLbl {
+QLabel#UpscView_m_pTitleLbl {
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;
 }
 
-QLabel#EnhancementView_m_pChooseModelLbl,
-QLabel#EnhancementView_m_pUpscaleLbl {
+QLabel#UpscView_m_pChooseModelLbl,
+QLabel#UpscView_m_pUpscaleLbl {
     color: "#ffffff";
     font-size: 16px;
     font-weight: 600;
 }
 
-QPushButton#EnhancementView_m_pExportBtn {
+QPushButton#UpscView_m_pExportBtn {
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#EnhancementView_m_pExportBtn:hover {
+QPushButton#UpscView_m_pExportBtn:hover {
     background-color: "#ad85ff";
 }
 
-QPushButton#EnhancementView_m_pExportBtn:pressed {
+QPushButton#UpscView_m_pExportBtn:pressed {
     background-color: "#bb99ff";
 }
 
-QLabel#EnhancementView_m_pOutputFolderLbl {
+QLabel#UpscView_m_pOutputFolderLbl {
     color: "#ffffff";
     font-size: 13px;
 }

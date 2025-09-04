@@ -47,8 +47,8 @@ static QString backgroundRemoverOutPath = defOutPath("BackgroundRemover");
 static QString backgroundRemoverLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 static QString backgroundRemoverLastAddFolderPath = QDir::homePath();
 
-// Enhance
-static QString enhanceOutPath = defOutPath("Enhance");
+// Upsc
+static QString upscOutPath = defOutPath("Upsc");
 
 // erase
 static QString eraseOutPath = defOutPath("Erase");
@@ -111,9 +111,9 @@ public:
     QString bgRmOutPath() const;
     void setBgRmOutPath(const QString &path);
 
-    // Enhance
-    QString enhanceOutPath() const;
-    void setEnhanceOutPath(const QString &path);
+    // Upsc
+    QString upscOutPath() const;
+    void setUpscOutPath(const QString &path);
 
     // erase
     QString eraseOutPath() const;
@@ -154,8 +154,8 @@ private:
     QString m_strBgRmLastAddFolderPath;
     QString m_strBgRmOutPath;
 
-    // Enhance
-    QString m_strEnhanceOutPath;
+    // Upsc
+    QString m_strUpscOutPath;
 
     // erase
     QString m_strEraseOutPath;

@@ -1,32 +1,32 @@
-#include "enhancement/view.h"
-#include "enhancement/presenter.h"
+#include "upsc/view.h"
+#include "upsc/presenter.h"
 #include "settings.h"
 
-EnhancementView::EnhancementView(QWidget *parent) :
+UpscView::UpscView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
     onLanguageChange();
 }
 
-ImportListView *EnhancementView::getImportListView() {
+ImportListView *UpscView::getImportListView() {
     return m_pImportListView;
 }
 
-void EnhancementView::showEvent(QShowEvent *event) {
+void UpscView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();
 }
 
-void EnhancementView::createUi() {
-    setObjectName("EnhancementView");
+void UpscView::createUi() {
+    setObjectName("UpscView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     //
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("EnhancementView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("UpscView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -96,13 +96,13 @@ void EnhancementView::createUi() {
 
     //
     m_pChooseModelLbl = new QLabel(this);
-    m_pChooseModelLbl->setObjectName("EnhancementView_m_pChooseModelLbl");
+    m_pChooseModelLbl->setObjectName("UpscView_m_pChooseModelLbl");
     m_pChooseModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
-    m_pModelListView = new ListView<SEnhanceModelData>(this);
+    m_pModelListView = new ListView<SUpscModelData>(this);
     m_pModelListView->setFixedHeight(360);
     m_pModelListView->setSpacing(8);
-    m_pModelListDelegate = new EnhanceModelListDelegate(m_pModelListView);
+    m_pModelListDelegate = new UpscModelListDelegate(m_pModelListView);
     m_pModelListView->setItemDelegate(m_pModelListDelegate);
     m_pModelListView->viewport()->installEventFilter(m_pModelListDelegate);
 
@@ -124,7 +124,7 @@ void EnhancementView::createUi() {
     settingRWidgetLayout->setSpacing(0);
 
     m_pUpscaleLbl = new QLabel(this);
-    m_pUpscaleLbl->setObjectName("EnhancementView_m_pUpscaleLbl");
+    m_pUpscaleLbl->setObjectName("UpscView_m_pUpscaleLbl");
     m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     m_pUpscaleCbb = new QComboBox(this);
     m_pUpscaleCbb->setFixedHeight(32);
@@ -159,11 +159,11 @@ void EnhancementView::createUi() {
     settingRWidgetLayout->addStretch();
 
     m_pExportBtn = new QPushButton(this);
-    m_pExportBtn->setObjectName("EnhancementView_m_pExportBtn");
+    m_pExportBtn->setObjectName("UpscView_m_pExportBtn");
     m_pExportBtn->setFixedHeight(32);
 
     m_pOutputFolderLbl = new QLabel(this);
-    m_pOutputFolderLbl->setObjectName("EnhancementView_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("UpscView_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
@@ -209,18 +209,18 @@ void EnhancementView::createUi() {
     layout->addLayout(stackedMarginLayout, 1);
 }
 
-void EnhancementView::connectSig() {
-    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &EnhancementView::onLanguageChange);
-    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple1ImageLblClicked);
-    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &EnhancementView::onSmaple2ImageLblClicked);
-    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &EnhancementView::onImportListCountChange);
-    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &EnhancementView::onImportListCurrentChanged);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &EnhancementView::onGuideImportFile);
-    connect(m_pModelListView, &AbstractListView::sigCurrentChanged, this, &EnhancementView::ondModelListViewCurrentChanged);
-    connect(m_pExportBtn, &QPushButton::clicked, this, &EnhancementView::onExportBtnClicked);
+void UpscView::connectSig() {
+    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &UpscView::onLanguageChange);
+    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onSmaple1ImageLblClicked);
+    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onSmaple2ImageLblClicked);
+    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &UpscView::onImportListCountChange);
+    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &UpscView::onImportListCurrentChanged);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &UpscView::onGuideImportFile);
+    connect(m_pModelListView, &AbstractListView::sigCurrentChanged, this, &UpscView::ondModelListViewCurrentChanged);
+    connect(m_pExportBtn, &QPushButton::clicked, this, &UpscView::onExportBtnClicked);
 }
 
-void EnhancementView::firstShow() {
+void UpscView::firstShow() {
     static bool firstShow = true;
     if(firstShow) {
         firstShow = false;
@@ -233,54 +233,54 @@ void EnhancementView::firstShow() {
     }
 }
 
-void EnhancementView::loadSampleImage() {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+void UpscView::loadSampleImage() {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     m_pSmaple1ImageLbl->setPixmap(QPixmap(prst->getSampleImage1Path()).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     m_pSmaple2ImageLbl->setPixmap(QPixmap(prst->getSampleImage2Path()).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void EnhancementView::importSampleImage1() {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+void UpscView::importSampleImage1() {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     QStringList paths;
     paths.append(prst->getSampleImage1Path());
     m_pImportListView->importFile(paths);
 }
 
-void EnhancementView::importSampleImage2() {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+void UpscView::importSampleImage2() {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     QStringList paths;
     paths.append(prst->getSampleImage2Path());
     m_pImportListView->importFile(paths);
 }
 
-void EnhancementView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->enhanceOutPath());
+void UpscView::initOutputFolderCbbItem() {
+    m_pOutputFolderCbb->addItem(SETTINGS->upscOutPath());
 }
 
-void EnhancementView::loadModelList() {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+void UpscView::loadModelList() {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     m_pModelListView->changeData(prst->getModelDatas());
     setModelListCurrentIndex(0);
 }
 
-void EnhancementView::gotoImportGuide() {
+void UpscView::gotoImportGuide() {
     m_pStackedLayout->setCurrentWidget(m_pImportGuideWidget);
 }
 
-void EnhancementView::gotoWorkspace() {
+void UpscView::gotoWorkspace() {
     m_pStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
 }
 
-void EnhancementView::imageViewerLoad(const QString &filePath) {
+void UpscView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
 }
 
-void EnhancementView::setModelListCurrentIndex(int index) {
+void UpscView::setModelListCurrentIndex(int index) {
     QModelIndex modelIndex = m_pModelListView->model()->index(index, 0);
     m_pModelListView->setCurrentIndex(modelIndex);
 }
 
-void EnhancementView::initUpscaleCbbItem() {
+void UpscView::initUpscaleCbbItem() {
     QStringList texts;
     texts.append("1x");
     texts.append("2x");
@@ -289,12 +289,12 @@ void EnhancementView::initUpscaleCbbItem() {
     m_pUpscaleCbb->addItems(texts);
 }
 
-void EnhancementView::upscaleSettingVisible(bool visible) {
+void UpscView::upscaleSettingVisible(bool visible) {
     m_pUpscaleLbl->setVisible(visible);
     m_pUpscaleCbb->setVisible(visible);
 }
 
-void EnhancementView::initCompressionCbbItem() {
+void UpscView::initCompressionCbbItem() {
     QStringList texts;
     texts.append("0%");
     texts.append("10%");
@@ -310,7 +310,7 @@ void EnhancementView::initCompressionCbbItem() {
     m_pCompressionCbb->addItems(texts);
 }
 
-void EnhancementView::initSaveAsFormatCbbItem() {
+void UpscView::initSaveAsFormatCbbItem() {
     QStringList texts;
     texts.append("png");
     texts.append("jpg");
@@ -319,7 +319,7 @@ void EnhancementView::initSaveAsFormatCbbItem() {
     m_pSaveAsFormatCbb->addItems(texts);
 }
 
-void EnhancementView::onLanguageChange() {
+void UpscView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pChooseModelLbl->setText(tr("Choose AI Model"));
@@ -331,15 +331,15 @@ void EnhancementView::onLanguageChange() {
     m_pExportBtn->setText(tr("Export"));
 }
 
-void EnhancementView::onSmaple1ImageLblClicked() {
+void UpscView::onSmaple1ImageLblClicked() {
     importSampleImage1();
 }
 
-void EnhancementView::onSmaple2ImageLblClicked() {
+void UpscView::onSmaple2ImageLblClicked() {
     importSampleImage2();
 }
 
-void EnhancementView::onImportListCountChange(int count) {
+void UpscView::onImportListCountChange(int count) {
     if(count > 0) {
         gotoWorkspace();
     } else {
@@ -347,21 +347,21 @@ void EnhancementView::onImportListCountChange(int count) {
     }
 }
 
-void EnhancementView::onImportListCurrentChanged(const QString filePath) {
+void UpscView::onImportListCurrentChanged(const QString filePath) {
     imageViewerLoad(filePath);
 }
 
-void EnhancementView::onGuideImportFile(const QStringList &filePaths) {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
+void UpscView::onGuideImportFile(const QStringList &filePaths) {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     m_pImportListView->importFile(filePaths);
 }
 
-void EnhancementView::ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
-    auto data = current.data(Qt::UserRole).value<SEnhanceModelData>();
+void UpscView::ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
+    auto data = current.data(Qt::UserRole).value<SUpscModelData>();
     upscaleSettingVisible(data.id == 5);
 }
 
-void EnhancementView::onExportBtnClicked() {
-    EnhancementPresenter *prst = dynamic_cast<EnhancementPresenter *>(presenter());
-    prst->Enhancement();
+void UpscView::onExportBtnClicked() {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
+    prst->Upsc();
 }

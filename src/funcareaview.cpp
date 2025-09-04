@@ -31,8 +31,8 @@ EffectsView *FuncAreaView::effectsView() const {
     return m_pEffectsView;
 }
 
-EnhancementView *FuncAreaView::enhancementView() const {
-    return m_pEnhancementView;
+UpscView *FuncAreaView::upscView() const {
+    return m_pUpscView;
 }
 
 EraseView *FuncAreaView::eraseView() const {
@@ -81,7 +81,7 @@ void FuncAreaView::createUi() {
     m_pConversionView = new ConversionView(this);
     m_pCropView = new CropView(this);
     m_pEffectsView = new EffectsView(this);
-    m_pEnhancementView = new EnhancementView(this);
+    m_pUpscView = new UpscView(this);
     m_pEraseView = new EraseView(this);
     m_pGifMkView = new GifMkView(this);
     m_pInpaintingView = new InpaintingView(this);
@@ -95,7 +95,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncMyFile, m_pMyFileView);
     m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConversionView);
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
-    m_pStackedLayout->insertWidget(EFunc::FuncEnhancement, m_pEnhancementView);
+    m_pStackedLayout->insertWidget(EFunc::FuncUpsc, m_pUpscView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
     m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);
     m_pStackedLayout->insertWidget(EFunc::FuncCrop, m_pCropView);

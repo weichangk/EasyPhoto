@@ -1,38 +1,38 @@
-#include "enhancement/presenter.h"
-#include "enhancement/repository.h"
-#include "enhancement/view.h"
+#include "upsc/presenter.h"
+#include "upsc/repository.h"
+#include "upsc/view.h"
 #include "upsc/task.h"
-#include "upsc/types.h"
+#include "ImageKitCore/inc/upsc/types.h"
 #include "core/file.h"
 
 using namespace QtmCore;
 
-EnhancementPresenter::EnhancementPresenter(IView *view, IRepository *repository) :
+UpscPresenter::UpscPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
-    EnhancementView *enhancementView = dynamic_cast<EnhancementView *>(view);
-    EnhancementRepository *enhancementRepository = dynamic_cast<EnhancementRepository *>(repository);
+    UpscView *enhancementView = dynamic_cast<UpscView *>(view);
+    UpscRepository *enhancementRepository = dynamic_cast<UpscRepository *>(repository);
     m_pImportListPresenter = new ImportListPresenter(enhancementView->getImportListView(), enhancementRepository->getImportListRepository());
 }
 
-EnhancementPresenter::~EnhancementPresenter() {
+UpscPresenter::~UpscPresenter() {
 }
 
-QList<SEnhanceModelData> EnhancementPresenter::getModelDatas() {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+QList<SUpscModelData> UpscPresenter::getModelDatas() {
+    UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
     return rep->getModelDatas();
 }
 
-QString EnhancementPresenter::getSampleImage1Path() {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+QString UpscPresenter::getSampleImage1Path() {
+    UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
     return rep->getSampleImage1Path();
 }
 
-QString EnhancementPresenter::getSampleImage2Path() {
-    EnhancementRepository *rep = dynamic_cast<EnhancementRepository *>(repository());
+QString UpscPresenter::getSampleImage2Path() {
+    UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
     return rep->getSampleImage2Path();
 }
 
-void EnhancementPresenter::Enhancement() {
+void UpscPresenter::Upsc() {
     auto datas = m_pImportListPresenter->getDatas();
     foreach (auto data, datas) {
         QString outPath = data.path;

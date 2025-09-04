@@ -9,7 +9,7 @@
 #include "conversion/presenter.h"
 #include "crop/presenter.h"
 #include "effects/presenter.h"
-#include "enhancement/presenter.h"
+#include "upsc/presenter.h"
 #include "erase/presenter.h"
 #include "gifmk/presenter.h"
 #include "inpainting/presenter.h"
@@ -31,7 +31,7 @@ public:
     ConversionPresenter *conversionPresenter() const;
     CropPresenter *cropPresenter() const;
     EffectsPresenter *effectsPresenter() const;
-    EnhancementPresenter *enhancementPresenter() const;
+    UpscPresenter *upscPresenter() const;
     ErasePresenter *erasePresenter() const;
     GifMkPresenter *gifMkPresenter() const;
     InpaintingPresenter *inpaintingPresenter() const;
@@ -50,7 +50,7 @@ private:
     ConversionPresenter *m_pConversionPresenter = nullptr;
     CropPresenter *m_pCropPresenter = nullptr;
     EffectsPresenter *m_pEffectsPresenter = nullptr;
-    EnhancementPresenter *m_pEnhancementPresenter = nullptr;
+    UpscPresenter *m_pUpscPresenter = nullptr;
     ErasePresenter *m_pErasePresenter = nullptr;
     GifMkPresenter *m_pGifMkPresenter = nullptr;
     InpaintingPresenter *m_pInpaintingPresenter = nullptr;

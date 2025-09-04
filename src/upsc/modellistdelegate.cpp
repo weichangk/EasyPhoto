@@ -1,5 +1,5 @@
-#include "enhancement/modellistdelegate.h"
-#include "enhancement/model.h"
+#include "upsc/modellistdelegate.h"
+#include "upsc/types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>
@@ -8,12 +8,12 @@
 
 using namespace QtmCore;
 
-EnhanceModelListDelegate::EnhanceModelListDelegate(QObject *parent) :
+UpscModelListDelegate::UpscModelListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void EnhanceModelListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SEnhanceModelData>();
+void UpscModelListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SUpscModelData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -62,7 +62,7 @@ void EnhanceModelListDelegate::paint(QPainter *painter, const QStyleOptionViewIt
     painter->setPen(Qt::NoPen);
 }
 
-bool EnhanceModelListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool UpscModelListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -77,6 +77,6 @@ bool EnhanceModelListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize EnhanceModelListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize UpscModelListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     return m_Size;
 }
