@@ -339,12 +339,12 @@ void GifMkView::onStartAllClicked() {
     }
     ImgKitCore::GIFMK::SParam param = {
         filePaths,
-        SETTINGS->gifGenerationWidth(),
-        SETTINGS->gifGenerationHeight(),
-        SETTINGS->gifGenerationQuality(),
-        SETTINGS->gifGenerationFps(),
-        SETTINGS->gifGenerationRepeat(),
-        SETTINGS->gifGenerationOutPath(),
+        SETTINGS->gifMkWidth(),
+        SETTINGS->gifMkHeight(),
+        SETTINGS->gifMkQuality(),
+        SETTINGS->gifMkFps(),
+        SETTINGS->gifMkRepeat(),
+        SETTINGS->gifMkOutPath(),
     };
     task.exec(param);
 }

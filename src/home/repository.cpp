@@ -99,7 +99,7 @@ QList<SFuncItemData> HomeRepository::datas() {
             QPixmap(":/QtmImg/img/dark/v16/icon24/icon24_add_white.svg"),
         },
         SFuncItemData{
-            EFunc::FuncGifMaker,
+            EFunc::FuncGifMk,
             EFuncItemBtnType::StartNow,
             "GIF Maker",
             "Create a GIF from multiple images.",

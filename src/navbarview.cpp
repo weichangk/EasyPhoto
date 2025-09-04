@@ -71,7 +71,7 @@ QVBoxLayout *NavbarView::createNavBtns() {
     // navMap[EFunc::FuncEnhancement] = {"", "图片增强"};
     // navMap[EFunc::FuncInpainting] = {"", "图片修复"};
     // navMap[EFunc::FuncEffects] = {"", "图片效果"};
-    navMap[EFunc::FuncGifMaker] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")}; 
+    navMap[EFunc::FuncGifMk] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")}; 
     QMap<int, SNavIconName>::Iterator iter;
     m_pNavBtnGroup = new QButtonGroup(this);
     m_pNavBtnGroup->setExclusive(true);

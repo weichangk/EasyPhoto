@@ -32,15 +32,15 @@ static QString compressionLastAddFilePath = QStandardPaths::writableLocation(QSt
 static QString compressionLastAddFolderPath = QDir::homePath();
 static int compressionQuality = 60;
 
-// GifGeneration
-static QString gifGenerationOutPath = defOutPath("GifGeneration");
-static QString gifGenerationLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-static QString gifGenerationLastAddFolderPath = QDir::homePath();
-static int gifGenerationWidth = 640;
-static int gifGenerationHeight = 640;
-static int gifGenerationQuality = 100;
-static int gifGenerationFps = 25;
-static bool gifGenerationRepeat = true;
+// GifMk
+static QString gifMkOutPath = defOutPath("GifMk");
+static QString gifMkLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString gifMkLastAddFolderPath = QDir::homePath();
+static int gifMkWidth = 640;
+static int gifMkHeight = 640;
+static int gifMkQuality = 100;
+static int gifMkFps = 25;
+static bool gifMkRepeat = true;
 
 // BgRm
 static QString backgroundRemoverOutPath = defOutPath("BackgroundRemover");
@@ -85,23 +85,23 @@ public:
     int compressQuality() const;
     void setCompressQuality(const int quality);
 
-    // GifGeneration
-    QString gifGenerationLastAddFilePath() const;
-    void setGifGenerationLastAddFilePath(const QString &path);
-    QString gifGenerationLastAddFolderPath() const;
-    void setGifGenerationLastAddFolderPath(const QString &path);
-    int gifGenerationWidth() const;
-    void setGifGenerationWidth(const int width);
-    int gifGenerationHeight() const;
-    void setGifGenerationHeight(const int height);
-    int gifGenerationQuality() const;
-    void setGifGenerationQuality(const int quality);
-    int gifGenerationFps() const;
-    void setGifGenerationFps(const int fps);
-    bool gifGenerationRepeat() const;
-    void setGifGenerationRepeat(bool repeat);
-    QString gifGenerationOutPath() const;
-    void setGifGenerationOutPath(const QString &path);
+    // GifMk
+    QString gifMkLastAddFilePath() const;
+    void setGifMkLastAddFilePath(const QString &path);
+    QString gifMkLastAddFolderPath() const;
+    void setGifMkLastAddFolderPath(const QString &path);
+    int gifMkWidth() const;
+    void setGifMkWidth(const int width);
+    int gifMkHeight() const;
+    void setGifMkHeight(const int height);
+    int gifMkQuality() const;
+    void setGifMkQuality(const int quality);
+    int gifMkFps() const;
+    void setGifMkFps(const int fps);
+    bool gifMkRepeat() const;
+    void setGifMkRepeat(bool repeat);
+    QString gifMkOutPath() const;
+    void setGifMkOutPath(const QString &path);
 
     // BgRm
     QString bgRmLastAddFilePath() const;
@@ -139,15 +139,15 @@ private:
     QString m_strCompressionOutFormat;
     int m_nCompressQuality;
 
-    // GifGeneration
-    QString m_strGifGenerationLastAddFilePath;
-    QString m_strGifGenerationLastAddFolderPath;
-    int m_nGifGenerationWidth;
-    int m_nGifGenerationHeight;
-    int m_nGifGenerationQuality;
-    int m_nGifGenerationFps;
-    bool m_bGifGenerationRepeat;
-    QString m_strGifGenerationOutPath;
+    // GifMk
+    QString m_strGifMkLastAddFilePath;
+    QString m_strGifMkLastAddFolderPath;
+    int m_nGifMkWidth;
+    int m_nGifMkHeight;
+    int m_nGifMkQuality;
+    int m_nGifMkFps;
+    bool m_bGifMkRepeat;
+    QString m_strGifMkOutPath;
 
     // BgRm
     QString m_strBgRmLastAddFilePath;

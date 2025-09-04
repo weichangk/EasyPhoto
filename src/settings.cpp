@@ -15,14 +15,14 @@ Settings::Settings() :
     m_strCompressionOutPath(Default::compressionOutPath),
     m_strCompressionOutFormat(Default::compressionOutFormat),
     m_nCompressQuality(Default::compressionQuality),
-    m_strGifGenerationLastAddFilePath(Default::gifGenerationLastAddFilePath),
-    m_strGifGenerationLastAddFolderPath(Default::gifGenerationLastAddFolderPath),
-    m_nGifGenerationWidth(Default::gifGenerationWidth),
-    m_nGifGenerationHeight(Default::gifGenerationHeight),
-    m_nGifGenerationQuality(Default::gifGenerationQuality),
-    m_nGifGenerationFps(Default::gifGenerationFps),
-    m_bGifGenerationRepeat(Default::gifGenerationRepeat),
-    m_strGifGenerationOutPath(Default::gifGenerationOutPath),
+    m_strGifMkLastAddFilePath(Default::gifMkLastAddFilePath),
+    m_strGifMkLastAddFolderPath(Default::gifMkLastAddFolderPath),
+    m_nGifMkWidth(Default::gifMkWidth),
+    m_nGifMkHeight(Default::gifMkHeight),
+    m_nGifMkQuality(Default::gifMkQuality),
+    m_nGifMkFps(Default::gifMkFps),
+    m_bGifMkRepeat(Default::gifMkRepeat),
+    m_strGifMkOutPath(Default::gifMkOutPath),
     // BgRm
     m_strBgRmLastAddFilePath(Default::backgroundRemoverLastAddFilePath),
     m_strBgRmLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
@@ -144,92 +144,92 @@ void Settings::setCompressQuality(const int quality) {
     m_Settings.endGroup();
 }
 
-// GifGeneration
-QString Settings::gifGenerationLastAddFilePath() const {
-    return m_strGifGenerationLastAddFilePath;
+// GifMk
+QString Settings::gifMkLastAddFilePath() const {
+    return m_strGifMkLastAddFilePath;
 }
 
-void Settings::setGifGenerationLastAddFilePath(const QString &path) {
-    m_strGifGenerationLastAddFilePath = path;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationLastAddFilePath"), m_strGifGenerationLastAddFilePath);
+void Settings::setGifMkLastAddFilePath(const QString &path) {
+    m_strGifMkLastAddFilePath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkLastAddFilePath"), m_strGifMkLastAddFilePath);
     m_Settings.endGroup();
 }
 
-QString Settings::gifGenerationLastAddFolderPath() const {
-    return m_strGifGenerationLastAddFolderPath;
+QString Settings::gifMkLastAddFolderPath() const {
+    return m_strGifMkLastAddFolderPath;
 }
 
-void Settings::setGifGenerationLastAddFolderPath(const QString &path) {
-    m_strGifGenerationLastAddFolderPath = path;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationLastAddFolderPath"), m_strGifGenerationLastAddFolderPath);
+void Settings::setGifMkLastAddFolderPath(const QString &path) {
+    m_strGifMkLastAddFolderPath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkLastAddFolderPath"), m_strGifMkLastAddFolderPath);
     m_Settings.endGroup();
 }
 
-int Settings::gifGenerationWidth() const {
-    return m_nGifGenerationWidth;
+int Settings::gifMkWidth() const {
+    return m_nGifMkWidth;
 }
 
-void Settings::setGifGenerationWidth(const int width) {
-    m_nGifGenerationWidth = width;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationWidth"), m_nGifGenerationWidth);
+void Settings::setGifMkWidth(const int width) {
+    m_nGifMkWidth = width;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkWidth"), m_nGifMkWidth);
     m_Settings.endGroup();
 }
 
-int Settings::gifGenerationHeight() const {
-    return m_nGifGenerationHeight;
+int Settings::gifMkHeight() const {
+    return m_nGifMkHeight;
 }
 
-void Settings::setGifGenerationHeight(const int height) {
-    m_nGifGenerationHeight = height;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationHeight"), m_nGifGenerationHeight);
+void Settings::setGifMkHeight(const int height) {
+    m_nGifMkHeight = height;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkHeight"), m_nGifMkHeight);
     m_Settings.endGroup();
 }
 
-int Settings::gifGenerationQuality() const {
-    return m_nGifGenerationQuality;
+int Settings::gifMkQuality() const {
+    return m_nGifMkQuality;
 }
 
-void Settings::setGifGenerationQuality(const int quality) {
-    m_nGifGenerationQuality = quality;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationQuality"), m_nGifGenerationQuality);
+void Settings::setGifMkQuality(const int quality) {
+    m_nGifMkQuality = quality;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkQuality"), m_nGifMkQuality);
     m_Settings.endGroup();
 }
 
-int Settings::gifGenerationFps() const {
-    return m_nGifGenerationFps;
+int Settings::gifMkFps() const {
+    return m_nGifMkFps;
 }
 
-void Settings::setGifGenerationFps(const int fps) {
-    m_nGifGenerationFps = fps;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationFps"), m_nGifGenerationFps);
+void Settings::setGifMkFps(const int fps) {
+    m_nGifMkFps = fps;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkFps"), m_nGifMkFps);
     m_Settings.endGroup();
 }
 
-bool Settings::gifGenerationRepeat() const {
-    return m_bGifGenerationRepeat;
+bool Settings::gifMkRepeat() const {
+    return m_bGifMkRepeat;
 }
 
-void Settings::setGifGenerationRepeat(bool repeat) {
-    m_bGifGenerationRepeat = repeat;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationRepeat"), m_bGifGenerationRepeat);
+void Settings::setGifMkRepeat(bool repeat) {
+    m_bGifMkRepeat = repeat;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkRepeat"), m_bGifMkRepeat);
     m_Settings.endGroup();
 }
 
-QString Settings::gifGenerationOutPath() const {
-    return m_strGifGenerationOutPath;
+QString Settings::gifMkOutPath() const {
+    return m_strGifMkOutPath;
 }
 
-void Settings::setGifGenerationOutPath(const QString &path) {
-    m_strGifGenerationOutPath = path;
-    m_Settings.beginGroup("GifGeneration");
-    m_Settings.setValue(QStringLiteral("GifGenerationOutPath"), m_strGifGenerationOutPath);
+void Settings::setGifMkOutPath(const QString &path) {
+    m_strGifMkOutPath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("GifMkOutPath"), m_strGifMkOutPath);
     m_Settings.endGroup();
 }
 

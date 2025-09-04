@@ -9,7 +9,7 @@ using EFunc = enum {
     FuncErase,
     FuncBgRm,
     FuncCrop,
-    FuncGifMaker,
+    FuncGifMk,
     FuncThumbnailMaker,
     FuncDownloader,
     FuncInpainting,

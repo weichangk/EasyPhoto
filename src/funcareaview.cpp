@@ -99,7 +99,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
     m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);
     m_pStackedLayout->insertWidget(EFunc::FuncCrop, m_pCropView);
-    m_pStackedLayout->insertWidget(EFunc::FuncGifMaker, m_pGifMkView);
+    m_pStackedLayout->insertWidget(EFunc::FuncGifMk, m_pGifMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncThumbnailMaker, m_pThumbnailMakerView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
     m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
