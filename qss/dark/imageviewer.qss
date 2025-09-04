@@ -1,0 +1,4 @@
+QGraphicsView#ImageViewer {
+    border: none;
+    background-color: #1a1627;
+}

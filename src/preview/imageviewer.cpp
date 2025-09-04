@@ -7,6 +7,9 @@ ImageViewer::ImageViewer(QWidget *parent) :
     m_pixmapItem(new QGraphicsPixmapItem()),
     m_scaleFactor(1.0),
     m_isPanning(false) {
+    setObjectName("ImageViewer");
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setScene(m_scene);
     m_scene->addItem(m_pixmapItem);
 
