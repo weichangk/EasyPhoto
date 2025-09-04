@@ -16,7 +16,6 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
         m_pUpscPresenter = new UpscPresenter(funcAreaView->upscView(), funcRepository->upscRepository());
         m_pErasePresenter = new ErasePresenter(funcAreaView->eraseView(), funcRepository->eraseRepository());
         m_pGifMkPresenter = new GifMkPresenter(funcAreaView->gifMkView(), funcRepository->gifMkRepository());
-        m_pInpaintingPresenter = new InpaintingPresenter(funcAreaView->inpaintingView(), funcRepository->inpaintingRepository());
         m_pBgRmPresenter = new BgRmPresenter(funcAreaView->bgRmView(), funcRepository->bgRmRepository());
         m_pThumbMkPresenter = new ThumbMkPresenter(funcAreaView->thumbMkView(), funcRepository->thumbMkRepository());
         m_pDownloaderPresenter = new DownloaderPresenter(funcAreaView->downloaderView(), funcRepository->downloaderRepository());
@@ -57,10 +56,6 @@ ErasePresenter *FuncAreaPresenter::erasePresenter() const {
 
 GifMkPresenter *FuncAreaPresenter::gifMkPresenter() const {
     return m_pGifMkPresenter;
-}
-
-InpaintingPresenter *FuncAreaPresenter::inpaintingPresenter() const {
-    return m_pInpaintingPresenter;
 }
 
 BgRmPresenter *FuncAreaPresenter::bgRmPresenter() const {

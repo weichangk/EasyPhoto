@@ -10,7 +10,6 @@
 #include "upsc/view.h"
 #include "erase/view.h"
 #include "gifmk/view.h"
-#include "inpainting/view.h"
 #include "gifpreview/view.h"
 #include "bgrm/view.h"
 #include "thumbmk/view.h"
@@ -37,7 +36,6 @@ public:
     UpscView *upscView() const;
     EraseView *eraseView() const;
     GifMkView *gifMkView() const;
-    InpaintingView *inpaintingView() const;
     BgRmView *bgRmView() const;
     ThumbMkView *thumbMkView() const;
     DownloaderView *downloaderView() const;
@@ -66,7 +64,6 @@ private:
     UpscView *m_pUpscView = nullptr;
     EraseView *m_pEraseView = nullptr;
     GifMkView *m_pGifMkView = nullptr;
-    InpaintingView *m_pInpaintingView = nullptr;
     BgRmView *m_pBgRmView = nullptr;
     ThumbMkView *m_pThumbMkView = nullptr;
     DownloaderView *m_pDownloaderView = nullptr;

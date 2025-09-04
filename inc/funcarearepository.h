@@ -9,7 +9,6 @@
 #include "upsc/repository.h"
 #include "erase/repository.h"
 #include "gifmk/repository.h"
-#include "inpainting/repository.h"
 #include "bgrm/repository.h"
 #include "thumbmk/repository.h"
 #include "downloader/repository.h"
@@ -30,7 +29,6 @@ public:
     UpscRepository *upscRepository() const;
     EraseRepository *eraseRepository() const;
     GifMkRepository *gifMkRepository() const;
-    InpaintingRepository *inpaintingRepository() const;
     ThumbMkRepository *thumbMkRepository() const;
     DownloaderRepository *downloaderRepository() const;
     BgRmRepository *bgRmRepository() const;
@@ -45,7 +43,6 @@ private:
     UpscRepository *m_pUpscRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;
     GifMkRepository *m_pGifMkRepository = nullptr;
-    InpaintingRepository *m_pInpaintingRepository = nullptr;
     ThumbMkRepository *m_pThumbMkRepository = nullptr;
     DownloaderRepository *m_pDownloaderRepository = nullptr;
     BgRmRepository *m_pBgRmRepository = nullptr;

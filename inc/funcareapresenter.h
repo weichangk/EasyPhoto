@@ -11,7 +11,6 @@
 #include "upsc/presenter.h"
 #include "erase/presenter.h"
 #include "gifmk/presenter.h"
-#include "inpainting/presenter.h"
 #include "gifpreview/presenter.h"
 #include "bgrm/presenter.h"
 #include "thumbmk/presenter.h"
@@ -32,7 +31,6 @@ public:
     UpscPresenter *upscPresenter() const;
     ErasePresenter *erasePresenter() const;
     GifMkPresenter *gifMkPresenter() const;
-    InpaintingPresenter *inpaintingPresenter() const;
     BgRmPresenter *bgRmPresenter() const;
     ThumbMkPresenter *thumbMkPresenter() const;
     DownloaderPresenter *downloaderPresenter() const;
@@ -50,7 +48,6 @@ private:
     UpscPresenter *m_pUpscPresenter = nullptr;
     ErasePresenter *m_pErasePresenter = nullptr;
     GifMkPresenter *m_pGifMkPresenter = nullptr;
-    InpaintingPresenter *m_pInpaintingPresenter = nullptr;
     BgRmPresenter *m_pBgRmPresenter = nullptr;
     ThumbMkPresenter *m_pThumbMkPresenter = nullptr;
     DownloaderPresenter *m_pDownloaderPresenter = nullptr;

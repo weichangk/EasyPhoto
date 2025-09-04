@@ -12,7 +12,6 @@ using EFunc = enum {
     FuncGifMk,
     FuncThumbMk,
     FuncDownloader,
-    FuncInpainting,
     FuncImagePreview,
     FuncGifPreview,
     FuncUndo,

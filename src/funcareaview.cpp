@@ -39,10 +39,6 @@ GifMkView *FuncAreaView::gifMkView() const {
     return m_pGifMkView;
 }
 
-InpaintingView *FuncAreaView::inpaintingView() const {
-    return m_pInpaintingView;
-}
-
 BgRmView *FuncAreaView::bgRmView() const {
     return m_pBgRmView;
 }
@@ -79,7 +75,6 @@ void FuncAreaView::createUi() {
     m_pUpscView = new UpscView(this);
     m_pEraseView = new EraseView(this);
     m_pGifMkView = new GifMkView(this);
-    m_pInpaintingView = new InpaintingView(this);
     m_pBgRmView = new BgRmView(this);
     m_pThumbMkView = new ThumbMkView(this);
     m_pDownloaderView = new DownloaderView(this);
@@ -97,7 +92,6 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncGifMk, m_pGifMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncThumbMk, m_pThumbMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncDownloader, m_pDownloaderView);
-    m_pStackedLayout->insertWidget(EFunc::FuncInpainting, m_pInpaintingView);
     m_pStackedLayout->insertWidget(EFunc::FuncImagePreview, m_pImagePreviewView);
     m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 

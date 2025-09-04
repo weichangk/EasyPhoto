@@ -9,7 +9,6 @@ FuncAreaRepository::FuncAreaRepository() {
     m_pUpscRepository = new UpscRepository();
     m_pEraseRepository = new EraseRepository();
     m_pGifMkRepository = new GifMkRepository();
-    m_pInpaintingRepository = new InpaintingRepository();
     m_pBgRmRepository = new BgRmRepository();
     m_pThumbMkRepository = new ThumbMkRepository();
     m_pDownloaderRepository = new DownloaderRepository();
@@ -49,10 +48,6 @@ EraseRepository *FuncAreaRepository::eraseRepository() const {
 
 GifMkRepository *FuncAreaRepository::gifMkRepository() const {
     return m_pGifMkRepository;
-}
-
-InpaintingRepository *FuncAreaRepository::inpaintingRepository() const {
-    return m_pInpaintingRepository;
 }
 
 BgRmRepository *FuncAreaRepository::bgRmRepository() const {
