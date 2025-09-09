@@ -3,6 +3,7 @@
 #include "types.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
+#include "import/importlistpresenter.h"
 
 using namespace QtmMvp;
 
@@ -10,14 +11,10 @@ class BgRmPresenter : public Presenter {
 public:
     explicit BgRmPresenter(IView* view, IRepository *repository);
     ~BgRmPresenter();
-    QList<SBgRmData> datas();
-    void appendData(const QStringList filePaths);
-    void deleteData(const QStringList filePaths);
-    void deleteCheckedData();
-    void clearData();
-    void switchCheckedData(const QString filePath);
-    void checkedAllData(bool checked);
+
+    QString getSampleImage1Path();
+    QString getSampleImage2Path();
 
 private:
-    QSet<QString> filePathsSet;
+    ImportListPresenter * m_pImportListPresenter = nullptr;
 };

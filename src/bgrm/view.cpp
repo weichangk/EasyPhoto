@@ -14,6 +14,10 @@ BgRmView::BgRmView(QWidget *parent) :
     onLanguageChange();
 }
 
+ImportListView *BgRmView::getImportListView() {
+    return m_pImportListView;
+}
+
 void BgRmView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     firstShow();
@@ -25,6 +29,7 @@ void BgRmView::createUi() {
 
     m_pLanguageFilter = new LanguageFilter(this);
 
+    //
     m_pTitleLbl = new QLabel(this);
     m_pTitleLbl->setObjectName("BgRmView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
@@ -32,101 +37,166 @@ void BgRmView::createUi() {
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
 
     //
-    m_pImportGuide = new ImportGuide(this);
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
     importGuideLayout->setContentsMargins(20, 20, 20, 20);
     importGuideLayout->setSpacing(0);
-    importGuideLayout->addWidget(m_pImportGuide);
+
+    m_pImportGuide = new ImportGuide(this);
+
+    m_pSmapleWidget = new QWidget(this);
+    m_pSmapleWidget->setFixedHeight(100);
+    auto smapleWidgetLayout = new QVBoxLayout(m_pSmapleWidget);
+    smapleWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    smapleWidgetLayout->setSpacing(0);
+
+    m_pSmapleTitleLbl = new QLabel(this);
+    m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
+
+    m_pSmaple1ImageLbl = new ClickableLabel(this);
+    m_pSmaple1ImageLbl->setFixedSize(128, 72);
+    m_pSmaple2ImageLbl = new ClickableLabel(this);
+    m_pSmaple2ImageLbl->setFixedSize(128, 72);
+
+    auto sampleImageLayout = new QHBoxLayout();
+    sampleImageLayout->setContentsMargins(0, 0, 0, 0);
+    sampleImageLayout->setSpacing(14);
+    sampleImageLayout->addStretch();
+    sampleImageLayout->addWidget(m_pSmaple1ImageLbl);
+    sampleImageLayout->addWidget(m_pSmaple2ImageLbl);
+    sampleImageLayout->addStretch();
+
+    smapleWidgetLayout->addWidget(m_pSmapleTitleLbl);
+    smapleWidgetLayout->addLayout(sampleImageLayout);
+
+    importGuideLayout->addWidget(m_pImportGuide, 1);
+    importGuideLayout->addSpacing(14);
+    importGuideLayout->addWidget(m_pSmapleWidget);
 
     //
-    QWidget *topWidget = new QWidget(this);
-    topWidget->setFixedHeight(56);
+    m_pWorkspaceWidget = new QWidget(this);
+    auto bodyWidgetLayout = new QHBoxLayout(m_pWorkspaceWidget);
+    bodyWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    bodyWidgetLayout->setSpacing(0);
 
-    m_pAddFileBtn = new IconButton(topWidget);
-    m_pAddFileBtn->setFixedSize(32, 32);
-    m_pAddFileBtn->setIconSize(32, 32);
-    m_pAddFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_file.png");
+    m_pLeftWidget = new QWidget(this);
+    auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
+    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setSpacing(0);
 
-    m_pAddFolderBtn = new IconButton(topWidget);
-    m_pAddFolderBtn->setFixedSize(32, 32);
-    m_pAddFolderBtn->setIconSize(32, 32);
-    m_pAddFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_folder.png");
+    m_pRightWidget = new QWidget(this);
+    m_pRightWidget->setFixedWidth(320);
+    auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
+    rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    rightWidgetLayout->setSpacing(0);
 
-    m_pClearFileBtn = new IconButton(topWidget);
-    m_pClearFileBtn->setFixedSize(24, 24);
-    m_pClearFileBtn->setIconSize(24, 24);
-    m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
+    bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
+    bodyWidgetLayout->addWidget(m_pRightWidget);
 
-    m_pSelectAllCkb = new QCheckBox(topWidget);
-    m_pSelectAllCkb->setObjectName("BgRmView_m_pSelectAllCkb");
+    //
+    m_pImageViewer = new ImageViewer(this);
+    m_pImportListView = new ImportListView(this);
+    LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addWidget(m_pImportListView);
 
-    m_pListModeSwitchBtn = new IconButton(topWidget);
-    m_pListModeSwitchBtn->setFixedSize(24, 24);
-    m_pListModeSwitchBtn->setIconSize(24, 24);
-    m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
+    //
+    m_pBgColorLbl = new QLabel(this);
+    m_pBgColorLbl->setObjectName("BgRmView_m_pBgColorLbl");
+    rightWidgetLayout->addWidget(m_pBgColorLbl);
 
-    auto topWidgetLayout = new QHBoxLayout(topWidget);
-    topWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    topWidgetLayout->setSpacing(12);
-    topWidgetLayout->addWidget(m_pAddFileBtn);
-    topWidgetLayout->addWidget(m_pAddFolderBtn);
-    topWidgetLayout->addStretch();
-    topWidgetLayout->addWidget(m_pSelectAllCkb);
-    topWidgetLayout->addWidget(m_pClearFileBtn);
-    topWidgetLayout->addWidget(m_pListModeSwitchBtn);
+    m_pBgColor1Btn = new IconButton(this);
+    m_pBgColor1Btn->setFixedSize(24, 24);
+    m_pBgColor1Btn->setIconSize(24, 24);
+    m_pBgColor1Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
-    QWidget *bottomWidget = new QWidget(this);
-    bottomWidget->setFixedHeight(70);
+    m_pBgColor2Btn = new IconButton(this);
+    m_pBgColor2Btn->setFixedSize(24, 24);
+    m_pBgColor2Btn->setIconSize(24, 24);
+    m_pBgColor2Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
-    m_pOutputFolderLbl = new QLabel(bottomWidget);
+    m_pBgColor3Btn = new IconButton(this);
+    m_pBgColor3Btn->setFixedSize(24, 24);
+    m_pBgColor3Btn->setIconSize(24, 24);
+    m_pBgColor3Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBgColor4Btn = new IconButton(this);
+    m_pBgColor4Btn->setFixedSize(24, 24);
+    m_pBgColor4Btn->setIconSize(24, 24);
+    m_pBgColor4Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    m_pBgColorSelectBtn = new IconButton(this);
+    m_pBgColorSelectBtn->setFixedSize(24, 24);
+    m_pBgColorSelectBtn->setIconSize(24, 24);
+    m_pBgColorSelectBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    auto bgColorBtnLayout = new QHBoxLayout();
+    bgColorBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgColorBtnLayout->addWidget(m_pBgColor1Btn);
+    bgColorBtnLayout->addWidget(m_pBgColor2Btn);
+    bgColorBtnLayout->addWidget(m_pBgColor3Btn);
+    bgColorBtnLayout->addWidget(m_pBgColor4Btn);
+    bgColorBtnLayout->addWidget(m_pBgColorSelectBtn);
+    rightWidgetLayout->addLayout(bgColorBtnLayout);
+
+    //
+    rightWidgetLayout->addSpacing(16);
+
+    //
+    m_pBgImgLbl = new QLabel(this);
+    m_pBgImgLbl->setObjectName("BgRmView_m_pBgImgLbl");
+    rightWidgetLayout->addWidget(m_pBgImgLbl);
+
+    m_pBgCustomImgBtn = new QPushButton(this);
+    m_pBgCustomImgBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pBgCustomImgBtn->setFixedSize(70, 32);
+
+    m_pBgGeneralImgBtn = new QPushButton(this);
+    m_pBgGeneralImgBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pBgGeneralImgBtn->setFixedSize(70, 32);
+
+    m_pBgSceneImgBtn = new QPushButton(this);
+    m_pBgSceneImgBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pBgSceneImgBtn->setFixedSize(70, 32);
+
+    auto bgImgBtnLayout = new QHBoxLayout();
+    bgImgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgImgBtnLayout->addWidget(m_pBgCustomImgBtn);
+    bgImgBtnLayout->addWidget(m_pBgGeneralImgBtn);
+    bgImgBtnLayout->addWidget(m_pBgSceneImgBtn);
+    bgImgBtnLayout->addStretch();
+    rightWidgetLayout->addLayout(bgImgBtnLayout);
+
+    //
+    rightWidgetLayout->addSpacing(16);
+
+    //
+    m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("BgRmView_m_pOutputFolderLbl");
 
-    m_pOutputFolderCbb = new QComboBox(bottomWidget);
+    m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
 
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
-
-    m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
+    m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
-    m_pStartAllBtn = new QPushButton(bottomWidget);
+    auto folderLayout = new QHBoxLayout();
+    folderLayout->setContentsMargins(0, 0, 0, 0);
+    folderLayout->addWidget(m_pOutputFolderCbb, 1);
+    folderLayout->addWidget(m_pOpenOutputFolderBtn);
+    rightWidgetLayout->addLayout(folderLayout);
+
+    //
+    rightWidgetLayout->addStretch();
+
+    //
+    m_pStartAllBtn = new QPushButton(this);
     m_pStartAllBtn->setObjectName("BgRmView_m_pStartAllBtn");
-    m_pStartAllBtn->setFixedSize(110, 32);
+    m_pStartAllBtn->setFixedHeight(32);
+    rightWidgetLayout->addWidget(m_pStartAllBtn);
 
-    auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    bottomWidgetLayout->setSpacing(0);
-    bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    bottomWidgetLayout->addSpacing(4);
-    bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    bottomWidgetLayout->addStretch();
-    bottomWidgetLayout->addWidget(m_pStartAllBtn);
-
-    m_pListView = new ListView<SBgRmData>(this);
-    m_pListView->setSpacing(0);
-    m_pListDelegate = new BgRmListDelegate(m_pListView);
-    m_pListView->setItemDelegate(m_pListDelegate);
-    m_pListView->viewport()->installEventFilter(m_pListDelegate);
-    auto listViewLayout = new QVBoxLayout();
-    listViewLayout->setContentsMargins(20, 0, 2, 0);
-    listViewLayout->setSpacing(0);
-    listViewLayout->addWidget(m_pListView, 1);
-
-    m_pWorkspaceWidget = new QWidget(this);
-    auto workspaceWidgetLayout = new QVBoxLayout(m_pWorkspaceWidget);
-    workspaceWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    workspaceWidgetLayout->setSpacing(0);
-    workspaceWidgetLayout->addWidget(topWidget);
-    workspaceWidgetLayout->addLayout(listViewLayout, 1);
-    workspaceWidgetLayout->addWidget(createDividingLine());
-    workspaceWidgetLayout->addWidget(bottomWidget);
-
+    //
     m_pStackedLayout = new QStackedLayout();
     m_pStackedLayout->addWidget(m_pImportGuideWidget);
     m_pStackedLayout->addWidget(m_pWorkspaceWidget);
@@ -135,6 +205,7 @@ void BgRmView::createUi() {
     stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
     stackedMarginLayout->addLayout(m_pStackedLayout, 1);
 
+    //
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
@@ -144,16 +215,11 @@ void BgRmView::createUi() {
 
 void BgRmView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &BgRmView::onLanguageChange);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &BgRmView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &BgRmView::onAddFileBtnClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &BgRmView::onAddFolderBtnClicked);
-    connect(m_pClearFileBtn, &QPushButton::clicked, this, &BgRmView::onClearFileBtnClicked);
-    connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &BgRmView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &BgRmView::onListModeSwitchBtnClicked);
-    connect(m_pListView, &QListView::clicked, this, &BgRmView::onListViewClicked);
-    connect(m_pOutputFolderCbbFilter, &ComboBoxFilter::sigClicked, this, &BgRmView::onOutputFolderCbbClicked);
-    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &BgRmView::onOutputFolderCbbIndexChanged);
-    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &BgRmView::onOpenOutputFolderBtnClicked);
+    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &BgRmView::onSmaple1ImageLblClicked);
+    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &BgRmView::onSmaple2ImageLblClicked);
+    connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &BgRmView::onImportListCountChange);
+    connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &BgRmView::onImportListCurrentChanged);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &BgRmView::onGuideImportFile);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &BgRmView::onStartAllBtnClicked);
 }
 
@@ -161,82 +227,29 @@ void BgRmView::firstShow() {
     static bool firstShow = true;
     if(firstShow) {
         firstShow = false;
+        loadSampleImage();
         initOutputFolderCbbItem();
     }
 }
 
-QWidget *BgRmView::createDividingLine() {
-    QWidget *dividingLine = new QWidget(this);
-    dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("BgRmView_DividingLine");
-    dividingLine->setFixedHeight(1);
-    return dividingLine;
+void BgRmView::loadSampleImage() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
+    m_pSmaple1ImageLbl->setPixmap(QPixmap(prst->getSampleImage1Path()).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pSmaple2ImageLbl->setPixmap(QPixmap(prst->getSampleImage2Path()).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void BgRmView::listViewImportFile(const QStringList &filePaths) {
+void BgRmView::importSampleImage1() {
     BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    prst->appendData(filePaths);
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-    selectAllState();
+    QStringList paths;
+    paths.append(prst->getSampleImage1Path());
+    m_pImportListView->importFile(paths);
 }
 
-void BgRmView::onListModeSwitchBtnClicked() {
+void BgRmView::importSampleImage2() {
     BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    if (!prst->datas().isEmpty()) {
-        m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
-        m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
-        m_pListView->changeData(prst->datas());
-        if(m_pListModeSwitchBtn->fourPixmapPath().contains("thumbnail")) {
-            m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_list.png");
-        }
-        else {
-            m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
-        }
-    }
-}
-
-void BgRmView::listItemSelectChanged(const QString &filePath) {
-    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    prst->switchCheckedData(filePath);
-    m_pListView->changeData(prst->datas());
-    blockSignalsFunc(m_pSelectAllCkb, [&]() {
-        selectAllState();
-    });
-}
-
-void BgRmView::listItemDelete(const QString &filePath) {
-    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    QStringList filePaths;
-    filePaths.append(filePath);
-    prst->deleteData(filePaths);
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-    selectAllState();
-}
-
-void BgRmView::listViewNoDataState() {
-    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    bool isNoData = prst->datas().isEmpty();
-    m_pClearFileBtn->setVisible(!isNoData);
-    m_pListModeSwitchBtn->setVisible(!isNoData);
-    m_pSelectAllCkb->setVisible(!isNoData);
-    m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pWorkspaceWidget);
-}
-
-void BgRmView::selectAllState() {
-    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    if (!prst->datas().isEmpty()) {
-        for (auto data : prst->datas()) {
-            if (!data.is_checked) {
-                m_pSelectAllCkb->setChecked(false);
-                return;
-            }
-        }
-        m_pSelectAllCkb->setChecked(true);
-    } else {
-        m_pSelectAllCkb->setChecked(false);
-    }
+    QStringList paths;
+    paths.append(prst->getSampleImage2Path());
+    m_pImportListView->importFile(paths);
 }
 
 void BgRmView::initOutputFolderCbbItem() {
@@ -244,98 +257,53 @@ void BgRmView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem("...");
 }
 
-void BgRmView::BgRmView::setOutputFolder(const QString &path) {
-    SETTINGS->setBgRmOutPath(path);
-    m_pOutputFolderCbb->setItemText(0, path);
+void BgRmView::gotoImportGuide() {
+    m_pStackedLayout->setCurrentWidget(m_pImportGuideWidget);
+}
+
+void BgRmView::gotoWorkspace() {
+    m_pStackedLayout->setCurrentWidget(m_pWorkspaceWidget);
+}
+
+void BgRmView::imageViewerLoad(const QString &filePath) {
+    m_pImageViewer->loadImage(filePath);
 }
 
 void BgRmView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Backgroung Remover"));
-    m_pSelectAllCkb->setText(tr("Select All"));
+    m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
+    m_pBgColorLbl->setText(tr("Background Color"));
+    m_pBgImgLbl->setText(tr("Background Image"));
+    m_pBgCustomImgBtn->setText(tr("Custom"));
+    m_pBgGeneralImgBtn->setText(tr("General"));
+    m_pBgSceneImgBtn->setText(tr("Scene"));
     m_pStartAllBtn->setText(tr("Start"));
 }
 
-void BgRmView::onAddFileBtnClicked() {
-    QString title = tr("Open");
-    QString directory = SETTINGS->bgRmLastAddFilePath();
-    QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
-    if (!filePaths.isEmpty()) {
-        QFileInfo fileInfo(filePaths.first());
-        QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setBgRmLastAddFilePath(lastDirectory);
-        listViewImportFile(filePaths);
+void BgRmView::onSmaple1ImageLblClicked() {
+    importSampleImage1();
+}
+
+void BgRmView::onSmaple2ImageLblClicked() {
+    importSampleImage2();
+}
+
+void BgRmView::onImportListCountChange(int count) {
+    if(count > 0) {
+        gotoWorkspace();
+    } else {
+        gotoImportGuide();
     }
 }
 
-void BgRmView::onAddFolderBtnClicked() {
-    QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->bgRmLastAddFolderPath());
-    if (!folderPath.isEmpty()) {
-        SETTINGS->setBgRmLastAddFolderPath(folderPath);
-        QDir dir(folderPath);
-        QStringList files = dir.entryList(QDir::Files);
-        QStringList filePaths;
-        for (const QString &file : files) {
-            QString filePath = dir.absoluteFilePath(file);
-            filePaths.append(filePath);
-        }
-        if (!filePaths.isEmpty()) {
-            listViewImportFile(filePaths);
-        }
-    }
+void BgRmView::onImportListCurrentChanged(const QString filePath) {
+    imageViewerLoad(filePath);
 }
 
-void BgRmView::onClearFileBtnClicked() {
+void BgRmView::onGuideImportFile(const QStringList &filePaths) {
     BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    prst->clearData();
-    m_pListView->changeData(prst->datas());
-    listViewNoDataState();
-}
-
-void BgRmView::onSelectAllStateChanged(int state) {
-    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
-    prst->checkedAllData(state);
-    m_pListView->changeData(prst->datas());
-}
-
-void BgRmView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SBgRmData>();
-    QRect rc = m_pListView->visualRect(index);
-    int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
-    int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
-    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
-    if (posx >= delRect.x() && posx <= delRect.x() + delRect.width()
-        && posy >= delRect.y() && posy <= delRect.y() + delRect.height()) {
-        listItemDelete(data.file_path);
-    }
-    if (posx >= checkedRect.x() && posx <= checkedRect.x() + checkedRect.width()
-        && posy >= checkedRect.y() && posy <= checkedRect.y() + checkedRect.height()) {
-        listItemSelectChanged(data.file_path);
-    }
-}
-
-void BgRmView::onOutputFolderCbbClicked() {
-}
-
-void BgRmView::onOutputFolderCbbIndexChanged(int index) {
-    if (index == 1) {
-        blockSignalsFunc(m_pOutputFolderCbb, [&]() {
-            m_pOutputFolderCbb->setCurrentIndex(0);
-        });
-        QString title = tr("Select Folder");
-        QString dirPath = QFileDialog::getExistingDirectory(this, title, QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
-        if (!dirPath.isEmpty()) {
-            setOutputFolder(dirPath);
-        }
-    }
-}
-
-void BgRmView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->bgRmOutPath();
-    QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+    m_pImportListView->importFile(filePaths);
 }
 
 void BgRmView::onStartAllBtnClicked() {

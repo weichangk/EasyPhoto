@@ -27,7 +27,9 @@ QPushButton#BgRmView_m_pStartAllBtn:pressed {
     background-color: "#bb99ff";
 }
 
-QLabel#BgRmView_m_pOutputFolderLbl {
+QLabel#BgRmView_m_pOutputFolderLbl,
+QLabel#BgRmView_m_pBgColorLbl,
+QLabel#BgRmView_m_pBgImgLbl {
     color: "#ffffff";
     font-size: 13px;
 }

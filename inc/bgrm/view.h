@@ -2,9 +2,11 @@
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
+#include "widget/label.h"
 #include "widget/listview.h"
 #include "core/font.h"
 #include "core/object.h"
+#include "core/file.h"
 #include "filter/languagefilter.h"
 #include "filter/popupwindow.h"
 #include "filter/maskwidget.h"
@@ -12,6 +14,8 @@
 #include "import/importguide.h"
 #include "types.h"
 #include "listdelegate.h"
+#include "preview/imageviewer.h"
+#include "import/importlistview.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -32,6 +36,8 @@ public:
     ~BgRmView() override {
     }
 
+    ImportListView *getImportListView();
+
 protected:
     void showEvent(QShowEvent *event) override;
 
@@ -39,27 +45,22 @@ private:
     void createUi();
     void connectSig();
     void firstShow();
-    QWidget *createDividingLine();
-    void listViewImportFile(const QStringList &filePaths);
-    void listItemSelectChanged(const QString &filePath);
-    void listItemDelete(const QString &filePath);
-    void listViewNoDataState();
-    void selectAllState();
+    void loadSampleImage();
+    void importSampleImage1();
+    void importSampleImage2();
     void initOutputFolderCbbItem();
-    void setOutputFolder(const QString &path);
+    void gotoImportGuide();
+    void gotoWorkspace();
+    void imageViewerLoad(const QString &filePath);
 
 private 
 Q_SLOTS:
     void onLanguageChange();
-    void onAddFileBtnClicked();
-    void onAddFolderBtnClicked();
-    void onListModeSwitchBtnClicked();
-    void onClearFileBtnClicked();
-    void onSelectAllStateChanged(int);
-    void onListViewClicked(const QModelIndex &index);
-    void onOutputFolderCbbClicked();
-    void onOutputFolderCbbIndexChanged(int index);
-    void onOpenOutputFolderBtnClicked();
+    void onSmaple1ImageLblClicked();
+    void onSmaple2ImageLblClicked();
+    void onImportListCountChange(int count);
+    void onImportListCurrentChanged(const QString filePath);
+    void onGuideImportFile(const QStringList &filePaths);
     void onStartAllBtnClicked();
 
 private:
@@ -67,23 +68,37 @@ private:
 
     QLabel *m_pTitleLbl = nullptr;
 
-    QWidget *m_pImportGuideWidget = nullptr;
-    ImportGuide *m_pImportGuide = nullptr;
-
-    QWidget *m_pWorkspaceWidget = nullptr;
-
-    IconButton *m_pAddFileBtn = nullptr;
-    IconButton *m_pAddFolderBtn = nullptr;
-    IconButton *m_pClearFileBtn = nullptr;
-    IconButton *m_pListModeSwitchBtn = nullptr;
-    QCheckBox *m_pSelectAllCkb = nullptr;
-    QLabel *m_pOutputFolderLbl = nullptr;
-    QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
-    IconButton *m_pOpenOutputFolderBtn = nullptr;
-    QPushButton *m_pStartAllBtn = nullptr;
     QStackedLayout *m_pStackedLayout = nullptr;
 
-    ListView<SBgRmData> *m_pListView = nullptr;
-    BgRmListDelegate *m_pListDelegate = nullptr;
+    QWidget *m_pImportGuideWidget = nullptr;
+    ImportGuide *m_pImportGuide = nullptr;
+    QWidget *m_pSmapleWidget = nullptr;
+    QLabel *m_pSmapleTitleLbl = nullptr;
+    ClickableLabel *m_pSmaple1ImageLbl = nullptr;
+    ClickableLabel *m_pSmaple2ImageLbl = nullptr;
+
+    QWidget *m_pWorkspaceWidget = nullptr;
+    QWidget *m_pLeftWidget = nullptr;
+    QWidget *m_pRightWidget = nullptr;
+
+    ImageViewer *m_pImageViewer = nullptr;
+    ImportListView *m_pImportListView = nullptr;
+
+    QLabel *m_pOutputFolderLbl = nullptr;
+    QComboBox *m_pOutputFolderCbb = nullptr;
+    IconButton *m_pOpenOutputFolderBtn = nullptr;
+
+    QLabel *m_pBgColorLbl = nullptr;
+    IconButton *m_pBgColor1Btn = nullptr;
+    IconButton *m_pBgColor2Btn = nullptr;
+    IconButton *m_pBgColor3Btn = nullptr;
+    IconButton *m_pBgColor4Btn = nullptr;
+    IconButton *m_pBgColorSelectBtn = nullptr;
+
+    QLabel *m_pBgImgLbl = nullptr;
+    QPushButton *m_pBgCustomImgBtn = nullptr;
+    QPushButton *m_pBgGeneralImgBtn = nullptr;
+    QPushButton *m_pBgSceneImgBtn = nullptr;
+
+    QPushButton *m_pStartAllBtn = nullptr;
 };
