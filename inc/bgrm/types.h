@@ -15,3 +15,17 @@ struct SBgRmData {
     bool is_checked = false;
 };
 Q_DECLARE_METATYPE(SBgRmData)
+
+struct SBgImgData {
+    QString file_name = "";
+    QString file_path = "";
+    QPixmap thumbnail = QPixmap();
+    bool is_checked = false;
+};
+Q_DECLARE_METATYPE(SBgImgData)
+
+enum EBgImgType {
+    EBgImgType_Custom = 0,
+    EBgImgType_General,
+    EBgImgType_Scene
+};

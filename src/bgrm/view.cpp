@@ -85,7 +85,7 @@ void BgRmView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(320);
+    m_pRightWidget->setFixedWidth(275);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
     rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
     rightWidgetLayout->setSpacing(0);
@@ -166,12 +166,21 @@ void BgRmView::createUi() {
     bgImgBtnLayout->addStretch();
     rightWidgetLayout->addLayout(bgImgBtnLayout);
 
+    m_pBgImgListView = new ListView<SBgImgData>(this);
+    m_pBgImgListView->setSpacing(0);
+    m_pBgImgListDelegate = new BgImgListDelegate(m_pBgImgListView);
+    m_pBgImgListView->setItemDelegate(m_pBgImgListDelegate);
+    m_pBgImgListView->viewport()->installEventFilter(m_pBgImgListDelegate);
+    rightWidgetLayout->addWidget(m_pBgImgListView, 1);
+    // m_pBgImgListView->changeData(formatDatas);
+
     //
     rightWidgetLayout->addSpacing(16);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("BgRmView_m_pOutputFolderLbl");
+    rightWidgetLayout->addWidget(m_pOutputFolderLbl);
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
@@ -188,7 +197,7 @@ void BgRmView::createUi() {
     rightWidgetLayout->addLayout(folderLayout);
 
     //
-    rightWidgetLayout->addStretch();
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pStartAllBtn = new QPushButton(this);
@@ -221,6 +230,9 @@ void BgRmView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &BgRmView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &BgRmView::onGuideImportFile);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &BgRmView::onStartAllBtnClicked);
+    connect(m_pBgCustomImgBtn, &QPushButton::clicked, this, &BgRmView::onBgCustomImgBtnClicked);
+    connect(m_pBgGeneralImgBtn, &QPushButton::clicked, this, &BgRmView::onBgGeneralImgBtnClicked);
+    connect(m_pBgSceneImgBtn, &QPushButton::clicked, this, &BgRmView::onBgSceneImgBtnClicked);
 }
 
 void BgRmView::firstShow() {
@@ -314,4 +326,19 @@ void BgRmView::onStartAllBtnClicked() {
     //         task.exec(data.file_path, SETTINGS->conversionOutPath(), SETTINGS->conversionOutFormat());
     //     }
     // }
+}
+
+void BgRmView::onBgCustomImgBtnClicked() {
+}
+
+void BgRmView::onBgGeneralImgBtnClicked() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
+    QList<SBgImgData> formatDatas = prst->getBgImgDataDatas(EBgImgType_General);
+    m_pBgImgListView->changeData(formatDatas);
+}
+
+void BgRmView::onBgSceneImgBtnClicked() {
+    BgRmPresenter *prst = dynamic_cast<BgRmPresenter *>(presenter());
+    QList<SBgImgData> formatDatas = prst->getBgImgDataDatas(EBgImgType_Scene);
+    m_pBgImgListView->changeData(formatDatas);
 }

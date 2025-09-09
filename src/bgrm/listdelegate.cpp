@@ -8,12 +8,12 @@
 
 using namespace QtmCore;
 
-BgRmListDelegate::BgRmListDelegate(QObject *parent) :
+BgImgListDelegate::BgImgListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void BgRmListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SBgRmData>();
+void BgImgListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+    auto data = index.data(Qt::UserRole).value<SBgImgData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -24,7 +24,7 @@ void BgRmListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     bool hover = option.state & QStyle::State_MouseOver;
     bool selected_or_hover = selected || hover;
 
-    auto bgRect = rc.adjusted(0, 0, -8, -8);
+    auto bgRect = rc.adjusted(0, 0, 0, 0);
     int radius = 4;
 
     QColor bgColor = QColor("#241f37");
@@ -35,10 +35,8 @@ void BgRmListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    if (!m_bIsListMode) {
-        auto pixmapRect = rc.adjusted(4, 24, -12, -12);
-        Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
-    }
+    auto pixmapRect = rc.adjusted(0, 0, 0, 0);
+    Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
 
     if (hover) {
         QColor borderColor = QColor("#703eff");
@@ -47,77 +45,9 @@ void BgRmListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
         painter->setPen(Qt::NoPen);
     }
-
-    auto checkedRect = QRect(bgRect.x() + 4, bgRect.y() + 4, 16, 16);
-    if (data.is_checked) {
-        QColor checkBgColor = QColor("#a070ff");
-        if(checkedRect.contains(m_CurPos)) {
-            if (hover) {
-                checkBgColor = QColor("#ad84ff");
-            }
-            if (pressed) {
-                checkBgColor = QColor("#bb99ff");
-            }
-        }
-        painter->setBrush(checkBgColor);
-        painter->drawRoundedRect(checkedRect, 2, 2);
-        painter->setBrush(Qt::NoBrush);
-        Painter::paintPixmap(painter, checkedRect, data.checked_icon, 1, 0, true);
-    } else {
-        QColor checkBgColor = QColor("#2f2f36");
-        if(checkedRect.contains(m_CurPos)) {
-            if (hover) {
-                checkBgColor = QColor("#3a3a43");
-            }
-            if (pressed) {
-                checkBgColor = QColor("#464650");
-            }
-        }
-        painter->setBrush(checkBgColor);
-        painter->drawRoundedRect(checkedRect, 2, 2);
-        painter->setBrush(Qt::NoBrush);
-        QColor checkBorderColor = QColor("#575766");
-        QPen pen(checkBorderColor);
-        pen.setWidth(1);
-        painter->setPen(pen);
-        painter->drawRoundedRect(checkedRect, 2, 2);
-        painter->setPen(Qt::NoPen);
-    }
-
-    auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
-    QColor delBgColor = QColor("#fa7681");
-    if(delRect.contains(m_CurPos)) {
-        if (hover) {
-            delBgColor.setAlpha(200);
-        }
-        if (pressed) {
-            delBgColor.setAlpha(100);
-        }
-    }
-    if (hover || pressed) {
-        painter->setBrush(delBgColor);
-        painter->drawRoundedRect(delRect, 8, 8);
-        painter->setBrush(Qt::NoBrush);
-        Painter::paintPixmap(painter, delRect, data.delete_icon, 1, 0, true);
-    }
-
-    auto nameRect = QRect(checkedRect.right() + 8, checkedRect.y(), delRect.x() - checkedRect.right() - 8 - 8, 16);
-    QColor nameColor = QColor("#ffffff");
-    QPen pen(nameColor);
-    painter->setPen(pen);
-    QFont font = painter->font();
-    font.setPixelSize(13);
-    painter->setFont(font);
-    QString fileName = data.file_name;
-    QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
-    }
-    painter->drawText(nameRect, Qt::AlignLeft | Qt::AlignVCenter, fileName);
-    painter->setPen(Qt::NoPen);
 }
 
-bool BgRmListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool BgImgListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -132,18 +62,6 @@ bool BgRmListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize BgRmListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    if(m_bIsListMode) {
-        QWidget *parent = static_cast<QWidget *>(this->parent());
-        return QSize(parent->width() - 10, n_ListItemHeight);
-    }
+QSize BgImgListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     return m_Size;
-}
-
-void BgRmListDelegate::setListMode(bool b) {
-    m_bIsListMode = b;
-}
-
-bool BgRmListDelegate::isListMode() const {
-    return m_bIsListMode;
 }

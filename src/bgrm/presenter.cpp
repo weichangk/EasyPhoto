@@ -21,3 +21,8 @@ QString BgRmPresenter::getSampleImage2Path() {
     BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
     return rep->getSampleImage2Path();
 }
+
+QList<SBgImgData> BgRmPresenter::getBgImgDataDatas(EBgImgType type) {
+    BgRmRepository *rep = dynamic_cast<BgRmRepository *>(repository());
+    return rep->getBgImgDataDatas(type);
+}

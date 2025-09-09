@@ -15,6 +15,8 @@ public:
     QString getSampleImage1Path();
     QString getSampleImage2Path();
 
+    QList<SBgImgData> getBgImgDataDatas(EBgImgType type);
+
 private:
     ImportListPresenter * m_pImportListPresenter = nullptr;
 };

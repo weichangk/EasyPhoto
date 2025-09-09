@@ -62,6 +62,9 @@ Q_SLOTS:
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
     void onStartAllBtnClicked();
+    void onBgCustomImgBtnClicked();
+    void onBgGeneralImgBtnClicked();
+    void onBgSceneImgBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -99,6 +102,9 @@ private:
     QPushButton *m_pBgCustomImgBtn = nullptr;
     QPushButton *m_pBgGeneralImgBtn = nullptr;
     QPushButton *m_pBgSceneImgBtn = nullptr;
+
+    ListView<SBgImgData> *m_pBgImgListView = nullptr;
+    BgImgListDelegate *m_pBgImgListDelegate = nullptr;
 
     QPushButton *m_pStartAllBtn = nullptr;
 };
