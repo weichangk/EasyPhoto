@@ -92,6 +92,7 @@ private:
     IconButton *m_pOpenOutputFolderBtn = nullptr;
 
     QLabel *m_pBgColorLbl = nullptr;
+    IconButton *m_pBgColor0Btn = nullptr;
     IconButton *m_pBgColor1Btn = nullptr;
     IconButton *m_pBgColor2Btn = nullptr;
     IconButton *m_pBgColor3Btn = nullptr;

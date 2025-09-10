@@ -104,33 +104,39 @@ void BgRmView::createUi() {
     m_pBgColorLbl->setObjectName("BgRmView_m_pBgColorLbl");
     rightWidgetLayout->addWidget(m_pBgColorLbl);
 
+    m_pBgColor0Btn = new IconButton(this);
+    m_pBgColor0Btn->setFixedSize(32, 32);
+    m_pBgColor0Btn->setIconSize(32, 32);
+    m_pBgColor0Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_alpha.svg");
+
     m_pBgColor1Btn = new IconButton(this);
-    m_pBgColor1Btn->setFixedSize(24, 24);
-    m_pBgColor1Btn->setIconSize(24, 24);
-    m_pBgColor1Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pBgColor1Btn->setFixedSize(32, 32);
+    m_pBgColor1Btn->setIconSize(32, 32);
+    m_pBgColor1Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_white.svg");
 
     m_pBgColor2Btn = new IconButton(this);
-    m_pBgColor2Btn->setFixedSize(24, 24);
-    m_pBgColor2Btn->setIconSize(24, 24);
-    m_pBgColor2Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pBgColor2Btn->setFixedSize(32, 32);
+    m_pBgColor2Btn->setIconSize(32, 32);
+    m_pBgColor2Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_black.svg");
 
     m_pBgColor3Btn = new IconButton(this);
-    m_pBgColor3Btn->setFixedSize(24, 24);
-    m_pBgColor3Btn->setIconSize(24, 24);
-    m_pBgColor3Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pBgColor3Btn->setFixedSize(32, 32);
+    m_pBgColor3Btn->setIconSize(32, 32);
+    m_pBgColor3Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_grey.svg");
 
     m_pBgColor4Btn = new IconButton(this);
-    m_pBgColor4Btn->setFixedSize(24, 24);
-    m_pBgColor4Btn->setIconSize(24, 24);
-    m_pBgColor4Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pBgColor4Btn->setFixedSize(32, 32);
+    m_pBgColor4Btn->setIconSize(32, 32);
+    m_pBgColor4Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_light blue.svg");
 
     m_pBgColorSelectBtn = new IconButton(this);
-    m_pBgColorSelectBtn->setFixedSize(24, 24);
-    m_pBgColorSelectBtn->setIconSize(24, 24);
-    m_pBgColorSelectBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pBgColorSelectBtn->setFixedSize(32, 32);
+    m_pBgColorSelectBtn->setIconSize(32, 32);
+    m_pBgColorSelectBtn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_gradiet3.png");
 
     auto bgColorBtnLayout = new QHBoxLayout();
     bgColorBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgColorBtnLayout->addWidget(m_pBgColor0Btn);
     bgColorBtnLayout->addWidget(m_pBgColor1Btn);
     bgColorBtnLayout->addWidget(m_pBgColor2Btn);
     bgColorBtnLayout->addWidget(m_pBgColor3Btn);
