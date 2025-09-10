@@ -1,5 +1,5 @@
 #include "compression/listdelegate.h"
-#include "compression/model.h"
+#include "types.h"
 #include "compression/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"

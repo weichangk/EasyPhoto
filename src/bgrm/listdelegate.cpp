@@ -1,5 +1,5 @@
 #include "bgrm/listdelegate.h"
-#include "bgrm/types.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>

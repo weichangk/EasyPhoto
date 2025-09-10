@@ -3,7 +3,7 @@
 #include "task/itaskcallback.h"
 #include "task/taskfactory.h"
 #include "widget/progressdialog.h"
-#include "conversion/model.h"
+#include "types.h"
 
 #include <QObject>
 #include <QVariant>

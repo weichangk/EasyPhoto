@@ -1,6 +1,6 @@
 #pragma once
 #include "globalpresenter.h"
-#include "model.h"
+#include "types.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
 #include "task/asynctask.h"

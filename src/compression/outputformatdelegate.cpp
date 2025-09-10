@@ -1,5 +1,5 @@
 #include "compression/outputformatdelegate.h"
-#include "compression/model.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>

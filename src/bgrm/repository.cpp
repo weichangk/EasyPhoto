@@ -1,7 +1,7 @@
 #include "bgrm/repository.h"
 
 #include <QCoreApplication>
-#include <QDir>"
+#include <QDir>
 
 BgRmRepository::BgRmRepository() {
     m_pImportListRepository = new ImportListRepository();

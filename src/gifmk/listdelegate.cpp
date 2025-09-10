@@ -1,5 +1,5 @@
 #include "gifmk/listdelegate.h"
-#include "gifmk/types.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>

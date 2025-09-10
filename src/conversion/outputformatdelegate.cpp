@@ -1,5 +1,5 @@
 #include "conversion/outputformatdelegate.h"
-#include "conversion/model.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>

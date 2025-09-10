@@ -12,7 +12,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
 

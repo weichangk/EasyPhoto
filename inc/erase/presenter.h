@@ -2,7 +2,7 @@
 #include "globalpresenter.h"
 #include "mvp/repository.h"
 #include "mvp/presenter.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistpresenter.h"
 
 using namespace QtmMvp;

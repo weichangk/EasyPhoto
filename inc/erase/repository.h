@@ -1,7 +1,7 @@
 #pragma once
 #include "globalpresenter.h"
 #include "mvp/repository.h"
-#include "model.h"
+#include "types.h"
 #include "import/importlistrepository.h"
 
 using namespace QtmMvp;

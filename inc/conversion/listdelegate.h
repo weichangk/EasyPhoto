@@ -1,5 +1,5 @@
 #pragma once
-#include "model.h"
+#include "types.h"
 
 #include <QStyledItemDelegate>
 #include <QEvent>

@@ -1,5 +1,5 @@
 #include "conversion/listdelegate.h"
-#include "conversion/model.h"
+#include "types.h"
 #include "conversion/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"

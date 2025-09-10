@@ -11,7 +11,7 @@
 #include "filter/maskwidget.h"
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
-#include "model.h"
+#include "types.h"
 #include "listdelegate.h"
 #include "outputformatdelegate.h"
 

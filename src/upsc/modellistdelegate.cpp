@@ -1,5 +1,5 @@
 #include "upsc/modellistdelegate.h"
-#include "upsc/types.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>
