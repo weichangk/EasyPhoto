@@ -9,7 +9,7 @@ QLabel#UpscView_m_pTitleLbl {
     font-weight: 600;
 }
 
-QLabel#UpscView_m_pChooseModelLbl,
+QLabel#UpscView_m_pSelectModelLbl,
 QLabel#UpscView_m_pUpscaleLbl {
     color: "#ffffff";
     font-size: 16px;

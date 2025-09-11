@@ -12,7 +12,7 @@ public:
     explicit UpscPresenter(IView* view, IRepository *repository);
     ~UpscPresenter();
 
-    QList<SUpscModelData> getModelDatas();
+    QList<SUpscSelectModelData> getSelectModelDatas();
 
     QString getSampleImagePath(EUpscSmapleType type);
 

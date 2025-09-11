@@ -48,15 +48,13 @@ private:
     void loadSampleImage();
     void importSampleImage(EUpscSmapleType type);
     void initOutputFolderCbbItem();
-    void loadModelList();
+    void initSelectModelCbbItem();
+    void initUpscaleCbbItem();
+    void initSaveAsFormatCbbItem();
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
-    void setModelListCurrentIndex(int index);
-    void initUpscaleCbbItem();
-    void upscaleSettingVisible(bool visible);
-    void initCompressionCbbItem();
-    void initSaveAsFormatCbbItem();
+
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -70,8 +68,8 @@ private Q_SLOTS:
     void onImportListCountChange(int count);
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
-    void ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
     void onExportBtnClicked();
+    void onSelectModelCbbCurrentIndex(int index);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -99,23 +97,17 @@ private:
     ImageViewer *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
-    QLabel *m_pChooseModelLbl = nullptr;
-    ListView<SUpscModelData> *m_pModelListView = nullptr;
-    UpscModelListDelegate *m_pModelListDelegate = nullptr;
+    QLabel *m_pSelectModelLbl = nullptr;
+    QComboBox *m_pSelectModelCbb = nullptr;
+
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;
-    ComboBoxFilter *m_pUpscaleCbbFilter = nullptr;
-    QCheckBox *m_pCustomOutputWidthCkb = nullptr;
-    QLineEdit *m_pCustomOutputWidthLdt = nullptr;
-    QLabel *m_pCompressionLbl = nullptr;
-    QComboBox *m_pCompressionCbb = nullptr;
     QLabel *m_pSaveAsFormatLbl = nullptr;
     QComboBox *m_pSaveAsFormatCbb = nullptr;
 
-    QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
 
+    QPushButton *m_pExportBtn = nullptr;
 };

@@ -11,7 +11,7 @@ public:
     explicit UpscRepository();
     ~UpscRepository();
 
-    QList<SUpscModelData> getModelDatas();
+    QList<SUpscSelectModelData> getSelectModelDatas();
 
     QString getSampleImagePath(EUpscSmapleType type);
 
@@ -19,4 +19,5 @@ public:
 
 private:
     ImportListRepository *m_pImportListRepository = nullptr;
+    QList<SUpscSelectModelData> m_pSelectModelDatas;
 };

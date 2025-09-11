@@ -17,9 +17,9 @@ UpscPresenter::UpscPresenter(IView *view, IRepository *repository) :
 UpscPresenter::~UpscPresenter() {
 }
 
-QList<SUpscModelData> UpscPresenter::getModelDatas() {
+QList<SUpscSelectModelData> UpscPresenter::getSelectModelDatas() {
     UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
-    return rep->getModelDatas();
+    return rep->getSelectModelDatas();
 }
 
 QString UpscPresenter::getSampleImagePath(EUpscSmapleType type) {

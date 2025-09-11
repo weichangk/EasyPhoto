@@ -111,81 +111,39 @@ void UpscView::createUi() {
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
-    m_pChooseModelLbl = new QLabel(this);
-    m_pChooseModelLbl->setObjectName("UpscView_m_pChooseModelLbl");
-    m_pChooseModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    m_pSelectModelLbl = new QLabel(this);
+    m_pSelectModelLbl->setObjectName("UpscView_m_pSelectModelLbl");
+    m_pSelectModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    rightWidgetLayout->addWidget(m_pSelectModelLbl);
 
-    m_pModelListView = new ListView<SUpscModelData>(this);
-    m_pModelListView->setFixedHeight(360);
-    m_pModelListView->setSpacing(8);
-    m_pModelListDelegate = new UpscModelListDelegate(m_pModelListView);
-    m_pModelListView->setItemDelegate(m_pModelListDelegate);
-    m_pModelListView->viewport()->installEventFilter(m_pModelListDelegate);
+    //
+    m_pSelectModelCbb = new QComboBox(this);
+    m_pSelectModelCbb->setFixedHeight(32);
+    rightWidgetLayout->addWidget(m_pSelectModelCbb);
 
-    auto settingWidget = new QWidget(this);
-    auto settingLWidget = new QWidget(this);
-    auto settingRWidget = new QWidget(this);
-    auto settingWidgetLayout = new QHBoxLayout(settingWidget);
-    settingWidgetLayout->setContentsMargins(8, 8, 20, 0);
-    settingWidgetLayout->setSpacing(8);
-    settingWidgetLayout->addWidget(settingLWidget, 1);
-    settingWidgetLayout->addWidget(settingRWidget, 1);
-
-    auto settingLWidgetLayout = new QVBoxLayout(settingLWidget);
-    settingLWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    settingLWidgetLayout->setSpacing(0);
-
-    auto settingRWidgetLayout = new QVBoxLayout(settingRWidget);
-    settingRWidgetLayout->setContentsMargins(0, 0, 0, 0);
-    settingRWidgetLayout->setSpacing(0);
-
+    //
     m_pUpscaleLbl = new QLabel(this);
     m_pUpscaleLbl->setObjectName("UpscView_m_pUpscaleLbl");
     m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    rightWidgetLayout->addWidget(m_pUpscaleLbl);
+
+    //
     m_pUpscaleCbb = new QComboBox(this);
     m_pUpscaleCbb->setFixedHeight(32);
-    m_pUpscaleCbbFilter = new ComboBoxFilter(m_pUpscaleCbb);
-    m_pUpscaleCbb->installEventFilter(m_pUpscaleCbbFilter);
+    rightWidgetLayout->addWidget(m_pUpscaleCbb);
 
-    settingLWidgetLayout->addWidget(m_pUpscaleLbl);
-    settingLWidgetLayout->addSpacing(4);
-    settingLWidgetLayout->addWidget(m_pUpscaleCbb);
-
-    m_pCustomOutputWidthCkb = new QCheckBox(this);
-    m_pCustomOutputWidthLdt = new QLineEdit(this);
-    settingRWidgetLayout->addWidget(m_pCustomOutputWidthCkb);
-    settingRWidgetLayout->addSpacing(4);
-    settingRWidgetLayout->addWidget(m_pCustomOutputWidthLdt);
-
-    m_pCompressionLbl = new QLabel(this);
-    m_pCompressionCbb = new QComboBox(this);
-    settingLWidgetLayout->addSpacing(8);
-    settingLWidgetLayout->addWidget(m_pCompressionLbl);
-    settingLWidgetLayout->addSpacing(4);
-    settingLWidgetLayout->addWidget(m_pCompressionCbb);
-
+    //
     m_pSaveAsFormatLbl = new QLabel(this);
+    rightWidgetLayout->addWidget(m_pSaveAsFormatLbl);
     m_pSaveAsFormatCbb = new QComboBox(this);
-    settingRWidgetLayout->addSpacing(8);
-    settingRWidgetLayout->addWidget(m_pSaveAsFormatLbl);
-    settingRWidgetLayout->addSpacing(4);
-    settingRWidgetLayout->addWidget(m_pSaveAsFormatCbb);
+    rightWidgetLayout->addWidget(m_pSaveAsFormatCbb);
 
-    settingLWidgetLayout->addStretch();
-    settingRWidgetLayout->addStretch();
-
-    m_pExportBtn = new QPushButton(this);
-    m_pExportBtn->setObjectName("UpscView_m_pExportBtn");
-    m_pExportBtn->setFixedHeight(32);
-
+    //
     m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("UpscView_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
-
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
@@ -201,12 +159,16 @@ void UpscView::createUi() {
     outputFolderLayout->addStretch();
     outputFolderLayout->addWidget(m_pOpenOutputFolderBtn);
 
-    rightWidgetLayout->addWidget(m_pChooseModelLbl);
-    rightWidgetLayout->addWidget(m_pModelListView);
-    rightWidgetLayout->addWidget(settingWidget);
-    rightWidgetLayout->addStretch();
-    rightWidgetLayout->addWidget(m_pExportBtn);
     rightWidgetLayout->addLayout(outputFolderLayout);
+
+    //
+    rightWidgetLayout->addStretch();
+
+    //
+    m_pExportBtn = new QPushButton(this);
+    m_pExportBtn->setObjectName("UpscView_m_pExportBtn");
+    m_pExportBtn->setFixedHeight(32);
+    rightWidgetLayout->addWidget(m_pExportBtn);
 
     //
     m_pStackedLayout = new QStackedLayout();
@@ -237,8 +199,8 @@ void UpscView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &UpscView::onImportListCountChange);
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &UpscView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &UpscView::onGuideImportFile);
-    connect(m_pModelListView, &AbstractListView::sigCurrentChanged, this, &UpscView::ondModelListViewCurrentChanged);
     connect(m_pExportBtn, &QPushButton::clicked, this, &UpscView::onExportBtnClicked);
+    connect(m_pSelectModelCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UpscView::onSelectModelCbbCurrentIndex);
 }
 
 void UpscView::firstShow() {
@@ -246,10 +208,9 @@ void UpscView::firstShow() {
     if(firstShow) {
         firstShow = false;
         loadSampleImage();
+        initSelectModelCbbItem();
         initOutputFolderCbbItem();
-        loadModelList();
         initUpscaleCbbItem();
-        initCompressionCbbItem();
         initSaveAsFormatCbbItem();
     }
 }
@@ -276,10 +237,30 @@ void UpscView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->upscOutPath());
 }
 
-void UpscView::loadModelList() {
+void UpscView::initSelectModelCbbItem() {
+    m_pSelectModelCbb->clear();
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    m_pModelListView->changeData(prst->getModelDatas());
-    setModelListCurrentIndex(0);
+    for(const SUpscSelectModelData &data : prst->getSelectModelDatas()) {
+        m_pSelectModelCbb->addItem(data.name);
+    }
+}
+
+void UpscView::initUpscaleCbbItem() {
+    QStringList texts;
+    texts.append("1x");
+    texts.append("2x");
+    texts.append("4x");
+    texts.append("8x");
+    m_pUpscaleCbb->addItems(texts);
+}
+
+void UpscView::initSaveAsFormatCbbItem() {
+    QStringList texts;
+    texts.append("png");
+    texts.append("jpg");
+    texts.append("jpeg");
+    texts.append("webp");
+    m_pSaveAsFormatCbb->addItems(texts);
 }
 
 void UpscView::gotoImportGuide() {
@@ -294,57 +275,11 @@ void UpscView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
 }
 
-void UpscView::setModelListCurrentIndex(int index) {
-    QModelIndex modelIndex = m_pModelListView->model()->index(index, 0);
-    m_pModelListView->setCurrentIndex(modelIndex);
-}
-
-void UpscView::initUpscaleCbbItem() {
-    QStringList texts;
-    texts.append("1x");
-    texts.append("2x");
-    texts.append("4x");
-    texts.append("8x");
-    m_pUpscaleCbb->addItems(texts);
-}
-
-void UpscView::upscaleSettingVisible(bool visible) {
-    m_pUpscaleLbl->setVisible(visible);
-    m_pUpscaleCbb->setVisible(visible);
-}
-
-void UpscView::initCompressionCbbItem() {
-    QStringList texts;
-    texts.append("0%");
-    texts.append("10%");
-    texts.append("20%");
-    texts.append("30%");
-    texts.append("40%");
-    texts.append("50%");
-    texts.append("60%");
-    texts.append("70%");
-    texts.append("80%");
-    texts.append("90%");
-    texts.append("100%");
-    m_pCompressionCbb->addItems(texts);
-}
-
-void UpscView::initSaveAsFormatCbbItem() {
-    QStringList texts;
-    texts.append("png");
-    texts.append("jpg");
-    texts.append("jpeg");
-    texts.append("webp");
-    m_pSaveAsFormatCbb->addItems(texts);
-}
-
 void UpscView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
-    m_pChooseModelLbl->setText(tr("Choose AI Model"));
+    m_pSelectModelLbl->setText(tr("Select AI Model"));
     m_pUpscaleLbl->setText(tr("Upscaler Setting"));
-    m_pCustomOutputWidthCkb->setText(tr("Custom width"));
-    m_pCompressionLbl->setText(tr("Compression"));
     m_pSaveAsFormatLbl->setText(tr("Save as format"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
@@ -395,12 +330,10 @@ void UpscView::onGuideImportFile(const QStringList &filePaths) {
     m_pImportListView->importFile(filePaths);
 }
 
-void UpscView::ondModelListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
-    auto data = current.data(Qt::UserRole).value<SUpscModelData>();
-    upscaleSettingVisible(data.id == 5);
-}
-
 void UpscView::onExportBtnClicked() {
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     prst->Upsc();
+}
+
+void UpscView::onSelectModelCbbCurrentIndex(int index) {
 }

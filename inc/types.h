@@ -162,3 +162,13 @@ enum EUpscSmapleType {
     EUpscSmapleType_Ultrasharp,
     EUpscSmapleType_Digital,
 };
+
+struct SUpscSelectModelData {
+    int id;
+    EUpscSmapleType type;
+    QString name;
+    QString desc;
+    QPixmap beforeThumb;
+    QPixmap afterThumb;
+};
+Q_DECLARE_METATYPE(SUpscSelectModelData)

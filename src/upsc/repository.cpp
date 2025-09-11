@@ -9,46 +9,70 @@ UpscRepository::UpscRepository() {
 UpscRepository::~UpscRepository() {
 }
 
-QList<SUpscModelData> UpscRepository::getModelDatas() {
+QList<SUpscSelectModelData> UpscRepository::getSelectModelDatas() {
+    if(!m_pSelectModelDatas.isEmpty()) {
+        return m_pSelectModelDatas;
+    }
     QString execDir = QCoreApplication::applicationDirPath();
-    return {
-        SUpscModelData{
+    m_pSelectModelDatas =  {
+        SUpscSelectModelData{
             0,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Standard,
+            "Upscayl Standard",
+            "Suitable for most images.",
+            QPixmap(QString("%1/res/upsc/model-comparison/upscayl-standard-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/upscayl-standard-4x/after.webp").arg(execDir)),
         },
-        SUpscModelData{
+        SUpscSelectModelData{
             1,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Lite,
+            "Upscayl Life",
+            "Suitable for most images. High-speed upscaling with minimal quality loss.",
+            QPixmap(QString("%1/res/upsc/model-comparison/upscayl-lite-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/upscayl-lite-4x/after.webp").arg(execDir)),
         },
-        SUpscModelData{
+        SUpscSelectModelData{
             2,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Fidelity,
+            "High Fidelity",
+            "For all Kinds of images with a focus on realistic details and smooth textures.",
+            QPixmap(QString("%1/res/upsc/model-comparison/high-fidelity-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/high-fidelity-4x/after.webp").arg(execDir)),
         },
-        SUpscModelData{
+        SUpscSelectModelData{
             3,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Remacri,
+            "Remacri(Non-Commercial)",
+            "For natural images. Added sharpness and detail. No commercial use.",
+            QPixmap(QString("%1/res/upsc/model-comparison/remacri-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/remacri-4x/after.webp").arg(execDir)),
         },
-        SUpscModelData{
+        SUpscSelectModelData{
             4,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Ultramix,
+            "Ultramix(Non-Commercial)",
+            "For natural images with a balance of sharpness and detail.",
+            QPixmap(QString("%1/res/upsc/model-comparison/ultramix-balanced-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/ultramix-balanced-4x/after.webp").arg(execDir)),
         },
-        SUpscModelData{
+        SUpscSelectModelData{
             5,
-            "sample1",
-            QString("%1/sample1.webp").arg(execDir),
-            QPixmap(QString("%1/sample1.webp").arg(execDir)),
+            EUpscSmapleType_Ultrasharp,
+            "Ultrasharp(Non-Commercial)",
+            "For natural images with a focus on sharpness.",
+            QPixmap(QString("%1/res/upsc/model-comparison/ultrasharp-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/ultrasharp-4x/after.webp").arg(execDir)),
+        },
+        SUpscSelectModelData{
+            6,
+            EUpscSmapleType_Digital,
+            "Digital Art",
+            "For digital art and illustrations.",
+            QPixmap(QString("%1/res/upsc/model-comparison/digital-art-4x/before.webp").arg(execDir)),
+            QPixmap(QString("%1/res/upsc/model-comparison/digital-art-4x/after.webp").arg(execDir)),
         },
     };
+    return m_pSelectModelDatas;
 }
 
 QString UpscRepository::getSampleImagePath(EUpscSmapleType type) {
