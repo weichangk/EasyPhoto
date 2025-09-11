@@ -15,6 +15,7 @@
 #include "types.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
+#include "listdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -81,9 +82,24 @@ private:
     ImageViewer *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
+    QLabel *m_pCropSizeLbl = nullptr;
+    ListView<SCropScaleData> *m_pCropScaleListView = nullptr;
+    ScalelListDelegate *m_pScalelListDelegate = nullptr;
+    IconButton *m_pLockScaleBtn = nullptr;
+    QLineEdit *m_pPixelsWidthLdt = nullptr;
+    QLineEdit *m_pPixelsHeightLdt = nullptr;
+
+    QLabel *m_pRotateAndFlipLbl = nullptr;
+    IconButton *m_pRotateRight90Btn = nullptr;
+    IconButton *m_pRotateLeft90Btn = nullptr;
+    IconButton *m_pFlipHorBtn = nullptr;
+    IconButton *m_pFlipVErBtn = nullptr;
+
+    QCheckBox *m_pApplySameCkb = nullptr;
+    IconButton *m_pResetBtn = nullptr;
+
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;
-    ComboBoxFilter *m_pOutputFolderCbbFilter = nullptr;
     IconButton *m_pOpenOutputFolderBtn = nullptr;
 };

@@ -80,7 +80,7 @@ void CropView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(320);
+    m_pRightWidget->setFixedWidth(270);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
     rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
     rightWidgetLayout->setSpacing(0);
@@ -95,6 +95,95 @@ void CropView::createUi() {
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
+    m_pCropSizeLbl = new QLabel(this);
+    m_pCropSizeLbl->setObjectName("CropView_m_pCropSizeLbl");
+    rightWidgetLayout->addWidget(m_pCropSizeLbl);
+
+    //
+    m_pCropScaleListView = new ListView<SCropScaleData>(this);
+    m_pCropScaleListView->setSpacing(0);
+    m_pScalelListDelegate = new ScalelListDelegate(m_pCropScaleListView);
+    m_pCropScaleListView->setItemDelegate(m_pScalelListDelegate);
+    m_pCropScaleListView->viewport()->installEventFilter(m_pScalelListDelegate);
+    rightWidgetLayout->addWidget(m_pCropScaleListView);
+    // m_pCropScaleListView->changeData(formatDatas);
+
+    //
+    m_pPixelsWidthLdt = new QLineEdit(this);
+    m_pPixelsWidthLdt->setFixedSize(72, 24);
+    m_pLockScaleBtn = new IconButton(this);
+    m_pLockScaleBtn->setFixedSize(24, 24);
+    m_pLockScaleBtn->setIconSize(24, 24);
+    m_pLockScaleBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pPixelsHeightLdt = new QLineEdit(this);
+    m_pPixelsHeightLdt->setFixedSize(72, 24);
+
+    auto pixelsLayout = new QHBoxLayout();
+    pixelsLayout->setContentsMargins(0, 0, 0, 0);
+    pixelsLayout->addWidget(m_pPixelsWidthLdt);
+    pixelsLayout->addStretch();
+    pixelsLayout->addWidget(m_pLockScaleBtn);
+    pixelsLayout->addStretch();
+    pixelsLayout->addWidget(m_pPixelsHeightLdt);
+    rightWidgetLayout->addLayout(pixelsLayout);
+
+    //
+    rightWidgetLayout->addSpacing(16);
+
+    //
+    m_pRotateAndFlipLbl = new QLabel(this);
+    m_pRotateAndFlipLbl->setObjectName("CropView_m_pRotateAndFlipLbl");
+    rightWidgetLayout->addWidget(m_pRotateAndFlipLbl);
+
+    //
+    m_pRotateRight90Btn = new IconButton(this);
+    m_pRotateRight90Btn->setFixedSize(24, 24);
+    m_pRotateRight90Btn->setIconSize(24, 24);
+    m_pRotateRight90Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pRotateLeft90Btn = new IconButton(this);
+    m_pRotateLeft90Btn->setFixedSize(24, 24);
+    m_pRotateLeft90Btn->setIconSize(24, 24);
+    m_pRotateLeft90Btn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pFlipHorBtn = new IconButton(this);
+    m_pFlipHorBtn->setFixedSize(24, 24);
+    m_pFlipHorBtn->setIconSize(24, 24);
+    m_pFlipHorBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pFlipVErBtn = new IconButton(this);
+    m_pFlipVErBtn->setFixedSize(24, 24);
+    m_pFlipVErBtn->setIconSize(24, 24);
+    m_pFlipVErBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    auto rotateBtnLayout = new QHBoxLayout();
+    rotateBtnLayout->setContentsMargins(0, 0, 0, 0);
+    rotateBtnLayout->addWidget(m_pRotateRight90Btn);
+    rotateBtnLayout->addWidget(m_pRotateLeft90Btn);
+    rotateBtnLayout->addWidget(m_pFlipHorBtn);
+    rotateBtnLayout->addWidget(m_pFlipVErBtn);
+    rightWidgetLayout->addLayout(rotateBtnLayout);
+
+    //
+    rightWidgetLayout->addSpacing(16);
+
+    //
+    m_pApplySameCkb = new QCheckBox(this);
+
+    //
+    m_pResetBtn = new IconButton(this);
+    m_pResetBtn->setFixedSize(24, 24);
+    m_pResetBtn->setIconSize(24, 24);
+    m_pResetBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    //
+    auto applySameLayout = new QHBoxLayout();
+    applySameLayout->setContentsMargins(0, 0, 0, 0);
+    applySameLayout->addWidget(m_pApplySameCkb);
+    applySameLayout->addStretch();
+    applySameLayout->addWidget(m_pResetBtn);
+    rightWidgetLayout->addLayout(applySameLayout);
+
+    //
+    rightWidgetLayout->addStretch();
+
+    //
     m_pExportBtn = new QPushButton(this);
     m_pExportBtn->setObjectName("CropView_m_pExportBtn");
     m_pExportBtn->setFixedHeight(32);
@@ -104,9 +193,6 @@ void CropView::createUi() {
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedSize(240, 24);
-
-    m_pOutputFolderCbbFilter = new ComboBoxFilter(m_pOutputFolderCbb);
-    m_pOutputFolderCbb->installEventFilter(m_pOutputFolderCbbFilter);
 
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
@@ -122,7 +208,6 @@ void CropView::createUi() {
     outputFolderLayout->addStretch();
     outputFolderLayout->addWidget(m_pOpenOutputFolderBtn);
 
-    rightWidgetLayout->addStretch();
     rightWidgetLayout->addWidget(m_pExportBtn);
     rightWidgetLayout->addLayout(outputFolderLayout);
 
@@ -199,6 +284,9 @@ void CropView::imageViewerLoad(const QString &filePath) {
 
 void CropView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Image Cropper"));
+    m_pCropSizeLbl->setText(tr("Crop Size"));
+    m_pRotateAndFlipLbl->setText(tr("Rotate and Flip"));
+    m_pApplySameCkb->setText(tr("Apply same to all images"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));

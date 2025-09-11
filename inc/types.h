@@ -133,3 +133,22 @@ struct SUpscModelData {
     QPixmap thumbnail = QPixmap();
 };
 Q_DECLARE_METATYPE(SUpscModelData)
+
+
+enum ECropScaleType {
+    ECropScaleType_Original = 0,
+    ECropScaleType_Custom,
+    ECropScaleType_1_1,
+    ECropScaleType_16_9,
+    ECropScaleType_9_16,
+    ECropScaleType_4_3,
+    ECropScaleType_3_2,
+    ECropScaleType_2_3,
+};
+
+struct SCropScaleData {
+    ECropScaleType type = ECropScaleType_Original;
+    QString name = "Original";
+    QPixmap thumbnail = QPixmap();
+};
+Q_DECLARE_METATYPE(SCropScaleData)
