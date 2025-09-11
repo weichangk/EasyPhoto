@@ -152,3 +152,13 @@ struct SCropScaleData {
     QPixmap thumbnail = QPixmap();
 };
 Q_DECLARE_METATYPE(SCropScaleData)
+
+enum EUpscSmapleType {
+    EUpscSmapleType_Standard = 0,
+    EUpscSmapleType_Lite,
+    EUpscSmapleType_Fidelity,
+    EUpscSmapleType_Remacri,
+    EUpscSmapleType_Ultramix,
+    EUpscSmapleType_Ultrasharp,
+    EUpscSmapleType_Digital,
+};

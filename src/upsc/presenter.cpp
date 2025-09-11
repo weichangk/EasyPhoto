@@ -22,14 +22,9 @@ QList<SUpscModelData> UpscPresenter::getModelDatas() {
     return rep->getModelDatas();
 }
 
-QString UpscPresenter::getSampleImage1Path() {
+QString UpscPresenter::getSampleImagePath(EUpscSmapleType type) {
     UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
-    return rep->getSampleImage1Path();
-}
-
-QString UpscPresenter::getSampleImage2Path() {
-    UpscRepository *rep = dynamic_cast<UpscRepository *>(repository());
-    return rep->getSampleImage2Path();
+    return rep->getSampleImagePath(type);
 }
 
 void UpscPresenter::Upsc() {

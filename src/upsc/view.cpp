@@ -40,7 +40,7 @@ void UpscView::createUi() {
     m_pImportGuide = new ImportGuide(this);
 
     m_pSmapleWidget = new QWidget(this);
-    m_pSmapleWidget->setFixedHeight(100);
+    m_pSmapleWidget->setFixedHeight(134);
     auto smapleWidgetLayout = new QVBoxLayout(m_pSmapleWidget);
     smapleWidgetLayout->setContentsMargins(0, 0, 0, 0);
     smapleWidgetLayout->setSpacing(0);
@@ -48,24 +48,40 @@ void UpscView::createUi() {
     m_pSmapleTitleLbl = new QLabel(this);
     m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
 
-    m_pSmaple1ImageLbl = new ClickableLabel(this);
-    m_pSmaple1ImageLbl->setFixedSize(128, 72);
-    m_pSmaple2ImageLbl = new ClickableLabel(this);
-    m_pSmaple2ImageLbl->setFixedSize(128, 72);
+    m_pStandardSmapleImageLbl = new ClickableLabel(this);
+    m_pStandardSmapleImageLbl->setFixedSize(100, 100);
+    m_pStandardSmapleImageLbl = new ClickableLabel(this);
+    m_pStandardSmapleImageLbl->setFixedSize(100, 100);
+    m_pLiteSmapleImageLbl = new ClickableLabel(this);
+    m_pLiteSmapleImageLbl->setFixedSize(100, 100);
+    m_pFidelitySmapleImageLbl = new ClickableLabel(this);
+    m_pFidelitySmapleImageLbl->setFixedSize(100, 100);
+    m_pRemacriSmapleImageLbl = new ClickableLabel(this);
+    m_pRemacriSmapleImageLbl->setFixedSize(100, 100);
+    m_pUltramixSmapleImageLbl = new ClickableLabel(this);
+    m_pUltramixSmapleImageLbl->setFixedSize(100, 100);
+    m_pUltrasharpSmapleImageLbl = new ClickableLabel(this);
+    m_pUltrasharpSmapleImageLbl->setFixedSize(100, 100);
+    m_pDigitalSmapleImageLbl = new ClickableLabel(this);
+    m_pDigitalSmapleImageLbl->setFixedSize(100, 100);
 
     auto sampleImageLayout = new QHBoxLayout();
     sampleImageLayout->setContentsMargins(0, 0, 0, 0);
     sampleImageLayout->setSpacing(14);
     sampleImageLayout->addStretch();
-    sampleImageLayout->addWidget(m_pSmaple1ImageLbl);
-    sampleImageLayout->addWidget(m_pSmaple2ImageLbl);
+    sampleImageLayout->addWidget(m_pStandardSmapleImageLbl);
+    sampleImageLayout->addWidget(m_pLiteSmapleImageLbl);
+    sampleImageLayout->addWidget(m_pFidelitySmapleImageLbl);
+    sampleImageLayout->addWidget(m_pRemacriSmapleImageLbl);
+    sampleImageLayout->addWidget(m_pUltramixSmapleImageLbl);
+    sampleImageLayout->addWidget(m_pUltrasharpSmapleImageLbl);
+    sampleImageLayout->addWidget(m_pDigitalSmapleImageLbl);
     sampleImageLayout->addStretch();
 
     smapleWidgetLayout->addWidget(m_pSmapleTitleLbl);
     smapleWidgetLayout->addLayout(sampleImageLayout);
 
     importGuideLayout->addWidget(m_pImportGuide, 1);
-    importGuideLayout->addSpacing(14);
     importGuideLayout->addWidget(m_pSmapleWidget);
 
     //
@@ -211,8 +227,13 @@ void UpscView::createUi() {
 
 void UpscView::connectSig() {
     connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &UpscView::onLanguageChange);
-    connect(m_pSmaple1ImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onSmaple1ImageLblClicked);
-    connect(m_pSmaple2ImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onSmaple2ImageLblClicked);
+    connect(m_pStandardSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onStandardSmapleImageLblClicked);
+    connect(m_pLiteSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onLiteSmapleImageLblClicked);
+    connect(m_pFidelitySmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onFidelitySmapleImageLblClicked);
+    connect(m_pRemacriSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onRemacriSmapleImageLblClicked);
+    connect(m_pUltramixSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onUltramixSmapleImageLblClicked);
+    connect(m_pUltrasharpSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onUltrasharpSmapleImageLblClicked);
+    connect(m_pDigitalSmapleImageLbl, &ClickableLabel::sigClicked, this, &UpscView::onDigitalSmapleImageLblClicked);
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &UpscView::onImportListCountChange);
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &UpscView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &UpscView::onGuideImportFile);
@@ -235,21 +256,19 @@ void UpscView::firstShow() {
 
 void UpscView::loadSampleImage() {
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    m_pSmaple1ImageLbl->setPixmap(QPixmap(prst->getSampleImage1Path()).scaled(m_pSmaple1ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pSmaple2ImageLbl->setPixmap(QPixmap(prst->getSampleImage2Path()).scaled(m_pSmaple2ImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pStandardSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Standard)).scaled(m_pStandardSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pLiteSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Lite)).scaled(m_pLiteSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pFidelitySmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Fidelity)).scaled(m_pFidelitySmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pRemacriSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Remacri)).scaled(m_pRemacriSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pUltramixSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Ultramix)).scaled(m_pUltramixSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pUltrasharpSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Ultrasharp)).scaled(m_pUltrasharpSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pDigitalSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Digital)).scaled(m_pDigitalSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void UpscView::importSampleImage1() {
+void UpscView::importSampleImage(EUpscSmapleType type) {
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     QStringList paths;
-    paths.append(prst->getSampleImage1Path());
-    m_pImportListView->importFile(paths);
-}
-
-void UpscView::importSampleImage2() {
-    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    QStringList paths;
-    paths.append(prst->getSampleImage2Path());
+    paths.append(prst->getSampleImagePath(type));
     m_pImportListView->importFile(paths);
 }
 
@@ -331,12 +350,32 @@ void UpscView::onLanguageChange() {
     m_pExportBtn->setText(tr("Export"));
 }
 
-void UpscView::onSmaple1ImageLblClicked() {
-    importSampleImage1();
+void UpscView::onStandardSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Standard);
 }
 
-void UpscView::onSmaple2ImageLblClicked() {
-    importSampleImage2();
+void UpscView::onLiteSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Lite);
+}
+
+void UpscView::onFidelitySmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Fidelity);
+}
+
+void UpscView::onRemacriSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Remacri);
+}
+
+void UpscView::onUltramixSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Ultramix);
+}
+
+void UpscView::onUltrasharpSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Ultrasharp);
+}
+
+void UpscView::onDigitalSmapleImageLblClicked() {
+    importSampleImage(EUpscSmapleType_Digital);
 }
 
 void UpscView::onImportListCountChange(int count) {

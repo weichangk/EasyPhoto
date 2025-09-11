@@ -46,8 +46,7 @@ private:
     void connectSig();
     void firstShow();
     void loadSampleImage();
-    void importSampleImage1();
-    void importSampleImage2();
+    void importSampleImage(EUpscSmapleType type);
     void initOutputFolderCbbItem();
     void loadModelList();
     void gotoImportGuide();
@@ -61,8 +60,13 @@ private:
 
 private Q_SLOTS:
     void onLanguageChange();
-    void onSmaple1ImageLblClicked();
-    void onSmaple2ImageLblClicked();
+    void onStandardSmapleImageLblClicked();
+    void onLiteSmapleImageLblClicked();
+    void onFidelitySmapleImageLblClicked();
+    void onRemacriSmapleImageLblClicked();
+    void onUltramixSmapleImageLblClicked();
+    void onUltrasharpSmapleImageLblClicked();
+    void onDigitalSmapleImageLblClicked();
     void onImportListCountChange(int count);
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
@@ -80,8 +84,13 @@ private:
     ImportGuide *m_pImportGuide = nullptr;
     QWidget *m_pSmapleWidget = nullptr;
     QLabel *m_pSmapleTitleLbl = nullptr;
-    ClickableLabel *m_pSmaple1ImageLbl = nullptr;
-    ClickableLabel *m_pSmaple2ImageLbl = nullptr;
+    ClickableLabel *m_pStandardSmapleImageLbl = nullptr;
+    ClickableLabel *m_pLiteSmapleImageLbl = nullptr;
+    ClickableLabel *m_pFidelitySmapleImageLbl = nullptr;
+    ClickableLabel *m_pRemacriSmapleImageLbl = nullptr;
+    ClickableLabel *m_pUltramixSmapleImageLbl = nullptr;
+    ClickableLabel *m_pUltrasharpSmapleImageLbl = nullptr;
+    ClickableLabel *m_pDigitalSmapleImageLbl = nullptr;
 
     QWidget *m_pWorkspaceWidget = nullptr;
     QWidget *m_pLeftWidget = nullptr;
