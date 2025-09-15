@@ -16,6 +16,7 @@
 #include "modellistdelegate.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
+#include "modelcard.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -99,6 +100,7 @@ private:
 
     QLabel *m_pSelectModelLbl = nullptr;
     QComboBox *m_pSelectModelCbb = nullptr;
+    ModelCard *m_pModelCard = nullptr;
 
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;

@@ -122,6 +122,11 @@ void UpscView::createUi() {
     rightWidgetLayout->addWidget(m_pSelectModelCbb);
 
     //
+    m_pModelCard = new ModelCard(this);
+    m_pModelCard->setFixedHeight(300);
+    rightWidgetLayout->addWidget(m_pModelCard);
+
+    //
     m_pUpscaleLbl = new QLabel(this);
     m_pUpscaleLbl->setObjectName("UpscView_m_pUpscaleLbl");
     m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
@@ -231,6 +236,7 @@ void UpscView::importSampleImage(EUpscSmapleType type) {
     QStringList paths;
     paths.append(prst->getSampleImagePath(type));
     m_pImportListView->importFile(paths);
+    m_pSelectModelCbb->setCurrentIndex(type);
 }
 
 void UpscView::initOutputFolderCbbItem() {
@@ -336,4 +342,14 @@ void UpscView::onExportBtnClicked() {
 }
 
 void UpscView::onSelectModelCbbCurrentIndex(int index) {
+    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
+    auto modelDatas = prst->getSelectModelDatas();
+    auto it = std::find_if(modelDatas.begin(), modelDatas.end(),
+                           [index](const SUpscSelectModelData &data) {
+                               return static_cast<int>(data.type) == index;
+                           });
+    if (it == modelDatas.end())
+        return;
+    const SUpscSelectModelData &model = *it;
+    m_pModelCard->setInfo(model.name, model.desc, model.beforeThumb, model.afterThumb);
 }
