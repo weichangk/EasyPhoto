@@ -102,8 +102,12 @@ private:
     QComboBox *m_pSelectModelCbb = nullptr;
     ModelCard *m_pModelCard = nullptr;
 
+    QCheckBox *m_pDoubleUpscaleCkb = nullptr;
+    IconButton *m_pDoubleUpscaleTipBtn = nullptr;
+
     QLabel *m_pUpscaleLbl = nullptr;
     QComboBox *m_pUpscaleCbb = nullptr;
+
     QLabel *m_pSaveAsFormatLbl = nullptr;
     QComboBox *m_pSaveAsFormatCbb = nullptr;
 

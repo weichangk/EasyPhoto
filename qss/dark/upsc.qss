@@ -10,10 +10,11 @@ QLabel#UpscView_m_pTitleLbl {
 }
 
 QLabel#UpscView_m_pSelectModelLbl,
-QLabel#UpscView_m_pUpscaleLbl {
+QLabel#UpscView_m_pUpscaleLbl,
+QLabel#UpscView_m_pSaveAsFormatLbl,
+QLabel#UpscView_m_pOutputFolderLbl {
     color: "#ffffff";
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 13px;
 }
 
 QPushButton#UpscView_m_pExportBtn {
@@ -31,7 +32,25 @@ QPushButton#UpscView_m_pExportBtn:pressed {
     background-color: "#bb99ff";
 }
 
-QLabel#UpscView_m_pOutputFolderLbl {
+QWidget#UpscModelCard {
+    background-color: "#202031";
+    border-radius: 10px;
+}
+
+QLabel#UpscModelCard_m_pNameLbl {
     color: "#ffffff";
     font-size: 13px;
+}
+
+QLabel#UpscModelCard_m_pDescLbl {
+    color: "#8c909b";
+    font-size: 13px;
+}
+
+QLabel#UpscModelCard_m_pBeforeLbl,
+QLabel#UpscModelCard_m_pAfterLbl {
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    color: "#ffffff";
+    font-size: 12px;
 }

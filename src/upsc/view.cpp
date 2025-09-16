@@ -96,9 +96,9 @@ void UpscView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(320);
+    m_pRightWidget->setFixedWidth(240 + 24 + 1);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    rightWidgetLayout->setContentsMargins(12, 12, 12, 24);
     rightWidgetLayout->setSpacing(0);
 
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
@@ -115,56 +115,91 @@ void UpscView::createUi() {
     m_pSelectModelLbl->setObjectName("UpscView_m_pSelectModelLbl");
     m_pSelectModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     rightWidgetLayout->addWidget(m_pSelectModelLbl);
+    rightWidgetLayout->addSpacing(4);
 
     //
     m_pSelectModelCbb = new QComboBox(this);
-    m_pSelectModelCbb->setFixedHeight(32);
+    m_pSelectModelCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pSelectModelCbb);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pModelCard = new ModelCard(this);
-    m_pModelCard->setFixedHeight(300);
     rightWidgetLayout->addWidget(m_pModelCard);
+    rightWidgetLayout->addSpacing(12);
+
+    //
+    m_pDoubleUpscaleCkb = new QCheckBox(this);
+
+    //
+    m_pDoubleUpscaleTipBtn = new IconButton(this);
+    m_pDoubleUpscaleTipBtn->setFixedSize(24, 24);
+    m_pDoubleUpscaleTipBtn->setIconSize(24, 24);
+    m_pDoubleUpscaleTipBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+
+    //
+    auto doubleUpscaleLayout = new QHBoxLayout();
+    doubleUpscaleLayout->setContentsMargins(0, 0, 0, 0);
+    doubleUpscaleLayout->setSpacing(6);
+    doubleUpscaleLayout->addWidget(m_pDoubleUpscaleCkb);
+    doubleUpscaleLayout->addWidget(m_pDoubleUpscaleTipBtn);
+    doubleUpscaleLayout->addStretch();
+
+    //
+    rightWidgetLayout->addLayout(doubleUpscaleLayout);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pUpscaleLbl = new QLabel(this);
     m_pUpscaleLbl->setObjectName("UpscView_m_pUpscaleLbl");
     m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     rightWidgetLayout->addWidget(m_pUpscaleLbl);
+    rightWidgetLayout->addSpacing(4);
 
     //
     m_pUpscaleCbb = new QComboBox(this);
-    m_pUpscaleCbb->setFixedHeight(32);
+    m_pUpscaleCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pUpscaleCbb);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pSaveAsFormatLbl = new QLabel(this);
+    m_pSaveAsFormatLbl->setObjectName("UpscView_m_pSaveAsFormatLbl");
     rightWidgetLayout->addWidget(m_pSaveAsFormatLbl);
+    rightWidgetLayout->addSpacing(4);
+
+    //
     m_pSaveAsFormatCbb = new QComboBox(this);
+    m_pSaveAsFormatCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pSaveAsFormatCbb);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
-    m_pOutputFolderLbl->setObjectName("UpscView_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("UpscView_m_pOutputFolderLbl");
+    rightWidgetLayout->addWidget(m_pOutputFolderLbl);
+    rightWidgetLayout->addSpacing(4);
 
+    //
     m_pOutputFolderCbb = new QComboBox(this);
-    m_pOutputFolderCbb->setFixedSize(240, 24);
+    m_pOutputFolderCbb->setFixedHeight(24);
 
+    //
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
+    //
     auto outputFolderLayout = new QHBoxLayout();
     outputFolderLayout->setContentsMargins(0, 0, 0, 0);
     outputFolderLayout->setSpacing(0);
-
-    outputFolderLayout->addWidget(m_pOutputFolderLbl);
     outputFolderLayout->addWidget(m_pOutputFolderCbb, 1);
-    outputFolderLayout->addStretch();
     outputFolderLayout->addWidget(m_pOpenOutputFolderBtn);
 
+    //
     rightWidgetLayout->addLayout(outputFolderLayout);
+    rightWidgetLayout->addSpacing(12);
 
     //
     rightWidgetLayout->addStretch();
@@ -180,6 +215,7 @@ void UpscView::createUi() {
     m_pStackedLayout->addWidget(m_pImportGuideWidget);
     m_pStackedLayout->addWidget(m_pWorkspaceWidget);
 
+    //
     auto stackedMarginLayout = new QVBoxLayout();
     stackedMarginLayout->setContentsMargins(0, 0, 0, 0);
     stackedMarginLayout->addLayout(m_pStackedLayout, 1);
@@ -285,10 +321,11 @@ void UpscView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Ai Image Enhancer"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pSelectModelLbl->setText(tr("Select AI Model"));
-    m_pUpscaleLbl->setText(tr("Upscaler Setting"));
-    m_pSaveAsFormatLbl->setText(tr("Save as format"));
-    m_pOutputFolderLbl->setText(tr("Output folder:"));
-    m_pExportBtn->setText(tr("Export"));
+    m_pDoubleUpscaleCkb->setText(tr("Double Upscayl"));
+    m_pUpscaleLbl->setText(tr("Image Scale"));
+    m_pSaveAsFormatLbl->setText(tr("Save As Format"));
+    m_pOutputFolderLbl->setText(tr("Save Output Folder"));
+    m_pExportBtn->setText(tr("Upscayl"));
 }
 
 void UpscView::onStandardSmapleImageLblClicked() {
