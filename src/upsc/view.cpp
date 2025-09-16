@@ -34,18 +34,20 @@ void UpscView::createUi() {
     //
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
-    importGuideLayout->setContentsMargins(20, 20, 20, 20);
+    importGuideLayout->setContentsMargins(20, 20, 20, 8);
     importGuideLayout->setSpacing(0);
 
     m_pImportGuide = new ImportGuide(this);
 
     m_pSmapleWidget = new QWidget(this);
+    m_pSmapleWidget->setObjectName("UpscView_m_pSmapleWidget");
     m_pSmapleWidget->setFixedHeight(134);
     auto smapleWidgetLayout = new QVBoxLayout(m_pSmapleWidget);
-    smapleWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    smapleWidgetLayout->setContentsMargins(0, 0, 0, 12);
     smapleWidgetLayout->setSpacing(0);
 
     m_pSmapleTitleLbl = new QLabel(this);
+    m_pSmapleTitleLbl->setObjectName("UpscView_m_pSmapleTitleLbl");
     m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
 
     m_pStandardSmapleImageLbl = new ClickableLabel(this);
@@ -79,9 +81,11 @@ void UpscView::createUi() {
     sampleImageLayout->addStretch();
 
     smapleWidgetLayout->addWidget(m_pSmapleTitleLbl);
+    smapleWidgetLayout->addSpacing(4);
     smapleWidgetLayout->addLayout(sampleImageLayout);
 
     importGuideLayout->addWidget(m_pImportGuide, 1);
+    importGuideLayout->addSpacing(8);
     importGuideLayout->addWidget(m_pSmapleWidget);
 
     //
@@ -92,13 +96,13 @@ void UpscView::createUi() {
 
     m_pLeftWidget = new QWidget(this);
     auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
-    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setContentsMargins(12, 12, 0, 10);
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
     m_pRightWidget->setFixedWidth(240 + 24 + 1);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(12, 12, 12, 24);
+    rightWidgetLayout->setContentsMargins(12, 12, 12, 20);
     rightWidgetLayout->setSpacing(0);
 
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
@@ -108,6 +112,7 @@ void UpscView::createUi() {
     m_pImageViewer = new ImageViewer(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addSpacing(8);
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
@@ -133,14 +138,14 @@ void UpscView::createUi() {
 
     //
     m_pDoubleUpscaleTipBtn = new IconButton(this);
-    m_pDoubleUpscaleTipBtn->setFixedSize(24, 24);
-    m_pDoubleUpscaleTipBtn->setIconSize(24, 24);
-    m_pDoubleUpscaleTipBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pDoubleUpscaleTipBtn->setFixedSize(16, 16);
+    m_pDoubleUpscaleTipBtn->setIconSize(16, 16);
+    m_pDoubleUpscaleTipBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon16/icon20_question mark.svg");
 
     //
     auto doubleUpscaleLayout = new QHBoxLayout();
     doubleUpscaleLayout->setContentsMargins(0, 0, 0, 0);
-    doubleUpscaleLayout->setSpacing(6);
+    doubleUpscaleLayout->setSpacing(4);
     doubleUpscaleLayout->addWidget(m_pDoubleUpscaleCkb);
     doubleUpscaleLayout->addWidget(m_pDoubleUpscaleTipBtn);
     doubleUpscaleLayout->addStretch();
@@ -193,7 +198,7 @@ void UpscView::createUi() {
     //
     auto outputFolderLayout = new QHBoxLayout();
     outputFolderLayout->setContentsMargins(0, 0, 0, 0);
-    outputFolderLayout->setSpacing(0);
+    outputFolderLayout->setSpacing(4);
     outputFolderLayout->addWidget(m_pOutputFolderCbb, 1);
     outputFolderLayout->addWidget(m_pOpenOutputFolderBtn);
 

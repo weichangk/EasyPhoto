@@ -3,12 +3,18 @@ QWidget#UpscView {
     border-radius: 0px;
 }
 
+QWidget#UpscView_m_pSmapleWidget {
+    background-color: "#272336";
+    border-radius: 10px;
+}
+
 QLabel#UpscView_m_pTitleLbl {
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;
 }
 
+QLabel#UpscView_m_pSmapleTitleLbl,
 QLabel#UpscView_m_pSelectModelLbl,
 QLabel#UpscView_m_pUpscaleLbl,
 QLabel#UpscView_m_pSaveAsFormatLbl,
@@ -33,7 +39,7 @@ QPushButton#UpscView_m_pExportBtn:pressed {
 }
 
 QWidget#UpscModelCard {
-    background-color: "#202031";
+    background-color: "#272336";
     border-radius: 10px;
 }
 

@@ -72,7 +72,7 @@ bool ImportListView::eventFilter(QObject *watched, QEvent *event) {
 void ImportListView::createUi() {
     setObjectName("ImportListView");
     setAttribute(Qt::WA_StyledBackground);
-    setFixedHeight(120);
+    setFixedHeight(96);
 
     m_pImportListView = new ListView<SImportListItem>(this);
     m_pImportListView->setViewMode(QListView::ListMode);
@@ -89,12 +89,12 @@ void ImportListView::createUi() {
     m_pAddBtn = new IconButton(this);
     m_pAddBtn->setFixedSize(24, 24);
     m_pAddBtn->setIconSize(24, 24);
-    m_pAddBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pAddBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon24/icon24_add_black.svg");
 
     m_pClearBtn = new IconButton(this);
     m_pClearBtn->setFixedSize(24, 24);
     m_pClearBtn->setIconSize(24, 24);
-    m_pClearBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pClearBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon24/icon24_delete.svg");
 
     auto btnLayout = new QVBoxLayout();
     btnLayout->setContentsMargins(0, 8, 0, 8);
@@ -104,10 +104,10 @@ void ImportListView::createUi() {
     btnLayout->addWidget(m_pClearBtn);
 
     auto mainLayout = new QHBoxLayout(this);
-    mainLayout->setContentsMargins(0, 12, 0, 12);
+    mainLayout->setContentsMargins(0, 0, 0, 0);
     mainLayout->setSpacing(8);
-    mainLayout->addWidget(m_pImportListView, 1);
     mainLayout->addLayout(btnLayout);
+    mainLayout->addWidget(m_pImportListView, 1);
 }
 
 void ImportListView::connectSig() {
