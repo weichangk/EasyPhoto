@@ -281,7 +281,7 @@ void UpscView::importSampleImage(EUpscSmapleType type) {
 }
 
 void UpscView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->upscOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getUpscSetting()->getOutPath());
 }
 
 void UpscView::initSelectModelCbbItem() {
@@ -294,20 +294,15 @@ void UpscView::initSelectModelCbbItem() {
 
 void UpscView::initUpscaleCbbItem() {
     QStringList texts;
-    texts.append("1x");
-    texts.append("2x");
-    texts.append("4x");
-    texts.append("8x");
+    for (int i = 1; i <= 16; i++)
+    {
+        texts.append(QString("%1x").arg(i));
+    }
     m_pUpscaleCbb->addItems(texts);
 }
 
 void UpscView::initSaveAsFormatCbbItem() {
-    QStringList texts;
-    texts.append("png");
-    texts.append("jpg");
-    texts.append("jpeg");
-    texts.append("webp");
-    m_pSaveAsFormatCbb->addItems(texts);
+    m_pSaveAsFormatCbb->addItems(UpscOutputFormats());
 }
 
 void UpscView::gotoImportGuide() {

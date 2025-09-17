@@ -182,7 +182,7 @@ void EraseView::importSampleImage2() {
 }
 
 void EraseView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->eraseOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getEraseSetting()->getOutPath());
 }
 
 void EraseView::gotoImportGuide() {

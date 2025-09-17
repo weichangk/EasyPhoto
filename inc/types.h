@@ -26,7 +26,7 @@ struct SConversionData {
     QMap<EConvState, QPixmap> state_icons;
     bool is_checked = false;
     QSize resolution = QSize(0, 0);
-    QString output_format = Default::conversionOutFormat;
+    QString output_format = Default::Conv::outFormat;
     EConvState state = EConvState_Waiting;
 };
 Q_DECLARE_METATYPE(SConversionData)
@@ -39,7 +39,7 @@ struct SConversionOuputFormat {
 };
 Q_DECLARE_METATYPE(SConversionOuputFormat)
 
-#define COMP_INPUT_FORMATS "(*.jpg *.jpeg *.png *.gif *.webp)"
+#define COMP_INPUT_FORMATS "(*.jpg;*.jpeg;*.png;*.gif;*.webp;*.JPG;*.JPEG;*.PNG;*.GIF;*.WEBP)"
 #define COMP_OUT_FORMATS "sameassource jpg png"
 #define COMP_OUT_QUALITY "10 20 30 40 50 60 70 80 90"
 
@@ -61,7 +61,7 @@ struct SCompressionData {
     QMap<ECompreState, QPixmap> state_icons;
     bool is_checked = false;
     QSize resolution = QSize(0, 0);
-    QString output_format = Default::compressionOutFormat;
+    QString output_format = Default::Cmp::outFormat;
     QString intput_size = "";
     QString output_size = "";
     ECompreState state = ECompreState_Waiting;
@@ -122,19 +122,6 @@ struct SGifMkData {
 };
 Q_DECLARE_METATYPE(SGifMkData)
 
-
-#define ENHANCE_INPUT_FORMATS "png jpg jpeg webp"
-#define ENHANCE_OUTPUT_FORMATS "png jpg webp"
-
-struct SUpscModelData {
-    QString id = "";
-    QString name = "";
-    QString path = "";
-    QPixmap thumbnail = QPixmap();
-};
-Q_DECLARE_METATYPE(SUpscModelData)
-
-
 enum ECropScaleType {
     ECropScaleType_Original = 0,
     ECropScaleType_Custom,
@@ -152,6 +139,18 @@ struct SCropScaleData {
     QPixmap thumbnail = QPixmap();
 };
 Q_DECLARE_METATYPE(SCropScaleData)
+
+// Upsc
+#define UPSC_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.PNG;*.JPG;*.JPEG;*.JFIF;*.WEBP)"
+#define UPSC_OUTPUT_FORMATS "png;jpg;webp"
+
+struct SUpscModelData {
+    QString id = "";
+    QString name = "";
+    QString path = "";
+    QPixmap thumbnail = QPixmap();
+};
+Q_DECLARE_METATYPE(SUpscModelData)
 
 enum EUpscSmapleType {
     EUpscSmapleType_Standard = 0,
@@ -172,3 +171,5 @@ struct SUpscSelectModelData {
     QPixmap afterThumb;
 };
 Q_DECLARE_METATYPE(SUpscSelectModelData)
+
+QStringList UpscOutputFormats();

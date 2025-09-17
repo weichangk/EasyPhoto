@@ -267,7 +267,7 @@ void CropView::importSampleImage2() {
 }
 
 void CropView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->cropOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getCropSetting()->getOutPath());
 }
 
 void CropView::gotoImportGuide() {

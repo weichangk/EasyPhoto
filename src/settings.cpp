@@ -1,304 +1,459 @@
 #include "inc/settings.h"
 #include <QApplication>
 
-Settings::Settings() :
+ConvSetting::ConvSetting() :
     m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
-               QApplication::applicationDisplayName()),
-    // Conversion
-    m_strConversionLastAddFilePath(Default::conversionLastAddFilePath),
-    m_strConversionLastAddFolderPath(Default::conversionLastAddFolderPath),
-    m_strConversionOutPath(Default::conversionOutPath),
-    m_strConversionOutFormat(Default::conversionOutFormat),
-    // Compression
-    m_strCompressionLastAddFilePath(Default::compressionLastAddFilePath),
-    m_strCompressionLastAddFolderPath(Default::compressionLastAddFolderPath),
-    m_strCompressionOutPath(Default::compressionOutPath),
-    m_strCompressionOutFormat(Default::compressionOutFormat),
-    m_nCompressQuality(Default::compressionQuality),
-    m_strGifMkLastAddFilePath(Default::gifMkLastAddFilePath),
-    m_strGifMkLastAddFolderPath(Default::gifMkLastAddFolderPath),
-    m_nGifMkWidth(Default::gifMkWidth),
-    m_nGifMkHeight(Default::gifMkHeight),
-    m_nGifMkQuality(Default::gifMkQuality),
-    m_nGifMkFps(Default::gifMkFps),
-    m_bGifMkRepeat(Default::gifMkRepeat),
-    m_strGifMkOutPath(Default::gifMkOutPath),
-    // BgRm
-    m_strBgRmLastAddFilePath(Default::backgroundRemoverLastAddFilePath),
-    m_strBgRmLastAddFolderPath(Default::backgroundRemoverLastAddFolderPath),
-    m_strBgRmOutPath(Default::backgroundRemoverOutPath),
-    // Upsc
-    m_strUpscOutPath(Default::upscOutPath),
-    // Upsc
-    m_strEraseOutPath(Default::eraseOutPath),
-    // crop
-    m_strCropOutPath(Default::cropOutPath)
-{
+               QApplication::applicationDisplayName()) {
+}
+
+void ConvSetting::load() {
+    m_Settings.beginGroup("Conv");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Conv::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Conv::outPath).toString();
+    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Conv::lastAddFilePath).toString();
+    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Conv::lastAddFolderPath).toString();
+    m_Settings.endGroup();
+}
+
+QString ConvSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void ConvSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("Conv");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString ConvSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void ConvSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("Conv");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+QString ConvSetting::getLastAddFilePath() {
+    return m_LastAddFilePath;
+}
+
+void ConvSetting::setLastAddFilePath(const QString &path) {
+    m_LastAddFilePath = path;
+    m_Settings.beginGroup("Conv");
+    m_Settings.setValue(QStringLiteral("LastAddFilePath"), m_LastAddFilePath);
+    m_Settings.endGroup();
+}
+
+QString ConvSetting::getLastAddFolderPath() {
+    return m_LastAddFolderPath;
+}
+
+void ConvSetting::setLastAddFolderPath(const QString &path) {
+    m_LastAddFolderPath = path;
+    m_Settings.beginGroup("Conv");
+    m_Settings.setValue(QStringLiteral("LastAddFolderPath"), m_LastAddFolderPath);
+    m_Settings.endGroup();
+}
+
+CmpSetting::CmpSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void CmpSetting::load() {
+    m_Settings.beginGroup("Cmp");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Cmp::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Cmp::outPath).toString();
+    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Cmp::lastAddFilePath).toString();
+    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Cmp::lastAddFolderPath).toString();
+    m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::Cmp::quality).toInt();
+    m_Settings.endGroup();
+}
+
+QString CmpSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void CmpSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("Cmp");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString CmpSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void CmpSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("Cmp");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+QString CmpSetting::getLastAddFilePath() {
+    return m_LastAddFilePath;
+}
+
+void CmpSetting::setLastAddFilePath(const QString &path) {
+    m_LastAddFilePath = path;
+    m_Settings.beginGroup("Cmp");
+    m_Settings.setValue(QStringLiteral("LastAddFilePath"), m_LastAddFilePath);
+    m_Settings.endGroup();
+}
+
+QString CmpSetting::getLastAddFolderPath() {
+    return m_LastAddFolderPath;
+}
+
+void CmpSetting::setLastAddFolderPath(const QString &path) {
+    m_LastAddFolderPath = path;
+    m_Settings.beginGroup("Cmp");
+    m_Settings.setValue(QStringLiteral("LastAddFolderPath"), m_LastAddFolderPath);
+    m_Settings.endGroup();
+}
+
+int CmpSetting::getQuality() {
+    return m_Quality;
+}
+
+void CmpSetting::setQuality(int q) {
+    m_Quality = q;
+    m_Settings.beginGroup("CMP");
+    m_Settings.setValue(QStringLiteral("Quality"), m_Quality);
+    m_Settings.endGroup();
+}
+
+GifMkSetting::GifMkSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void GifMkSetting::load() {
+    m_Settings.beginGroup("GifMk");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::GifMk::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::GifMk::outPath).toString();
+    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::GifMk::lastAddFilePath).toString();
+    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::GifMk::lastAddFolderPath).toString();
+    m_Width = m_Settings.value(QStringLiteral("Width"), Default::GifMk::width).toInt();
+    m_Height = m_Settings.value(QStringLiteral("Height"), Default::GifMk::height).toInt();
+    m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::GifMk::quality).toInt();
+    m_Fps = m_Settings.value(QStringLiteral("Fps"), Default::GifMk::fps).toInt();
+    m_Repeat = m_Settings.value(QStringLiteral("Repeat"), Default::GifMk::repeat).toBool();
+    m_Settings.endGroup();
+}
+
+QString GifMkSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void GifMkSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString GifMkSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void GifMkSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+QString GifMkSetting::getLastAddFilePath() {
+    return m_LastAddFilePath;
+}
+
+void GifMkSetting::setLastAddFilePath(const QString &path) {
+    m_LastAddFilePath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("LastAddFilePath"), m_LastAddFilePath);
+    m_Settings.endGroup();
+}
+
+QString GifMkSetting::getLastAddFolderPath() {
+    return m_LastAddFolderPath;
+}
+
+void GifMkSetting::setLastAddFolderPath(const QString &path) {
+    m_LastAddFolderPath = path;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("LastAddFolderPath"), m_LastAddFolderPath);
+    m_Settings.endGroup();
+}
+
+int GifMkSetting::getWidth() {
+    return m_Width;
+}
+
+void GifMkSetting::setWidth(int w) {
+    m_Width = w;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Width"), m_Width);
+    m_Settings.endGroup();
+}
+
+int GifMkSetting::getHeight() {
+    return m_Height;
+}
+
+void GifMkSetting::setHeight(int h) {
+    m_Height = h;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Height"), m_Height);
+    m_Settings.endGroup();
+}
+
+int GifMkSetting::getQuality() {
+    return m_Quality;
+}
+
+void GifMkSetting::setQuality(int q) {
+    m_Quality = q;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Quality"), m_Quality);
+    m_Settings.endGroup();
+}
+
+int GifMkSetting::getFps() {
+    return m_Fps;
+}
+
+void GifMkSetting::setFps(int f) {
+    m_Fps = f;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Fps"), m_Fps);
+    m_Settings.endGroup();
+}
+
+bool GifMkSetting::getRepeat() {
+    return m_Repeat;
+}
+
+void GifMkSetting::setRepeat(bool b) {
+    m_Repeat = b;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Repeat"), m_Repeat);
+    m_Settings.endGroup();
+}
+
+BgRmSetting::BgRmSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void BgRmSetting::load() {
+    m_Settings.beginGroup("BgRm");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::BgRm::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::BgRm::outPath).toString();
+    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::BgRm::lastAddFilePath).toString();
+    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::BgRm::lastAddFolderPath).toString();
+    m_Settings.endGroup();
+}
+
+QString BgRmSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void BgRmSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString BgRmSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void BgRmSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+QString BgRmSetting::getLastAddFilePath() {
+    return m_LastAddFilePath;
+}
+
+void BgRmSetting::setLastAddFilePath(const QString &path) {
+    m_LastAddFilePath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("LastAddFilePath"), m_LastAddFilePath);
+    m_Settings.endGroup();
+}
+
+QString BgRmSetting::getLastAddFolderPath() {
+    return m_LastAddFolderPath;
+}
+
+void BgRmSetting::setLastAddFolderPath(const QString &path) {
+    m_LastAddFolderPath = path;
+    m_Settings.beginGroup("BgRm");
+    m_Settings.setValue(QStringLiteral("LastAddFolderPath"), m_LastAddFolderPath);
+    m_Settings.endGroup();
+}
+
+UpscSetting::UpscSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void UpscSetting::load() {
+    m_Settings.beginGroup("Upsc");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Upsc::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Upsc::outPath).toString();
+    m_Settings.endGroup();
+}
+
+QString UpscSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void UpscSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString UpscSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void UpscSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+EraseSetting::EraseSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void EraseSetting::load() {
+    m_Settings.beginGroup("Erase");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Erase::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Erase::outPath).toString();
+    m_Settings.endGroup();
+}
+
+QString EraseSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void EraseSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("Erase");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString EraseSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void EraseSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("Erase");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+CropSetting::CropSetting() :
+    m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
+               QApplication::applicationDisplayName()) {
+}
+
+void CropSetting::load() {
+    m_Settings.beginGroup("Crop");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Crop::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Crop::outPath).toString();
+    m_Settings.endGroup();
+}
+
+QString CropSetting::getOutPath() const {
+    return m_OutPath;
+}
+
+void CropSetting::setOutPath(const QString &path) {
+    m_OutPath = path;
+    m_Settings.beginGroup("Crop");
+    m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
+    m_Settings.endGroup();
+}
+
+QString CropSetting::getOutFmt() {
+    return m_OutFmt;
+}
+
+void CropSetting::setOutFmt(const QString &fmt) {
+    m_OutFmt = fmt;
+    m_Settings.beginGroup("Crop");
+    m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+
+
+
+Settings::Settings() {
+    m_ConvSetting = new ConvSetting();
+    m_CmpSetting = new CmpSetting();
+    m_GifMkSetting = new GifMkSetting();
+    m_BgRmSetting = new BgRmSetting();
+    m_UpscSetting = new UpscSetting();
+    m_EraseSetting = new EraseSetting();
+    m_CropSetting = new CropSetting();
 }
 
 void Settings::load() {
-    m_Settings.beginGroup("Conversion");
-    m_strConversionOutPath = m_Settings.value(QStringLiteral("ConversionOutPath"), Default::conversionOutPath).toString();
-    m_strConversionOutFormat = m_Settings.value(QStringLiteral("ConversionOutFormat"), Default::conversionOutFormat).toString();
-    m_Settings.endGroup();
+    m_ConvSetting->load();
+    m_CmpSetting->load();
+    m_GifMkSetting->load();
+    m_BgRmSetting->load();
+    m_UpscSetting->load();
+    m_EraseSetting->load();
+    m_CropSetting->load();
 }
 
-// Conversion
-QString Settings::conversionLastAddFilePath() const {
-    return m_strConversionLastAddFilePath;
+ConvSetting *Settings::getConvSetting() const {
+    return m_ConvSetting;
 }
 
-void Settings::setConversionLastAddFilePath(const QString &path) {
-    m_strConversionLastAddFilePath = path;
-    m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionLastAddFilePath"), m_strConversionLastAddFilePath);
-    m_Settings.endGroup();
+CmpSetting *Settings::getCmpSetting() const {
+    return m_CmpSetting;
 }
 
-QString Settings::conversionLastAddFolderPath() const {
-    return m_strConversionLastAddFolderPath;
+GifMkSetting *Settings::getGifMkSetting() const {
+    return m_GifMkSetting;
 }
 
-void Settings::setConversionLastAddFolderPath(const QString &path) {
-    m_strConversionLastAddFolderPath = path;
-    m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionLastAddFolderPath"), m_strConversionLastAddFolderPath);
-    m_Settings.endGroup();
+BgRmSetting *Settings::getBgRmSetting() const {
+    return m_BgRmSetting;
 }
 
-QString Settings::conversionOutPath() const {
-    return m_strConversionOutPath;
+UpscSetting *Settings::getUpscSetting() const {
+    return m_UpscSetting;
 }
 
-void Settings::setConversionOutPath(const QString &path) {
-    m_strConversionOutPath = path;
-    m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionOutPath"), m_strConversionOutPath);
-    m_Settings.endGroup();
+EraseSetting *Settings::getEraseSetting() const {
+    return m_EraseSetting;
 }
 
-QString Settings::conversionOutFormat() const {
-    return m_strConversionOutFormat;
-}
-
-void Settings::setConversionOutFormat(const QString &format) {
-    m_strConversionOutFormat = format;
-    m_Settings.beginGroup("Conversion");
-    m_Settings.setValue(QStringLiteral("ConversionOutFormat"), m_strConversionOutFormat);
-    m_Settings.endGroup();
-}
-
-// Compression
-QString Settings::compressionLastAddFilePath() const {
-    return m_strCompressionLastAddFilePath;
-}
-
-void Settings::setCompressionLastAddFilePath(const QString &path) {
-    m_strCompressionLastAddFilePath = path;
-    m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionLastAddFilePath"), m_strCompressionLastAddFilePath);
-    m_Settings.endGroup();
-}
-
-QString Settings::compressionLastAddFolderPath() const {
-    return m_strCompressionLastAddFolderPath;
-}
-
-void Settings::setCompressionLastAddFolderPath(const QString &path) {
-    m_strCompressionLastAddFolderPath = path;
-    m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionLastAddFolderPath"), m_strCompressionLastAddFolderPath);
-    m_Settings.endGroup();
-}
-
-QString Settings::compressionOutPath() const {
-    return m_strCompressionOutPath;
-}
-
-void Settings::setCompressionOutPath(const QString &path) {
-    m_strCompressionOutPath = path;
-    m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionOutPath"), m_strCompressionOutPath);
-    m_Settings.endGroup();
-}
-
-QString Settings::compressionOutFormat() const {
-    return m_strCompressionOutFormat;
-}
-
-void Settings::setCompressionOutFormat(const QString &format) {
-    m_strCompressionOutFormat = format;
-    m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressionOutFormat"), m_strCompressionOutFormat);
-    m_Settings.endGroup();
-}
-
-int Settings::compressQuality() const {
-    return m_nCompressQuality;
-}
-
-void Settings::setCompressQuality(const int quality) {
-    m_nCompressQuality = quality;
-    m_Settings.beginGroup("Compression");
-    m_Settings.setValue(QStringLiteral("CompressQuality"), m_nCompressQuality);
-    m_Settings.endGroup();
-}
-
-// GifMk
-QString Settings::gifMkLastAddFilePath() const {
-    return m_strGifMkLastAddFilePath;
-}
-
-void Settings::setGifMkLastAddFilePath(const QString &path) {
-    m_strGifMkLastAddFilePath = path;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkLastAddFilePath"), m_strGifMkLastAddFilePath);
-    m_Settings.endGroup();
-}
-
-QString Settings::gifMkLastAddFolderPath() const {
-    return m_strGifMkLastAddFolderPath;
-}
-
-void Settings::setGifMkLastAddFolderPath(const QString &path) {
-    m_strGifMkLastAddFolderPath = path;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkLastAddFolderPath"), m_strGifMkLastAddFolderPath);
-    m_Settings.endGroup();
-}
-
-int Settings::gifMkWidth() const {
-    return m_nGifMkWidth;
-}
-
-void Settings::setGifMkWidth(const int width) {
-    m_nGifMkWidth = width;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkWidth"), m_nGifMkWidth);
-    m_Settings.endGroup();
-}
-
-int Settings::gifMkHeight() const {
-    return m_nGifMkHeight;
-}
-
-void Settings::setGifMkHeight(const int height) {
-    m_nGifMkHeight = height;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkHeight"), m_nGifMkHeight);
-    m_Settings.endGroup();
-}
-
-int Settings::gifMkQuality() const {
-    return m_nGifMkQuality;
-}
-
-void Settings::setGifMkQuality(const int quality) {
-    m_nGifMkQuality = quality;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkQuality"), m_nGifMkQuality);
-    m_Settings.endGroup();
-}
-
-int Settings::gifMkFps() const {
-    return m_nGifMkFps;
-}
-
-void Settings::setGifMkFps(const int fps) {
-    m_nGifMkFps = fps;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkFps"), m_nGifMkFps);
-    m_Settings.endGroup();
-}
-
-bool Settings::gifMkRepeat() const {
-    return m_bGifMkRepeat;
-}
-
-void Settings::setGifMkRepeat(bool repeat) {
-    m_bGifMkRepeat = repeat;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkRepeat"), m_bGifMkRepeat);
-    m_Settings.endGroup();
-}
-
-QString Settings::gifMkOutPath() const {
-    return m_strGifMkOutPath;
-}
-
-void Settings::setGifMkOutPath(const QString &path) {
-    m_strGifMkOutPath = path;
-    m_Settings.beginGroup("GifMk");
-    m_Settings.setValue(QStringLiteral("GifMkOutPath"), m_strGifMkOutPath);
-    m_Settings.endGroup();
-}
-
-// BgRm
-QString Settings::bgRmLastAddFilePath() const {
-    return m_strBgRmLastAddFilePath;
-}
-
-void Settings::setBgRmLastAddFilePath(const QString &path) {
-    m_strBgRmLastAddFilePath = path;
-    m_Settings.beginGroup("BgRm");
-    m_Settings.setValue(QStringLiteral("BgRmLastAddFilePath"), m_strBgRmLastAddFilePath);
-    m_Settings.endGroup();
-}
-
-QString Settings::bgRmLastAddFolderPath() const {
-    return m_strBgRmLastAddFolderPath;
-}
-
-void Settings::setBgRmLastAddFolderPath(const QString &path) {
-    m_strBgRmLastAddFolderPath = path;
-    m_Settings.beginGroup("BgRm");
-    m_Settings.setValue(QStringLiteral("BgRmLastAddFolderPath"), m_strBgRmLastAddFolderPath);
-    m_Settings.endGroup();
-}
-
-QString Settings::bgRmOutPath() const {
-    return m_strBgRmOutPath;
-}
-
-void Settings::setBgRmOutPath(const QString &path) {
-    m_strBgRmOutPath = path;
-    m_Settings.beginGroup("BgRm");
-    m_Settings.setValue(QStringLiteral("BgRmOutPath"), m_strBgRmOutPath);
-    m_Settings.endGroup();
-}
-
-// Upsc
-QString Settings::upscOutPath() const {
-    return m_strUpscOutPath;
-}
-
-void Settings::setUpscOutPath(const QString &path) {
-    m_strUpscOutPath = path;
-    m_Settings.beginGroup("Upsc");
-    m_Settings.setValue(QStringLiteral("UpscOutPath"), m_strUpscOutPath);
-    m_Settings.endGroup();
-}
-
-// erase
-QString Settings::eraseOutPath() const {
-    return m_strEraseOutPath;
-}
-
-void Settings::setEraseOutPath(const QString &path) {
-    m_strEraseOutPath = path;
-    m_Settings.beginGroup("Erase");
-    m_Settings.setValue(QStringLiteral("EraseOutPath"), m_strEraseOutPath);
-    m_Settings.endGroup();
-}
-
-// crop
-QString Settings::cropOutPath() const {
-    return m_strCropOutPath;
-}
-
-void Settings::setCropOutPath(const QString &path) {
-    m_strCropOutPath = path;
-    m_Settings.beginGroup("Crop");
-    m_Settings.setValue(QStringLiteral("CropOutPath"), m_strCropOutPath);
-    m_Settings.endGroup();
+CropSetting *Settings::getCropSetting() const {
+    return m_CropSetting;
 }

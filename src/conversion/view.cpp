@@ -71,7 +71,7 @@ void ConversionOutputFormatView::connectSig() {
 
 void ConversionOutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     auto data = m_pListView->data(index);
-    SETTINGS->setConversionOutFormat(data.name);
+    SETTINGS->getConvSetting()->setOutFmt(data.name);
     emit sigSelectionChanged(data.name);
     close();
 }
@@ -400,17 +400,17 @@ void ConversionView::initOutputFormatCbbItem() {
         m_pOutputFormatCbb->addItem(item.toUpper());
     }
     blockSignalsFunc(m_pOutputFormatCbb, [&]() {
-        m_pOutputFormatCbb->setCurrentText(SETTINGS->conversionOutFormat().toUpper());
+        m_pOutputFormatCbb->setCurrentText(SETTINGS->getConvSetting()->getOutFmt().toUpper());
     });
 }
 
 void ConversionView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->conversionOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getConvSetting()->getOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
 void ConversionView::ConversionView::setOutputFolder(const QString &path) {
-    SETTINGS->setConversionOutPath(path);
+    SETTINGS->getConvSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
@@ -465,7 +465,7 @@ void ConversionView::startConvAllTask() {
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
                 auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
-                    SETTINGS->conversionOutPath().toStdString(),
+                    SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});
                 data.state = result.success ?  EConvState_Success : EConvState_Fail; 
                 prst->updateData(data.file_path, data);
@@ -494,7 +494,7 @@ void ConversionView::startConvTask(const QString &path) {
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
                 auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
-                    SETTINGS->conversionOutPath().toStdString(),
+                    SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});
                 data.state = result.success ?  EConvState_Success : EConvState_Fail; 
                 prst->updateData(data.file_path, data);
@@ -525,21 +525,21 @@ void ConversionView::onLanguageChange() {
 
 void ConversionView::onAddFileBtnClicked() {
     QString title = tr("Open");
-    QString directory = SETTINGS->conversionLastAddFilePath();
+    QString directory = SETTINGS->getConvSetting()->getLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
         QFileInfo fileInfo(filePaths.first());
         QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setConversionLastAddFilePath(lastDirectory);
+        SETTINGS->getConvSetting()->setLastAddFilePath(lastDirectory);
         listViewImportFile(filePaths);
     }
 }
 
 void ConversionView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->conversionLastAddFolderPath());
+    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->getConvSetting()->getLastAddFolderPath());
     if (!folderPath.isEmpty()) {
-        SETTINGS->setConversionLastAddFolderPath(folderPath);
+        SETTINGS->getConvSetting()->setLastAddFolderPath(folderPath);
         QDir dir(folderPath);
         QStringList files = dir.entryList(QDir::Files);
         QStringList filePaths;
@@ -595,7 +595,7 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
 
 void ConversionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
     QString format = text.toLower();
-    SETTINGS->setConversionOutFormat(format);
+    SETTINGS->getConvSetting()->setOutFmt(format);
     ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
     for (auto &data : prst->datas()) {
         data.output_format = format; 
@@ -618,7 +618,7 @@ void ConversionView::onOutputFolderCbbIndexChanged(int index) {
 }
 
 void ConversionView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->conversionOutPath();
+    QString folderPath = SETTINGS->getConvSetting()->getOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 

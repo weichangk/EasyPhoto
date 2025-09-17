@@ -50,7 +50,7 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
         data.resolution = QSize(pixmap.width(), pixmap.height());
-        data.output_format = SETTINGS->conversionOutFormat();
+        data.output_format = SETTINGS->getConvSetting()->getOutFmt();
         data.state_icons = {
             {EConvState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
             {EConvState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
@@ -126,7 +126,7 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
         data.resolution = QSize(pixmap.width(), pixmap.height());
-        data.output_format = SETTINGS->conversionOutFormat();
+        data.output_format = SETTINGS->getConvSetting()->getOutFmt();
         data.state_icons = {
             {EConvState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
             {EConvState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},

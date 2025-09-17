@@ -259,12 +259,12 @@ QWidget *GifMkView::createDividingLine() {
 }
 
 void GifMkView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->compressionOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getGifMkSetting()->getOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
 void GifMkView::setOutputFolder(const QString &path) {
-    SETTINGS->setCompressionOutPath(path);
+    SETTINGS->getGifMkSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
@@ -323,7 +323,7 @@ void GifMkView::onOutputFolderCbbIndexChanged(int index) {
 }
 
 void GifMkView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->compressionOutPath();
+    QString folderPath = SETTINGS->getGifMkSetting()->getOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
@@ -339,12 +339,12 @@ void GifMkView::onStartAllClicked() {
     }
     ImgKitCore::GIFMK::SParam param = {
         filePaths,
-        SETTINGS->gifMkWidth(),
-        SETTINGS->gifMkHeight(),
-        SETTINGS->gifMkQuality(),
-        SETTINGS->gifMkFps(),
-        SETTINGS->gifMkRepeat(),
-        SETTINGS->gifMkOutPath(),
+        SETTINGS->getGifMkSetting()->getWidth(),
+        SETTINGS->getGifMkSetting()->getHeight(),
+        SETTINGS->getGifMkSetting()->getQuality(),
+        SETTINGS->getGifMkSetting()->getFps(),
+        SETTINGS->getGifMkSetting()->getRepeat(),
+        SETTINGS->getGifMkSetting()->getOutPath(),
     };
     task.exec(param);
 }

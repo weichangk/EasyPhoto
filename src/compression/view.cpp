@@ -69,7 +69,7 @@ void CompressionOutputFormatView::connectSig() {
 
 void CompressionOutputFormatView::onListItemViewclicked(const QModelIndex &index) {
     auto data = m_pListView->data(index);
-    SETTINGS->setCompressionOutFormat(data.name);
+    SETTINGS->getCmpSetting()->setOutFmt(data.name);
     emit sigSelectionChanged(data.name);
     close();
 }
@@ -195,13 +195,13 @@ void CompressionView::createUi() {
     m_pCompreSlider->setObjectName("CompressionView_m_pCompreSlider");
     m_pCompreSlider->setRange(1, 100);
     m_pCompreSlider->setTickInterval(1);
-    m_pCompreSlider->setValue(SETTINGS->compressQuality());
+    m_pCompreSlider->setValue(SETTINGS->getCmpSetting()->getQuality());
 
     m_pCompreValueEdit = new QLineEdit(bottomWidget);
     m_pCompreValueEdit->setObjectName("CompressionView_m_pCompreValueEdit");
     QIntValidator *validator = new QIntValidator(1, 100, m_pCompreValueEdit);
     m_pCompreValueEdit->setValidator(validator);
-    m_pCompreValueEdit->setText(QString::number(SETTINGS->compressQuality()));
+    m_pCompreValueEdit->setText(QString::number(SETTINGS->getCmpSetting()->getQuality()));
 
     m_pComprePercentLbl = new QLabel(bottomWidget);
     m_pComprePercentLbl->setObjectName("CompressionView_m_pComprePercentLbl");
@@ -401,17 +401,17 @@ void CompressionView::initOutputFormatCbbItem() {
         m_pOutputFormatCbb->addItem(fmt);
     }
     blockSignalsFunc(m_pOutputFormatCbb, [&]() {
-        m_pOutputFormatCbb->setCurrentText(SETTINGS->compressionOutFormat() != "sameassource" ? SETTINGS->compressionOutFormat().toUpper() : "sameassource");
+        m_pOutputFormatCbb->setCurrentText(SETTINGS->getCmpSetting()->getOutFmt() != "sameassource" ? SETTINGS->getCmpSetting()->getOutFmt().toUpper() : "sameassource");
     });
 }
 
 void CompressionView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->compressionOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getCmpSetting()->getOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
 void CompressionView::CompressionView::setOutputFolder(const QString &path) {
-    SETTINGS->setCompressionOutPath(path);
+    SETTINGS->getCmpSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
@@ -467,12 +467,12 @@ void CompressionView::startAllTask() {
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
-                QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+                QString outSuffix = SETTINGS->getCmpSetting()->getOutFmt() == Default::Cmp::outFormat ? fileInfo.completeSuffix() : SETTINGS->getCmpSetting()->getOutFmt();
                 auto result = cmpTask.exec(ImgKitCore::CMP::SParam{
                     data.file_path.toStdString(),
-                    SETTINGS->compressionOutPath().toStdString(),
+                    SETTINGS->getCmpSetting()->getOutPath().toStdString(),
                     outSuffix.toStdString(),
-                    SETTINGS->compressQuality()});
+                    SETTINGS->getCmpSetting()->getQuality()});
                     
                 data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
                 data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
@@ -503,12 +503,12 @@ void CompressionView::startTask(const QString &path) {
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
-                QString outSuffix = SETTINGS->compressionOutFormat() == Default::compressionOutFormat ? fileInfo.completeSuffix() : SETTINGS->compressionOutFormat();
+                QString outSuffix = SETTINGS->getCmpSetting()->getOutFmt() == Default::Cmp::outFormat ? fileInfo.completeSuffix() : SETTINGS->getCmpSetting()->getOutFmt();
                 auto result = cmpTask.exec(ImgKitCore::CMP::SParam {
                     data.file_path.toStdString(),
-                    SETTINGS->compressionOutPath().toStdString(),
+                    SETTINGS->getCmpSetting()->getOutPath().toStdString(),
                     outSuffix.toStdString(),
-                    SETTINGS->compressQuality()});
+                    SETTINGS->getCmpSetting()->getQuality()});
 
                 data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
                 data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
@@ -543,21 +543,21 @@ void CompressionView::onLanguageChange() {
 
 void CompressionView::onAddFileBtnClicked() {
     QString title = tr("Open");
-    QString directory = SETTINGS->compressionLastAddFilePath();
+    QString directory = SETTINGS->getCmpSetting()->getLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
     if (!filePaths.isEmpty()) {
         QFileInfo fileInfo(filePaths.first());
         QString lastDirectory = fileInfo.absolutePath();
-        SETTINGS->setCompressionLastAddFilePath(lastDirectory);
+        SETTINGS->getCmpSetting()->setLastAddFilePath(lastDirectory);
         listViewImportFile(filePaths);
     }
 }
 
 void CompressionView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
-    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->compressionLastAddFolderPath());
+    QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->getCmpSetting()->getLastAddFolderPath());
     if (!folderPath.isEmpty()) {
-        SETTINGS->setCompressionLastAddFolderPath(folderPath);
+        SETTINGS->getCmpSetting()->setLastAddFolderPath(folderPath);
         QDir dir(folderPath);
         QStringList files = dir.entryList(QDir::Files);
         QStringList filePaths;
@@ -609,7 +609,7 @@ void CompressionView::onListViewClicked(const QModelIndex &index) {
 
 void CompressionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
     QString format = text.toLower();
-    SETTINGS->setCompressionOutFormat(format);
+    SETTINGS->getCmpSetting()->setOutFmt(format);
     CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
     for (auto &data : prst->datas()) {
         data.output_format = format; 
@@ -632,7 +632,7 @@ void CompressionView::onOutputFolderCbbIndexChanged(int index) {
 }
 
 void CompressionView::onOpenOutputFolderBtnClicked() {
-    QString folderPath = SETTINGS->compressionOutPath();
+    QString folderPath = SETTINGS->getCmpSetting()->getOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
@@ -647,7 +647,7 @@ void CompressionView::onCancelAllBtnClicked() {
 
 void CompressionView::onCompreSliderValueChanged(int value) {
     m_pCompreValueEdit->setText(QString::number(value));
-    SETTINGS->setCompressQuality(value);
+    SETTINGS->getCmpSetting()->setQuality(value);
 }
 
 void CompressionView::onCompreValueEdited(const QString &text) {
@@ -656,5 +656,5 @@ void CompressionView::onCompreValueEdited(const QString &text) {
     else if (value > 100) value = 100;
     m_pCompreValueEdit->setText(QString::number(value));
     m_pCompreSlider->setValue(value);
-    SETTINGS->setCompressQuality(value);
+    SETTINGS->getCmpSetting()->setQuality(value);
 }

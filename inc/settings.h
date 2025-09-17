@@ -19,149 +19,224 @@ static QString defOutPath(const QString &folderName) {
 }
 
 namespace Default {
-// Conversion
-static QString conversionOutPath = defOutPath("Conversion");
-static QString conversionOutFormat = "png";
-static QString conversionLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-static QString conversionLastAddFolderPath = QDir::homePath();
+namespace Conv {
+static QString outPath = defOutPath("Conv");
+static QString outFormat = "png";
+static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString lastAddFolderPath = QDir::homePath();
+} // namespace Conv
 
-// Compression
-static QString compressionOutPath = defOutPath("Compression");
-static QString compressionOutFormat = "sameassource";
-static QString compressionLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-static QString compressionLastAddFolderPath = QDir::homePath();
-static int compressionQuality = 60;
+namespace Cmp {
+static QString outPath = defOutPath("Cmp");
+static QString outFormat = "sameassource";
+static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString lastAddFolderPath = QDir::homePath();
+static int quality = 60;
+} // namespace Cmp
 
-// GifMk
-static QString gifMkOutPath = defOutPath("GifMk");
-static QString gifMkLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-static QString gifMkLastAddFolderPath = QDir::homePath();
-static int gifMkWidth = 640;
-static int gifMkHeight = 640;
-static int gifMkQuality = 100;
-static int gifMkFps = 25;
-static bool gifMkRepeat = true;
+namespace GifMk {
+static QString outPath = defOutPath("GifMk");
+static QString outFormat = "gif";
+static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString lastAddFolderPath = QDir::homePath();
+static int width = 640;
+static int height = 640;
+static int quality = 100;
+static int fps = 25;
+static bool repeat = true;
+} // namespace GifMk
 
-// BgRm
-static QString backgroundRemoverOutPath = defOutPath("BackgroundRemover");
-static QString backgroundRemoverLastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
-static QString backgroundRemoverLastAddFolderPath = QDir::homePath();
+namespace BgRm {
+static QString outPath = defOutPath("BgRm");
+static QString outFormat = "png";
+static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
+static QString lastAddFolderPath = QDir::homePath();
+} // namespace BgRm
 
-// Upsc
-static QString upscOutPath = defOutPath("Upsc");
+namespace Upsc {
+static QString outPath = defOutPath("Upsc");
+static QString outFormat = "png";
+} // namespace Upsc
 
-// erase
-static QString eraseOutPath = defOutPath("Erase");
+namespace Erase {
+static QString outPath = defOutPath("Erase");
+static QString outFormat = "png";
+} // namespace Erase
 
-// crop
-static QString cropOutPath = defOutPath("Crop");
+namespace Crop {
+static QString outPath = defOutPath("Crop");
+static QString outFormat = "png";
+} // namespace Erase
 
 } // namespace Default
 
-class Settings: public Singlton<Settings> {
+class ConvSetting {
 public:
-    Settings();
+    ConvSetting();
     void load();
-
-    // Conversion
-    QString conversionLastAddFilePath() const;
-    void setConversionLastAddFilePath(const QString &path);
-    QString conversionLastAddFolderPath() const;
-    void setConversionLastAddFolderPath(const QString &path);
-    QString conversionOutPath() const;
-    void setConversionOutPath(const QString &path);
-    QString conversionOutFormat() const;
-    void setConversionOutFormat(const QString &format);
-
-    // Compression
-    QString compressionLastAddFilePath() const;
-    void setCompressionLastAddFilePath(const QString &path);
-    QString compressionLastAddFolderPath() const;
-    void setCompressionLastAddFolderPath(const QString &path);
-    QString compressionOutPath() const;
-    void setCompressionOutPath(const QString &path);
-    QString compressionOutFormat() const;
-    void setCompressionOutFormat(const QString &format);
-    int compressQuality() const;
-    void setCompressQuality(const int quality);
-
-    // GifMk
-    QString gifMkLastAddFilePath() const;
-    void setGifMkLastAddFilePath(const QString &path);
-    QString gifMkLastAddFolderPath() const;
-    void setGifMkLastAddFolderPath(const QString &path);
-    int gifMkWidth() const;
-    void setGifMkWidth(const int width);
-    int gifMkHeight() const;
-    void setGifMkHeight(const int height);
-    int gifMkQuality() const;
-    void setGifMkQuality(const int quality);
-    int gifMkFps() const;
-    void setGifMkFps(const int fps);
-    bool gifMkRepeat() const;
-    void setGifMkRepeat(bool repeat);
-    QString gifMkOutPath() const;
-    void setGifMkOutPath(const QString &path);
-
-    // BgRm
-    QString bgRmLastAddFilePath() const;
-    void setBgRmLastAddFilePath(const QString &path);
-    QString bgRmLastAddFolderPath() const;
-    void setBgRmLastAddFolderPath(const QString &path);
-    QString bgRmOutPath() const;
-    void setBgRmOutPath(const QString &path);
-
-    // Upsc
-    QString upscOutPath() const;
-    void setUpscOutPath(const QString &path);
-
-    // erase
-    QString eraseOutPath() const;
-    void setEraseOutPath(const QString &path);
-
-    // crop
-    QString cropOutPath() const;
-    void setCropOutPath(const QString &path);
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+    QString getLastAddFilePath();
+    void setLastAddFilePath(const QString &path);
+    QString getLastAddFolderPath();
+    void setLastAddFolderPath(const QString &path);
 
 private:
     QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+    QString m_LastAddFilePath;
+    QString m_LastAddFolderPath;
+};
 
-    // Conversion
-    QString m_strConversionLastAddFilePath;
-    QString m_strConversionLastAddFolderPath;
-    QString m_strConversionOutPath;
-    QString m_strConversionOutFormat;
+class CmpSetting {
+public:
+    CmpSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+    QString getLastAddFilePath();
+    void setLastAddFilePath(const QString &path);
+    QString getLastAddFolderPath();
+    void setLastAddFolderPath(const QString &path);
+    int getQuality();
+    void setQuality(int q);
 
-    // Compression
-    QString m_strCompressionLastAddFilePath;
-    QString m_strCompressionLastAddFolderPath;
-    QString m_strCompressionOutPath;
-    QString m_strCompressionOutFormat;
-    int m_nCompressQuality;
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+    QString m_LastAddFilePath;
+    QString m_LastAddFolderPath;
+    int m_Quality;
+};
 
-    // GifMk
-    QString m_strGifMkLastAddFilePath;
-    QString m_strGifMkLastAddFolderPath;
-    int m_nGifMkWidth;
-    int m_nGifMkHeight;
-    int m_nGifMkQuality;
-    int m_nGifMkFps;
-    bool m_bGifMkRepeat;
-    QString m_strGifMkOutPath;
+class GifMkSetting {
+public:
+    GifMkSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+    QString getLastAddFilePath();
+    void setLastAddFilePath(const QString &path);
+    QString getLastAddFolderPath();
+    void setLastAddFolderPath(const QString &path);
+    int getWidth();
+    void setWidth(int w);
+    int getHeight();
+    void setHeight(int h);
+    int getQuality();
+    void setQuality(int q);
+    int getFps();
+    void setFps(int f);
+    bool getRepeat();
+    void setRepeat(bool b);
 
-    // BgRm
-    QString m_strBgRmLastAddFilePath;
-    QString m_strBgRmLastAddFolderPath;
-    QString m_strBgRmOutPath;
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+    QString m_LastAddFilePath;
+    QString m_LastAddFolderPath;
+    int m_Width;
+    int m_Height;
+    int m_Quality;
+    int m_Fps;
+    bool m_Repeat;
+};
 
-    // Upsc
-    QString m_strUpscOutPath;
+class BgRmSetting {
+public:
+    BgRmSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+    QString getLastAddFilePath();
+    void setLastAddFilePath(const QString &path);
+    QString getLastAddFolderPath();
+    void setLastAddFolderPath(const QString &path);
 
-    // erase
-    QString m_strEraseOutPath;
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+    QString m_LastAddFilePath;
+    QString m_LastAddFolderPath;
+};
 
-    // crop
-    QString m_strCropOutPath;
+class UpscSetting {
+public:
+    UpscSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+};
+
+class EraseSetting {
+public:
+    EraseSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+};
+
+class CropSetting {
+public:
+    CropSetting();
+    void load();
+    QString getOutPath() const;
+    void setOutPath(const QString &path);
+    QString getOutFmt();
+    void setOutFmt(const QString &fmt);
+
+private:
+    QSettings m_Settings;
+    QString m_OutPath;
+    QString m_OutFmt;
+};
+
+class Settings : public Singlton<Settings> {
+public:
+    Settings();
+    void load();
+    ConvSetting *getConvSetting() const;
+    CmpSetting *getCmpSetting() const;
+    GifMkSetting *getGifMkSetting() const;
+    BgRmSetting *getBgRmSetting() const;
+    UpscSetting *getUpscSetting() const;
+    EraseSetting *getEraseSetting() const;
+    CropSetting *getCropSetting() const;
+
+private:
+    ConvSetting *m_ConvSetting;
+    CmpSetting *m_CmpSetting;
+    GifMkSetting *m_GifMkSetting;
+    BgRmSetting *m_BgRmSetting;
+    UpscSetting *m_UpscSetting;
+    EraseSetting *m_EraseSetting;
+    CropSetting *m_CropSetting;
 };
 
 #define SETTINGS Settings::getInstance()

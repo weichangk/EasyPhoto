@@ -271,7 +271,7 @@ void BgRmView::importSampleImage2() {
 }
 
 void BgRmView::initOutputFolderCbbItem() {
-    m_pOutputFolderCbb->addItem(SETTINGS->bgRmOutPath());
+    m_pOutputFolderCbb->addItem(SETTINGS->getBgRmSetting()->getOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
