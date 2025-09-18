@@ -26,7 +26,7 @@ void ConvSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString ConvSetting::getOutFmt() {
+QString ConvSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -37,7 +37,7 @@ void ConvSetting::setOutFmt(const QString &fmt) {
     m_Settings.endGroup();
 }
 
-QString ConvSetting::getLastAddFilePath() {
+QString ConvSetting::getLastAddFilePath() const {
     return m_LastAddFilePath;
 }
 
@@ -48,7 +48,7 @@ void ConvSetting::setLastAddFilePath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString ConvSetting::getLastAddFolderPath() {
+QString ConvSetting::getLastAddFolderPath() const {
     return m_LastAddFolderPath;
 }
 
@@ -85,7 +85,7 @@ void CmpSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getOutFmt() {
+QString CmpSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -96,7 +96,7 @@ void CmpSetting::setOutFmt(const QString &fmt) {
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getLastAddFilePath() {
+QString CmpSetting::getLastAddFilePath() const {
     return m_LastAddFilePath;
 }
 
@@ -107,7 +107,7 @@ void CmpSetting::setLastAddFilePath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getLastAddFolderPath() {
+QString CmpSetting::getLastAddFolderPath() const {
     return m_LastAddFolderPath;
 }
 
@@ -118,7 +118,7 @@ void CmpSetting::setLastAddFolderPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-int CmpSetting::getQuality() {
+int CmpSetting::getQuality() const {
     return m_Quality;
 }
 
@@ -159,7 +159,7 @@ void GifMkSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString GifMkSetting::getOutFmt() {
+QString GifMkSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -170,7 +170,7 @@ void GifMkSetting::setOutFmt(const QString &fmt) {
     m_Settings.endGroup();
 }
 
-QString GifMkSetting::getLastAddFilePath() {
+QString GifMkSetting::getLastAddFilePath() const {
     return m_LastAddFilePath;
 }
 
@@ -181,7 +181,7 @@ void GifMkSetting::setLastAddFilePath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString GifMkSetting::getLastAddFolderPath() {
+QString GifMkSetting::getLastAddFolderPath() const {
     return m_LastAddFolderPath;
 }
 
@@ -192,7 +192,7 @@ void GifMkSetting::setLastAddFolderPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-int GifMkSetting::getWidth() {
+int GifMkSetting::getWidth() const {
     return m_Width;
 }
 
@@ -203,7 +203,7 @@ void GifMkSetting::setWidth(int w) {
     m_Settings.endGroup();
 }
 
-int GifMkSetting::getHeight() {
+int GifMkSetting::getHeight() const {
     return m_Height;
 }
 
@@ -214,7 +214,7 @@ void GifMkSetting::setHeight(int h) {
     m_Settings.endGroup();
 }
 
-int GifMkSetting::getQuality() {
+int GifMkSetting::getQuality() const {
     return m_Quality;
 }
 
@@ -225,7 +225,7 @@ void GifMkSetting::setQuality(int q) {
     m_Settings.endGroup();
 }
 
-int GifMkSetting::getFps() {
+int GifMkSetting::getFps() const {
     return m_Fps;
 }
 
@@ -236,7 +236,7 @@ void GifMkSetting::setFps(int f) {
     m_Settings.endGroup();
 }
 
-bool GifMkSetting::getRepeat() {
+bool GifMkSetting::getRepeat() const {
     return m_Repeat;
 }
 
@@ -272,7 +272,7 @@ void BgRmSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString BgRmSetting::getOutFmt() {
+QString BgRmSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -283,7 +283,7 @@ void BgRmSetting::setOutFmt(const QString &fmt) {
     m_Settings.endGroup();
 }
 
-QString BgRmSetting::getLastAddFilePath() {
+QString BgRmSetting::getLastAddFilePath() const {
     return m_LastAddFilePath;
 }
 
@@ -294,7 +294,7 @@ void BgRmSetting::setLastAddFilePath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString BgRmSetting::getLastAddFolderPath() {
+QString BgRmSetting::getLastAddFolderPath() const {
     return m_LastAddFolderPath;
 }
 
@@ -314,6 +314,9 @@ void UpscSetting::load() {
     m_Settings.beginGroup("Upsc");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Upsc::outPath).toString();
     m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Upsc::outPath).toString();
+    m_Scale = m_Settings.value(QStringLiteral("Scale"), Default::Upsc::scale).toInt();
+    m_DoubleUpscale = m_Settings.value(QStringLiteral("DoubleUpscale"), Default::Upsc::doubleUpscale).toBool();
+    m_ModelType = m_Settings.value(QStringLiteral("ModelType"), Default::Upsc::modelType).toInt();
     m_Settings.endGroup();
 }
 
@@ -328,7 +331,7 @@ void UpscSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString UpscSetting::getOutFmt() {
+QString UpscSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -336,6 +339,39 @@ void UpscSetting::setOutFmt(const QString &fmt) {
     m_OutFmt = fmt;
     m_Settings.beginGroup("Upsc");
     m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
+    m_Settings.endGroup();
+}
+
+int UpscSetting::getScale() const {
+    return m_Scale;
+}
+
+void UpscSetting::setScale(int s) {
+    m_Scale = s;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("Scale"), m_Scale);
+    m_Settings.endGroup();
+}
+
+bool UpscSetting::getDoubleUpscale() const {
+    return m_DoubleUpscale;
+}
+
+void UpscSetting::setDoubleUpscale(bool b) {
+    m_DoubleUpscale = b;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("DoubleUpscale"), m_DoubleUpscale);
+    m_Settings.endGroup();
+}
+
+int UpscSetting::getModelType() const {
+    return m_ModelType;
+}
+
+void UpscSetting::setModelType(int type) {
+    m_ModelType = type;
+    m_Settings.beginGroup("Upsc");
+    m_Settings.setValue(QStringLiteral("ModelType"), m_ModelType);
     m_Settings.endGroup();
 }
 
@@ -362,7 +398,7 @@ void EraseSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString EraseSetting::getOutFmt() {
+QString EraseSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -396,7 +432,7 @@ void CropSetting::setOutPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-QString CropSetting::getOutFmt() {
+QString CropSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
@@ -406,9 +442,6 @@ void CropSetting::setOutFmt(const QString &fmt) {
     m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
     m_Settings.endGroup();
 }
-
-
-
 
 Settings::Settings() {
     m_ConvSetting = new ConvSetting();

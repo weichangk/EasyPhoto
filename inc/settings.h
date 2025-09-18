@@ -56,6 +56,9 @@ static QString lastAddFolderPath = QDir::homePath();
 namespace Upsc {
 static QString outPath = defOutPath("Upsc");
 static QString outFormat = "png";
+static int scale = 1;
+static bool doubleUpscale = false;
+static int modelType = 0;
 } // namespace Upsc
 
 namespace Erase {
@@ -66,7 +69,7 @@ static QString outFormat = "png";
 namespace Crop {
 static QString outPath = defOutPath("Crop");
 static QString outFormat = "png";
-} // namespace Erase
+} // namespace Crop
 
 } // namespace Default
 
@@ -76,11 +79,11 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
-    QString getLastAddFilePath();
+    QString getLastAddFilePath() const;
     void setLastAddFilePath(const QString &path);
-    QString getLastAddFolderPath();
+    QString getLastAddFolderPath() const;
     void setLastAddFolderPath(const QString &path);
 
 private:
@@ -97,13 +100,13 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
-    QString getLastAddFilePath();
+    QString getLastAddFilePath() const;
     void setLastAddFilePath(const QString &path);
-    QString getLastAddFolderPath();
+    QString getLastAddFolderPath() const;
     void setLastAddFolderPath(const QString &path);
-    int getQuality();
+    int getQuality() const;
     void setQuality(int q);
 
 private:
@@ -121,21 +124,21 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
-    QString getLastAddFilePath();
+    QString getLastAddFilePath() const;
     void setLastAddFilePath(const QString &path);
-    QString getLastAddFolderPath();
+    QString getLastAddFolderPath() const;
     void setLastAddFolderPath(const QString &path);
-    int getWidth();
+    int getWidth() const;
     void setWidth(int w);
-    int getHeight();
+    int getHeight() const;
     void setHeight(int h);
-    int getQuality();
+    int getQuality() const;
     void setQuality(int q);
-    int getFps();
+    int getFps() const;
     void setFps(int f);
-    bool getRepeat();
+    bool getRepeat() const;
     void setRepeat(bool b);
 
 private:
@@ -157,11 +160,11 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
-    QString getLastAddFilePath();
+    QString getLastAddFilePath() const;
     void setLastAddFilePath(const QString &path);
-    QString getLastAddFolderPath();
+    QString getLastAddFolderPath() const;
     void setLastAddFolderPath(const QString &path);
 
 private:
@@ -178,13 +181,22 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
+    int getScale() const;
+    void setScale(int s);
+    bool getDoubleUpscale() const;
+    void setDoubleUpscale(bool b);
+    int getModelType() const;
+    void setModelType(int type);
 
 private:
     QSettings m_Settings;
     QString m_OutPath;
     QString m_OutFmt;
+    int m_Scale;
+    bool m_DoubleUpscale;
+    int m_ModelType;
 };
 
 class EraseSetting {
@@ -193,7 +205,7 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
 
 private:
@@ -208,7 +220,7 @@ public:
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
-    QString getOutFmt();
+    QString getOutFmt() const;
     void setOutFmt(const QString &fmt);
 
 private:
