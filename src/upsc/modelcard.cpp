@@ -60,8 +60,8 @@ ModelCard:: ModelCard(QWidget *parent) :
     mask->setPramas(QtmFilter::MaskWidget::RoundType::Round_All, 0, 8, 8);
 }
 
-void ModelCard::setInfo(const QString &name, const QString &desc, const QPixmap &beforeThumb, const QPixmap &afterThumb) {
-    m_pNameLbl->setText(name);
+void ModelCard::setInfo(const QString &title, const QString &desc, const QPixmap &beforeThumb, const QPixmap &afterThumb) {
+    m_pNameLbl->setText(title);
     m_pDescLbl->setText(desc);
     m_pBeforeThumbLbl->setPixmap(beforeThumb.scaled(m_pBeforeThumbLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     m_pAfterThumbLbl->setPixmap(afterThumb.scaled(m_pAfterThumbLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));

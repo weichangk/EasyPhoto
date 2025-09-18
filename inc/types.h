@@ -142,8 +142,81 @@ Q_DECLARE_METATYPE(SCropScaleData)
 
 // Upsc
 #define UPSC_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.PNG;*.JPG;*.JPEG;*.JFIF;*.WEBP)"
-#define UPSC_OUTPUT_FORMATS "png;jpg;webp"
+const QMap<QString, QString> UPSC_OUTPUT_FORMATS{
+    {"png", "PNG"},
+    {"jpg", "JPG"},
+    {"webp", "WEBP"},
+};
+const QMap<int, QString> UPSC_SCALES{
+    {1, "1x"},
+    {2, "2x"},
+    {3, "3x"},
+    {4, "4x"},
+    {5, "5x"},
+    {6, "6x"},
+    {7, "7x"},
+    {8, "8x"},
+    {9, "9x"},
+    {10, "10x"},
+    {11, "11x"},
+    {12, "12x"},
+    {13, "13x"},
+    {14, "14x"},
+    {15, "15x"},
+    {16, "16x"},
+};
 
+enum EUpscModelType {
+    EUpscModelType_Standard = 0,
+    EUpscModelType_Lite,
+    EUpscModelType_Fidelity,
+    EUpscModelType_Remacri,
+    EUpscModelType_Ultramix,
+    EUpscModelType_Ultrasharp,
+    EUpscModelType_Digital,
+};
+
+const QMap<EUpscModelType, QString> UPSC_MODEL_NAMES{
+    {EUpscModelType_Standard, "upscayl-standard-4x"},
+    {EUpscModelType_Lite, "upscayl-lite-4x"},
+    {EUpscModelType_Fidelity, "high-fidelity-4x"},
+    {EUpscModelType_Remacri, "remacri-4x"},
+    {EUpscModelType_Ultramix, "ultramix-balanced-4x"},
+    {EUpscModelType_Ultrasharp, "ultrasharp-4x"},
+    {EUpscModelType_Digital, "digital-art-4x"},
+};
+
+const QMap<EUpscModelType, QString> UPSC_MODEL_TITLES{
+    {EUpscModelType_Standard, "Upscayl Standard"},
+    {EUpscModelType_Lite, "Upscayl Life"},
+    {EUpscModelType_Fidelity, "High Fidelity"},
+    {EUpscModelType_Remacri, "Remacri(Non-Commercial)"},
+    {EUpscModelType_Ultramix, "Ultramix(Non-Commercial)"},
+    {EUpscModelType_Ultrasharp, "Ultrasharp(Non-Commercial)"},
+    {EUpscModelType_Digital, "Digital Art"},
+};
+
+const QMap<EUpscModelType, QString> UPSC_MODEL_DESCS{
+    {EUpscModelType_Standard, "Suitable for most images."},
+    {EUpscModelType_Lite, "Suitable for most images. High-speed upscaling with minimal quality loss."},
+    {EUpscModelType_Fidelity, "For all Kinds of images with a focus on realistic details and smooth textures."},
+    {EUpscModelType_Remacri, "For natural images. Added sharpness and detail. No commercial use."},
+    {EUpscModelType_Ultramix, "For natural images with a balance of sharpness and detail."},
+    {EUpscModelType_Ultrasharp, "For natural images with a focus on sharpness."},
+    {EUpscModelType_Digital, "For digital art and illustrations."},
+};
+
+struct SUpscSelectModelData {
+    EUpscModelType type;
+    QString name;
+    QString title;
+    QString desc;
+    QPixmap beforeThumb;
+    QPixmap afterThumb;
+};
+Q_DECLARE_METATYPE(SUpscSelectModelData)
+
+// crop
 struct SUpscModelData {
     QString id = "";
     QString name = "";
@@ -151,25 +224,3 @@ struct SUpscModelData {
     QPixmap thumbnail = QPixmap();
 };
 Q_DECLARE_METATYPE(SUpscModelData)
-
-enum EUpscSmapleType {
-    EUpscSmapleType_Standard = 0,
-    EUpscSmapleType_Lite,
-    EUpscSmapleType_Fidelity,
-    EUpscSmapleType_Remacri,
-    EUpscSmapleType_Ultramix,
-    EUpscSmapleType_Ultrasharp,
-    EUpscSmapleType_Digital,
-};
-
-struct SUpscSelectModelData {
-    int id;
-    EUpscSmapleType type;
-    QString name;
-    QString desc;
-    QPixmap beforeThumb;
-    QPixmap afterThumb;
-};
-Q_DECLARE_METATYPE(SUpscSelectModelData)
-
-QStringList UpscOutputFormats();

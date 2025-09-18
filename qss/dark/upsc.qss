@@ -16,7 +16,7 @@ QLabel#UpscView_m_pTitleLbl {
 
 QLabel#UpscView_m_pSmapleTitleLbl,
 QLabel#UpscView_m_pSelectModelLbl,
-QLabel#UpscView_m_pUpscaleLbl,
+QLabel#UpscView_m_pScaleLbl,
 QLabel#UpscView_m_pSaveAsFormatLbl,
 QLabel#UpscView_m_pOutputFolderLbl {
     color: "#ffffff";

@@ -8,7 +8,7 @@ public:
     ~ModelCard() override {
     }
 
-    void setInfo(const QString &name, const QString &desc, const QPixmap &beforeThumb, const QPixmap &afterThumb);
+    void setInfo(const QString &title, const QString &desc, const QPixmap &beforeThumb, const QPixmap &afterThumb);
 
 protected:
     void resizeEvent(QResizeEvent *event) override;

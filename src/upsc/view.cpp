@@ -1,6 +1,8 @@
 #include "upsc/view.h"
 #include "upsc/presenter.h"
 #include "settings.h"
+#include <QDesktopServices>
+#include <QUrl>
 
 UpscView::UpscView(QWidget *parent) :
     QWidget(parent) {
@@ -155,16 +157,16 @@ void UpscView::createUi() {
     rightWidgetLayout->addSpacing(12);
 
     //
-    m_pUpscaleLbl = new QLabel(this);
-    m_pUpscaleLbl->setObjectName("UpscView_m_pUpscaleLbl");
-    m_pUpscaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-    rightWidgetLayout->addWidget(m_pUpscaleLbl);
+    m_pScaleLbl = new QLabel(this);
+    m_pScaleLbl->setObjectName("UpscView_m_pScaleLbl");
+    m_pScaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    rightWidgetLayout->addWidget(m_pScaleLbl);
     rightWidgetLayout->addSpacing(4);
 
     //
-    m_pUpscaleCbb = new QComboBox(this);
-    m_pUpscaleCbb->setFixedHeight(24);
-    rightWidgetLayout->addWidget(m_pUpscaleCbb);
+    m_pScaleCbb = new QComboBox(this);
+    m_pScaleCbb->setFixedHeight(24);
+    rightWidgetLayout->addWidget(m_pScaleCbb);
     rightWidgetLayout->addSpacing(12);
 
     //
@@ -247,6 +249,10 @@ void UpscView::connectSig() {
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &UpscView::onGuideImportFile);
     connect(m_pExportBtn, &QPushButton::clicked, this, &UpscView::onExportBtnClicked);
     connect(m_pSelectModelCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UpscView::onSelectModelCbbCurrentIndex);
+    connect(m_pScaleCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UpscView::onScaleCbbCurrentIndex);
+    connect(m_pSaveAsFormatCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UpscView::onSaveAsFormatCbbCurrentIndex);
+    connect(m_pDoubleUpscaleCkb, &QCheckBox::stateChanged, this, &UpscView::onDoubleUpscaleCkbStateChanged);
+    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &UpscView::onOpenOutputFolderBtnClicked);
 }
 
 void UpscView::firstShow() {
@@ -255,27 +261,29 @@ void UpscView::firstShow() {
         firstShow = false;
         loadSampleImage();
         initSelectModelCbbItem();
+        initModelCard();
         initOutputFolderCbbItem();
         initUpscaleCbbItem();
+        initDoubleUpscaleCkb();
         initSaveAsFormatCbbItem();
     }
 }
 
 void UpscView::loadSampleImage() {
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    m_pStandardSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Standard)).scaled(m_pStandardSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pLiteSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Lite)).scaled(m_pLiteSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pFidelitySmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Fidelity)).scaled(m_pFidelitySmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pRemacriSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Remacri)).scaled(m_pRemacriSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pUltramixSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Ultramix)).scaled(m_pUltramixSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pUltrasharpSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Ultrasharp)).scaled(m_pUltrasharpSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    m_pDigitalSmapleImageLbl->setPixmap(QPixmap(prst->getSampleImagePath(EUpscSmapleType_Digital)).scaled(m_pDigitalSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pStandardSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Standard)).scaled(m_pStandardSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pLiteSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Lite)).scaled(m_pLiteSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pFidelitySmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Fidelity)).scaled(m_pFidelitySmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pRemacriSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Remacri)).scaled(m_pRemacriSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pUltramixSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Ultramix)).scaled(m_pUltramixSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pUltrasharpSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Ultrasharp)).scaled(m_pUltrasharpSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    m_pDigitalSmapleImageLbl->setPixmap(QPixmap(prst->getSampleBeforeImagePath(EUpscModelType_Digital)).scaled(m_pDigitalSmapleImageLbl->size(), Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
 }
 
-void UpscView::importSampleImage(EUpscSmapleType type) {
+void UpscView::importSampleImage(EUpscModelType type) {
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     QStringList paths;
-    paths.append(prst->getSampleImagePath(type));
+    paths.append(prst->getSampleBeforeImagePath(type));
     m_pImportListView->importFile(paths);
     m_pSelectModelCbb->setCurrentIndex(type);
 }
@@ -285,24 +293,47 @@ void UpscView::initOutputFolderCbbItem() {
 }
 
 void UpscView::initSelectModelCbbItem() {
-    m_pSelectModelCbb->clear();
+    blockSignalsFunc(m_pSelectModelCbb, [&]() {
+        m_pSelectModelCbb->clear();
+        m_pSelectModelCbb->addItems(UPSC_MODEL_TITLES.values());
+        m_pSelectModelCbb->setCurrentIndex(SETTINGS->getUpscSetting()->getModelType());
+    });
+}
+
+void UpscView::initModelCard() {
+    int type = SETTINGS->getUpscSetting()->getModelType();
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    for(const SUpscSelectModelData &data : prst->getSelectModelDatas()) {
-        m_pSelectModelCbb->addItem(data.name);
-    }
+    auto modelDatas = prst->getSelectModelDatas();
+    auto it = std::find_if(modelDatas.begin(), modelDatas.end(),
+                           [type](const SUpscSelectModelData &data) {
+                               return static_cast<int>(data.type) == type;
+                           });
+    if (it == modelDatas.end())
+        return;
+    const SUpscSelectModelData &model = *it;
+    m_pModelCard->setInfo(model.title, model.desc, model.beforeThumb, model.afterThumb);
 }
 
 void UpscView::initUpscaleCbbItem() {
-    QStringList texts;
-    for (int i = 1; i <= 16; i++)
-    {
-        texts.append(QString("%1x").arg(i));
-    }
-    m_pUpscaleCbb->addItems(texts);
+    blockSignalsFunc(m_pScaleCbb, [&]() {
+        m_pScaleCbb->clear();
+        m_pScaleCbb->addItems(UPSC_SCALES.values());
+        m_pScaleCbb->setCurrentIndex(UPSC_SCALES.keys().indexOf(SETTINGS->getUpscSetting()->getScale()));
+    });
+}
+
+void UpscView::initDoubleUpscaleCkb() {
+    blockSignalsFunc(m_pDoubleUpscaleCkb, [&]() {
+        m_pDoubleUpscaleCkb->setChecked(SETTINGS->getUpscSetting()->getDoubleUpscale());
+    });
 }
 
 void UpscView::initSaveAsFormatCbbItem() {
-    m_pSaveAsFormatCbb->addItems(UpscOutputFormats());
+    blockSignalsFunc(m_pSaveAsFormatCbb, [&]() {
+        m_pSaveAsFormatCbb->clear();
+        m_pSaveAsFormatCbb->addItems(UPSC_OUTPUT_FORMATS.values());
+        m_pSaveAsFormatCbb->setCurrentIndex(UPSC_OUTPUT_FORMATS.keys().indexOf(SETTINGS->getUpscSetting()->getOutFmt()));
+    });
 }
 
 void UpscView::gotoImportGuide() {
@@ -322,38 +353,38 @@ void UpscView::onLanguageChange() {
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pSelectModelLbl->setText(tr("Select AI Model"));
     m_pDoubleUpscaleCkb->setText(tr("Double Upscayl"));
-    m_pUpscaleLbl->setText(tr("Image Scale"));
+    m_pScaleLbl->setText(tr("Image Scale"));
     m_pSaveAsFormatLbl->setText(tr("Save As Format"));
     m_pOutputFolderLbl->setText(tr("Save Output Folder"));
     m_pExportBtn->setText(tr("Upscayl"));
 }
 
 void UpscView::onStandardSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Standard);
+    importSampleImage(EUpscModelType_Standard);
 }
 
 void UpscView::onLiteSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Lite);
+    importSampleImage(EUpscModelType_Lite);
 }
 
 void UpscView::onFidelitySmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Fidelity);
+    importSampleImage(EUpscModelType_Fidelity);
 }
 
 void UpscView::onRemacriSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Remacri);
+    importSampleImage(EUpscModelType_Remacri);
 }
 
 void UpscView::onUltramixSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Ultramix);
+    importSampleImage(EUpscModelType_Ultramix);
 }
 
 void UpscView::onUltrasharpSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Ultrasharp);
+    importSampleImage(EUpscModelType_Ultrasharp);
 }
 
 void UpscView::onDigitalSmapleImageLblClicked() {
-    importSampleImage(EUpscSmapleType_Digital);
+    importSampleImage(EUpscModelType_Digital);
 }
 
 void UpscView::onImportListCountChange(int count) {
@@ -379,14 +410,23 @@ void UpscView::onExportBtnClicked() {
 }
 
 void UpscView::onSelectModelCbbCurrentIndex(int index) {
-    UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
-    auto modelDatas = prst->getSelectModelDatas();
-    auto it = std::find_if(modelDatas.begin(), modelDatas.end(),
-                           [index](const SUpscSelectModelData &data) {
-                               return static_cast<int>(data.type) == index;
-                           });
-    if (it == modelDatas.end())
-        return;
-    const SUpscSelectModelData &model = *it;
-    m_pModelCard->setInfo(model.name, model.desc, model.beforeThumb, model.afterThumb);
+    SETTINGS->getUpscSetting()->setModelType(index);
+    initModelCard();
+}
+
+void UpscView::onScaleCbbCurrentIndex(int index) {
+    SETTINGS->getUpscSetting()->setScale(UPSC_SCALES.keys()[index]);
+}
+
+void UpscView::onSaveAsFormatCbbCurrentIndex(int index) {
+    SETTINGS->getUpscSetting()->setOutFmt(UPSC_OUTPUT_FORMATS.keys()[index]);
+}
+
+void UpscView::onDoubleUpscaleCkbStateChanged(int state) {
+    SETTINGS->getUpscSetting()->setDoubleUpscale(m_pDoubleUpscaleCkb->isChecked());
+}
+
+void UpscView::onOpenOutputFolderBtnClicked() {
+    QString folderPath = SETTINGS->getUpscSetting()->getOutPath();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }

@@ -13,7 +13,7 @@ public:
 
     QList<SUpscSelectModelData> getSelectModelDatas();
 
-    QString getSampleImagePath(EUpscSmapleType type);
+    QString getSampleBeforeImagePath(EUpscModelType type);
 
     ImportListRepository *getImportListRepository();
 

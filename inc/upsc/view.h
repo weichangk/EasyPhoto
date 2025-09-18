@@ -13,7 +13,6 @@
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "types.h"
-#include "modellistdelegate.h"
 #include "preview/imageviewer.h"
 #include "import/importlistview.h"
 #include "modelcard.h"
@@ -47,10 +46,12 @@ private:
     void connectSig();
     void firstShow();
     void loadSampleImage();
-    void importSampleImage(EUpscSmapleType type);
+    void importSampleImage(EUpscModelType type);
     void initOutputFolderCbbItem();
     void initSelectModelCbbItem();
+    void initModelCard();
     void initUpscaleCbbItem();
+    void initDoubleUpscaleCkb();
     void initSaveAsFormatCbbItem();
     void gotoImportGuide();
     void gotoWorkspace();
@@ -71,6 +72,10 @@ private Q_SLOTS:
     void onGuideImportFile(const QStringList &filePaths);
     void onExportBtnClicked();
     void onSelectModelCbbCurrentIndex(int index);
+    void onScaleCbbCurrentIndex(int index);
+    void onSaveAsFormatCbbCurrentIndex(int index);
+    void onDoubleUpscaleCkbStateChanged(int state);
+    void onOpenOutputFolderBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -105,8 +110,8 @@ private:
     QCheckBox *m_pDoubleUpscaleCkb = nullptr;
     IconButton *m_pDoubleUpscaleTipBtn = nullptr;
 
-    QLabel *m_pUpscaleLbl = nullptr;
-    QComboBox *m_pUpscaleCbb = nullptr;
+    QLabel *m_pScaleLbl = nullptr;
+    QComboBox *m_pScaleCbb = nullptr;
 
     QLabel *m_pSaveAsFormatLbl = nullptr;
     QComboBox *m_pSaveAsFormatCbb = nullptr;
