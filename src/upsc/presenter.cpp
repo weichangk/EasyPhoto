@@ -4,6 +4,8 @@
 #include "upsc/task.h"
 #include "ImageKitCore/inc/upsc/types.h"
 #include "core/file.h"
+#include "settings.h"
+#include "types.h"
 
 using namespace QtmCore;
 
@@ -30,18 +32,27 @@ QString UpscPresenter::getSampleBeforeImagePath(EUpscModelType type) {
 void UpscPresenter::Upsc() {
     auto datas = m_pImportListPresenter->getDatas();
     foreach (auto data, datas) {
-        QString outPath = data.path;
-        File::renameIfExists(outPath);
+        QFileInfo fileInfo(data.path);
+        QString baseName = fileInfo.completeBaseName();
+        QString suffix = fileInfo.suffix(); 
+        QString outPath = QString("%1/%2-%3-%4x.%5")
+        .arg(SETTINGS->getUpscSetting()->getOutPath())
+        .arg(UPSC_MODEL_NAMES[(EUpscModelType)SETTINGS->getUpscSetting()->getModelType()])
+        .arg(baseName)
+        .arg(SETTINGS->getUpscSetting()->getScale())
+        .arg(SETTINGS->getUpscSetting()->getOutFmt());
+        File::renameIfExists(outPath, false);
+
         ImgKitCore::UPSC::SParam param;
         param.inputFile = data.path;
         param.outputFile = outPath;
-        param.scale = 1;
-        param.modelName = "upscayl-standard-4x";
+        param.scale = SETTINGS->getUpscSetting()->getScale();
+        param.modelName = UPSC_MODEL_NAMES[(EUpscModelType)SETTINGS->getUpscSetting()->getModelType()];
         param.gpuId = "";
         param.compression = 0;
-        param.saveAsFormat = ImgKitCore::UPSC::EFormat::PNG;
+        param.saveAsFormat = SETTINGS->getUpscSetting()->getOutFmt();
         param.useCustomWidth = false;
-        param.customWidth = 1000;
+        param.customWidth = 0;
         param.tileSize = 0;
         param.ttaMode = false;
         ImgKitCore::UPSC::Task task;
