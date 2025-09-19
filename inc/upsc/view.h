@@ -56,7 +56,7 @@ private:
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
-
+    void setOutputFolder(const QString &path);
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -76,6 +76,7 @@ private Q_SLOTS:
     void onSaveAsFormatCbbCurrentIndex(int index);
     void onDoubleUpscaleCkbStateChanged(int state);
     void onOpenOutputFolderBtnClicked();
+    void onOutputFolderCbbIndexChanged(int index);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;

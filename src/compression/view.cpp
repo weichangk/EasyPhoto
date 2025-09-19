@@ -410,7 +410,7 @@ void CompressionView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem("...");
 }
 
-void CompressionView::CompressionView::setOutputFolder(const QString &path) {
+void CompressionView::setOutputFolder(const QString &path) {
     SETTINGS->getCmpSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }

@@ -3,6 +3,7 @@
 #include "settings.h"
 #include <QDesktopServices>
 #include <QUrl>
+#include <QFileDialog.h>
 
 UpscView::UpscView(QWidget *parent) :
     QWidget(parent) {
@@ -253,6 +254,7 @@ void UpscView::connectSig() {
     connect(m_pSaveAsFormatCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &UpscView::onSaveAsFormatCbbCurrentIndex);
     connect(m_pDoubleUpscaleCkb, &QCheckBox::stateChanged, this, &UpscView::onDoubleUpscaleCkbStateChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &UpscView::onOpenOutputFolderBtnClicked);
+    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &UpscView::onOutputFolderCbbIndexChanged);
 }
 
 void UpscView::firstShow() {
@@ -290,6 +292,7 @@ void UpscView::importSampleImage(EUpscModelType type) {
 
 void UpscView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->getUpscSetting()->getOutPath());
+    m_pOutputFolderCbb->addItem("...");
 }
 
 void UpscView::initSelectModelCbbItem() {
@@ -346,6 +349,11 @@ void UpscView::gotoWorkspace() {
 
 void UpscView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
+}
+
+void UpscView::setOutputFolder(const QString &path) {
+    SETTINGS->getUpscSetting()->setOutPath(path);
+    m_pOutputFolderCbb->setItemText(0, path);
 }
 
 void UpscView::onLanguageChange() {
@@ -429,4 +437,17 @@ void UpscView::onDoubleUpscaleCkbStateChanged(int state) {
 void UpscView::onOpenOutputFolderBtnClicked() {
     QString folderPath = SETTINGS->getUpscSetting()->getOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
+}
+
+void UpscView::onOutputFolderCbbIndexChanged(int index) {
+    if (index == 1) {
+        blockSignalsFunc(m_pOutputFolderCbb, [&]() {
+            m_pOutputFolderCbb->setCurrentIndex(0);
+        });
+        QString title = tr("Select Folder");
+        QString dirPath = QFileDialog::getExistingDirectory(this, title, QDir::homePath(), QFileDialog::ShowDirsOnly | QFileDialog::DontResolveSymlinks);
+        if (!dirPath.isEmpty()) {
+            setOutputFolder(dirPath);
+        }
+    }
 }
