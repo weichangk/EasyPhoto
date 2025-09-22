@@ -152,6 +152,8 @@ void UpscView::createUi() {
     doubleUpscaleLayout->addWidget(m_pDoubleUpscaleCkb);
     doubleUpscaleLayout->addWidget(m_pDoubleUpscaleTipBtn);
     doubleUpscaleLayout->addStretch();
+    m_pDoubleUpscaleCkb->setVisible(false);
+    m_pDoubleUpscaleTipBtn->setVisible(false);
 
     //
     rightWidgetLayout->addLayout(doubleUpscaleLayout);
