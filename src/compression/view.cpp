@@ -247,6 +247,7 @@ void CompressionView::connectSig() {
     connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &CompressionView::onSelectAllStateChanged);
     connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &CompressionView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &CompressionView::onListViewClicked);
+    connect(m_pOutputFormatCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CompressionView::onOutputFormatCbbCurrentIndex);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CompressionView::onOutputFolderCbbIndexChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &CompressionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &CompressionView::onStartAllBtnClicked);
@@ -331,17 +332,10 @@ void CompressionView::selectAllState() {
 }
 
 void CompressionView::initOutputFormatCbbItem() {
-    QString format = COMP_OUT_FORMATS;
-    QStringList formats = format.split(' ');
-    QString fmt = "sameassource";
-    for (auto &item : formats) {
-        if(item != "sameassource") {
-            fmt = item.toUpper();
-        }
-        m_pOutputFormatCbb->addItem(fmt);
-    }
     blockSignalsFunc(m_pOutputFormatCbb, [&]() {
-        m_pOutputFormatCbb->setCurrentText(SETTINGS->getCmpSetting()->getOutFmt() != "sameassource" ? SETTINGS->getCmpSetting()->getOutFmt().toUpper() : "sameassource");
+        m_pOutputFormatCbb->clear();
+        m_pOutputFormatCbb->addItems(COMP_OUT_FORMATS.values());
+        m_pOutputFormatCbb->setCurrentIndex(COMP_OUT_FORMATS.keys().indexOf(SETTINGS->getCmpSetting()->getOutFmt()));
     });
 }
 
@@ -547,8 +541,8 @@ void CompressionView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void CompressionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
-    QString format = text.toLower();
+void CompressionView::onOutputFormatCbbCurrentIndex(int index) {
+    QString format = COMP_OUT_FORMATS.keys()[index];
     SETTINGS->getCmpSetting()->setOutFmt(format);
     CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
     for (auto &data : prst->datas()) {

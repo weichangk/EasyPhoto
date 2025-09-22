@@ -67,7 +67,7 @@ private Q_SLOTS:
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
     void onListViewClicked(const QModelIndex &index);
-    void onOutputFormatCbbCurrentTextChanged(const QString &text);
+    void onOutputFormatCbbCurrentIndex(int index);
     void onOutputFolderCbbIndexChanged(int index);
     void onOpenOutputFolderBtnClicked();
     void onStartAllBtnClicked();
