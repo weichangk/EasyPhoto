@@ -11,7 +11,6 @@ enum EImageState {
     EImageState_Success,
     EImageState_Fail,
 };
-
 struct SImageData {
     QString file_name = "";
     QString file_path = "";
@@ -29,6 +28,7 @@ struct SImageData {
 };
 Q_DECLARE_METATYPE(SImageData)
 
+// CONV
 // 暂不持支：svg ico cur xpm heic jfif heif jif rgf xwd jfi picon
 #define CONV_INPUT_FORMATS "(*.jpg;*.jpeg;*.webp;*.hdr;*.bmp;*.gif;*.dds;*.psd;*.tiff;*.tga;*.rgb;*.avif;*.pgm;*.jp2;*.rgba;*.ppm;*.xbm;*.pcx;*.wbmp;*.exr;*.map;*.jbg;*.pnm;*.jpe;*.yuv;*.pbm;*.pdb;*.g4;*.ras;*.g3;*.pal;*.sgi;*.pict;*.pfm;*.pcd;*.jps;*.uyvy;*.pgx;*.vips;*.six;*.fts;*.fax;*.jbig;*.ipl;*.sun;*.pam;*.viff;*.mng;*.mtv;*.xv;*.pct;*.sixel;*.palm;*.rgbo;*.hrz;*.otb;*.JPG;*.JPEG;*.WEBP;*.HDR;*.BMP;*.GIF;*.DDS;*.PSD;*.TIFF;*.TGA;*.RGB;*.AVIF;*.PGM;*.JP2;*.RGBA;*.PPM;*.XBM;*.PCX;*.WBMP;*.EXR;*.MAP;*.JBG;*.PNM;*.JPE;*.YUV;*.PBM;*.PDB;*.G4;*.RAS;*.G3;*.PAL;*.SGI;*.PICT;*.PFM;*.PCD;*.JPS;*.UYVY;*.PGX;*.VIPS;*.SIX;*.FTS;*.FAX;*.JBIG;*.IPL;*.SUN;*.PAM;*.VIFF;*.MNG;*.MTV;*.XV;*.PCT;*.SIXEL;*.PALM;*.RGBO;*.HRZ;*.OTB)"
 const QMap<QString, QString> CONV_OUTPUT_FORMATS{
@@ -45,17 +45,27 @@ const QMap<QString, QString> CONV_OUTPUT_FORMATS{
     {"xbm", "XBM"},
 };
 
+// COMP
 #define COMP_INPUT_FORMATS "(*.jpg;*.jpeg;*.png;*.gif;*.webp;*.JPG;*.JPEG;*.PNG;*.GIF;*.WEBP)"
 const QMap<QString, QString> COMP_OUT_FORMATS{
     {"sameassource", "SAMEASSOURCE"},
     {"jpg", "JPG"},
     {"png", "PNG"},
 };
-#define COMP_OUT_QUALITY "10 20 30 40 50 60 70 80 90"
+const QMap<QString, QString> COMP_OUT_QUALITYS{
+    {"10", "10%"},
+    {"20", "20%"},
+    {"30", "30%"},
+    {"40", "40%"},
+    {"50", "50%"},
+    {"60", "60%"},
+    {"70", "70%"},
+    {"80", "80%"},
+    {"90", "90%"},
+};
 
-
-#define BGREMOVER_INPUT_FORMATS "png jpg jpeg bmp"
-
+// BGRM
+#define BGRM_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.bmp)"
 struct SBgRmData {
     QString file_name = "";
     QString file_path = "";
@@ -81,12 +91,39 @@ enum EBgImgType {
     EBgImgType_Scene
 };
 
-#define CROP_INPUT_FORMATS "jpg jpeg webp"
-#define ERASE_INPUT_FORMATS "png jpg jpeg webp bmp"
+// CROP
+#define CROP_INPUT_FORMATS "(*.jpg;*.jpeg;*.webp)"
+enum ECropScaleType {
+    ECropScaleType_Original = 0,
+    ECropScaleType_Custom,
+    ECropScaleType_1_1,
+    ECropScaleType_16_9,
+    ECropScaleType_9_16,
+    ECropScaleType_4_3,
+    ECropScaleType_3_2,
+    ECropScaleType_2_3,
+};
+struct SCropScaleData {
+    ECropScaleType type = ECropScaleType_Original;
+    QString name = "Original";
+    QPixmap thumbnail = QPixmap();
+};
+Q_DECLARE_METATYPE(SCropScaleData)
+struct SUpscModelData {
+    QString id = "";
+    QString name = "";
+    QString path = "";
+    QPixmap thumbnail = QPixmap();
+};
+Q_DECLARE_METATYPE(SUpscModelData)
 
-#define GIFGENERATION_INPUT_FORMATS "jpg jpeg png bmp"
-#define GIFGENERATION_OUTPUT_MINFRAMERATE 1
-#define GIFGENERATION_OUTPUT_MAXFRAMERATE 60
+// ERASE
+#define ERASE_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.webp;*.bmp)"
+
+// GIFMK
+#define GIFMK_INPUT_FORMATS "(*.jpg;*.jpeg;*.png;*.bmp)"
+#define GIFMK_OUTPUT_MINFRAMERATE 1
+#define GIFMK_OUTPUT_MAXFRAMERATE 60
 #define GIFMKSCALE "original 16:9 1:1"
 struct SGifMkData {
     QString file_name = "";
@@ -98,24 +135,6 @@ struct SGifMkData {
     bool is_checked = false;
 };
 Q_DECLARE_METATYPE(SGifMkData)
-
-enum ECropScaleType {
-    ECropScaleType_Original = 0,
-    ECropScaleType_Custom,
-    ECropScaleType_1_1,
-    ECropScaleType_16_9,
-    ECropScaleType_9_16,
-    ECropScaleType_4_3,
-    ECropScaleType_3_2,
-    ECropScaleType_2_3,
-};
-
-struct SCropScaleData {
-    ECropScaleType type = ECropScaleType_Original;
-    QString name = "Original";
-    QPixmap thumbnail = QPixmap();
-};
-Q_DECLARE_METATYPE(SCropScaleData)
 
 // Upsc
 #define UPSC_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.PNG;*.JPG;*.JPEG;*.JFIF;*.WEBP)"
@@ -192,12 +211,3 @@ struct SUpscSelectModelData {
     QPixmap afterThumb;
 };
 Q_DECLARE_METATYPE(SUpscSelectModelData)
-
-// crop
-struct SUpscModelData {
-    QString id = "";
-    QString name = "";
-    QString path = "";
-    QPixmap thumbnail = QPixmap();
-};
-Q_DECLARE_METATYPE(SUpscModelData)
