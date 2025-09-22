@@ -21,7 +21,7 @@ struct SImportFileResult {
     T value;
     int elapsed;
 };
-Q_DECLARE_METATYPE(SImportFileResult<QList<SConversionData>>)
+Q_DECLARE_METATYPE(SImportFileResult<QList<SImageData>>)
 
 class ImportFileCallbackBase : public QObject {
     Q_OBJECT

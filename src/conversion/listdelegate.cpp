@@ -186,7 +186,7 @@ ConversionListDelegate::ConversionListDelegate(QObject *parent) :
 }
 
 QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SConversionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     m_editingIndex = index;
     QComboBox *editor = new QComboBox(parent);
     editor->setObjectName("conversionOutputFormatComboBox");
@@ -205,9 +205,9 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
 
     connect(editor, &QComboBox::currentTextChanged, this,
             [model = const_cast<QAbstractItemModel *>(index.model()), index, this](const QString &text) {
-                auto data = index.data(Qt::UserRole).value<SConversionData>();
+                auto data = index.data(Qt::UserRole).value<SImageData>();
                 data.output_format = text.toLower();
-                ListViewModel<SConversionData> *md = dynamic_cast<ListViewModel<SConversionData> *>(model);
+                ListViewModel<SImageData> *md = dynamic_cast<ListViewModel<SImageData> *>(model);
                 md->changeData(index.row(), data);
                 m_editingIndex = QModelIndex();
                 emit const_cast<ConversionListDelegate*>(this)->sigUpdateData(data);
@@ -217,7 +217,7 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
 }
 
 void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SConversionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     QString value = data.output_format.toUpper();
     int idx = combo->findText(value);
@@ -227,9 +227,9 @@ void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &i
 
 void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
     // QComboBox *combo = qobject_cast<QComboBox *>(editor);
-    // auto data = index.data(Qt::UserRole).value<SConversionData>();
+    // auto data = index.data(Qt::UserRole).value<SImageData>();
     // data.output_format = combo->currentText().toLower();
-    // ListViewModel<SConversionData>* md = dynamic_cast<ListViewModel<SConversionData>*>(model);
+    // ListViewModel<SImageData>* md = dynamic_cast<ListViewModel<SImageData>*>(model);
     // md->changeData(index.row(), data);
     m_editingIndex = QModelIndex();
     m_popupComboIndex = QModelIndex();
@@ -254,7 +254,7 @@ bool ConversionListDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
 }
 
 void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SConversionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);

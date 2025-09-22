@@ -10,30 +10,30 @@ ConversionPresenter::ConversionPresenter(IView *view, IRepository *repository) :
 ConversionPresenter::~ConversionPresenter() {
 }
 
-QList<SConversionData> ConversionPresenter::datas() {
+QList<SImageData> ConversionPresenter::datas() {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     return rep->datas();
 }
 
-void ConversionPresenter::updateData(const SConversionData &data) {
+void ConversionPresenter::updateData(const SImageData &data) {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     rep->updateData(data);
 }
 
-void ConversionPresenter::updateData(const QString filePath, const SConversionData &data) {
+void ConversionPresenter::updateData(const QString filePath, const SImageData &data) {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     rep->updateData(filePath, data);
 }
 
 void ConversionPresenter::appendData(const QStringList filePaths) {
-    QList<SConversionData> tempDatas;
+    QList<SImageData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SConversionData data;
+        SImageData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -52,10 +52,10 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         data.resolution = QSize(pixmap.width(), pixmap.height());
         data.output_format = SETTINGS->getConvSetting()->getOutFmt();
         data.state_icons = {
-            {EConvState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EConvState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EConvState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EConvState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
     }
@@ -97,19 +97,19 @@ void ConversionPresenter::checkedAllData(bool checked) {
     rep->checkedAllData(checked);
 }
 
-TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *self) {
-    QList<SConversionData> tempDatas;
+TaskResult<SImportFileResult<QList<SImageData>>> ConversionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
+    QList<SImageData> tempDatas;
     int index = 0;
     for (const QString &filePath : self->getData().value.filePaths) {
         if(self->isCanceled()) {
-            return TaskResult<SImportFileResult<QList<SConversionData>>>::Failure("");
+            return TaskResult<SImportFileResult<QList<SImageData>>>::Failure("");
         }
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SConversionData data;
+        SImageData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -128,20 +128,20 @@ TaskResult<SImportFileResult<QList<SConversionData>>> ConversionPresenter::impor
         data.resolution = QSize(pixmap.width(), pixmap.height());
         data.output_format = SETTINGS->getConvSetting()->getOutFmt();
         data.state_icons = {
-            {EConvState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EConvState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EConvState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EConvState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
         self->progress(++index, "Adding images:" + data.file_name.toStdString());
     }
 
-    SImportFileResult<QList<SConversionData>> result = {tempDatas, 100};
-    return TaskResult<SImportFileResult<QList<SConversionData>>>::Success(result);
+    SImportFileResult<QList<SImageData>> result = {tempDatas, 100};
+    return TaskResult<SImportFileResult<QList<SImageData>>>::Success(result);
 }
 
-void ConversionPresenter::appendData(const QList<SConversionData> datas) {
+void ConversionPresenter::appendData(const QList<SImageData> datas) {
     ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
     rep->appendData(datas);
 }

@@ -20,7 +20,7 @@ public:
     bool isListMode() const;
 
 Q_SIGNALS:
-    void sigUpdateData(const SConversionData &data);
+    void sigUpdateData(const SImageData &data);
     void sigClicked(const QModelIndex &index);
 
 private:

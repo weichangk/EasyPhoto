@@ -178,7 +178,7 @@ void ConversionView::createUi() {
     listViewColumnNameLayout->addSpacing(70);
     listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
 
-    m_pListView = new ListView<SConversionData>(this);
+    m_pListView = new ListView<SImageData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new ConversionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
@@ -233,7 +233,7 @@ void ConversionView::connectSig() {
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
     connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConversionView::onStartAllBtnClicked);
     connect(m_pCancelAllBtn, &QPushButton::clicked, this, &ConversionView::onCancelAllBtnClicked);
-    connect(m_pListDelegate, &ConversionListDelegate::sigUpdateData, this, [this](const SConversionData &data) {
+    connect(m_pListDelegate, &ConversionListDelegate::sigUpdateData, this, [this](const SImageData &data) {
         ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
         prst->updateData(data);
     });
@@ -255,14 +255,14 @@ void ConversionView::listViewImportFile(const QStringList &filePaths) {
     // selectAllState();
     ImportFileHelper ihp;
     connect(&ihp, &ImportFileHelper::sigSucceeded, this, [this, prst](const QVariant &result) {
-        SImportFileResult<QList<SConversionData>> res = result.value<SImportFileResult<QList<SConversionData>>>();
+        SImportFileResult<QList<SImageData>> res = result.value<SImportFileResult<QList<SImageData>>>();
         prst->appendData(res.value);
         m_pListView->changeData(prst->datas());
         listViewNoDataState();
         selectAllState();
     });
-    ihp.start<SImportFileData, SImportFileResult<QList<SConversionData>>>(
-        [prst](AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *task) {
+    ihp.start<SImportFileData, SImportFileResult<QList<SImageData>>>(
+        [prst](AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *task) {
             return prst->importFileAsync(task);
         },
         TaskData<SImportFileData>({filePaths})
@@ -356,31 +356,31 @@ void ConversionView::setStartAllBtnVisible(bool visible) {
     m_pCancelAllBtn->setVisible(!visible);
 }
 
-QList<SConversionData> ConversionView::getListViewModels() const {
-    QList<SConversionData> datas;
+QList<SImageData> ConversionView::getListViewModels() const {
+    QList<SImageData> datas;
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         datas.append(data);
     }
     return datas;
 }
 
-SConversionData ConversionView::getListViewModel(const QString &filePath) const {
+SImageData ConversionView::getListViewModel(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         if (data.file_path == filePath) {
             return data;
         }
     }
-    return SConversionData();
+    return SImageData();
 }
 
 int ConversionView::getListViewModelIndex(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SConversionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         if (data.file_path == filePath) {
             return i;
         }
@@ -397,14 +397,14 @@ void ConversionView::startConvAllTask() {
                 return TaskResult<void*>::Success(nullptr);
             }
             if (data.is_checked) {
-                data.state = EConvState_Loading; 
+                data.state = EImageState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
                 auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});
-                data.state = result.success ?  EConvState_Success : EConvState_Fail; 
+                data.state = result.success ?  EImageState_Success : EImageState_Fail; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
             }
@@ -425,15 +425,15 @@ void ConversionView::startConvTask(const QString &path) {
         ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
         ImgKitCore::CONV::Task convTask;
         for (auto data : prst->datas()) {
-            if (data.file_path == path && data.state != EConvState_Loading) {
-                data.state = EConvState_Loading; 
+            if (data.file_path == path && data.state != EImageState_Loading) {
+                data.state = EImageState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
                 auto result = convTask.exec(ImgKitCore::CONV::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});
-                data.state = result.success ?  EConvState_Success : EConvState_Fail; 
+                data.state = result.success ?  EImageState_Success : EImageState_Fail; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
                 return TaskResult<void*>::Success(nullptr);
@@ -508,7 +508,7 @@ void ConversionView::onSelectAllStateChanged(int state) {
 }
 
 void ConversionView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SConversionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();

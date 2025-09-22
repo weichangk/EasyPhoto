@@ -9,10 +9,10 @@ class ConversionRepository : public Repository {
 public:
     explicit ConversionRepository();
     ~ConversionRepository();
-    QList<SConversionData> datas();
-    void updateData(const SConversionData &data);
-    void updateData(const QString filePath, const SConversionData &data);
-    void appendData(QList<SConversionData> datas);
+    QList<SImageData> datas();
+    void updateData(const SImageData &data);
+    void updateData(const QString filePath, const SImageData &data);
+    void appendData(QList<SImageData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
     void clearData();
@@ -20,5 +20,5 @@ public:
     void checkedAllData(bool checked);
 
 private:
-    QList<SConversionData> m_datas;
+    QList<SImageData> m_datas;
 };

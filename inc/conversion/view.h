@@ -50,8 +50,8 @@ private:
     void setOutputFolder(const QString &path);
     void setStartAllBtnVisible(bool visible);
 
-    QList<SConversionData> getListViewModels() const;
-    SConversionData getListViewModel(const QString &filePath) const;
+    QList<SImageData> getListViewModels() const;
+    SImageData getListViewModel(const QString &filePath) const;
     int getListViewModelIndex(const QString &filePath) const;
 
     void startConvAllTask();
@@ -103,6 +103,6 @@ private:
     QLabel *m_pColumnStatusLbl = nullptr;
     QLabel *m_pColumnActionLbl = nullptr;
 
-    ListView<SConversionData> *m_pListView = nullptr;
+    ListView<SImageData> *m_pListView = nullptr;
     ConversionListDelegate *m_pListDelegate = nullptr;
 };

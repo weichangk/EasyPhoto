@@ -14,9 +14,9 @@ class ConversionPresenter : public Presenter {
 public:
     explicit ConversionPresenter(IView* view, IRepository *repository);
     ~ConversionPresenter();
-    QList<SConversionData> datas();
-    void updateData(const SConversionData &data);
-    void updateData(const QString filePath, const SConversionData &data);
+    QList<SImageData> datas();
+    void updateData(const SImageData &data);
+    void updateData(const QString filePath, const SImageData &data);
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
@@ -24,8 +24,8 @@ public:
     void switchCheckedData(const QString filePath);
     void checkedAllData(bool checked);
 
-    TaskResult<SImportFileResult<QList<SConversionData>>> importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SConversionData>>> *self);
-    void appendData(const QList<SConversionData> datas);
+    TaskResult<SImportFileResult<QList<SImageData>>> importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self);
+    void appendData(const QList<SImageData> datas);
 
 private:
     QSet<QString> filePathsSet;
