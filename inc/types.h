@@ -72,15 +72,6 @@ struct SCompressionData {
 };
 Q_DECLARE_METATYPE(SCompressionData)
 
-struct SCompressionOuputFormat {
-    QString name = "";
-    QString des = "";
-    QPixmap icon = QPixmap();
-    bool checked = false;
-};
-Q_DECLARE_METATYPE(SCompressionOuputFormat)
-
-
 #define BGREMOVER_INPUT_FORMATS "png jpg jpeg bmp"
 
 struct SBgRmData {

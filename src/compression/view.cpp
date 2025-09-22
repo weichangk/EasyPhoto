@@ -333,7 +333,6 @@ void CompressionView::selectAllState() {
 void CompressionView::initOutputFormatCbbItem() {
     QString format = COMP_OUT_FORMATS;
     QStringList formats = format.split(' ');
-    QList<SCompressionOuputFormat> formatDatas;
     QString fmt = "sameassource";
     for (auto &item : formats) {
         if(item != "sameassource") {
