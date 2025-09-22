@@ -14,6 +14,6 @@ class GifMkRepository : public Repository {
         ImportListRepository *getImportListRepository();
 
     private:
-        QList<SGifMkData> m_datas;
+        QList<SImageData> m_datas;
         ImportListRepository *m_pImportListRepository = nullptr;
     };
