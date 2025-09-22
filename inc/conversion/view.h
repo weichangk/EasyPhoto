@@ -26,29 +26,6 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class ConversionOutputFormatView : public QWidget {
-    Q_OBJECT
-public:
-    explicit ConversionOutputFormatView(QWidget *parent = nullptr);
-    ~ConversionOutputFormatView() override {
-    }
-    void setSelection(const QString &format);
-
-Q_SIGNALS:
-    void sigSelectionChanged(const QString &format);
-
-private:
-    void createUi();
-    void connectSig();
-
-private:
-    void onListItemViewclicked(const QModelIndex &index);
-
-private:
-    ListView<SConversionOuputFormat> *m_pListView = nullptr;
-    ConversionOutputFormatDelegate *m_pListDelegate = nullptr;
-};
-
 class ConversionView : public QWidget, public View {
     Q_OBJECT
 public:

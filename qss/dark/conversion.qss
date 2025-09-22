@@ -7,12 +7,6 @@ QWidget#ConversionView_DividingLine {
     background-color: "#272336";
 }
 
-QWidget#OutputFormatView {
-    background-color: "#211c34";
-    border-radius: 8px;
-    border: 1px solid #353049;
-}
-
 QCheckBox#ConversionView_m_pSelectAllCkb {
     font-size: 13px;
     color: "#c4c4cc";
