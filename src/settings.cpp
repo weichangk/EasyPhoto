@@ -9,7 +9,7 @@ ConvSetting::ConvSetting() :
 void ConvSetting::load() {
     m_Settings.beginGroup("Conv");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Conv::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Conv::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Conv::outFormat).toString();
     m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Conv::lastAddFilePath).toString();
     m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Conv::lastAddFolderPath).toString();
     m_Settings.endGroup();
@@ -67,7 +67,7 @@ CmpSetting::CmpSetting() :
 void CmpSetting::load() {
     m_Settings.beginGroup("Cmp");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Cmp::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Cmp::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Cmp::outFormat).toString();
     m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Cmp::lastAddFilePath).toString();
     m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Cmp::lastAddFolderPath).toString();
     m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::Cmp::quality).toInt();
@@ -137,7 +137,7 @@ GifMkSetting::GifMkSetting() :
 void GifMkSetting::load() {
     m_Settings.beginGroup("GifMk");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::GifMk::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::GifMk::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::GifMk::outFormat).toString();
     m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::GifMk::lastAddFilePath).toString();
     m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::GifMk::lastAddFolderPath).toString();
     m_Width = m_Settings.value(QStringLiteral("Width"), Default::GifMk::width).toInt();
@@ -255,7 +255,7 @@ BgRmSetting::BgRmSetting() :
 void BgRmSetting::load() {
     m_Settings.beginGroup("BgRm");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::BgRm::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::BgRm::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::BgRm::outFormat).toString();
     m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::BgRm::lastAddFilePath).toString();
     m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::BgRm::lastAddFolderPath).toString();
     m_Settings.endGroup();
@@ -313,7 +313,7 @@ UpscSetting::UpscSetting() :
 void UpscSetting::load() {
     m_Settings.beginGroup("Upsc");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Upsc::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Upsc::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Upsc::outFormat).toString();
     m_Scale = m_Settings.value(QStringLiteral("Scale"), Default::Upsc::scale).toInt();
     m_DoubleUpscale = m_Settings.value(QStringLiteral("DoubleUpscale"), Default::Upsc::doubleUpscale).toBool();
     m_ModelType = m_Settings.value(QStringLiteral("ModelType"), Default::Upsc::modelType).toInt();
@@ -383,7 +383,7 @@ EraseSetting::EraseSetting() :
 void EraseSetting::load() {
     m_Settings.beginGroup("Erase");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Erase::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Erase::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Erase::outFormat).toString();
     m_Settings.endGroup();
 }
 
@@ -417,7 +417,7 @@ CropSetting::CropSetting() :
 void CropSetting::load() {
     m_Settings.beginGroup("Crop");
     m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Crop::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Crop::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Crop::outFormat).toString();
     m_Settings.endGroup();
 }
 
