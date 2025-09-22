@@ -336,7 +336,6 @@ void ConversionView::selectAllState() {
 void ConversionView::initOutputFormatCbbItem() {
     QString format = CONV_OUTPUT_FORMATS;
     QStringList formats = format.split(' ');
-    QList<SConversionOuputFormat> formatDatas;
     for (auto &item : formats) {
         m_pOutputFormatCbb->addItem(item.toUpper());
     }

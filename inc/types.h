@@ -31,14 +31,6 @@ struct SConversionData {
 };
 Q_DECLARE_METATYPE(SConversionData)
 
-struct SConversionOuputFormat {
-    QString name = "";
-    QString des = "";
-    QPixmap icon = QPixmap();
-    bool checked = false;
-};
-Q_DECLARE_METATYPE(SConversionOuputFormat)
-
 #define COMP_INPUT_FORMATS "(*.jpg;*.jpeg;*.png;*.gif;*.webp;*.JPG;*.JPEG;*.PNG;*.GIF;*.WEBP)"
 #define COMP_OUT_FORMATS "sameassource jpg png"
 #define COMP_OUT_QUALITY "10 20 30 40 50 60 70 80 90"
