@@ -57,7 +57,7 @@ void ConversionView::createUi() {
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
 
     //
-    m_pImportGuide = new ImportGuide(this);
+    m_pImportGuide = new ImportGuide(this, QString("Files %1").arg(CONV_INPUT_FORMATS));
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
     importGuideLayout->setContentsMargins(20, 20, 20, 20);
@@ -334,13 +334,10 @@ void ConversionView::selectAllState() {
 }
 
 void ConversionView::initOutputFormatCbbItem() {
-    QString format = CONV_OUTPUT_FORMATS;
-    QStringList formats = format.split(' ');
-    for (auto &item : formats) {
-        m_pOutputFormatCbb->addItem(item.toUpper());
-    }
     blockSignalsFunc(m_pOutputFormatCbb, [&]() {
-        m_pOutputFormatCbb->setCurrentText(SETTINGS->getConvSetting()->getOutFmt().toUpper());
+        m_pOutputFormatCbb->clear();
+        m_pOutputFormatCbb->addItems(CONV_OUTPUT_FORMATS.values());
+        m_pOutputFormatCbb->setCurrentIndex(CONV_OUTPUT_FORMATS.keys().indexOf(SETTINGS->getConvSetting()->getOutFmt()));
     });
 }
 

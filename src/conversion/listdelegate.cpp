@@ -191,12 +191,7 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
     QComboBox *editor = new QComboBox(parent);
     editor->setObjectName("conversionOutputFormatComboBox");
     editor->setStyleSheet(conversionOutputFormatComboBoxStyle);
-    QString format = CONV_OUTPUT_FORMATS;
-    QStringList formats;
-    for (auto &item : format.split(' ')) {
-        formats.append(item.toUpper());
-    }
-    editor->addItems(formats);
+    editor->addItems(CONV_OUTPUT_FORMATS.values());
 
     blockSignalsFunc(editor, [&]() {
         editor->setCurrentText(data.output_format.toUpper());

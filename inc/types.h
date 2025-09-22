@@ -6,8 +6,20 @@
 #include <QPixmap>
 
 // 暂不持支：svg ico cur xpm heic jfif heif jif rgf xwd jfi picon
-#define CONV_INPUT_FORMATS "jpg jpeg webp hdr bmp gif dds psd tiff tga rgb avif pgm jp2 rgba ppm xbm pcx wbmp exr map jbg pnm jpe yuv pbm pdb g4 ras g3 pal sgi pict pfm pcd jps uyvy pgx vips six fts fax jbig ipl sun pam viff mng mtv xv pct sixel palm rgbo hrz otb"
-#define CONV_OUTPUT_FORMATS "jpg png svg webp avif bmp ico tiff psd eps xbm"
+#define CONV_INPUT_FORMATS "(*.jpg;*.jpeg;*.webp;*.hdr;*.bmp;*.gif;*.dds;*.psd;*.tiff;*.tga;*.rgb;*.avif;*.pgm;*.jp2;*.rgba;*.ppm;*.xbm;*.pcx;*.wbmp;*.exr;*.map;*.jbg;*.pnm;*.jpe;*.yuv;*.pbm;*.pdb;*.g4;*.ras;*.g3;*.pal;*.sgi;*.pict;*.pfm;*.pcd;*.jps;*.uyvy;*.pgx;*.vips;*.six;*.fts;*.fax;*.jbig;*.ipl;*.sun;*.pam;*.viff;*.mng;*.mtv;*.xv;*.pct;*.sixel;*.palm;*.rgbo;*.hrz;*.otb;*.JPG;*.JPEG;*.WEBP;*.HDR;*.BMP;*.GIF;*.DDS;*.PSD;*.TIFF;*.TGA;*.RGB;*.AVIF;*.PGM;*.JP2;*.RGBA;*.PPM;*.XBM;*.PCX;*.WBMP;*.EXR;*.MAP;*.JBG;*.PNM;*.JPE;*.YUV;*.PBM;*.PDB;*.G4;*.RAS;*.G3;*.PAL;*.SGI;*.PICT;*.PFM;*.PCD;*.JPS;*.UYVY;*.PGX;*.VIPS;*.SIX;*.FTS;*.FAX;*.JBIG;*.IPL;*.SUN;*.PAM;*.VIFF;*.MNG;*.MTV;*.XV;*.PCT;*.SIXEL;*.PALM;*.RGBO;*.HRZ;*.OTB)"
+const QMap<QString, QString> CONV_OUTPUT_FORMATS{
+    {"jpg", "JPG"},
+    {"png", "PNG"},
+    {"webp", "WEBP"},
+    {"svg", "SVG"},
+    {"avif", "AVIF"},
+    {"bmp", "BMP"},
+    {"ico", "ICO"},
+    {"tiff", "TIFF"},
+    {"psd", "PSD"},
+    {"eps", "EPS"},
+    {"xbm", "XBM"},
+};
 
 enum EConvState {
     EConvState_Waiting = 0,
