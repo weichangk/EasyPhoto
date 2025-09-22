@@ -10,30 +10,30 @@ CompressionPresenter::CompressionPresenter(IView *view, IRepository *repository)
 CompressionPresenter::~CompressionPresenter() {
 }
 
-QList<SCompressionData> CompressionPresenter::datas() {
+QList<SImageData> CompressionPresenter::datas() {
     CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
     return rep->datas();
 }
 
-void CompressionPresenter::updateData(const SCompressionData &data) {
+void CompressionPresenter::updateData(const SImageData &data) {
     CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
     rep->updateData(data);
 }
 
-void CompressionPresenter::updateData(const QString filePath, const SCompressionData &data) {
+void CompressionPresenter::updateData(const QString filePath, const SImageData &data) {
     CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
     rep->updateData(filePath, data);
 }
 
 void CompressionPresenter::appendData(const QStringList filePaths) {
-    QList<SCompressionData> tempDatas;
+    QList<SImageData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SCompressionData data;
+        SImageData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -60,10 +60,10 @@ void CompressionPresenter::appendData(const QStringList filePaths) {
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {ECompreState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {ECompreState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {ECompreState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {ECompreState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
     }
@@ -105,19 +105,19 @@ void CompressionPresenter::checkedAllData(bool checked) {
     rep->checkedAllData(checked);
 }
 
-TaskResult<SImportFileResult<QList<SCompressionData>>> CompressionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SCompressionData>>> *self) {
-    QList<SCompressionData> tempDatas;
+TaskResult<SImportFileResult<QList<SImageData>>> CompressionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
+    QList<SImageData> tempDatas;
     int index = 0;
     for (const QString &filePath : self->getData().value.filePaths) {
         if(self->isCanceled()) {
-            return TaskResult<SImportFileResult<QList<SCompressionData>>>::Failure("");
+            return TaskResult<SImportFileResult<QList<SImageData>>>::Failure("");
         }
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SCompressionData data;
+        SImageData data;
         data.file_path = filePath;
         data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
@@ -144,20 +144,20 @@ TaskResult<SImportFileResult<QList<SCompressionData>>> CompressionPresenter::imp
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {ECompreState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {ECompreState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {ECompreState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {ECompreState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
+            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
+            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
+            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
         };
         tempDatas.append(data);
         self->progress(++index, "Adding images:" + data.file_name.toStdString());
     }
 
-    SImportFileResult<QList<SCompressionData>> result = {tempDatas, 100};
-    return TaskResult<SImportFileResult<QList<SCompressionData>>>::Success(result);
+    SImportFileResult<QList<SImageData>> result = {tempDatas, 100};
+    return TaskResult<SImportFileResult<QList<SImageData>>>::Success(result);
 }
 
-void CompressionPresenter::appendData(const QList<SCompressionData> datas) {
+void CompressionPresenter::appendData(const QList<SImageData> datas) {
     CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
     rep->appendData(datas);
 }

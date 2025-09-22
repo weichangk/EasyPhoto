@@ -20,7 +20,7 @@ CompressionListDelegate::CompressionListDelegate(QObject *parent) :
 }
 
 void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SCompressionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);
@@ -135,7 +135,7 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
     auto sizeRect = convListSizeRect(bgRect);
-    if(data.state == ECompreState_Success) {
+    if(data.state == EImageState_Success) {
         painter->drawText(sizeRect, Qt::AlignCenter, QString("%1 --> %2").arg(data.intput_size).arg(data.output_size));
     }
     else {

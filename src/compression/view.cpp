@@ -198,7 +198,7 @@ void CompressionView::createUi() {
     listViewColumnNameLayout->addSpacing(70);
     listViewColumnNameLayout->addWidget(m_pColumnActionLbl);
 
-    m_pListView = new ListView<SCompressionData>(this);
+    m_pListView = new ListView<SImageData>(this);
     m_pListView->setSpacing(0);
     m_pListDelegate = new CompressionListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
@@ -360,31 +360,31 @@ void CompressionView::setStartAllBtnVisible(bool visible) {
     m_pCancelAllBtn->setVisible(!visible);
 }
 
-QList<SCompressionData> CompressionView::getListViewModels() const {
-    QList<SCompressionData> datas;
+QList<SImageData> CompressionView::getListViewModels() const {
+    QList<SImageData> datas;
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         datas.append(data);
     }
     return datas;
 }
 
-SCompressionData CompressionView::getListViewModel(const QString &filePath) const {
+SImageData CompressionView::getListViewModel(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         if (data.file_path == filePath) {
             return data;
         }
     }
-    return SCompressionData();
+    return SImageData();
 }
 
 int CompressionView::getListViewModelIndex(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
-        auto data = index.data(Qt::UserRole).value<SCompressionData>();
+        auto data = index.data(Qt::UserRole).value<SImageData>();
         if (data.file_path == filePath) {
             return i;
         }
@@ -401,7 +401,7 @@ void CompressionView::startAllTask() {
                 return TaskResult<void*>::Success(nullptr);
             }
             if (data.is_checked) {
-                data.state = ECompreState_Loading; 
+                data.state = EImageState_Loading; 
                 data.output_size = data.intput_size;
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
@@ -414,7 +414,7 @@ void CompressionView::startAllTask() {
                     outSuffix.toStdString(),
                     SETTINGS->getCmpSetting()->getQuality()});
                     
-                data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
+                data.state = result.success ?  EImageState_Success : EImageState_Fail; 
                 data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
@@ -436,8 +436,8 @@ void CompressionView::startTask(const QString &path) {
         CompressionPresenter *prst = dynamic_cast<CompressionPresenter *>(presenter());
         ImgKitCore::CMP::Task cmpTask;
         for (auto data : prst->datas()) {
-            if (data.file_path == path && data.state != ECompreState_Loading) {
-                data.state = ECompreState_Loading; 
+            if (data.file_path == path && data.state != EImageState_Loading) {
+                data.state = EImageState_Loading; 
                 data.output_size = data.intput_size;
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
@@ -450,7 +450,7 @@ void CompressionView::startTask(const QString &path) {
                     outSuffix.toStdString(),
                     SETTINGS->getCmpSetting()->getQuality()});
 
-                data.state = result.success ?  ECompreState_Success : ECompreState_Fail; 
+                data.state = result.success ?  EImageState_Success : EImageState_Fail; 
                 data.output_size = QString("%1 MB").arg(QString::number(result.output_size / 1024.0 / 1024.0, 'f', 2));
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
@@ -525,7 +525,7 @@ void CompressionView::onSelectAllStateChanged(int state) {
 }
 
 void CompressionView::onListViewClicked(const QModelIndex &index) {
-    auto data = index.data(Qt::UserRole).value<SCompressionData>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
     int posy = m_pListView->mapFromGlobal(QCursor::pos()).y();

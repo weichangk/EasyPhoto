@@ -9,10 +9,10 @@ class CompressionRepository : public Repository {
 public:
     explicit CompressionRepository();
     ~CompressionRepository();
-    QList<SCompressionData> datas();
-    void updateData(const SCompressionData &data);
-    void updateData(const QString filePath, const SCompressionData &data);
-    void appendData(QList<SCompressionData> datas);
+    QList<SImageData> datas();
+    void updateData(const SImageData &data);
+    void updateData(const QString filePath, const SImageData &data);
+    void appendData(QList<SImageData> datas);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
     void clearData();
@@ -20,5 +20,5 @@ public:
     void checkedAllData(bool checked);
 
 private:
-    QList<SCompressionData> m_datas;
+    QList<SImageData> m_datas;
 };

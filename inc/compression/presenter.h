@@ -14,9 +14,9 @@ class CompressionPresenter : public Presenter {
 public:
     explicit CompressionPresenter(IView *view, IRepository *repository);
     ~CompressionPresenter();
-    QList<SCompressionData> datas();
-    void updateData(const SCompressionData &data);
-    void updateData(const QString filePath, const SCompressionData &data);
+    QList<SImageData> datas();
+    void updateData(const SImageData &data);
+    void updateData(const QString filePath, const SImageData &data);
     void appendData(const QStringList filePaths);
     void deleteData(const QStringList filePaths);
     void deleteCheckedData();
@@ -24,8 +24,8 @@ public:
     void switchCheckedData(const QString filePath);
     void checkedAllData(bool checked);
 
-    TaskResult<SImportFileResult<QList<SCompressionData>>> importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SCompressionData>>> *self);
-    void appendData(const QList<SCompressionData> datas);
+    TaskResult<SImportFileResult<QList<SImageData>>> importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self);
+    void appendData(const QList<SImageData> datas);
 
 private:
     QSet<QString> filePathsSet;

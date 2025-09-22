@@ -52,8 +52,8 @@ private:
     void setOutputFolder(const QString &path);
     void setStartAllBtnVisible(bool visible);
 
-    QList<SCompressionData> getListViewModels() const;
-    SCompressionData getListViewModel(const QString &filePath) const;
+    QList<SImageData> getListViewModels() const;
+    SImageData getListViewModel(const QString &filePath) const;
     int getListViewModelIndex(const QString &filePath) const;
 
     void startAllTask();
@@ -110,6 +110,6 @@ private:
     QLabel *m_pColumnStatusLbl = nullptr;
     QLabel *m_pColumnActionLbl = nullptr;
 
-    ListView<SCompressionData> *m_pListView = nullptr;
+    ListView<SImageData> *m_pListView = nullptr;
     CompressionListDelegate *m_pListDelegate = nullptr;
 };
