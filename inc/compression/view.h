@@ -13,7 +13,6 @@
 #include "import/importguide.h"
 #include "types.h"
 #include "listdelegate.h"
-#include "outputformatdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -27,29 +26,6 @@ using namespace QtmMvp;
 using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
-
-class CompressionOutputFormatView : public QWidget {
-    Q_OBJECT
-public:
-    explicit CompressionOutputFormatView(QWidget *parent = nullptr);
-    ~CompressionOutputFormatView() override {
-    }
-    void setSelection(const QString &format);
-
-Q_SIGNALS:
-    void sigSelectionChanged(const QString &format);
-
-private:
-    void createUi();
-    void connectSig();
-
-private:
-    void onListItemViewclicked(const QModelIndex &index);
-
-private:
-    ListView<SCompressionOuputFormat> *m_pListView = nullptr;
-    CompressionOutputFormatDelegate *m_pListDelegate = nullptr;
-};
 
 class CompressionView : public QWidget, public View {
     Q_OBJECT

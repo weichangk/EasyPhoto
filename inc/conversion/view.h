@@ -12,7 +12,6 @@
 #include "import/importguide.h"
 #include "types.h"
 #include "listdelegate.h"
-#include "outputformatdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
