@@ -1,5 +1,10 @@
 #include "import/importlistview.h"
 #include "import/importlistpresenter.h"
+#include "import/importfilehelper.h"
+#include "task/asynctask.h"
+#include "task/taskfactory.h"
+#include "task/taskdata.h"
+#include "task/taskresult.h"
 #include "types.h"
 
 #include <QFileDialog>
@@ -14,10 +19,20 @@ ImportListView::ImportListView(QWidget *parent, QString fileFilter) :
 
 void ImportListView::importFile(const QStringList &filePaths) {
     ImportListPresenter *prst = dynamic_cast<ImportListPresenter *>(presenter());
-    prst->appendData(filePaths);
-    m_pImportListView->changeData(prst->getDatas());
-    emit sigImportListCountChange(prst->getDatas().count());
-    setImportListCurrentIndex(getImportListCount() - 1);
+    ImportFileHelper ihp;
+    connect(&ihp, &ImportFileHelper::sigSucceeded, this, [this, prst](const QVariant &result) {
+        SImportFileResult<QList<SImageData>> res = result.value<SImportFileResult<QList<SImageData>>>();
+        prst->appendData(res.value);
+        m_pImportListView->changeData(prst->getDatas());
+        emit sigImportListCountChange(prst->getDatas().count());
+        setImportListCurrentIndex(getImportListCount() - 1);
+    });
+    ihp.start<SImportFileData, SImportFileResult<QList<SImageData>>>(
+        [prst](AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *task) {
+            return prst->importFileAsync(task);
+        },
+        TaskData<SImportFileData>({filePaths})
+    );
 }
 
 void ImportListView::deleteFile(const QString &filePath) {
