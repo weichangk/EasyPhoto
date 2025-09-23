@@ -10,10 +10,10 @@
 using namespace QtmMvp;
 using namespace QtmTask;
 
-class ConversionPresenter : public Presenter {
+class ConvPresenter : public Presenter {
 public:
-    explicit ConversionPresenter(IView* view, IRepository *repository);
-    ~ConversionPresenter();
+    explicit ConvPresenter(IView* view, IRepository *repository);
+    ~ConvPresenter();
     QList<SImageData> datas();
     void updateData(const SImageData &data);
     void updateData(const QString filePath, const SImageData &data);

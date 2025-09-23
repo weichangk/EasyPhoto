@@ -19,8 +19,8 @@ CompressionView *FuncAreaView::compressionView() const {
     return m_pCompressionView;
 }
 
-ConversionView *FuncAreaView::conversionView() const {
-    return m_pConversionView;
+ConvView *FuncAreaView::conversionView() const {
+    return m_pConvView;
 }
 
 CropView *FuncAreaView::cropView() const {
@@ -70,7 +70,7 @@ void FuncAreaView::createUi() {
     m_pHomeView = new HomeView(this);
     m_pMyFileView = new MyFileView(this);
     m_pCompressionView = new CompressionView(this);
-    m_pConversionView = new ConversionView(this);
+    m_pConvView = new ConvView(this);
     m_pCropView = new CropView(this);
     m_pUpscView = new UpscView(this);
     m_pEraseView = new EraseView(this);
@@ -83,7 +83,7 @@ void FuncAreaView::createUi() {
 
     m_pStackedLayout->insertWidget(EFunc::FuncHome, m_pHomeView);
     m_pStackedLayout->insertWidget(EFunc::FuncMyFile, m_pMyFileView);
-    m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConversionView);
+    m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConvView);
     m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
     m_pStackedLayout->insertWidget(EFunc::FuncUpsc, m_pUpscView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);

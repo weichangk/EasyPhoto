@@ -6,7 +6,7 @@
 #include "home/presenter.h"
 #include "myfile/presenter.h"
 #include "compression/presenter.h"
-#include "conversion/presenter.h"
+#include "conv/presenter.h"
 #include "crop/presenter.h"
 #include "upsc/presenter.h"
 #include "erase/presenter.h"
@@ -26,7 +26,7 @@ public:
     HomePresenter *homePresente() const;
     MyFilePresenter *myFilePresenter() const;
     CompressionPresenter *compressionPresenter() const;
-    ConversionPresenter *conversionPresenter() const;
+    ConvPresenter *conversionPresenter() const;
     CropPresenter *cropPresenter() const;
     UpscPresenter *upscPresenter() const;
     ErasePresenter *erasePresenter() const;
@@ -43,7 +43,7 @@ private:
     HomePresenter *m_pHomePresenter = nullptr;
     MyFilePresenter *m_pMyFilePresenter = nullptr;
     CompressionPresenter *m_pCompressionPresenter = nullptr;
-    ConversionPresenter *m_pConversionPresenter = nullptr;
+    ConvPresenter *m_pConvPresenter = nullptr;
     CropPresenter *m_pCropPresenter = nullptr;
     UpscPresenter *m_pUpscPresenter = nullptr;
     ErasePresenter *m_pErasePresenter = nullptr;

@@ -5,10 +5,10 @@
 
 using namespace QtmMvp;
 
-class ConversionRepository : public Repository {
+class ConvRepository : public Repository {
 public:
-    explicit ConversionRepository();
-    ~ConversionRepository();
+    explicit ConvRepository();
+    ~ConvRepository();
     QList<SImageData> datas();
     void updateData(const SImageData &data);
     void updateData(const QString filePath, const SImageData &data);

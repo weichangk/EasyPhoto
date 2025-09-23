@@ -25,11 +25,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class ConversionView : public QWidget, public View {
+class ConvView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit ConversionView(QWidget *parent = nullptr);
-    ~ConversionView() override {
+    explicit ConvView(QWidget *parent = nullptr);
+    ~ConvView() override {
     }
 
 protected:
@@ -104,5 +104,5 @@ private:
     QLabel *m_pColumnActionLbl = nullptr;
 
     ListView<SImageData> *m_pListView = nullptr;
-    ConversionListDelegate *m_pListDelegate = nullptr;
+    ConvListDelegate *m_pListDelegate = nullptr;
 };

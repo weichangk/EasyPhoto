@@ -1,9 +1,9 @@
-#include "conversion/listdelegate.h"
-#include "types.h"
-#include "conversion/definerect.h"
+#include "conv/listdelegate.h"
+#include "conv/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"
 #include "widget/listview.h"
+#include "types.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -181,11 +181,11 @@ QString conversionOutputFormatComboBoxStyle = R"(
     }
 )";
 
-ConversionListDelegate::ConversionListDelegate(QObject *parent) :
+ConvListDelegate::ConvListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const {
+QWidget *ConvListDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<SImageData>();
     m_editingIndex = index;
     QComboBox *editor = new QComboBox(parent);
@@ -210,13 +210,13 @@ QWidget *ConversionListDelegate::createEditor(QWidget *parent, const QStyleOptio
                 ListViewModel<SImageData> *md = dynamic_cast<ListViewModel<SImageData> *>(model);
                 md->changeData(index.row(), data);
                 m_editingIndex = QModelIndex();
-                emit const_cast<ConversionListDelegate*>(this)->sigUpdateData(data);
+                emit const_cast<ConvListDelegate*>(this)->sigUpdateData(data);
             });
 
     return editor;
 }
 
-void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
+void ConvListDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<SImageData>();
     QComboBox *combo = qobject_cast<QComboBox *>(editor);
     QString value = data.output_format.toUpper();
@@ -225,7 +225,7 @@ void ConversionListDelegate::setEditorData(QWidget *editor, const QModelIndex &i
         combo->setCurrentIndex(idx);
 }
 
-void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
+void ConvListDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const {
     // QComboBox *combo = qobject_cast<QComboBox *>(editor);
     // auto data = index.data(Qt::UserRole).value<SImageData>();
     // data.output_format = combo->currentText().toLower();
@@ -236,12 +236,12 @@ void ConversionListDelegate::setModelData(QWidget *editor, QAbstractItemModel *m
     QStyledItemDelegate::setModelData(editor, model, index);
 }
 
-void ConversionListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void ConvListDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     auto comboRect = convListComboRect(option.rect);
     editor->setGeometry(comboRect);
 }
 
-bool ConversionListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) {
+bool ConvListDelegate::editorEvent(QEvent *event, QAbstractItemModel *model, const QStyleOptionViewItem &option, const QModelIndex &index) {
     if (event->type() == QEvent::MouseButtonPress) {
         QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(event);
         QPoint pos = mouseEvent->pos();
@@ -253,7 +253,7 @@ bool ConversionListDelegate::editorEvent(QEvent *event, QAbstractItemModel *mode
     return QStyledItemDelegate::editorEvent(event, model, option, index);
 }
 
-void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<SImageData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
@@ -438,7 +438,7 @@ void ConversionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem
     painter->setPen(Qt::NoPen);
 }
 
-bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool ConvListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -460,7 +460,7 @@ bool ConversionListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize ConvListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if (m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         // return QSize(parent->width() - 10, n_ListItemHeight);
@@ -469,10 +469,10 @@ QSize ConversionListDelegate::sizeHint(const QStyleOptionViewItem &option, const
     return m_Size;
 }
 
-void ConversionListDelegate::setListMode(bool b) {
+void ConvListDelegate::setListMode(bool b) {
     m_bIsListMode = b;
 }
 
-bool ConversionListDelegate::isListMode() const {
+bool ConvListDelegate::isListMode() const {
     return m_bIsListMode;
 }

@@ -1,31 +1,31 @@
-#include "conversion/presenter.h"
-#include "conversion/repository.h"
+#include "conv/presenter.h"
+#include "conv/repository.h"
 
 #include <QFileInfo>
 
-ConversionPresenter::ConversionPresenter(IView *view, IRepository *repository) :
+ConvPresenter::ConvPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
 }
 
-ConversionPresenter::~ConversionPresenter() {
+ConvPresenter::~ConvPresenter() {
 }
 
-QList<SImageData> ConversionPresenter::datas() {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+QList<SImageData> ConvPresenter::datas() {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     return rep->datas();
 }
 
-void ConversionPresenter::updateData(const SImageData &data) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::updateData(const SImageData &data) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->updateData(data);
 }
 
-void ConversionPresenter::updateData(const QString filePath, const SImageData &data) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::updateData(const QString filePath, const SImageData &data) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->updateData(filePath, data);
 }
 
-void ConversionPresenter::appendData(const QStringList filePaths) {
+void ConvPresenter::appendData(const QStringList filePaths) {
     QList<SImageData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
@@ -59,20 +59,20 @@ void ConversionPresenter::appendData(const QStringList filePaths) {
         };
         tempDatas.append(data);
     }
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->appendData(tempDatas);
 }
 
-void ConversionPresenter::deleteData(const QStringList filePaths) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::deleteData(const QStringList filePaths) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->deleteData(filePaths);
     for(auto path : filePaths) {
         filePathsSet.remove(path);
     }
 }
 
-void ConversionPresenter::deleteCheckedData() {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::deleteCheckedData() {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->deleteCheckedData();
     for(auto data : rep->datas()) {
         if(data.is_checked) {
@@ -81,23 +81,23 @@ void ConversionPresenter::deleteCheckedData() {
     }
 }
 
-void ConversionPresenter::clearData() {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::clearData() {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->clearData();
     filePathsSet.clear();
 }
 
-void ConversionPresenter::switchCheckedData(const QString filePath) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::switchCheckedData(const QString filePath) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->switchCheckedData(filePath);
 }
 
-void ConversionPresenter::checkedAllData(bool checked) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::checkedAllData(bool checked) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->checkedAllData(checked);
 }
 
-TaskResult<SImportFileResult<QList<SImageData>>> ConversionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
+TaskResult<SImportFileResult<QList<SImageData>>> ConvPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
     QList<SImageData> tempDatas;
     int index = 0;
     for (const QString &filePath : self->getData().value.filePaths) {
@@ -141,7 +141,7 @@ TaskResult<SImportFileResult<QList<SImageData>>> ConversionPresenter::importFile
     return TaskResult<SImportFileResult<QList<SImageData>>>::Success(result);
 }
 
-void ConversionPresenter::appendData(const QList<SImageData> datas) {
-    ConversionRepository *rep = dynamic_cast<ConversionRepository *>(repository());
+void ConvPresenter::appendData(const QList<SImageData> datas) {
+    ConvRepository *rep = dynamic_cast<ConvRepository *>(repository());
     rep->appendData(datas);
 }

@@ -4,10 +4,10 @@
 #include <QStyledItemDelegate>
 #include <QEvent>
 
-class ConversionListDelegate : public QStyledItemDelegate {
+class ConvListDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit ConversionListDelegate(QObject *parent);
+    explicit ConvListDelegate(QObject *parent);
     QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     void setEditorData(QWidget *editor, const QModelIndex &index) const override;
     void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const override;

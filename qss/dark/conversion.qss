@@ -1,44 +1,44 @@
-QWidget#ConversionView {
+QWidget#ConvView {
     background-color: "#1a1627";
     border-radius: 0px;
 }
 
-QWidget#ConversionView_DividingLine {
+QWidget#ConvView_DividingLine {
     background-color: "#272336";
 }
 
-QCheckBox#ConversionView_m_pSelectAllCkb {
+QCheckBox#ConvView_m_pSelectAllCkb {
     font-size: 13px;
     color: "#c4c4cc";
 }
 
-QPushButton#ConversionView_m_pStartAllBtn {
+QPushButton#ConvView_m_pStartAllBtn {
     background-color: "#a070ff";
     color: "#ffffff";
     border-radius: 16px;
     font-size: 14px;
 }
 
-QPushButton#ConversionView_m_pStartAllBtn:hover {
+QPushButton#ConvView_m_pStartAllBtn:hover {
     background-color: "#ad85ff";
 }
 
-QPushButton#ConversionView_m_pStartAllBtn:pressed {
+QPushButton#ConvView_m_pStartAllBtn:pressed {
     background-color: "#bb99ff";
 }
 
-QLabel#ConversionView_m_pOutputFormatLbl,
-QLabel#ConversionView_m_pOutputFolderLbl {
+QLabel#ConvView_m_pOutputFormatLbl,
+QLabel#ConvView_m_pOutputFolderLbl {
     color: "#ffffff";
     font-size: 13px;
 }
 
-QLabel#ConversionView_m_pTitleLbl {
+QLabel#ConvView_m_pTitleLbl {
     color: "#ffffff";
     font-size: 20px;
     font-weight: 600;
 }
 
-QWidget#ConversionView_m_pListViewColumnName {
+QWidget#ConvView_m_pListViewColumnName {
     background-color: "#1a1627";
 }

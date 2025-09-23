@@ -5,7 +5,7 @@
 #include "home/view.h"
 #include "myfile/view.h"
 #include "compression/view.h"
-#include "conversion/view.h"
+#include "conv/view.h"
 #include "crop/view.h"
 #include "upsc/view.h"
 #include "erase/view.h"
@@ -31,7 +31,7 @@ public:
     HomeView *homeView() const;
     MyFileView *myFileView() const;
     CompressionView *compressionView() const;
-    ConversionView *conversionView() const;
+    ConvView *conversionView() const;
     CropView *cropView() const;
     UpscView *upscView() const;
     EraseView *eraseView() const;
@@ -59,7 +59,7 @@ private:
     HomeView *m_pHomeView = nullptr;
     MyFileView *m_pMyFileView = nullptr;
     CompressionView *m_pCompressionView = nullptr;
-    ConversionView *m_pConversionView = nullptr;
+    ConvView *m_pConvView = nullptr;
     CropView *m_pCropView = nullptr;
     UpscView *m_pUpscView = nullptr;
     EraseView *m_pEraseView = nullptr;

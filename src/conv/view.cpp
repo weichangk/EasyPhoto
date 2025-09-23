@@ -1,6 +1,6 @@
-#include "conversion/view.h"
-#include "conversion/definerect.h"
-#include "conversion/presenter.h"
+#include "conv/view.h"
+#include "conv/definerect.h"
+#include "conv/presenter.h"
 #include "conv/task.h"
 #include "import/importfilehelper.h"
 #include "task/asynctask.h"
@@ -17,20 +17,20 @@
 
 using namespace QtmTask;
 
-ConversionView::ConversionView(QWidget *parent) :
+ConvView::ConvView(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
     onLanguageChange();
 }
 
-void ConversionView::showEvent(QShowEvent *event) {
+void ConvView::showEvent(QShowEvent *event) {
     QWidget::showEvent(event);
     listViewNoDataState();
     selectAllState();
 }
 
-void ConversionView::resizeEvent(QResizeEvent *event) {
+void ConvView::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
 
     m_pOutputFormatLbl->setGeometry(16, 14, 100, 24);
@@ -44,14 +44,14 @@ void ConversionView::resizeEvent(QResizeEvent *event) {
     m_pCancelAllBtn->setGeometry(width() - 110 - 16, (84 - 32) / 2, 110, 32);
 }
 
-void ConversionView::createUi() {
-    setObjectName("ConversionView");
+void ConvView::createUi() {
+    setObjectName("ConvView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("ConversionView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("ConvView_m_pTitleLbl");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -84,7 +84,7 @@ void ConversionView::createUi() {
     m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
 
     m_pSelectAllCkb = new QCheckBox(topWidget);
-    m_pSelectAllCkb->setObjectName("ConversionView_m_pSelectAllCkb");
+    m_pSelectAllCkb->setObjectName("ConvView_m_pSelectAllCkb");
     m_pSelectAllCkb->setVisible(false);
 
     m_pListModeSwitchBtn = new IconButton(topWidget);
@@ -107,7 +107,7 @@ void ConversionView::createUi() {
     bottomWidget->setFixedHeight(84);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
-    m_pOutputFormatLbl->setObjectName("ConversionView_m_pOutputFormatLbl");
+    m_pOutputFormatLbl->setObjectName("ConvView_m_pOutputFormatLbl");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedSize(226, 24);
@@ -115,7 +115,7 @@ void ConversionView::createUi() {
     initOutputFormatCbbItem();
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
-    m_pOutputFolderLbl->setObjectName("ConversionView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("ConvView_m_pOutputFolderLbl");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(226, 24);
@@ -128,11 +128,11 @@ void ConversionView::createUi() {
     m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
-    m_pStartAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("ConvView_m_pStartAllBtn");
     m_pStartAllBtn->setFixedSize(110, 32);
 
     m_pCancelAllBtn = new QPushButton(bottomWidget);
-    m_pCancelAllBtn->setObjectName("ConversionView_m_pStartAllBtn");
+    m_pCancelAllBtn->setObjectName("ConvView_m_pStartAllBtn");
     m_pCancelAllBtn->setFixedSize(110, 32);
 
     setStartAllBtnVisible(true);
@@ -153,7 +153,7 @@ void ConversionView::createUi() {
     // bottomWidgetLayout->addWidget(m_pStartAllBtn);
 
     m_pListViewColumnName = new QWidget(this);
-    m_pListViewColumnName->setObjectName("ConversionView_m_pListViewColumnName");
+    m_pListViewColumnName->setObjectName("ConvView_m_pListViewColumnName");
     m_pListViewColumnName->setFixedHeight(40);
     auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
     listViewColumnNameLayout->setContentsMargins(24, 0, 66, 0);
@@ -180,7 +180,7 @@ void ConversionView::createUi() {
 
     m_pListView = new ListView<SImageData>(this);
     m_pListView->setSpacing(0);
-    m_pListDelegate = new ConversionListDelegate(m_pListView);
+    m_pListDelegate = new ConvListDelegate(m_pListView);
     m_pListView->setItemDelegate(m_pListDelegate);
     m_pListView->setItemDelegateForColumn(0, m_pListDelegate);
     m_pListView->setMouseTracking(true);
@@ -218,37 +218,37 @@ void ConversionView::createUi() {
     layout->addLayout(stackedMarginLayout, 1);
 }
 
-void ConversionView::connectSig() {
-    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConversionView::onLanguageChange);
-    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConversionView::listViewImportFile);
-    connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConversionView::onAddFileBtnClicked);
-    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConversionView::onAddFolderBtnClicked);
-    connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConversionView::onClearFileBtnClicked);
-    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
-    connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConversionView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConversionView::onListModeSwitchBtnClicked);
-    connect(m_pListDelegate, &ConversionListDelegate::sigClicked, this, &ConversionView::onListViewClicked);
-    connect(m_pOutputFormatCbb, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this, &ConversionView::onOutputFormatCbbCurrentTextChanged);
-    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConversionView::onOutputFolderCbbIndexChanged);
-    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConversionView::onOpenOutputFolderBtnClicked);
-    connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConversionView::onStartAllBtnClicked);
-    connect(m_pCancelAllBtn, &QPushButton::clicked, this, &ConversionView::onCancelAllBtnClicked);
-    connect(m_pListDelegate, &ConversionListDelegate::sigUpdateData, this, [this](const SImageData &data) {
-        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::connectSig() {
+    connect(m_pLanguageFilter, &LanguageFilter::sigLanguageChange, this, &ConvView::onLanguageChange);
+    connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &ConvView::listViewImportFile);
+    connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConvView::onAddFileBtnClicked);
+    connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConvView::onAddFolderBtnClicked);
+    connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConvView::onClearFileBtnClicked);
+    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConvView::onSelectAllStateChanged);
+    connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConvView::onSelectAllStateChanged);
+    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConvView::onListModeSwitchBtnClicked);
+    connect(m_pListDelegate, &ConvListDelegate::sigClicked, this, &ConvView::onListViewClicked);
+    connect(m_pOutputFormatCbb, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this, &ConvView::onOutputFormatCbbCurrentTextChanged);
+    connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConvView::onOutputFolderCbbIndexChanged);
+    connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &ConvView::onOpenOutputFolderBtnClicked);
+    connect(m_pStartAllBtn, &QPushButton::clicked, this, &ConvView::onStartAllBtnClicked);
+    connect(m_pCancelAllBtn, &QPushButton::clicked, this, &ConvView::onCancelAllBtnClicked);
+    connect(m_pListDelegate, &ConvListDelegate::sigUpdateData, this, [this](const SImageData &data) {
+        ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
         prst->updateData(data);
     });
 }
 
-QWidget *ConversionView::createDividingLine() {
+QWidget *ConvView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("ConversionView_DividingLine");
+    dividingLine->setObjectName("ConvView_DividingLine");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }
 
-void ConversionView::listViewImportFile(const QStringList &filePaths) {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::listViewImportFile(const QStringList &filePaths) {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     // prst->appendData(filePaths);
     // m_pListView->changeData(prst->datas());
     // listViewNoDataState();
@@ -269,8 +269,8 @@ void ConversionView::listViewImportFile(const QStringList &filePaths) {
     );
 }
 
-void ConversionView::onListModeSwitchBtnClicked() {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::onListModeSwitchBtnClicked() {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     if (!prst->datas().isEmpty()) {
         m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
         m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
@@ -283,8 +283,8 @@ void ConversionView::onListModeSwitchBtnClicked() {
     }
 }
 
-void ConversionView::listItemSelectChanged(const QString &filePath) {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::listItemSelectChanged(const QString &filePath) {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
     // blockSignalsFunc(m_pSelectAllCkb, [&]() {
@@ -295,8 +295,8 @@ void ConversionView::listItemSelectChanged(const QString &filePath) {
     });
 }
 
-void ConversionView::listItemDelete(const QString &filePath) {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::listItemDelete(const QString &filePath) {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     QStringList filePaths;
     filePaths.append(filePath);
     prst->deleteData(filePaths);
@@ -305,8 +305,8 @@ void ConversionView::listItemDelete(const QString &filePath) {
     selectAllState();
 }
 
-void ConversionView::listViewNoDataState() {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::listViewNoDataState() {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
     // m_pListModeSwitchBtn->setVisible(!isNoData);
@@ -315,8 +315,8 @@ void ConversionView::listViewNoDataState() {
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
 
-void ConversionView::selectAllState() {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::selectAllState() {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
@@ -333,7 +333,7 @@ void ConversionView::selectAllState() {
     }
 }
 
-void ConversionView::initOutputFormatCbbItem() {
+void ConvView::initOutputFormatCbbItem() {
     blockSignalsFunc(m_pOutputFormatCbb, [&]() {
         m_pOutputFormatCbb->clear();
         m_pOutputFormatCbb->addItems(CONV_OUTPUT_FORMATS.values());
@@ -341,22 +341,22 @@ void ConversionView::initOutputFormatCbbItem() {
     });
 }
 
-void ConversionView::initOutputFolderCbbItem() {
+void ConvView::initOutputFolderCbbItem() {
     m_pOutputFolderCbb->addItem(SETTINGS->getConvSetting()->getOutPath());
     m_pOutputFolderCbb->addItem("...");
 }
 
-void ConversionView::ConversionView::setOutputFolder(const QString &path) {
+void ConvView::ConvView::setOutputFolder(const QString &path) {
     SETTINGS->getConvSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
-void ConversionView::setStartAllBtnVisible(bool visible) {
+void ConvView::setStartAllBtnVisible(bool visible) {
     m_pStartAllBtn->setVisible(visible);
     m_pCancelAllBtn->setVisible(!visible);
 }
 
-QList<SImageData> ConversionView::getListViewModels() const {
+QList<SImageData> ConvView::getListViewModels() const {
     QList<SImageData> datas;
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
@@ -366,7 +366,7 @@ QList<SImageData> ConversionView::getListViewModels() const {
     return datas;
 }
 
-SImageData ConversionView::getListViewModel(const QString &filePath) const {
+SImageData ConvView::getListViewModel(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
         auto data = index.data(Qt::UserRole).value<SImageData>();
@@ -377,7 +377,7 @@ SImageData ConversionView::getListViewModel(const QString &filePath) const {
     return SImageData();
 }
 
-int ConversionView::getListViewModelIndex(const QString &filePath) const {
+int ConvView::getListViewModelIndex(const QString &filePath) const {
     for (int i = 0; i < m_pListView->model()->rowCount(); ++i) {
         auto index = m_pListView->model()->index(i, 0);
         auto data = index.data(Qt::UserRole).value<SImageData>();
@@ -388,9 +388,9 @@ int ConversionView::getListViewModelIndex(const QString &filePath) const {
     return -1;
 }
 
-void ConversionView::startConvAllTask() {
+void ConvView::startConvAllTask() {
     auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
-        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+        ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
         ImgKitCore::CONV::Task convTask;
         for (auto data : prst->datas()) {
             if(m_pStartAllBtn->isVisible()) {
@@ -420,9 +420,9 @@ void ConversionView::startConvAllTask() {
     task->start();
 }
 
-void ConversionView::startConvTask(const QString &path) {
+void ConvView::startConvTask(const QString &path) {
     auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
-        ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+        ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
         ImgKitCore::CONV::Task convTask;
         for (auto data : prst->datas()) {
             if (data.file_path == path && data.state != EImageState_Loading) {
@@ -445,7 +445,7 @@ void ConversionView::startConvTask(const QString &path) {
     task->start();
 }
 
-void ConversionView::onLanguageChange() {
+void ConvView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Converter"));
     m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
@@ -460,7 +460,7 @@ void ConversionView::onLanguageChange() {
     m_pColumnActionLbl->setText(tr("Action"));
 }
 
-void ConversionView::onAddFileBtnClicked() {
+void ConvView::onAddFileBtnClicked() {
     QString title = tr("Open");
     QString directory = SETTINGS->getConvSetting()->getLastAddFilePath();
     QStringList filePaths = QFileDialog::getOpenFileNames(this, title, directory, "All Files (*)");
@@ -472,7 +472,7 @@ void ConversionView::onAddFileBtnClicked() {
     }
 }
 
-void ConversionView::onAddFolderBtnClicked() {
+void ConvView::onAddFolderBtnClicked() {
     QString title = tr("Select Folder");
     QString folderPath = QFileDialog::getExistingDirectory(this, title, SETTINGS->getConvSetting()->getLastAddFolderPath());
     if (!folderPath.isEmpty()) {
@@ -490,24 +490,24 @@ void ConversionView::onAddFolderBtnClicked() {
     }
 }
 
-void ConversionView::onClearFileBtnClicked() {
+void ConvView::onClearFileBtnClicked() {
     MessageBox msgBox(MessageBox::MessageIcon::Message, tr("Information"), tr("Are you sure you want to delete all tasks?"), "", tr("Cancel"), tr("Delete"));
     if(msgBox.exec() == QDialog::Rejected) {
         return;
     }
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     prst->clearData();
     m_pListView->changeData(prst->datas());
     listViewNoDataState();
 }
 
-void ConversionView::onSelectAllStateChanged(int state) {
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+void ConvView::onSelectAllStateChanged(int state) {
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     prst->checkedAllData(state);
     m_pListView->changeData(prst->datas());
 }
 
-void ConversionView::onListViewClicked(const QModelIndex &index) {
+void ConvView::onListViewClicked(const QModelIndex &index) {
     auto data = index.data(Qt::UserRole).value<SImageData>();
     QRect rc = m_pListView->visualRect(index);
     int posx = m_pListView->mapFromGlobal(QCursor::pos()).x();
@@ -530,10 +530,10 @@ void ConversionView::onListViewClicked(const QModelIndex &index) {
     }
 }
 
-void ConversionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
+void ConvView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
     QString format = text.toLower();
     SETTINGS->getConvSetting()->setOutFmt(format);
-    ConversionPresenter *prst = dynamic_cast<ConversionPresenter *>(presenter());
+    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     for (auto &data : prst->datas()) {
         data.output_format = format; 
         prst->updateData(data.file_path, data);
@@ -541,7 +541,7 @@ void ConversionView::onOutputFormatCbbCurrentTextChanged(const QString &text) {
     m_pListView->changeData(prst->datas());
 }
 
-void ConversionView::onOutputFolderCbbIndexChanged(int index) {
+void ConvView::onOutputFolderCbbIndexChanged(int index) {
     if (index == 1) {
         blockSignalsFunc(m_pOutputFolderCbb, [&]() {
             m_pOutputFolderCbb->setCurrentIndex(0);
@@ -554,16 +554,16 @@ void ConversionView::onOutputFolderCbbIndexChanged(int index) {
     }
 }
 
-void ConversionView::onOpenOutputFolderBtnClicked() {
+void ConvView::onOpenOutputFolderBtnClicked() {
     QString folderPath = SETTINGS->getConvSetting()->getOutPath();
     QDesktopServices::openUrl(QUrl::fromLocalFile(folderPath));
 }
 
-void ConversionView::onStartAllBtnClicked() {
+void ConvView::onStartAllBtnClicked() {
     setStartAllBtnVisible(false);
     startConvAllTask();
 }
 
-void ConversionView::onCancelAllBtnClicked() {
+void ConvView::onCancelAllBtnClicked() {
     setStartAllBtnVisible(true);
 }

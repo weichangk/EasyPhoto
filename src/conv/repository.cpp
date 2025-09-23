@@ -1,16 +1,16 @@
-#include "conversion/repository.h"
+#include "conv/repository.h"
 
-ConversionRepository::ConversionRepository() {
+ConvRepository::ConvRepository() {
 }
 
-ConversionRepository::~ConversionRepository() {
+ConvRepository::~ConvRepository() {
 }
 
-QList<SImageData> ConversionRepository::datas() {
+QList<SImageData> ConvRepository::datas() {
     return m_datas;
 }
 
-void ConversionRepository::updateData(const SImageData &data) {
+void ConvRepository::updateData(const SImageData &data) {
     auto func = [](const SImageData &cd, const QString &filePath) {
         return cd.file_path == filePath;
     };
@@ -22,7 +22,7 @@ void ConversionRepository::updateData(const SImageData &data) {
     }
 }
 
-void ConversionRepository::updateData(const QString filePath, const SImageData &data) {
+void ConvRepository::updateData(const QString filePath, const SImageData &data) {
     auto func = [](const SImageData &cd, QString filePath) {
         return cd.file_path == filePath;
     };
@@ -32,29 +32,29 @@ void ConversionRepository::updateData(const QString filePath, const SImageData &
     }
 }
 
-void ConversionRepository::appendData(QList<SImageData> datas) {
+void ConvRepository::appendData(QList<SImageData> datas) {
     m_datas.append(datas);
 }
 
-void ConversionRepository::deleteData(const QStringList filePaths) {
+void ConvRepository::deleteData(const QStringList filePaths) {
     auto func = [](const SImageData &cd, const QStringList &filePaths) {
         return filePaths.contains(cd.file_path);
     };
     m_datas.erase(std::remove_if(m_datas.begin(), m_datas.end(), std::bind(func, std::placeholders::_1, filePaths)), m_datas.end());
 }
 
-void ConversionRepository::deleteCheckedData() {
+void ConvRepository::deleteCheckedData() {
     m_datas.erase(std::remove_if(m_datas.begin(), m_datas.end(), [](const SImageData &cd) {
                       return cd.is_checked == true;
                   }),
                   m_datas.end());
 }
 
-void ConversionRepository::clearData() {
+void ConvRepository::clearData() {
     m_datas.clear();
 }
 
-void ConversionRepository::switchCheckedData(const QString filePath) {
+void ConvRepository::switchCheckedData(const QString filePath) {
     auto func = [](const SImageData &cd, QString filePath) {
         return cd.file_path == filePath;
     };
@@ -64,7 +64,7 @@ void ConversionRepository::switchCheckedData(const QString filePath) {
     }
 }
 
-void ConversionRepository::checkedAllData(bool checked) {
+void ConvRepository::checkedAllData(bool checked) {
     for (auto &data : m_datas) {
         data.is_checked = checked;
     }

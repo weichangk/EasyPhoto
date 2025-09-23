@@ -4,7 +4,7 @@
 #include "home/repository.h"
 #include "myfile/repository.h"
 #include "compression/repository.h"
-#include "conversion/repository.h"
+#include "conv/repository.h"
 #include "crop/repository.h"
 #include "upsc/repository.h"
 #include "erase/repository.h"
@@ -24,7 +24,7 @@ public:
     HomeRepository *homeRepository() const;
     MyFileRepository *myFileRepository() const;
     CompressionRepository *compressionRepository() const;
-    ConversionRepository *conversionRepository() const;
+    ConvRepository *conversionRepository() const;
     CropRepository *cropRepository() const;
     UpscRepository *upscRepository() const;
     EraseRepository *eraseRepository() const;
@@ -38,7 +38,7 @@ private:
     HomeRepository *m_pHomeRepository = nullptr;
     MyFileRepository *m_pMyFileRepository = nullptr;
     CompressionRepository *m_pCompressionRepository = nullptr;
-    ConversionRepository *m_pConversionRepository = nullptr;
+    ConvRepository *m_pConvRepository = nullptr;
     CropRepository *m_pCropRepository = nullptr;
     UpscRepository *m_pUpscRepository = nullptr;
     EraseRepository *m_pEraseRepository = nullptr;
