@@ -1,31 +1,31 @@
-#include "compression/presenter.h"
-#include "compression/repository.h"
+#include "comp/presenter.h"
+#include "comp/repository.h"
 
 #include <QFileInfo>
 
-CompressionPresenter::CompressionPresenter(IView *view, IRepository *repository) :
+CompPresenter::CompPresenter(IView *view, IRepository *repository) :
     Presenter(view, repository) {
 }
 
-CompressionPresenter::~CompressionPresenter() {
+CompPresenter::~CompPresenter() {
 }
 
-QList<SImageData> CompressionPresenter::datas() {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+QList<SImageData> CompPresenter::datas() {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     return rep->datas();
 }
 
-void CompressionPresenter::updateData(const SImageData &data) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::updateData(const SImageData &data) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->updateData(data);
 }
 
-void CompressionPresenter::updateData(const QString filePath, const SImageData &data) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::updateData(const QString filePath, const SImageData &data) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->updateData(filePath, data);
 }
 
-void CompressionPresenter::appendData(const QStringList filePaths) {
+void CompPresenter::appendData(const QStringList filePaths) {
     QList<SImageData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
@@ -67,20 +67,20 @@ void CompressionPresenter::appendData(const QStringList filePaths) {
         };
         tempDatas.append(data);
     }
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->appendData(tempDatas);
 }
 
-void CompressionPresenter::deleteData(const QStringList filePaths) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::deleteData(const QStringList filePaths) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->deleteData(filePaths);
     for (auto path : filePaths) {
         filePathsSet.remove(path);
     }
 }
 
-void CompressionPresenter::deleteCheckedData() {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::deleteCheckedData() {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->deleteCheckedData();
     for (auto data : rep->datas()) {
         if (data.is_checked) {
@@ -89,23 +89,23 @@ void CompressionPresenter::deleteCheckedData() {
     }
 }
 
-void CompressionPresenter::clearData() {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::clearData() {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->clearData();
     filePathsSet.clear();
 }
 
-void CompressionPresenter::switchCheckedData(const QString filePath) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::switchCheckedData(const QString filePath) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->switchCheckedData(filePath);
 }
 
-void CompressionPresenter::checkedAllData(bool checked) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::checkedAllData(bool checked) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->checkedAllData(checked);
 }
 
-TaskResult<SImportFileResult<QList<SImageData>>> CompressionPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
+TaskResult<SImportFileResult<QList<SImageData>>> CompPresenter::importFileAsync(AsyncTask<SImportFileData, SImportFileResult<QList<SImageData>>> *self) {
     QList<SImageData> tempDatas;
     int index = 0;
     for (const QString &filePath : self->getData().value.filePaths) {
@@ -157,7 +157,7 @@ TaskResult<SImportFileResult<QList<SImageData>>> CompressionPresenter::importFil
     return TaskResult<SImportFileResult<QList<SImageData>>>::Success(result);
 }
 
-void CompressionPresenter::appendData(const QList<SImageData> datas) {
-    CompressionRepository *rep = dynamic_cast<CompressionRepository *>(repository());
+void CompPresenter::appendData(const QList<SImageData> datas) {
+    CompRepository *rep = dynamic_cast<CompRepository *>(repository());
     rep->appendData(datas);
 }

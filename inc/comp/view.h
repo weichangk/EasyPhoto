@@ -27,11 +27,11 @@ using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
 
-class CompressionView : public QWidget, public View {
+class CompView : public QWidget, public View {
     Q_OBJECT
 public:
-    explicit CompressionView(QWidget *parent = nullptr);
-    ~CompressionView() override {
+    explicit CompView(QWidget *parent = nullptr);
+    ~CompView() override {
     }
 
 protected:
@@ -111,5 +111,5 @@ private:
     QLabel *m_pColumnActionLbl = nullptr;
 
     ListView<SImageData> *m_pListView = nullptr;
-    CompressionListDelegate *m_pListDelegate = nullptr;
+    CompListDelegate *m_pListDelegate = nullptr;
 };

@@ -5,10 +5,10 @@
 
 using namespace QtmMvp;
 
-class CompressionRepository : public Repository {
+class CompRepository : public Repository {
 public:
-    explicit CompressionRepository();
-    ~CompressionRepository();
+    explicit CompRepository();
+    ~CompRepository();
     QList<SImageData> datas();
     void updateData(const SImageData &data);
     void updateData(const QString filePath, const SImageData &data);

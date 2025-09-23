@@ -2,10 +2,10 @@
 #include <QStyledItemDelegate>
 #include <QEvent>
 
-class CompressionListDelegate : public QStyledItemDelegate {
+class CompListDelegate : public QStyledItemDelegate {
     Q_OBJECT
 public:
-    explicit CompressionListDelegate(QObject *parent);
+    explicit CompListDelegate(QObject *parent);
     void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
     bool eventFilter(QObject *object, QEvent *event) override;
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;

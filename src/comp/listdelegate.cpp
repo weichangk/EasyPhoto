@@ -1,9 +1,9 @@
-#include "compression/listdelegate.h"
-#include "types.h"
-#include "compression/definerect.h"
+#include "comp/listdelegate.h"
+#include "comp/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"
 #include "widget/listview.h"
+#include "types.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -15,11 +15,11 @@
 
 using namespace QtmCore;
 
-CompressionListDelegate::CompressionListDelegate(QObject *parent) :
+CompListDelegate::CompListDelegate(QObject *parent) :
     QStyledItemDelegate(parent) {
 }
 
-void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
+void CompListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
     auto data = index.data(Qt::UserRole).value<SImageData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
@@ -64,7 +64,7 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     // painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
     // painter->setPen(Qt::NoPen);
 
-    auto checkedRect = convListCheckedRect(bgRect);
+    auto checkedRect = compListCheckedRect(bgRect);
     if (data.is_checked) {
         QColor checkBgColor = QColor("#a070ff");
         if (checkedRect.contains(m_CurPos)) {
@@ -100,7 +100,7 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         painter->setPen(Qt::NoPen);
     }
 
-    auto delRect = convListDelRect(bgRect);
+    auto delRect = compListDelRect(bgRect);
     QColor delBgColor = QColor("#fa7681");
     if (delRect.contains(m_CurPos)) {
         if (hover) {
@@ -117,7 +117,7 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
         Painter::paintPixmap(painter, delRect, data.delete_icon, 1, 0, true);
     }
 
-    auto nameRect = convListNameRect(bgRect);
+    auto nameRect = compListNameRect(bgRect);
     QColor nameColor = QColor("#ffffff");
     QPen penName(nameColor);
     painter->setPen(penName);
@@ -131,10 +131,10 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     }
     painter->drawText(nameRect, Qt::AlignLeft | Qt::AlignVCenter, fileName);
 
-    auto resolutionRect = convListResolutionRect(bgRect);
+    auto resolutionRect = compListResolutionRect(bgRect);
     painter->drawText(resolutionRect, Qt::AlignLeft | Qt::AlignVCenter, QString("%1x%2").arg(data.resolution.width()).arg(data.resolution.height()));
 
-    auto sizeRect = convListSizeRect(bgRect);
+    auto sizeRect = compListSizeRect(bgRect);
     if(data.state == EImageState_Success) {
         painter->drawText(sizeRect, Qt::AlignCenter, QString("%1 --> %2").arg(data.intput_size).arg(data.output_size));
     }
@@ -143,41 +143,41 @@ void CompressionListDelegate::paint(QPainter *painter, const QStyleOptionViewIte
     }
     painter->setPen(Qt::NoPen);
 
-    auto stateRect = convListStateRect(bgRect);
+    auto stateRect = compListStateRect(bgRect);
     Painter::paintPixmap(painter, stateRect, data.state_icons[data.state], 1, 0, true);
 
-    auto convRect = convListConvRect(bgRect);
-    int convRadius = 10;
-    QColor convBgColor = QColor("#2c2c3f");
+    auto compRect = compListConvRect(bgRect);
+    int compRadius = 10;
+    QColor compBgColor = QColor("#2c2c3f");
     if(hover) {
-        convBgColor = QColor("#433767");
+        compBgColor = QColor("#433767");
     }
     if(pressed) {
-        convBgColor = QColor("#2f2b47");
+        compBgColor = QColor("#2f2b47");
     }
-    painter->setBrush(convBgColor);
-    painter->drawRoundedRect(convRect, convRadius, convRadius);
+    painter->setBrush(compBgColor);
+    painter->drawRoundedRect(compRect, compRadius, compRadius);
     painter->setBrush(Qt::NoBrush);
 
-    QColor convBorderColor = QColor("#a070ff");
-    QPen convBorderPen(convBorderColor);
-    painter->setPen(convBorderPen);
-    painter->drawRoundedRect(convRect.adjusted(1, 1, -1, -1), convRadius, convRadius);
+    QColor compBorderColor = QColor("#a070ff");
+    QPen compBorderPen(compBorderColor);
+    painter->setPen(compBorderPen);
+    painter->drawRoundedRect(compRect.adjusted(1, 1, -1, -1), compRadius, compRadius);
     painter->setPen(Qt::NoPen);
 
-    auto convTextRect = convRect;
-    QColor convTextColor = QColor("#ffffff");
-    QPen convTextPen(convTextColor);
-    painter->setPen(convTextPen);
-    QFont convTextFont = painter->font();
-    convTextFont.setPixelSize(12);
-    painter->setFont(convTextFont);
-    QString convText = tr("Compress");
-    painter->drawText(convTextRect, Qt::AlignCenter, convText);
+    auto compTextRect = compRect;
+    QColor compTextColor = QColor("#ffffff");
+    QPen compTextPen(compTextColor);
+    painter->setPen(compTextPen);
+    QFont compTextFont = painter->font();
+    compTextFont.setPixelSize(12);
+    painter->setFont(compTextFont);
+    QString compText = tr("Compress");
+    painter->drawText(compTextRect, Qt::AlignCenter, compText);
     painter->setPen(Qt::NoPen);
 }
 
-bool CompressionListDelegate::eventFilter(QObject *object, QEvent *event) {
+bool CompListDelegate::eventFilter(QObject *object, QEvent *event) {
     int type = event->type();
     if (type == QEvent::MouseMove || type == QEvent::MouseButtonPress || type == QEvent::MouseButtonRelease) {
         m_EventType = type;
@@ -192,7 +192,7 @@ bool CompressionListDelegate::eventFilter(QObject *object, QEvent *event) {
     return QStyledItemDelegate::eventFilter(object, event);
 }
 
-QSize CompressionListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
+QSize CompListDelegate::sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const {
     if (m_bIsListMode) {
         QWidget *parent = static_cast<QWidget *>(this->parent());
         return QSize(parent->width(), n_ListItemHeight);
@@ -200,10 +200,10 @@ QSize CompressionListDelegate::sizeHint(const QStyleOptionViewItem &option, cons
     return m_Size;
 }
 
-void CompressionListDelegate::setListMode(bool b) {
+void CompListDelegate::setListMode(bool b) {
     m_bIsListMode = b;
 }
 
-bool CompressionListDelegate::isListMode() const {
+bool CompListDelegate::isListMode() const {
     return m_bIsListMode;
 }

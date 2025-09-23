@@ -10,7 +10,7 @@ FuncAreaPresenter::FuncAreaPresenter(IView *view, IRepository *repository) :
     if (funcAreaView && funcRepository) {
         m_pHomePresenter = new HomePresenter(funcAreaView->homeView(), funcRepository->homeRepository());
         m_pMyFilePresenter = new MyFilePresenter(funcAreaView->myFileView(), funcRepository->myFileRepository());
-        m_pCompressionPresenter = new CompressionPresenter(funcAreaView->compressionView(), funcRepository->compressionRepository());
+        m_pCompPresenter = new CompPresenter(funcAreaView->compressionView(), funcRepository->compressionRepository());
         m_pConvPresenter = new ConvPresenter(funcAreaView->conversionView(), funcRepository->conversionRepository());
         m_pCropPresenter = new CropPresenter(funcAreaView->cropView(), funcRepository->cropRepository());
         m_pUpscPresenter = new UpscPresenter(funcAreaView->upscView(), funcRepository->upscRepository());
@@ -34,8 +34,8 @@ MyFilePresenter *FuncAreaPresenter::myFilePresenter() const {
     return m_pMyFilePresenter;
 }
 
-CompressionPresenter *FuncAreaPresenter::compressionPresenter() const {
-    return m_pCompressionPresenter;
+CompPresenter *FuncAreaPresenter::compressionPresenter() const {
+    return m_pCompPresenter;
 }
 
 ConvPresenter *FuncAreaPresenter::conversionPresenter() const {

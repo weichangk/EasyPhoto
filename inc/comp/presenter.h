@@ -10,10 +10,10 @@
 using namespace QtmMvp;
 using namespace QtmTask;
 
-class CompressionPresenter : public Presenter {
+class CompPresenter : public Presenter {
 public:
-    explicit CompressionPresenter(IView *view, IRepository *repository);
-    ~CompressionPresenter();
+    explicit CompPresenter(IView *view, IRepository *repository);
+    ~CompPresenter();
     QList<SImageData> datas();
     void updateData(const SImageData &data);
     void updateData(const QString filePath, const SImageData &data);

@@ -15,8 +15,8 @@ MyFileView *FuncAreaView::myFileView() const {
     return m_pMyFileView;
 }
 
-CompressionView *FuncAreaView::compressionView() const {
-    return m_pCompressionView;
+CompView *FuncAreaView::compressionView() const {
+    return m_pCompView;
 }
 
 ConvView *FuncAreaView::conversionView() const {
@@ -69,7 +69,7 @@ void FuncAreaView::createUi() {
 
     m_pHomeView = new HomeView(this);
     m_pMyFileView = new MyFileView(this);
-    m_pCompressionView = new CompressionView(this);
+    m_pCompView = new CompView(this);
     m_pConvView = new ConvView(this);
     m_pCropView = new CropView(this);
     m_pUpscView = new UpscView(this);
@@ -84,7 +84,7 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncHome, m_pHomeView);
     m_pStackedLayout->insertWidget(EFunc::FuncMyFile, m_pMyFileView);
     m_pStackedLayout->insertWidget(EFunc::FuncConversion, m_pConvView);
-    m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompressionView);
+    m_pStackedLayout->insertWidget(EFunc::FuncCompression, m_pCompView);
     m_pStackedLayout->insertWidget(EFunc::FuncUpsc, m_pUpscView);
     m_pStackedLayout->insertWidget(EFunc::FuncErase, m_pEraseView);
     m_pStackedLayout->insertWidget(EFunc::FuncBgRm, m_pBgRmView);

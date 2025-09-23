@@ -4,7 +4,7 @@
 #include "mvp/view.h"
 #include "home/view.h"
 #include "myfile/view.h"
-#include "compression/view.h"
+#include "comp/view.h"
 #include "conv/view.h"
 #include "crop/view.h"
 #include "upsc/view.h"
@@ -30,7 +30,7 @@ public:
 
     HomeView *homeView() const;
     MyFileView *myFileView() const;
-    CompressionView *compressionView() const;
+    CompView *compressionView() const;
     ConvView *conversionView() const;
     CropView *cropView() const;
     UpscView *upscView() const;
@@ -58,7 +58,7 @@ private:
     QStackedLayout *m_pStackedLayout = nullptr;
     HomeView *m_pHomeView = nullptr;
     MyFileView *m_pMyFileView = nullptr;
-    CompressionView *m_pCompressionView = nullptr;
+    CompView *m_pCompView = nullptr;
     ConvView *m_pConvView = nullptr;
     CropView *m_pCropView = nullptr;
     UpscView *m_pUpscView = nullptr;

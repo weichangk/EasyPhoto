@@ -1,16 +1,16 @@
-#include "compression/repository.h"
+#include "comp/repository.h"
 
-CompressionRepository::CompressionRepository() {
+CompRepository::CompRepository() {
 }
 
-CompressionRepository::~CompressionRepository() {
+CompRepository::~CompRepository() {
 }
 
-QList<SImageData> CompressionRepository::datas() {
+QList<SImageData> CompRepository::datas() {
     return m_datas;
 }
 
-void CompressionRepository::updateData(const SImageData &data) {
+void CompRepository::updateData(const SImageData &data) {
     auto func = [](const SImageData &cd, const QString &filePath) {
         return cd.file_path == filePath;
     };
@@ -22,7 +22,7 @@ void CompressionRepository::updateData(const SImageData &data) {
     }
 }
 
-void CompressionRepository::updateData(const QString filePath, const SImageData &data) {
+void CompRepository::updateData(const QString filePath, const SImageData &data) {
     auto func = [](const SImageData &cd, QString filePath) {
         return cd.file_path == filePath;
     };
@@ -32,29 +32,29 @@ void CompressionRepository::updateData(const QString filePath, const SImageData 
     }
 }
 
-void CompressionRepository::appendData(QList<SImageData> datas) {
+void CompRepository::appendData(QList<SImageData> datas) {
     m_datas.append(datas);
 }
 
-void CompressionRepository::deleteData(const QStringList filePaths) {
+void CompRepository::deleteData(const QStringList filePaths) {
     auto func = [](const SImageData &cd, const QStringList &filePaths) {
         return filePaths.contains(cd.file_path);
     };
     m_datas.erase(std::remove_if(m_datas.begin(), m_datas.end(), std::bind(func, std::placeholders::_1, filePaths)), m_datas.end());
 }
 
-void CompressionRepository::deleteCheckedData() {
+void CompRepository::deleteCheckedData() {
     m_datas.erase(std::remove_if(m_datas.begin(), m_datas.end(), [](const SImageData &cd) {
                       return cd.is_checked == true;
                   }),
                   m_datas.end());
 }
 
-void CompressionRepository::clearData() {
+void CompRepository::clearData() {
     m_datas.clear();
 }
 
-void CompressionRepository::switchCheckedData(const QString filePath) {
+void CompRepository::switchCheckedData(const QString filePath) {
     auto func = [](const SImageData &cd, QString filePath) {
         return cd.file_path == filePath;
     };
@@ -64,7 +64,7 @@ void CompressionRepository::switchCheckedData(const QString filePath) {
     }
 }
 
-void CompressionRepository::checkedAllData(bool checked) {
+void CompRepository::checkedAllData(bool checked) {
     for (auto &data : m_datas) {
         data.is_checked = checked;
     }

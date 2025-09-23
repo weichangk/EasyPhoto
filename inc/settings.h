@@ -26,8 +26,8 @@ static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths
 static QString lastAddFolderPath = QDir::homePath();
 } // namespace Conv
 
-namespace Cmp {
-static QString outPath = defOutPath("Cmp");
+namespace Comp {
+static QString outPath = defOutPath("Comp");
 static QString outFormat = "sameassource";
 static QString lastAddFilePath = QStandardPaths::writableLocation(QStandardPaths::DocumentsLocation);
 static QString lastAddFolderPath = QDir::homePath();
@@ -94,9 +94,9 @@ private:
     QString m_LastAddFolderPath;
 };
 
-class CmpSetting {
+class CompSetting {
 public:
-    CmpSetting();
+    CompSetting();
     void load();
     QString getOutPath() const;
     void setOutPath(const QString &path);
@@ -234,7 +234,7 @@ public:
     Settings();
     void load();
     ConvSetting *getConvSetting() const;
-    CmpSetting *getCmpSetting() const;
+    CompSetting *getCompSetting() const;
     GifMkSetting *getGifMkSetting() const;
     BgRmSetting *getBgRmSetting() const;
     UpscSetting *getUpscSetting() const;
@@ -243,7 +243,7 @@ public:
 
 private:
     ConvSetting *m_ConvSetting;
-    CmpSetting *m_CmpSetting;
+    CompSetting *m_CompSetting;
     GifMkSetting *m_GifMkSetting;
     BgRmSetting *m_BgRmSetting;
     UpscSetting *m_UpscSetting;

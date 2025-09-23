@@ -59,72 +59,72 @@ void ConvSetting::setLastAddFolderPath(const QString &path) {
     m_Settings.endGroup();
 }
 
-CmpSetting::CmpSetting() :
+CompSetting::CompSetting() :
     m_Settings(QSettings::IniFormat, QSettings::UserScope, QApplication::organizationName(),
                QApplication::applicationDisplayName()) {
 }
 
-void CmpSetting::load() {
-    m_Settings.beginGroup("Cmp");
-    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Cmp::outPath).toString();
-    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Cmp::outFormat).toString();
-    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Cmp::lastAddFilePath).toString();
-    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Cmp::lastAddFolderPath).toString();
-    m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::Cmp::quality).toInt();
+void CompSetting::load() {
+    m_Settings.beginGroup("Comp");
+    m_OutPath = m_Settings.value(QStringLiteral("OutPath"), Default::Comp::outPath).toString();
+    m_OutFmt = m_Settings.value(QStringLiteral("OutFmt"), Default::Comp::outFormat).toString();
+    m_LastAddFilePath = m_Settings.value(QStringLiteral("LastAddFilePath"), Default::Comp::lastAddFilePath).toString();
+    m_LastAddFolderPath = m_Settings.value(QStringLiteral("LastAddFolderPath"), Default::Comp::lastAddFolderPath).toString();
+    m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::Comp::quality).toInt();
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getOutPath() const {
+QString CompSetting::getOutPath() const {
     return m_OutPath;
 }
 
-void CmpSetting::setOutPath(const QString &path) {
+void CompSetting::setOutPath(const QString &path) {
     m_OutPath = path;
-    m_Settings.beginGroup("Cmp");
+    m_Settings.beginGroup("Comp");
     m_Settings.setValue(QStringLiteral("OutPath"), m_OutPath);
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getOutFmt() const {
+QString CompSetting::getOutFmt() const {
     return m_OutFmt;
 }
 
-void CmpSetting::setOutFmt(const QString &fmt) {
+void CompSetting::setOutFmt(const QString &fmt) {
     m_OutFmt = fmt;
-    m_Settings.beginGroup("Cmp");
+    m_Settings.beginGroup("Comp");
     m_Settings.setValue(QStringLiteral("OutFmt"), m_OutFmt);
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getLastAddFilePath() const {
+QString CompSetting::getLastAddFilePath() const {
     return m_LastAddFilePath;
 }
 
-void CmpSetting::setLastAddFilePath(const QString &path) {
+void CompSetting::setLastAddFilePath(const QString &path) {
     m_LastAddFilePath = path;
-    m_Settings.beginGroup("Cmp");
+    m_Settings.beginGroup("Comp");
     m_Settings.setValue(QStringLiteral("LastAddFilePath"), m_LastAddFilePath);
     m_Settings.endGroup();
 }
 
-QString CmpSetting::getLastAddFolderPath() const {
+QString CompSetting::getLastAddFolderPath() const {
     return m_LastAddFolderPath;
 }
 
-void CmpSetting::setLastAddFolderPath(const QString &path) {
+void CompSetting::setLastAddFolderPath(const QString &path) {
     m_LastAddFolderPath = path;
-    m_Settings.beginGroup("Cmp");
+    m_Settings.beginGroup("Comp");
     m_Settings.setValue(QStringLiteral("LastAddFolderPath"), m_LastAddFolderPath);
     m_Settings.endGroup();
 }
 
-int CmpSetting::getQuality() const {
+int CompSetting::getQuality() const {
     return m_Quality;
 }
 
-void CmpSetting::setQuality(int q) {
+void CompSetting::setQuality(int q) {
     m_Quality = q;
-    m_Settings.beginGroup("CMP");
+    m_Settings.beginGroup("Comp");
     m_Settings.setValue(QStringLiteral("Quality"), m_Quality);
     m_Settings.endGroup();
 }
@@ -445,7 +445,7 @@ void CropSetting::setOutFmt(const QString &fmt) {
 
 Settings::Settings() {
     m_ConvSetting = new ConvSetting();
-    m_CmpSetting = new CmpSetting();
+    m_CompSetting = new CompSetting();
     m_GifMkSetting = new GifMkSetting();
     m_BgRmSetting = new BgRmSetting();
     m_UpscSetting = new UpscSetting();
@@ -455,7 +455,7 @@ Settings::Settings() {
 
 void Settings::load() {
     m_ConvSetting->load();
-    m_CmpSetting->load();
+    m_CompSetting->load();
     m_GifMkSetting->load();
     m_BgRmSetting->load();
     m_UpscSetting->load();
@@ -467,8 +467,8 @@ ConvSetting *Settings::getConvSetting() const {
     return m_ConvSetting;
 }
 
-CmpSetting *Settings::getCmpSetting() const {
-    return m_CmpSetting;
+CompSetting *Settings::getCompSetting() const {
+    return m_CompSetting;
 }
 
 GifMkSetting *Settings::getGifMkSetting() const {
