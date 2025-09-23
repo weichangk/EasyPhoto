@@ -335,7 +335,7 @@ void GifMkView::onStartAllClicked() {
     ImgKitCore::GIFMK::Task task;
     QList<QString> filePaths;
     for (auto data : prst->getDatas()) {
-        filePaths.append(data.path);
+        filePaths.append(data.file_path);
     }
     ImgKitCore::GIFMK::SParam param = {
         filePaths,

@@ -1,6 +1,6 @@
 #include "import/importlistview.h"
 #include "import/importlistpresenter.h"
-#include "import/importmodel.h"
+#include "types.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -74,7 +74,7 @@ void ImportListView::createUi() {
     setAttribute(Qt::WA_StyledBackground);
     setFixedHeight(96);
 
-    m_pImportListView = new ListView<SImportListItem>(this);
+    m_pImportListView = new ListView<SImageData>(this);
     m_pImportListView->setViewMode(QListView::ListMode);
     m_pImportListView->setResizeMode(QListView::Adjust);
     m_pImportListView->setFlow(QListView::LeftToRight);
@@ -122,8 +122,8 @@ bool ImportListView::listViewClicked(const QModelIndex &index, QMouseEvent *mous
     QRect delRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
 
     if (delRect.contains(mouseEvent->pos())) {
-        auto data = index.data(Qt::UserRole).value<SImportListItem>();
-        deleteFile(data.path);
+        auto data = index.data(Qt::UserRole).value<SImageData>();
+        deleteFile(data.file_path);
         return true;
     }
     return false;
@@ -131,8 +131,8 @@ bool ImportListView::listViewClicked(const QModelIndex &index, QMouseEvent *mous
 
 bool ImportListView::isListViewCurrent(const QString &filePath) {
     auto index = m_pImportListView->currentIndex();
-    auto data = index.data(Qt::UserRole).value<SImportListItem>();
-    return data.path == filePath;
+    auto data = index.data(Qt::UserRole).value<SImageData>();
+    return data.file_path == filePath;
 }
 
 void ImportListView::onAddBtnClicked() {
@@ -150,6 +150,6 @@ void ImportListView::onClearBtnClicked() {
 }
 
 void ImportListView::onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous) {
-    auto data = current.data(Qt::UserRole).value<SImportListItem>();
-    emit sigImportListCurrentChanged(data.path);
+    auto data = current.data(Qt::UserRole).value<SImageData>();
+    emit sigImportListCurrentChanged(data.file_path);
 }

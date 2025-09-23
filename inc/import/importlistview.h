@@ -3,7 +3,7 @@
 #include "mvp/view.h"
 #include "widget/button.h"
 #include "widget/listview.h"
-#include "importmodel.h"
+#include "types.h"
 #include "importlistdelegate.h"
 
 using namespace QtmMvp;
@@ -42,7 +42,7 @@ private Q_SLOTS:
     void onListViewCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
-    ListView<SImportListItem> *m_pImportListView = nullptr;
+    ListView<SImageData> *m_pImportListView = nullptr;
     ImportListDelegate *m_pImportListDelegate = nullptr;
     IconButton *m_pAddBtn = nullptr;
     IconButton *m_pClearBtn = nullptr;

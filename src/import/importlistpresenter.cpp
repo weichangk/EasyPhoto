@@ -10,22 +10,22 @@ ImportListPresenter::ImportListPresenter(IView *view, IRepository *repository) :
 ImportListPresenter::~ImportListPresenter() {
 }
 
-QList<SImportListItem> ImportListPresenter::getDatas() {
+QList<SImageData> ImportListPresenter::getDatas() {
     ImportListRepository *rep = dynamic_cast<ImportListRepository *>(repository());
     return rep->getDatas();
 }
 
 void ImportListPresenter::appendData(const QStringList filePaths) {
-    QList<SImportListItem> tempDatas;
+    QList<SImageData> tempDatas;
     for (const QString &filePath : filePaths) {
         if (filePathsSet.contains(filePath)) {
             continue;
         } else {
             filePathsSet.insert(filePath);
         }
-        SImportListItem data;
-        data.path = filePath;
-        data.name = QFileInfo(filePath).fileName();
+        SImageData data;
+        data.file_path = filePath;
+        data.file_name = QFileInfo(filePath).fileName();
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(112, 72), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.thumbnail = pixmap;

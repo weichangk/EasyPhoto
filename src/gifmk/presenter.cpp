@@ -15,7 +15,7 @@ GifMkPresenter::GifMkPresenter(IView *view, IRepository *repository) :
 GifMkPresenter::~GifMkPresenter() {
 }
 
-QList<SImportListItem> GifMkPresenter::getDatas() {
+QList<SImageData> GifMkPresenter::getDatas() {
     return m_pImportListPresenter->getDatas();
 }
 

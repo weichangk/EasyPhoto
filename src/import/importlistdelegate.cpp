@@ -1,5 +1,5 @@
 #include "import/importlistdelegate.h"
-#include "import/importmodel.h"
+#include "types.h"
 #include "core/painter.h"
 
 #include <QMouseEvent>
@@ -13,7 +13,7 @@ ImportListDelegate::ImportListDelegate(QObject *parent) :
 }
 
 void ImportListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const {
-    auto data = index.data(Qt::UserRole).value<SImportListItem>();
+    auto data = index.data(Qt::UserRole).value<SImageData>();
     painter->setPen(Qt::NoPen);
     painter->setBrush(Qt::NoBrush);
     painter->setRenderHint(QPainter::Antialiasing, true);

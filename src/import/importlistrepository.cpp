@@ -6,17 +6,17 @@ ImportListRepository::ImportListRepository() {
 ImportListRepository::~ImportListRepository() {
 }
 
-QList<SImportListItem> ImportListRepository::getDatas() {
+QList<SImageData> ImportListRepository::getDatas() {
     return m_pDatas;
 }
 
-void ImportListRepository::appendData(QList<SImportListItem> datas) {
+void ImportListRepository::appendData(QList<SImageData> datas) {
     m_pDatas.append(datas);
 }
 
 void ImportListRepository::deleteData(const QStringList filePaths) {
-    auto func = [](const SImportListItem &cd, const QStringList &filePaths) {
-        return filePaths.contains(cd.path);
+    auto func = [](const SImageData &cd, const QStringList &filePaths) {
+        return filePaths.contains(cd.file_path);
     };
     m_pDatas.erase(std::remove_if(m_pDatas.begin(), m_pDatas.end(), std::bind(func, std::placeholders::_1, filePaths)), m_pDatas.end());
 }
@@ -28,9 +28,9 @@ void ImportListRepository::clearData() {
 int ImportListRepository::getDataIndex(const QString filePath) {
     int index = -1;
     bool match = false;
-    foreach (const SImportListItem &item, m_pDatas) {
+    foreach (const SImageData &item, m_pDatas) {
         index += 1;
-        if (item.path == filePath) {
+        if (item.file_path == filePath) {
             match = true;
             return index;
         }

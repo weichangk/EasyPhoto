@@ -15,7 +15,7 @@ public:
     explicit GifMkPresenter(IView *view, IRepository *repository);
     ~GifMkPresenter();
 
-    QList<SImportListItem> getDatas();
+    QList<SImageData> getDatas();
     
     void funcChangeSubjectAttach(IFuncChangeObserver *observer) override;
     void funcChangeSubjectDetach(IFuncChangeObserver *observer) override;

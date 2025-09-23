@@ -32,7 +32,7 @@ QString UpscPresenter::getSampleBeforeImagePath(EUpscModelType type) {
 void UpscPresenter::Upsc() {
     auto datas = m_pImportListPresenter->getDatas();
     foreach (auto data, datas) {
-        QFileInfo fileInfo(data.path);
+        QFileInfo fileInfo(data.file_path);
         QString baseName = fileInfo.completeBaseName();
         QString suffix = fileInfo.suffix(); 
         QString outPath = QString("%1/%2-%3-%4x.%5")
@@ -44,7 +44,7 @@ void UpscPresenter::Upsc() {
         File::renameIfExists(outPath, false);
 
         ImgKitCore::UPSC::SParam param;
-        param.inputFile = data.path;
+        param.inputFile = data.file_path;
         param.outputFile = outPath;
         param.scale = SETTINGS->getUpscSetting()->getScale();
         param.modelName = UPSC_MODEL_NAMES[(EUpscModelType)SETTINGS->getUpscSetting()->getModelType()];
