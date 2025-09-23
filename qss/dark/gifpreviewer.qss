@@ -1,4 +1,4 @@
-QWidget#GifPreviewView {
+QWidget#GifViewer {
     background-color: "#1a1627";
     border-radius: 0px;
 }

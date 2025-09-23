@@ -1,18 +1,16 @@
-#pragma once
 #include "globalview.h"
 #include "mvp/view.h"
 #include "widget/button.h"
 
 #include <QMovie>
 
-using namespace QtmMvp;
 using namespace QtmWidget;
 
-class GifPreviewView : public QWidget, public View {
+class GifViewer : public QWidget {
     Q_OBJECT
 public:
-    explicit GifPreviewView(QWidget *parent = nullptr);
-    ~GifPreviewView() override {
+    explicit GifViewer(QWidget *parent = nullptr);
+    ~GifViewer() override {
     }
 
 protected:
@@ -20,6 +18,10 @@ protected:
     void enterEvent(QEvent *event) override;
     void leaveEvent(QEvent *event) override;
 
+private Q_SLOTS:
+    void onExitBtnClicked();
+    void onPlayBtnClicked();
+    
 private:
     void createUi();
     void connectSig();
@@ -29,9 +31,6 @@ private:
     void preview(const QString &path);
     void exit();
 
-private Q_SLOTS:
-    void onExitBtnClicked();
-    void onPlayBtnClicked();
 
 private:
     IconButton *m_pExitBtn = nullptr;

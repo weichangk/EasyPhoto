@@ -55,10 +55,6 @@ ImagePreviewView *FuncAreaView::imagePreviewView() const {
     return m_pImagePreviewView;
 }
 
-GifPreviewView *FuncAreaView::gifPreviewView() const {
-    return m_pGifPreviewView;
-}
-
 void FuncAreaView::createUi() {
     setObjectName("FuncAreaView");
     setAttribute(Qt::WA_StyledBackground);
@@ -79,7 +75,6 @@ void FuncAreaView::createUi() {
     m_pThumbMkView = new ThumbMkView(this);
     m_pImgDlView = new ImgDlView(this);
     m_pImagePreviewView = new ImagePreviewView(this);
-    m_pGifPreviewView = new GifPreviewView(this);
 
     m_pStackedLayout->insertWidget(EFunc::FuncHome, m_pHomeView);
     m_pStackedLayout->insertWidget(EFunc::FuncMyFile, m_pMyFileView);
@@ -93,7 +88,6 @@ void FuncAreaView::createUi() {
     m_pStackedLayout->insertWidget(EFunc::FuncThumbMk, m_pThumbMkView);
     m_pStackedLayout->insertWidget(EFunc::FuncImgDl, m_pImgDlView);
     m_pStackedLayout->insertWidget(EFunc::FuncImagePreview, m_pImagePreviewView);
-    m_pStackedLayout->insertWidget(EFunc::FuncGifPreview, m_pGifPreviewView);
 
     auto layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);

@@ -10,7 +10,6 @@
 #include "upsc/view.h"
 #include "erase/view.h"
 #include "gifmk/view.h"
-#include "gifpreview/view.h"
 #include "bgrm/view.h"
 #include "thumbmk/view.h"
 #include "imgdl/view.h"
@@ -40,7 +39,6 @@ public:
     ThumbMkView *thumbMkView() const;
     ImgDlView *imgDlView() const;
     ImagePreviewView *imagePreviewView() const;
-    GifPreviewView *gifPreviewView() const;
 
 private:
     void createUi();
@@ -68,5 +66,4 @@ private:
     ThumbMkView *m_pThumbMkView = nullptr;
     ImgDlView *m_pImgDlView = nullptr;
     ImagePreviewView *m_pImagePreviewView = nullptr;
-    GifPreviewView *m_pGifPreviewView = nullptr;
 };

@@ -12,7 +12,6 @@
 #include "bgrm/repository.h"
 #include "thumbmk/repository.h"
 #include "imgdl/repository.h"
-#include "gifpreview/repository.h"
 
 using namespace QtmMvp;
 
@@ -32,7 +31,6 @@ public:
     ThumbMkRepository *thumbMkRepository() const;
     ImgDlRepository *imgDlRepository() const;
     BgRmRepository *bgRmRepository() const;
-    GifPreviewRepository *gifPreviewRepository() const;
 
 private:
     HomeRepository *m_pHomeRepository = nullptr;
@@ -46,5 +44,4 @@ private:
     ThumbMkRepository *m_pThumbMkRepository = nullptr;
     ImgDlRepository *m_pImgDlRepository = nullptr;
     BgRmRepository *m_pBgRmRepository = nullptr;
-    GifPreviewRepository *m_pGifPreviewRepository = nullptr;
 };

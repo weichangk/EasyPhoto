@@ -11,7 +11,6 @@
 #include "upsc/presenter.h"
 #include "erase/presenter.h"
 #include "gifmk/presenter.h"
-#include "gifpreview/presenter.h"
 #include "bgrm/presenter.h"
 #include "thumbmk/presenter.h"
 #include "imgdl/presenter.h"
@@ -34,7 +33,6 @@ public:
     BgRmPresenter *bgRmPresenter() const;
     ThumbMkPresenter *thumbMkPresenter() const;
     ImgDlPresenter *imgDlPresenter() const;
-    GifPreviewPresenter *gifPreviewPresenter() const;
 
 private:
     void funcChangeHandle(EFunc) override;
@@ -51,5 +49,4 @@ private:
     BgRmPresenter *m_pBgRmPresenter = nullptr;
     ThumbMkPresenter *m_pThumbMkPresenter = nullptr;
     ImgDlPresenter *m_pImgDlPresenter = nullptr;
-    GifPreviewPresenter *m_pGifPreviewPresenter = nullptr;
 };

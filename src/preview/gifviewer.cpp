@@ -1,30 +1,28 @@
-#include "gifpreview/view.h"
-#include "message/funcchangemessage.h"
-#include "funcenum.h"
+#include "preview/gifviewer.h"
 
-GifPreviewView::GifPreviewView(QWidget *parent) :
+GifViewer::GifViewer(QWidget *parent) :
     QWidget(parent) {
     createUi();
     connectSig();
 }
 
-void GifPreviewView::resizeEvent(QResizeEvent *event) {
+void GifViewer::resizeEvent(QResizeEvent *event) {
     QWidget::resizeEvent(event);
     m_pPlayBtn->setGeometry((width() - m_pPlayBtn->width()) / 2, height() - (m_pPlayBtn->height()) / 2, width(), height());
 }
 
-void GifPreviewView::enterEvent(QEvent *event) {
+void GifViewer::enterEvent(QEvent *event) {
     QWidget::enterEvent(event);
     m_pPlayBtn->setVisible(true);
 }
 
-void GifPreviewView::leaveEvent(QEvent *event) {
+void GifViewer::leaveEvent(QEvent *event) {
     QWidget::leaveEvent(event);
     m_pPlayBtn->setVisible(false);
 }
 
-void GifPreviewView::createUi() {
-    setObjectName("GifPreviewView");
+void GifViewer::createUi() {
+    setObjectName("GifViewer");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pExitBtn = new IconButton(this);
@@ -51,36 +49,34 @@ void GifPreviewView::createUi() {
     mainLayout->addWidget(m_pGifLabel, 0, Qt::AlignCenter);
 }
 
-void GifPreviewView::connectSig() {
-    connect(m_pExitBtn, &IconButton::clicked, this, &GifPreviewView::onExitBtnClicked);
-    connect(m_pPlayBtn, &IconButton::clicked, this, &GifPreviewView::onPlayBtnClicked);
+void GifViewer::connectSig() {
+    connect(m_pExitBtn, &IconButton::clicked, this, &GifViewer::onExitBtnClicked);
+    connect(m_pPlayBtn, &IconButton::clicked, this, &GifViewer::onPlayBtnClicked);
 }
 
-void GifPreviewView::start() {
+void GifViewer::start() {
     m_pGifMovie->start();
 }
 
-void GifPreviewView::stop() {
+void GifViewer::stop() {
     m_pGifMovie->stop();
 }
 
-void GifPreviewView::preview(const QString &path) {
+void GifViewer::preview(const QString &path) {
     m_pGifMovie->stop();
     m_pGifMovie->setFileName(path);
     m_pGifMovie->start();
 }
 
-void GifPreviewView::exit() {
+void GifViewer::exit() {
     stop();
 }
 
-void GifPreviewView::onExitBtnClicked() {
+void GifViewer::onExitBtnClicked() {
     exit();
-    FuncChangeMessage msg(EFunc::FuncUndo);
-    presenter()->sendMessage(&msg);
 }
 
-void GifPreviewView::onPlayBtnClicked() {
+void GifViewer::onPlayBtnClicked() {
     if(m_pPlayBtn->fourPixmapPath().contains("start")) {
         m_pPlayBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
         stop();

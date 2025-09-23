@@ -17,7 +17,6 @@ MainPresenter::MainPresenter(IView *view, IRepository *repository) :
         m_pFuncAreaPresenter->homePresente()->navbarCheckedSubjectAttach(m_pNavbarPresenter);
         m_pTitlebarPresenter->titlebarFuncSubjectAttach(this);
         m_pFuncAreaPresenter->gifMkPresenter()->funcChangeSubjectAttach(m_pFuncAreaPresenter);
-        m_pFuncAreaPresenter->gifPreviewPresenter()->funcChangeSubjectAttach(m_pFuncAreaPresenter);
     }
 }
 
