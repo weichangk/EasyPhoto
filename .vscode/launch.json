@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "imagekit-launch",
+            "name": "EasyPhoto-launch",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${command:cmake.launchTargetPath}",
@@ -23,7 +23,7 @@
             }
         },
         {
-            "name": "imagekit-attach",
+            "name": "EasyPhoto-attach",
             "type": "cppvsdbg",
             "request": "attach",
             "processId": "${command:pickProcess}",

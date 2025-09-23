@@ -2,7 +2,7 @@
 #include "upsc/repository.h"
 #include "upsc/view.h"
 #include "upsc/task.h"
-#include "ImageKitCore/inc/upsc/types.h"
+#include "upsc/types.h"
 #include "core/file.h"
 #include "settings.h"
 #include "types.h"
@@ -43,7 +43,7 @@ void UpscPresenter::Upsc() {
         .arg(SETTINGS->getUpscSetting()->getOutFmt());
         File::renameIfExists(outPath, false);
 
-        ImgKitCore::UPSC::SParam param;
+        EasyPhotoCore::Upsc::SParam param;
         param.inputFile = data.file_path;
         param.outputFile = outPath;
         param.scale = SETTINGS->getUpscSetting()->getScale();
@@ -55,7 +55,7 @@ void UpscPresenter::Upsc() {
         param.customWidth = 0;
         param.tileSize = 0;
         param.ttaMode = false;
-        ImgKitCore::UPSC::Task task;
+        EasyPhotoCore::Upsc::Task task;
         task.exec(param);
     }
 }

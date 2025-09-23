@@ -391,7 +391,7 @@ int ConvView::getListViewModelIndex(const QString &filePath) const {
 void ConvView::startConvAllTask() {
     auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
-        ImgKitCore::CONV::Task convTask;
+        EasyPhotoCore::Conv::Task convTask;
         for (auto data : prst->datas()) {
             if(m_pStartAllBtn->isVisible()) {
                 return TaskResult<void*>::Success(nullptr);
@@ -400,7 +400,7 @@ void ConvView::startConvAllTask() {
                 data.state = EImageState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
-                auto result = convTask.exec(ImgKitCore::CONV::SParam{
+                auto result = convTask.exec(EasyPhotoCore::Conv::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});
@@ -423,13 +423,13 @@ void ConvView::startConvAllTask() {
 void ConvView::startConvTask(const QString &path) {
     auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
-        ImgKitCore::CONV::Task convTask;
+        EasyPhotoCore::Conv::Task convTask;
         for (auto data : prst->datas()) {
             if (data.file_path == path && data.state != EImageState_Loading) {
                 data.state = EImageState_Loading; 
                 prst->updateData(data.file_path, data);
                 m_pListView->changeData(getListViewModelIndex(data.file_path), data);
-                auto result = convTask.exec(ImgKitCore::CONV::SParam{
+                auto result = convTask.exec(EasyPhotoCore::Conv::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->getConvSetting()->getOutPath().toStdString(),
                     data.output_format.toStdString()});

@@ -128,7 +128,7 @@ bool NavbarView::handleMessage(IMessage *message) {
 }
 
 void NavbarView::onLanguageChange() {
-    m_pProjectLogo->setText(tr("PhotoFlow"));
+    m_pProjectLogo->setText(tr("EasyPhoto"));
 }
 
 void NavbarView::onNavBtnClicked(int func) {

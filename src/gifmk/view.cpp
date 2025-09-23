@@ -332,12 +332,12 @@ void GifMkView::onPreviewBtnClicked() {
 
 void GifMkView::onStartAllClicked() {
     GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
-    ImgKitCore::GIFMK::Task task;
+    EasyPhotoCore::GifMk::Task task;
     QList<QString> filePaths;
     for (auto data : prst->getDatas()) {
         filePaths.append(data.file_path);
     }
-    ImgKitCore::GIFMK::SParam param = {
+    EasyPhotoCore::GifMk::SParam param = {
         filePaths,
         SETTINGS->getGifMkSetting()->getWidth(),
         SETTINGS->getGifMkSetting()->getHeight(),

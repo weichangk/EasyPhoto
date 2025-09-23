@@ -1,7 +1,7 @@
 #include "comp/view.h"
 #include "comp/definerect.h"
 #include "comp/presenter.h"
-#include "cmp/task.h"
+#include "comp/task.h"
 #include "import/importfilehelper.h"
 #include "task/asynctask.h"
 #include "task/taskfactory.h"
@@ -389,7 +389,7 @@ int CompView::getListViewModelIndex(const QString &filePath) const {
 void CompView::startAllTask() {
     auto func = [this](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         CompPresenter *prst = dynamic_cast<CompPresenter *>(presenter());
-        ImgKitCore::CMP::Task cmpTask;
+        EasyPhotoCore::Comp::Task cmpTask;
         for (auto data : prst->datas()) {
             if(m_pStartAllBtn->isVisible()) {
                 return TaskResult<void*>::Success(nullptr);
@@ -402,7 +402,7 @@ void CompView::startAllTask() {
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
                 QString outSuffix = SETTINGS->getCompSetting()->getOutFmt() == Default::Comp::outFormat ? fileInfo.completeSuffix() : SETTINGS->getCompSetting()->getOutFmt();
-                auto result = cmpTask.exec(ImgKitCore::CMP::SParam{
+                auto result = cmpTask.exec(EasyPhotoCore::Comp::SParam{
                     data.file_path.toStdString(),
                     SETTINGS->getCompSetting()->getOutPath().toStdString(),
                     outSuffix.toStdString(),
@@ -428,7 +428,7 @@ void CompView::startAllTask() {
 void CompView::startTask(const QString &path) {
     auto func = [this, path](AsyncTask<void*, void*> *task) -> TaskResult<void*> {
         CompPresenter *prst = dynamic_cast<CompPresenter *>(presenter());
-        ImgKitCore::CMP::Task cmpTask;
+        EasyPhotoCore::Comp::Task cmpTask;
         for (auto data : prst->datas()) {
             if (data.file_path == path && data.state != EImageState_Loading) {
                 data.state = EImageState_Loading; 
@@ -438,7 +438,7 @@ void CompView::startTask(const QString &path) {
 
                 QFileInfo fileInfo = File::fileInfo(data.file_path);
                 QString outSuffix = SETTINGS->getCompSetting()->getOutFmt() == Default::Comp::outFormat ? fileInfo.completeSuffix() : SETTINGS->getCompSetting()->getOutFmt();
-                auto result = cmpTask.exec(ImgKitCore::CMP::SParam {
+                auto result = cmpTask.exec(EasyPhotoCore::Comp::SParam {
                     data.file_path.toStdString(),
                     SETTINGS->getCompSetting()->getOutPath().toStdString(),
                     outSuffix.toStdString(),

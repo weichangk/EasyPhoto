@@ -1,22 +1,22 @@
 cmake_minimum_required(VERSION 3.16)
 
 project(
-    ImageKit
+    EasyPhoto
     VERSION 1.0.0
-    DESCRIPTION "imagekit project"
+    DESCRIPTION "EasyPhoto Project"
     LANGUAGES CXX
 )
 
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/public.cmake)
 
 add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial)
-add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore)
+add_subdirectory(${CMAKE_SOURCE_DIR}/3rdparty/EasyPhotoCore)
 
 MY_ADD_PROJECT_INCLUDE_FUNC(
     ${CMAKE_SOURCE_DIR}/inc
     ${CMAKE_SOURCE_DIR}/3rdparty
     ${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/inc
-    ${CMAKE_SOURCE_DIR}/3rdparty/ImageKitCore/inc
+    ${CMAKE_SOURCE_DIR}/3rdparty/EasyPhotoCore/inc
 )
 
 MY_ADD_QT_PACK_FUNC(
@@ -25,7 +25,7 @@ MY_ADD_QT_PACK_FUNC(
 
 MY_ADD_LINK_LIB_FUNC(
     QtMaterial
-    ImageKitCore
+    EasyPhotoCore
 )
 
 include(${CMAKE_SOURCE_DIR}/3rdparty/QtMaterial/cmake/option.cmake)
