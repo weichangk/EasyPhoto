@@ -3,6 +3,7 @@
 #include "mainrepository.h"
 #include "mainpresenter.h"
 #include "mainview.h"
+#include "mainviewmanage.h"
 #include "core/theme.h"
 #include "core/font.h"
 
@@ -35,6 +36,7 @@ int main(int argc, char *argv[]) {
     MainRepository mainRepository;
     MainView mainView;
     MainPresenter mainPresenter(&mainView, &mainRepository);
+    MAINVIEWMANAGE->init(&mainRepository, &mainView, &mainPresenter);
     mainView.show();
 
     return app.exec();

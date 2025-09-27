@@ -1,6 +1,8 @@
 #include "upsc/view.h"
 #include "upsc/presenter.h"
 #include "settings.h"
+#include "mainviewmanage.h"
+
 #include <QDesktopServices>
 #include <QUrl>
 #include <QFileDialog.h>
@@ -415,6 +417,7 @@ void UpscView::onGuideImportFile(const QStringList &filePaths) {
 }
 
 void UpscView::onExportBtnClicked() {
+    MAINVIEWMANAGE->showLoadingMask();
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     prst->Upsc();
 }
