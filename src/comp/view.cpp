@@ -180,13 +180,13 @@ void CompView::createUi() {
     listViewColumnNameLayout->setSpacing(0);
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnResolutionLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnResolutionLbl->setObjectName("QLbl_H14_S12");
     m_pColumnSizeLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnSizeLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnSizeLbl->setObjectName("QLbl_H14_S12");
     m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnStatusLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnStatusLbl->setObjectName("QLbl_H14_S12");
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnActionLbl->setObjectName("QLbl_H16_S12");
+    m_pColumnActionLbl->setObjectName("QLbl_H14_S12");
 
     listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
