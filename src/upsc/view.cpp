@@ -1,6 +1,9 @@
 #include "upsc/view.h"
 #include "upsc/presenter.h"
+#include "widget/loadingmask.h"
+#include "mvp/message.h"
 #include "message/upsc/upscresultmessage.h"
+#include "message/msgcode.h"
 
 #include "settings.h"
 #include "mainviewmanage.h"
@@ -261,6 +264,7 @@ void UpscView::connectSig() {
     connect(m_pDoubleUpscaleCkb, &QCheckBox::stateChanged, this, &UpscView::onDoubleUpscaleCkbStateChanged);
     connect(m_pOpenOutputFolderBtn, &QPushButton::clicked, this, &UpscView::onOpenOutputFolderBtnClicked);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &UpscView::onOutputFolderCbbIndexChanged);
+    connect(QtmWidget::LOADINGMASK, &QtmWidget::LoadingMask::sigCanceled, this, &UpscView::onLoadingMaskCanceled);
 }
 
 void UpscView::firstShow() {
@@ -429,7 +433,7 @@ void UpscView::onGuideImportFile(const QStringList &filePaths) {
 }
 
 void UpscView::onExportBtnClicked() {
-    MAINVIEWMANAGE->showLoadingMask();
+    MAINVIEWMANAGE->showLoadingMask(this);
     UpscPresenter *prst = dynamic_cast<UpscPresenter *>(presenter());
     prst->Upsc();
 }
@@ -467,4 +471,10 @@ void UpscView::onOutputFolderCbbIndexChanged(int index) {
             setOutputFolder(dirPath);
         }
     }
+}
+
+void UpscView::onLoadingMaskCanceled(QObject* view) {
+    if (view != this)
+        return;
+    presenter()->sendMessage(new QtmMvp::Message(EMsgCode::MsgCode_Upsc_Cancel));
 }

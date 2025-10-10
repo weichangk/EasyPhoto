@@ -80,6 +80,7 @@ private Q_SLOTS:
     void onDoubleUpscaleCkbStateChanged(int state);
     void onOpenOutputFolderBtnClicked();
     void onOutputFolderCbbIndexChanged(int index);
+    void onLoadingMaskCanceled(QObject* view);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;

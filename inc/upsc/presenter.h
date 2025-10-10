@@ -5,11 +5,9 @@
 #include "types.h"
 #include "import/importlistpresenter.h"
 
-using namespace QtmMvp;
-
 class UpscPresenter : public Presenter {
 public:
-    explicit UpscPresenter(IView* view, IRepository *repository);
+    explicit UpscPresenter(QtmMvp::IView* view, QtmMvp::IRepository *repository);
     ~UpscPresenter();
 
     QList<SUpscSelectModelData> getSelectModelDatas();
@@ -20,7 +18,7 @@ public:
 
 private:
     bool handleMessage(IMessage* message) override;
-    
+
 private:
     ImportListPresenter * m_pImportListPresenter = nullptr;
 };

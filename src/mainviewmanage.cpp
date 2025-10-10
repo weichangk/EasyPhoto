@@ -25,8 +25,8 @@ MainPresenter *MainViewManage::getMainPresenter() const {
     return m_MainPresenter;
 }
 
-void MainViewManage::showLoadingMask() {
-    QtmWidget::LOADINGMASK->showIt(QRect(0, 0, m_MainView->width(), m_MainView->height()));
+void MainViewManage::showLoadingMask(QObject* view) {
+    QtmWidget::LOADINGMASK->showIt(QRect(0, 0, m_MainView->width(), m_MainView->height()), view);
 }
 
 void MainViewManage::hideLoadingMask() {

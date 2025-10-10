@@ -9,12 +9,15 @@
 #include "task/taskdata.h"
 #include "task/taskresult.h"
 #include "message/upsc/upscresultmessage.h"
+#include "message/msgcode.h"
 #include "settings.h"
 #include "types.h"
 
 using namespace QtmCore;
 
-UpscPresenter::UpscPresenter(IView *view, IRepository *repository) :
+std::shared_ptr<AsyncTask<void*, std::vector<EasyPhotoCore::Upsc::SResult>>> upscTask;
+
+UpscPresenter::UpscPresenter(QtmMvp::IView *view, QtmMvp::IRepository *repository) :
     Presenter(view, repository) {
     UpscView *enhancementView = dynamic_cast<UpscView *>(view);
     UpscRepository *enhancementRepository = dynamic_cast<UpscRepository *>(repository);
@@ -39,6 +42,9 @@ void UpscPresenter::Upsc() {
         auto datas = m_pImportListPresenter->getDatas();
         std::vector<EasyPhotoCore::Upsc::SResult> results;
         foreach (auto data, datas) {
+            if (task->isCanceled()) {
+                break;
+            }
             QFileInfo fileInfo(data.file_path);
             QString baseName = fileInfo.completeBaseName();
             QString suffix = fileInfo.suffix(); 
@@ -69,10 +75,17 @@ void UpscPresenter::Upsc() {
         view()->sendMessage(new UpscResultMessage(results, 0));
         return TaskResult<std::vector<EasyPhotoCore::Upsc::SResult>>::Success(results);
     };
-    auto task = TaskFactory::instance()->createTask<void*, std::vector<EasyPhotoCore::Upsc::SResult>>(func, nullptr, TaskData<void*>());
-    task->start();
+    upscTask = TaskFactory::instance()->createTask<void*, std::vector<EasyPhotoCore::Upsc::SResult>>(func, nullptr, TaskData<void*>());
+    upscTask->start();
 }
 
-bool UpscPresenter::handleMessage(IMessage* message) {
-    return false;
+bool UpscPresenter::handleMessage(IMessage *message) {
+    if (auto *msg = dynamic_cast<QtmMvp::Message *>(message)) {
+        if (msg->code() == EMsgCode::MsgCode_Upsc_Cancel) {
+            if(upscTask && upscTask->isRunning()) {
+                upscTask->cancel();
+            }
+        }
+        return false;
+    }
 }

@@ -13,7 +13,7 @@ public:
     MainView *getMainView() const;
     MainPresenter *getMainPresenter() const;
 
-    void showLoadingMask();
+    void showLoadingMask(QObject* view = nullptr);
     void hideLoadingMask();
 
 private:
