@@ -14,6 +14,7 @@ public:
     MainPresenter *getMainPresenter() const;
 
     void showLoadingMask();
+    void hideLoadingMask();
 
 private:
     MainRepository *m_MainRepository = nullptr;

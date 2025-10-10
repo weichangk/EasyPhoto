@@ -19,5 +19,8 @@ public:
     void Upsc();
 
 private:
+    bool handleMessage(IMessage* message) override;
+    
+private:
     ImportListPresenter * m_pImportListPresenter = nullptr;
 };

@@ -1,5 +1,7 @@
 #include "upsc/view.h"
 #include "upsc/presenter.h"
+#include "message/upsc/upscresultmessage.h"
+
 #include "settings.h"
 #include "mainviewmanage.h"
 
@@ -358,6 +360,16 @@ void UpscView::imageViewerLoad(const QString &filePath) {
 void UpscView::setOutputFolder(const QString &path) {
     SETTINGS->getUpscSetting()->setOutPath(path);
     m_pOutputFolderCbb->setItemText(0, path);
+}
+
+bool UpscView::handleMessage(IMessage* message) {
+    if (auto *msg = dynamic_cast<UpscResultMessage *>(message)) {
+        auto res = msg->Results();
+        QMetaObject::invokeMethod(this, [this]() {
+            MAINVIEWMANAGE->hideLoadingMask();
+        }, Qt::QueuedConnection);
+    }
+    return false;
 }
 
 void UpscView::onLanguageChange() {

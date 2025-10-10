@@ -58,6 +58,9 @@ private:
     void imageViewerLoad(const QString &filePath);
     void setOutputFolder(const QString &path);
 
+private:
+    bool handleMessage(IMessage* message) override;
+
 private Q_SLOTS:
     void onLanguageChange();
     void onStandardSmapleImageLblClicked();
