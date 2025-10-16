@@ -21,7 +21,7 @@ Application::Application(int argc, char *argv[]) :
     SETTINGS->load();
     QStringList prefixs;
     prefixs.append("");
-    QtmCore::Theme::setTheme(QtmCore::Theme::DARK, prefixs);
+    QtmCore::Theme::setTheme(QtmCore::Theme::LIGHT, prefixs);
     QtmCore::Font::setFont(QtmCore::Font::ROBOTO_REGULAR);
     QtmCore::Font::setIconFont(":/font/iconfont.ttf");
     // InitializeMagick(*argv);

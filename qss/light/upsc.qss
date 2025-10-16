@@ -1,0 +1,62 @@
+QWidget#UpscView {
+    background-color: "#1a1627";
+    border-radius: 0px;
+}
+
+QWidget#UpscView_m_pSmapleWidget {
+    background-color: "#272336";
+    border-radius: 10px;
+}
+
+QLabel#UpscView_m_pTitleLbl {
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
+
+QLabel#UpscView_m_pSmapleTitleLbl,
+QLabel#UpscView_m_pSelectModelLbl,
+QLabel#UpscView_m_pScaleLbl,
+QLabel#UpscView_m_pSaveAsFormatLbl,
+QLabel#UpscView_m_pOutputFolderLbl {
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QPushButton#UpscView_m_pExportBtn {
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#UpscView_m_pExportBtn:hover {
+    background-color: "#ad85ff";
+}
+
+QPushButton#UpscView_m_pExportBtn:pressed {
+    background-color: "#bb99ff";
+}
+
+QWidget#UpscModelCard {
+    background-color: "#272336";
+    border-radius: 10px;
+}
+
+QLabel#UpscModelCard_m_pNameLbl {
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#UpscModelCard_m_pDescLbl {
+    color: "#8c909b";
+    font-size: 13px;
+}
+
+QLabel#UpscModelCard_m_pBeforeLbl,
+QLabel#UpscModelCard_m_pAfterLbl {
+    background-color: rgba(0, 0, 0, 0.24);
+    border-radius: 4px;
+    color: "#ffffff";
+    font-size: 12px;
+}

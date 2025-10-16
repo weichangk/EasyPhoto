@@ -1,0 +1,45 @@
+QWidget#FreeTrialTimerView {
+    background-image: url(:/QtmImg/img/dark/trial/card_bg.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: transparent;
+}
+
+QLabel#FreeTrialTimerView_m_pDaysLab {
+    color: "#ffffff";
+    font-size: 52px;
+    font-weight: 400;
+}
+
+QLabel#FreeTrialTimerView_m_pDaysTitleLab {
+    color: "#ffffff";
+    font-size: 15px;
+    font-weight: 600;
+}
+
+QLabel#FreeTrialTimerView_m_pFreeTrialLab {
+    background-color: "#7476c3";
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#FreeTrialTimerView_m_pColonLab {
+    color: "#ffffff";
+    font-size: 19px;
+}
+
+QPushButton#FreeTrialTimerView_m_pLoginBtn {
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+QPushButton#FreeTrialTimerView_m_pLoginBtn:hover {
+    background-color: "#ad85ff";
+}
+
+QPushButton#FreeTrialTimerView_m_pLoginBtn:pressed {
+    background-color: "#bb99ff";
+}

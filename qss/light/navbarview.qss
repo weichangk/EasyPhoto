@@ -1,0 +1,113 @@
+QWidget#NavbarView {
+    background-color: "#242035";
+}
+
+/* NavbarView_m_pProjectLogo */
+#NavbarView_m_pProjectLogo_Text[widget-state='normal'] {
+    color:#ffffff; 
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#NavbarView_m_pProjectLogo_Text[widget-state='hover'] {
+    color:#ffffff; 
+    font-size: 24px;
+    font-weight: 600;
+}
+
+#NavbarView_m_pProjectLogo_Text[widget-state='pressed'] {
+    color:#ffffff; 
+    font-size: 24px;
+    font-weight: 600;
+}
+
+/* NavbarView_m_pNavbarBtn */
+#NavbarView_m_pNavbarBtn {
+    border-radius: 8px;
+    background-color: transparent;
+}
+
+#NavbarView_m_pNavbarBtn:hover {
+    background-color: #332d48;
+}
+
+#NavbarView_m_pNavbarBtn:pressed {
+    background-color: #494163;
+}
+
+#NavbarView_m_pNavbarBtn:disabled {
+    background-color: transparent;
+}
+
+#NavbarView_m_pNavbarBtn:checked {
+    background-color: #494163;
+}
+
+#NavbarView_m_pNavbarBtn_Text[widget-state='normal'] {
+    border: none;
+    background-color: transparent;
+    color:#ffffff; 
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarBtn_Text[widget-state='hover'] {
+    border: none;
+    background-color: transparent;
+    color:#ffffff; 
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarBtn_Text[widget-state='pressed'] {
+    border: none;
+    background-color: transparent;
+    color:#ffffff; 
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarBtn_Text[widget-state='disabled'] {
+    border: none;
+    background-color: transparent;
+    color:#ffffff; 
+    font-size: 15px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarBtn_Text[widget-state='checked'] {
+    border: none;
+    background-color: transparent;
+    color:#ffffff; 
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* NavbarView_m_pNavbarHot */
+#NavbarView_m_pNavbarHot {
+    background-color: transparent;
+}
+
+#NavbarView_m_pNavbarHot_Text[widget-state='normal'] {
+    border: none;
+    background-color: transparent;
+    color:#76718a; 
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarHot_Text[widget-state='hover'] {
+    border: none;
+    background-color: transparent;
+    color:#76718a; 
+    font-size: 14px;
+    font-weight: 400;
+}
+
+#NavbarView_m_pNavbarHot_Text[widget-state='pressed'] {
+    border: none;
+    background-color: transparent;
+    color:#76718a; 
+    font-size: 14px;
+    font-weight: 400;
+}

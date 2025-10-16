@@ -1,0 +1,54 @@
+QWidget#GifMkView {
+    background-color: "#1a1627";
+    border-radius: 0px;
+}
+
+QWidget#GifMkView_DividingLine {
+    background-color: "#272336";
+}
+
+QPushButton#GifMkView_m_pPreviewBtn{
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#GifMkView_m_pPreviewBtn:hover{
+    background-color: "#ad85ff";
+}
+
+QPushButton#GifMkView_m_pPreviewBtn:pressed{
+    background-color: "#bb99ff";
+}
+
+QPushButton#GifMkView_m_pStartAllBtn{
+    background-color: "#a070ff";
+    color: "#ffffff";
+    border-radius: 16px;
+    font-size: 14px;
+}
+
+QPushButton#GifMkView_m_pStartAllBtn:hover{
+    background-color: "#ad85ff";
+}
+
+QPushButton#GifMkView_m_pStartAllBtn:pressed{
+    background-color: "#bb99ff";
+}
+
+QLabel#GifMkView_m_pSizeLbl,
+QLabel#GifMkView_m_pScaleLbl,
+QLabel#GifMkView_m_pPlayLbl,
+QLabel#GifMkView_m_pSpeedLbl,
+QLabel#GifMkView_m_pBgLbl,
+QLabel#GifMkView_m_pOutputFolderLbl{
+    color: "#ffffff";
+    font-size: 13px;
+}
+
+QLabel#GifMkView_m_pTitleLbl{
+    color: "#ffffff";
+    font-size: 20px;
+    font-weight: 600;
+}
