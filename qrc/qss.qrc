@@ -1,7 +1,5 @@
 <RCC>
   <qresource prefix="/">
-      <file>../qss/light/qscrollbar.qss</file>
-      <!-- <file>../qss/light/qcheckbox.qss</file> -->
       <file>../qss/light/qlabel.qss</file>
       <file>../qss/light/mainview.qss</file>
       <file>../qss/light/homeview.qss</file>
@@ -22,8 +20,6 @@
       <file>../qss/light/gifpreviewer.qss</file>
       <file>../qss/light/freetrialtimerview.qss</file>
 
-      <file>../qss/dark/qscrollbar.qss</file>
-      <!-- <file>../qss/dark/qcheckbox.qss</file> -->
       <file>../qss/dark/qlabel.qss</file>
       <file>../qss/dark/mainview.qss</file>
       <file>../qss/dark/homeview.qss</file>

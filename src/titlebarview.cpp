@@ -74,7 +74,7 @@ void TitlebarView::createUi() {
 
     m_pLang = new LanguageFilter(this);
     auto movefilter = new MoveTitleBar(this, this->parentWidget());
-    movefilter->setFrameColor(QColor("#703eff"));
+    movefilter->setFrameColor(QtmCore::Theme::moveFrameColor());
 }
 
 void TitlebarView::connectSig() {

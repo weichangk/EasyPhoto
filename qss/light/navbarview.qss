@@ -1,5 +1,5 @@
 QWidget#NavbarView {
-    background-color: "#242035";
+    background-color: "#f3effb";
 }
 
 /* NavbarView_m_pProjectLogo */
