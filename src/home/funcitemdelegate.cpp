@@ -1,6 +1,7 @@
 #include "home/funcitemdelegate.h"
 #include "home/model.h"
 #include "core/painter.h"
+#include "core/theme.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -27,7 +28,7 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     auto bgRect = rc.adjusted(0, 0, 0, 0);
     int radius = 12;
 
-    QColor bgColor = QColor("#2d2741");
+    QColor bgColor = QColor(QtmCore::Theme::bgColors().value("color1"));
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
@@ -36,13 +37,13 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     Painter::paintPixmap(painter, thumbnailRect, data.thumbnail, 1, radius - 2, true);
 
     auto btnRect = QRect(bgRect.x() + 18, thumbnailRect.bottom() + 20, bgRect.width() - 36, 36);
-    QColor btnColor = QColor("#703eff");
+    QColor btnColor = QColor(QtmCore::Theme::colors().value("color3"));
     if(btnRect.contains(m_CurPos)) {
         if (hover) {
-            btnColor = QColor("#8054ff");
+            btnColor.setAlphaF(0.9);
         }
         if (pressed) {
-            btnColor = QColor("#6230f3");
+            btnColor.setAlphaF(0.8);
         }
     }
     if (hover) {
@@ -85,7 +86,7 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         }
     } else {
         auto titleRect = QRect(bgRect.x() + 18, thumbnailRect.bottom() + 16, bgRect.width() - 36, 24);
-        QColor titleColor = QColor("#ffffff");
+        QColor titleColor = QColor(QtmCore::Theme::foreColors().value("color1"));
         QPen titlePen(titleColor);
         painter->setPen(titlePen);
         QFont titleFont = painter->font();
@@ -101,7 +102,7 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->setPen(Qt::NoPen);
 
         auto descRect = QRect(bgRect.x() + 18, titleRect.bottom(), bgRect.width() - 36, 38);
-        QColor descColor = QColor("#76718a");
+        QColor descColor = QColor(QtmCore::Theme::foreColors().value("color2"));
         QPen descPen(descColor);
         painter->setPen(descPen);
         QFont descFont = painter->font();

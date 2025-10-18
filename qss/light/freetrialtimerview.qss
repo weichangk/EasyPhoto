@@ -1,5 +1,5 @@
 QWidget#FreeTrialTimerView {
-    background-image: url(:/QtmImg/img/dark/trial/card_bg.png);
+    background-image: url(:/QtmImg/img/light/trial/card_bg.png);
     background-repeat: no-repeat;
     background-position: center;
     background-color: transparent;
@@ -18,13 +18,13 @@ QLabel#FreeTrialTimerView_m_pDaysTitleLab {
 }
 
 QLabel#FreeTrialTimerView_m_pFreeTrialLab {
-    background-color: "#7476c3";
+    background-color: "#a58bff";
     color: "#ffffff";
     font-size: 13px;
 }
 
 QLabel#FreeTrialTimerView_m_pColonLab {
-    color: "#ffffff";
+    color: "#986efa";
     font-size: 19px;
 }
 

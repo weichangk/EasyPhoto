@@ -4,19 +4,19 @@ QWidget#NavbarView {
 
 /* NavbarView_m_pProjectLogo */
 #NavbarView_m_pProjectLogo_Text[widget-state='normal'] {
-    color:#ffffff; 
+    color:#000000; 
     font-size: 24px;
     font-weight: 600;
 }
 
 #NavbarView_m_pProjectLogo_Text[widget-state='hover'] {
-    color:#ffffff; 
+    color:#000000; 
     font-size: 24px;
     font-weight: 600;
 }
 
 #NavbarView_m_pProjectLogo_Text[widget-state='pressed'] {
-    color:#ffffff; 
+    color:#000000; 
     font-size: 24px;
     font-weight: 600;
 }
@@ -28,11 +28,11 @@ QWidget#NavbarView {
 }
 
 #NavbarView_m_pNavbarBtn:hover {
-    background-color: #332d48;
+    background-color: #ede3fb;
 }
 
 #NavbarView_m_pNavbarBtn:pressed {
-    background-color: #494163;
+    background-color: #e6d7fb;
 }
 
 #NavbarView_m_pNavbarBtn:disabled {
@@ -40,13 +40,13 @@ QWidget#NavbarView {
 }
 
 #NavbarView_m_pNavbarBtn:checked {
-    background-color: #494163;
+    background-color: #e6d7fb;
 }
 
 #NavbarView_m_pNavbarBtn_Text[widget-state='normal'] {
     border: none;
     background-color: transparent;
-    color:#ffffff; 
+    color:#000000; 
     font-size: 15px;
     font-weight: 400;
 }
@@ -54,7 +54,7 @@ QWidget#NavbarView {
 #NavbarView_m_pNavbarBtn_Text[widget-state='hover'] {
     border: none;
     background-color: transparent;
-    color:#ffffff; 
+    color:#000000; 
     font-size: 15px;
     font-weight: 400;
 }
@@ -62,7 +62,7 @@ QWidget#NavbarView {
 #NavbarView_m_pNavbarBtn_Text[widget-state='pressed'] {
     border: none;
     background-color: transparent;
-    color:#ffffff; 
+    color:#000000; 
     font-size: 15px;
     font-weight: 400;
 }
@@ -70,7 +70,7 @@ QWidget#NavbarView {
 #NavbarView_m_pNavbarBtn_Text[widget-state='disabled'] {
     border: none;
     background-color: transparent;
-    color:#ffffff; 
+    color:#000000; 
     font-size: 15px;
     font-weight: 400;
 }
@@ -78,7 +78,7 @@ QWidget#NavbarView {
 #NavbarView_m_pNavbarBtn_Text[widget-state='checked'] {
     border: none;
     background-color: transparent;
-    color:#ffffff; 
+    color:#000000; 
     font-size: 15px;
     font-weight: 600;
 }
