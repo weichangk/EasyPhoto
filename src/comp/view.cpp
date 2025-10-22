@@ -8,6 +8,7 @@
 #include "task/taskdata.h"
 #include "task/taskresult.h"
 #include "widget/messagebox.h"
+#include "core/theme.h"
 #include "settings.h"
 
 #include <QFileInfo>
@@ -53,7 +54,7 @@ void CompView::createUi() {
     m_pLanguageFilter = new LanguageFilter(this);
 
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("CompView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("QLbl_LH24_FS24_FW7");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -73,27 +74,17 @@ void CompView::createUi() {
     m_pAddFileBtn = new IconButton(topWidget);
     m_pAddFileBtn->setFixedSize(32, 32);
     m_pAddFileBtn->setIconSize(32, 32);
-    m_pAddFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_file.png");
+    m_pAddFileBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon32/icon32_add_file.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pAddFolderBtn = new IconButton(topWidget);
     m_pAddFolderBtn->setFixedSize(32, 32);
     m_pAddFolderBtn->setIconSize(32, 32);
-    m_pAddFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_folder.png");
+    m_pAddFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon32/icon32_add_folder.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pClearFileBtn = new IconButton(topWidget);
     m_pClearFileBtn->setFixedSize(24, 24);
     m_pClearFileBtn->setIconSize(24, 24);
-    m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
-
-    m_pSelectAllCkb = new QCheckBox(topWidget);
-    m_pSelectAllCkb->setObjectName("CompView_m_pSelectAllCkb");
-    m_pSelectAllCkb->setVisible(false);
-
-    m_pListModeSwitchBtn = new IconButton(topWidget);
-    m_pListModeSwitchBtn->setFixedSize(24, 24);
-    m_pListModeSwitchBtn->setIconSize(24, 24);
-    m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
-    m_pListModeSwitchBtn->setVisible(false);
+    m_pClearFileBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_delete.png").arg(QtmCore::Theme::currentTheme()));
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -101,15 +92,13 @@ void CompView::createUi() {
     topWidgetLayout->addWidget(m_pAddFileBtn);
     topWidgetLayout->addWidget(m_pAddFolderBtn);
     topWidgetLayout->addStretch();
-    topWidgetLayout->addWidget(m_pSelectAllCkb);
     topWidgetLayout->addWidget(m_pClearFileBtn);
-    topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
     bottomWidget->setFixedHeight(84);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
-    m_pOutputFormatLbl->setObjectName("CompView_m_pOutputFormatLbl");
+    m_pOutputFormatLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedSize(226, 24);
@@ -117,7 +106,7 @@ void CompView::createUi() {
     initOutputFormatCbbItem();
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
-    m_pOutputFolderLbl->setObjectName("CompView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(226, 24);
@@ -127,10 +116,10 @@ void CompView::createUi() {
     m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pCompreToLbl = new QLabel(bottomWidget);
-    m_pCompreToLbl->setObjectName("CompView_m_pCompreToLbl");
+    m_pCompreToLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pCompreSlider = new QSlider(Qt::Horizontal, bottomWidget);
     m_pCompreSlider->setObjectName("CompView_m_pCompreSlider");
@@ -145,35 +134,19 @@ void CompView::createUi() {
     m_pCompreValueEdit->setText(QString::number(SETTINGS->getCompSetting()->getQuality()));
 
     m_pComprePercentLbl = new QLabel(bottomWidget);
-    m_pComprePercentLbl->setObjectName("CompView_m_pComprePercentLbl");
+    m_pComprePercentLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
-    m_pStartAllBtn->setObjectName("CompView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pStartAllBtn->setFixedSize(110, 32);
 
     m_pCancelAllBtn = new QPushButton(bottomWidget);
-    m_pCancelAllBtn->setObjectName("CompView_m_pStartAllBtn");
+    m_pCancelAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pCancelAllBtn->setFixedSize(110, 32);
 
     setStartAllBtnVisible(true);
 
-    // auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    // bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    // bottomWidgetLayout->setSpacing(0);
-    // bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
-    // bottomWidgetLayout->addSpacing(12);
-    // bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    // bottomWidgetLayout->addStretch();
-    // bottomWidgetLayout->addWidget(m_pStartAllBtn);
-
     m_pListViewColumnName = new QWidget(this);
-    m_pListViewColumnName->setObjectName("CompView_m_pListViewColumnName");
     m_pListViewColumnName->setFixedHeight(40);
     auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
     listViewColumnNameLayout->setContentsMargins(24, 0, 66, 0);
@@ -243,9 +216,7 @@ void CompView::connectSig() {
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &CompView::onAddFileBtnClicked);
     connect(m_pAddFolderBtn, &QPushButton::clicked, this, &CompView::onAddFolderBtnClicked);
     connect(m_pClearFileBtn, &QPushButton::clicked, this, &CompView::onClearFileBtnClicked);
-    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &CompView::onSelectAllStateChanged);
     connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &CompView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &CompView::onListModeSwitchBtnClicked);
     connect(m_pListView, &QListView::clicked, this, &CompView::onListViewClicked);
     connect(m_pOutputFormatCbb, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &CompView::onOutputFormatCbbCurrentIndex);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &CompView::onOutputFolderCbbIndexChanged);
@@ -272,22 +243,10 @@ void CompView::listViewImportFile(const QStringList &filePaths) {
     selectAllState();
 }
 
-void CompView::onListModeSwitchBtnClicked() {
-    CompPresenter *prst = dynamic_cast<CompPresenter *>(presenter());
-    if (!prst->datas().isEmpty()) {
-        m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
-        m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
-        m_pListView->changeData(prst->datas());
-    }
-}
-
 void CompView::listItemSelectChanged(const QString &filePath) {
     CompPresenter *prst = dynamic_cast<CompPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
-    // blockSignalsFunc(m_pSelectAllCkb, [&]() {
-    //     selectAllState();
-    // });
     blockSignalsFunc(m_pColumnFileNameCkb, [&]() {
         selectAllState();
     });
@@ -307,8 +266,6 @@ void CompView::listViewNoDataState() {
     CompPresenter *prst = dynamic_cast<CompPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
-    // m_pListModeSwitchBtn->setVisible(!isNoData);
-    // m_pSelectAllCkb->setVisible(!isNoData);
     m_pColumnFileNameCkb->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
@@ -318,15 +275,12 @@ void CompView::selectAllState() {
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
-                // m_pSelectAllCkb->setChecked(false);
                 m_pColumnFileNameCkb->setChecked(false);
                 return;
             }
         }
-        // m_pSelectAllCkb->setChecked(true);
         m_pColumnFileNameCkb->setChecked(true);
     } else {
-        // m_pSelectAllCkb->setChecked(false);
         m_pColumnFileNameCkb->setChecked(false);
     }
 }
@@ -460,7 +414,6 @@ void CompView::startTask(const QString &path) {
 
 void CompView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Compressor"));
-    m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pCompreToLbl->setText(tr("Compress All to:"));

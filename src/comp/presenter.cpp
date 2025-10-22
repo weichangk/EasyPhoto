@@ -1,5 +1,6 @@
 #include "comp/presenter.h"
 #include "comp/repository.h"
+#include "core/theme.h"
 
 #include <QFileInfo>
 
@@ -39,13 +40,13 @@ void CompPresenter::appendData(const QStringList filePaths) {
         QPixmap pixmap = QPixmap(filePath);
         pixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.thumbnail = pixmap;
-        QPixmap delIcon = QPixmap(":/icon16_close");
+        QPixmap delIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_close.png").arg(QtmCore::Theme::currentTheme()));
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
-        QPixmap checkedIcon = QPixmap(":/icon16_checkbox_checked");
+        QPixmap checkedIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_checkbox_checked.png").arg(QtmCore::Theme::currentTheme()));
         checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.checked_icon = checkedIcon;
-        QPixmap unCheckedIcon = QPixmap(":/icon16_checkbox_checked");
+        QPixmap unCheckedIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_checkbox_checked.png").arg(QtmCore::Theme::currentTheme()));
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
@@ -60,10 +61,10 @@ void CompPresenter::appendData(const QStringList filePaths) {
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_waiting.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Loading, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_loading.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Success, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_success.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Fail, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_danger.png").arg(QtmCore::Theme::currentTheme()))}
         };
         tempDatas.append(data);
     }
@@ -123,13 +124,13 @@ TaskResult<SImportFileResult<QList<SImageData>>> CompPresenter::importFileAsync(
         QPixmap pixmap = QPixmap(filePath);
         QPixmap thPixmap = pixmap.scaled(QSize(200 + 8 - 4 - 12, 200 + 8 - 24 - 12), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.thumbnail = thPixmap;
-        QPixmap delIcon = QPixmap(":/icon16_close");
+        QPixmap delIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_close.png").arg(QtmCore::Theme::currentTheme()));
         delIcon = delIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.delete_icon = delIcon;
-        QPixmap checkedIcon = QPixmap(":/icon16_checkbox_checked");
+        QPixmap checkedIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_checkbox_checked.png").arg(QtmCore::Theme::currentTheme()));
         checkedIcon = checkedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.checked_icon = checkedIcon;
-        QPixmap unCheckedIcon = QPixmap(":/icon16_checkbox_checked");
+        QPixmap unCheckedIcon = QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_checkbox_checked.png").arg(QtmCore::Theme::currentTheme()));
         unCheckedIcon = unCheckedIcon.scaled(QSize(16, 16), Qt::KeepAspectRatio, Qt::SmoothTransformation);
         data.unchecked_icon = unCheckedIcon;
         data.is_checked = true;
@@ -144,10 +145,10 @@ TaskResult<SImportFileResult<QList<SImageData>>> CompPresenter::importFileAsync(
         data.intput_size = size;
         data.output_size = size;
         data.state_icons = {
-            {EImageState_Waiting, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_waiting.png")},
-            {EImageState_Loading, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_loading.png")},
-            {EImageState_Success, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_success.png")},
-            {EImageState_Fail, QPixmap(":/QtmImg/img/dark/icon/icon_basic/icon16/icon16_status_danger.png")}
+            {EImageState_Waiting, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_waiting.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Loading, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_loading.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Success, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_success.png").arg(QtmCore::Theme::currentTheme()))},
+            {EImageState_Fail, QPixmap(QString(":/QtmImg/img/%1/icon/icon_basic/icon16/icon16_status_danger.png").arg(QtmCore::Theme::currentTheme()))}
         };
         tempDatas.append(data);
         self->progress(++index, "Adding images:" + data.file_name.toStdString());

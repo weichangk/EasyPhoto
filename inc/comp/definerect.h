@@ -21,7 +21,7 @@ inline QRect compListDelRect(QRect rc) {
 }
 
 inline QRect compListConvRect(QRect rc) {
-    return QRect(rc.right() - 114, rc.center().y() - 10, 70, 20);
+    return QRect(rc.right() - 114, rc.center().y() - 10, 70, 24);
 }
 
 inline QRect compListResolutionRect(QRect rc) {

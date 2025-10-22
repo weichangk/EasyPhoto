@@ -63,7 +63,6 @@ private Q_SLOTS:
     void onLanguageChange();
     void onAddFileBtnClicked();
     void onAddFolderBtnClicked();
-    void onListModeSwitchBtnClicked();
     void onClearFileBtnClicked();
     void onSelectAllStateChanged(int);
     void onListViewClicked(const QModelIndex &index);
@@ -88,8 +87,6 @@ private:
     IconButton *m_pAddFileBtn = nullptr;
     IconButton *m_pAddFolderBtn = nullptr;
     IconButton *m_pClearFileBtn = nullptr;
-    IconButton *m_pListModeSwitchBtn = nullptr;
-    QCheckBox *m_pSelectAllCkb = nullptr;
     QLabel *m_pOutputFormatLbl = nullptr;
     QComboBox *m_pOutputFormatCbb = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
