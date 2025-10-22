@@ -19,7 +19,7 @@ void CropView::showEvent(QShowEvent *event) {
 }
 
 void CropView::createUi() {
-    setObjectName("CropView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);

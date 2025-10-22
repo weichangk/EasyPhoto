@@ -26,7 +26,7 @@ void GifMkView::showEvent(QShowEvent *event) {
 }
 
 void GifMkView::createUi() {
-    setObjectName("GifMkView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
@@ -253,7 +253,7 @@ void GifMkView::firstShow() {
 QWidget *GifMkView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("GifMkView_DividingLine");
+    dividingLine->setObjectName("EP_Line");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }

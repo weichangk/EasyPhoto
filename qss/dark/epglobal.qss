@@ -1,0 +1,8 @@
+QWidget#EP_BGView {
+    background-color: "#1a1627";
+    border-radius: 0px;
+}
+
+QWidget#EP_Line {
+    background-color: "#272336";
+}

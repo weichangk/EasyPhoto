@@ -19,7 +19,7 @@ void EraseView::showEvent(QShowEvent *event) {
 }
 
 void EraseView::createUi() {
-    setObjectName("EraseView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);

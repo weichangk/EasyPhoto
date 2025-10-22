@@ -24,7 +24,7 @@ void BgRmView::showEvent(QShowEvent *event) {
 }
 
 void BgRmView::createUi() {
-    setObjectName("BgRmView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);

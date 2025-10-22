@@ -6,19 +6,19 @@ QWidget#NavbarView {
 #NavbarView_m_pProjectLogo_Text[widget-state='normal'] {
     color:#000000; 
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 #NavbarView_m_pProjectLogo_Text[widget-state='hover'] {
     color:#000000; 
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 #NavbarView_m_pProjectLogo_Text[widget-state='pressed'] {
     color:#000000; 
     font-size: 24px;
-    font-weight: 600;
+    font-weight: 700;
 }
 
 /* NavbarView_m_pNavbarBtn */

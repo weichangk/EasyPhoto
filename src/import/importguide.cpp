@@ -98,7 +98,7 @@ void ImportGuide::createUi() {
     m_pIconBtn->setNormalPixmapPath(QString(":/QtmImg/img/%1/v16/icon148/image148_Conversion.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pTitleLab = new QLabel(this);
-    m_pTitleLab->setObjectName("ImportGuide_m_pTitleLab");
+    m_pTitleLab->setObjectName("QLbl_LH20_FS14_FW4");
 
     // m_pDecLab = new QLabel(this);
     // m_pDecLab->setObjectName("ImportGuide_m_m_pDecLab");

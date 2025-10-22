@@ -7,7 +7,7 @@ ThumbMkView::ThumbMkView(QWidget *parent) :
 }
 
 void ThumbMkView::createUi() {
-    setObjectName("ThumbMkView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     QLabel *label = new QLabel("ThumbMkView", this);

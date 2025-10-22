@@ -86,7 +86,7 @@ void FuncItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         }
     } else {
         auto titleRect = QRect(bgRect.x() + 18, thumbnailRect.bottom() + 16, bgRect.width() - 36, 24);
-        QColor titleColor = QColor(QtmCore::Theme::foreColors().value("color1"));
+        QColor titleColor = QColor(QtmCore::Theme::foreColors().value("color0"));
         QPen titlePen(titleColor);
         painter->setPen(titlePen);
         QFont titleFont = painter->font();

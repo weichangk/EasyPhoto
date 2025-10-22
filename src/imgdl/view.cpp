@@ -7,7 +7,7 @@ ImgDlView::ImgDlView(QWidget *parent) :
 }
 
 void ImgDlView::createUi() {
-    setObjectName("ImgDlView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     QLabel *label = new QLabel("ImgDlView", this);

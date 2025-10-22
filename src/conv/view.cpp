@@ -9,6 +9,7 @@
 #include "task/taskresult.h"
 #include "widget/messagebox.h"
 #include "settings.h"
+#include "core/theme.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -45,13 +46,13 @@ void ConvView::resizeEvent(QResizeEvent *event) {
 }
 
 void ConvView::createUi() {
-    setObjectName("ConvView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
 
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("ConvView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("QLbl_LH24_FS24_FW7");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -71,27 +72,17 @@ void ConvView::createUi() {
     m_pAddFileBtn = new IconButton(topWidget);
     m_pAddFileBtn->setFixedSize(32, 32);
     m_pAddFileBtn->setIconSize(32, 32);
-    m_pAddFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_file.png");
+    m_pAddFileBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon32/icon32_add_file.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pAddFolderBtn = new IconButton(topWidget);
     m_pAddFolderBtn->setFixedSize(32, 32);
     m_pAddFolderBtn->setIconSize(32, 32);
-    m_pAddFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon32/icon32_add_folder.png");
+    m_pAddFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon32/icon32_add_folder.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pClearFileBtn = new IconButton(topWidget);
     m_pClearFileBtn->setFixedSize(24, 24);
     m_pClearFileBtn->setIconSize(24, 24);
-    m_pClearFileBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_delete.png");
-
-    m_pSelectAllCkb = new QCheckBox(topWidget);
-    m_pSelectAllCkb->setObjectName("ConvView_m_pSelectAllCkb");
-    m_pSelectAllCkb->setVisible(false);
-
-    m_pListModeSwitchBtn = new IconButton(topWidget);
-    m_pListModeSwitchBtn->setFixedSize(24, 24);
-    m_pListModeSwitchBtn->setIconSize(24, 24);
-    m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
-    m_pListModeSwitchBtn->setVisible(false);
+    m_pClearFileBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_delete.png").arg(QtmCore::Theme::currentTheme()));
 
     auto topWidgetLayout = new QHBoxLayout(topWidget);
     topWidgetLayout->setContentsMargins(20, 0, 20, 0);
@@ -99,15 +90,13 @@ void ConvView::createUi() {
     topWidgetLayout->addWidget(m_pAddFileBtn);
     topWidgetLayout->addWidget(m_pAddFolderBtn);
     topWidgetLayout->addStretch();
-    topWidgetLayout->addWidget(m_pSelectAllCkb);
     topWidgetLayout->addWidget(m_pClearFileBtn);
-    topWidgetLayout->addWidget(m_pListModeSwitchBtn);
 
     QWidget *bottomWidget = new QWidget(this);
     bottomWidget->setFixedHeight(84);
 
     m_pOutputFormatLbl = new QLabel(bottomWidget);
-    m_pOutputFormatLbl->setObjectName("ConvView_m_pOutputFormatLbl");
+    m_pOutputFormatLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pOutputFormatCbb = new QComboBox(bottomWidget);
     m_pOutputFormatCbb->setFixedSize(226, 24);
@@ -115,7 +104,7 @@ void ConvView::createUi() {
     initOutputFormatCbbItem();
 
     m_pOutputFolderLbl = new QLabel(bottomWidget);
-    m_pOutputFolderLbl->setObjectName("ConvView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pOutputFolderCbb = new QComboBox(bottomWidget);
     m_pOutputFolderCbb->setFixedSize(226, 24);
@@ -125,48 +114,32 @@ void ConvView::createUi() {
     m_pOpenOutputFolderBtn = new IconButton(bottomWidget);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
 
     m_pStartAllBtn = new QPushButton(bottomWidget);
-    m_pStartAllBtn->setObjectName("ConvView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pStartAllBtn->setFixedSize(110, 32);
 
     m_pCancelAllBtn = new QPushButton(bottomWidget);
-    m_pCancelAllBtn->setObjectName("ConvView_m_pStartAllBtn");
+    m_pCancelAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pCancelAllBtn->setFixedSize(110, 32);
 
     setStartAllBtnVisible(true);
 
-    // auto bottomWidgetLayout = new QHBoxLayout(bottomWidget);
-    // bottomWidgetLayout->setContentsMargins(20, 0, 20, 0);
-    // bottomWidgetLayout->setSpacing(0);
-    // bottomWidgetLayout->addWidget(m_pOutputFormatLbl);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOutputFormatCbb);
-    // bottomWidgetLayout->addSpacing(12);
-    // bottomWidgetLayout->addWidget(m_pOutputFolderLbl);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOutputFolderCbb);
-    // bottomWidgetLayout->addSpacing(4);
-    // bottomWidgetLayout->addWidget(m_pOpenOutputFolderBtn);
-    // bottomWidgetLayout->addStretch();
-    // bottomWidgetLayout->addWidget(m_pStartAllBtn);
-
     m_pListViewColumnName = new QWidget(this);
-    m_pListViewColumnName->setObjectName("ConvView_m_pListViewColumnName");
     m_pListViewColumnName->setFixedHeight(40);
     auto listViewColumnNameLayout = new QHBoxLayout(m_pListViewColumnName);
     listViewColumnNameLayout->setContentsMargins(24, 0, 66, 0);
     listViewColumnNameLayout->setSpacing(0);
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnResolutionLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnResolutionLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnOutputFormatLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnOutputFormatLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnOutputFormatLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnStatusLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnStatusLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnActionLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnActionLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
@@ -224,9 +197,7 @@ void ConvView::connectSig() {
     connect(m_pAddFileBtn, &QPushButton::clicked, this, &ConvView::onAddFileBtnClicked);
     connect(m_pAddFolderBtn, &QPushButton::clicked, this, &ConvView::onAddFolderBtnClicked);
     connect(m_pClearFileBtn, &QPushButton::clicked, this, &ConvView::onClearFileBtnClicked);
-    // connect(m_pSelectAllCkb, &QCheckBox::stateChanged, this, &ConvView::onSelectAllStateChanged);
     connect(m_pColumnFileNameCkb, &QCheckBox::stateChanged, this, &ConvView::onSelectAllStateChanged);
-    connect(m_pListModeSwitchBtn, &QPushButton::clicked, this, &ConvView::onListModeSwitchBtnClicked);
     connect(m_pListDelegate, &ConvListDelegate::sigClicked, this, &ConvView::onListViewClicked);
     connect(m_pOutputFormatCbb, static_cast<void (QComboBox::*)(const QString &)>(&QComboBox::currentTextChanged), this, &ConvView::onOutputFormatCbbCurrentTextChanged);
     connect(m_pOutputFolderCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &ConvView::onOutputFolderCbbIndexChanged);
@@ -242,17 +213,13 @@ void ConvView::connectSig() {
 QWidget *ConvView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("ConvView_DividingLine");
+    dividingLine->setObjectName("EP_Line");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }
 
 void ConvView::listViewImportFile(const QStringList &filePaths) {
     ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
-    // prst->appendData(filePaths);
-    // m_pListView->changeData(prst->datas());
-    // listViewNoDataState();
-    // selectAllState();
     ImportFileHelper ihp;
     connect(&ihp, &ImportFileHelper::sigSucceeded, this, [this, prst](const QVariant &result) {
         SImportFileResult<QList<SImageData>> res = result.value<SImportFileResult<QList<SImageData>>>();
@@ -269,27 +236,10 @@ void ConvView::listViewImportFile(const QStringList &filePaths) {
     );
 }
 
-void ConvView::onListModeSwitchBtnClicked() {
-    ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
-    if (!prst->datas().isEmpty()) {
-        m_pListDelegate->setListMode(!m_pListDelegate->isListMode());
-        m_pListModeSwitchBtn->setText(m_pListDelegate->isListMode() ? QChar(0xe634) : QChar(0xe634));
-        m_pListView->changeData(prst->datas());
-        if (m_pListModeSwitchBtn->fourPixmapPath().contains("thumbnail")) {
-            m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_list.png");
-        } else {
-            m_pListModeSwitchBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_thumbnail.png");
-        }
-    }
-}
-
 void ConvView::listItemSelectChanged(const QString &filePath) {
     ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     prst->switchCheckedData(filePath);
     m_pListView->changeData(prst->datas());
-    // blockSignalsFunc(m_pSelectAllCkb, [&]() {
-    //     selectAllState();
-    // });
     blockSignalsFunc(m_pColumnFileNameCkb, [&]() {
         selectAllState();
     });
@@ -309,8 +259,6 @@ void ConvView::listViewNoDataState() {
     ConvPresenter *prst = dynamic_cast<ConvPresenter *>(presenter());
     bool isNoData = prst->datas().isEmpty();
     m_pClearFileBtn->setVisible(!isNoData);
-    // m_pListModeSwitchBtn->setVisible(!isNoData);
-    // m_pSelectAllCkb->setVisible(!isNoData);
     m_pColumnFileNameCkb->setVisible(!isNoData);
     m_pStackedLayout->setCurrentWidget(isNoData ? m_pImportGuideWidget : m_pContentWidget);
 }
@@ -320,15 +268,12 @@ void ConvView::selectAllState() {
     if (!prst->datas().isEmpty()) {
         for (auto data : prst->datas()) {
             if (!data.is_checked) {
-                // m_pSelectAllCkb->setChecked(false);
                 m_pColumnFileNameCkb->setChecked(false);
                 return;
             }
         }
-        // m_pSelectAllCkb->setChecked(true);
         m_pColumnFileNameCkb->setChecked(true);
     } else {
-        // m_pSelectAllCkb->setChecked(false);
         m_pColumnFileNameCkb->setChecked(false);
     }
 }
@@ -447,7 +392,6 @@ void ConvView::startConvTask(const QString &path) {
 
 void ConvView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Converter"));
-    m_pSelectAllCkb->setText(tr("Select All"));
     m_pOutputFormatLbl->setText(tr("Output format:"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pStartAllBtn->setText(tr("Convert All"));

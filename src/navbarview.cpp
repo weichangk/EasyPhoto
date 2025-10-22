@@ -29,7 +29,7 @@ void NavbarView::createUi() {
     m_pProjectLogo = new HorIconTextButton(this);
     m_pProjectLogo->setObjectName("NavbarView_m_pProjectLogo");
     m_pProjectLogo->setFixedHeight(70);
-    m_pProjectLogo->setIconTextSpacing(8);
+    m_pProjectLogo->setIconTextSpacing(4);
     m_pProjectLogo->setIconSize(40, 40);
     m_pProjectLogo->setNormalPixmapPath(":/logo");
 

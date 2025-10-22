@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="/">
+      <file>../qss/light/epglobal.qss</file>
       <file>../qss/light/qlabel.qss</file>
       <file>../qss/light/mainview.qss</file>
       <file>../qss/light/homeview.qss</file>
@@ -7,7 +8,6 @@
       <file>../qss/light/navbarview.qss</file>
       <file>../qss/light/funcareaview.qss</file> 
       <file>../qss/light/comp.qss</file> 
-      <file>../qss/light/conv.qss</file> 
       <file>../qss/light/crop.qss</file> 
       <file>../qss/light/upsc.qss</file> 
       <file>../qss/light/erase.qss</file> 
@@ -20,6 +20,7 @@
       <file>../qss/light/gifpreviewer.qss</file>
       <file>../qss/light/freetrialtimerview.qss</file>
 
+      <file>../qss/dark/epglobal.qss</file>
       <file>../qss/dark/qlabel.qss</file>
       <file>../qss/dark/mainview.qss</file>
       <file>../qss/dark/homeview.qss</file>
@@ -27,7 +28,6 @@
       <file>../qss/dark/navbarview.qss</file>
       <file>../qss/dark/funcareaview.qss</file> 
       <file>../qss/dark/comp.qss</file> 
-      <file>../qss/dark/conv.qss</file> 
       <file>../qss/dark/crop.qss</file> 
       <file>../qss/dark/upsc.qss</file> 
       <file>../qss/dark/erase.qss</file> 

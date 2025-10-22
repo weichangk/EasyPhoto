@@ -47,7 +47,7 @@ void CompView::resizeEvent(QResizeEvent *event) {
 }
 
 void CompView::createUi() {
-    setObjectName("CompView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);
@@ -180,13 +180,13 @@ void CompView::createUi() {
     listViewColumnNameLayout->setSpacing(0);
     m_pColumnFileNameCkb = new QCheckBox(m_pListViewColumnName);
     m_pColumnResolutionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnResolutionLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnResolutionLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnSizeLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnSizeLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnSizeLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnStatusLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnStatusLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnStatusLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pColumnActionLbl = new QLabel(m_pListViewColumnName);
-    m_pColumnActionLbl->setObjectName("QLbl_H14_S12");
+    m_pColumnActionLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     listViewColumnNameLayout->addWidget(m_pColumnFileNameCkb, 1);
     listViewColumnNameLayout->addStretch();
@@ -259,7 +259,7 @@ void CompView::connectSig() {
 QWidget *CompView::createDividingLine() {
     QWidget *dividingLine = new QWidget(this);
     dividingLine->setAttribute(Qt::WA_StyledBackground);
-    dividingLine->setObjectName("CompView_DividingLine");
+    dividingLine->setObjectName("EP_Line");
     dividingLine->setFixedHeight(1);
     return dividingLine;
 }

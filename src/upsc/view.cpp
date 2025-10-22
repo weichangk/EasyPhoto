@@ -29,7 +29,7 @@ void UpscView::showEvent(QShowEvent *event) {
 }
 
 void UpscView::createUi() {
-    setObjectName("UpscView");
+    setObjectName("EP_BGView");
     setAttribute(Qt::WA_StyledBackground);
 
     m_pLanguageFilter = new LanguageFilter(this);

@@ -2,6 +2,7 @@
 #include "conv/definerect.h"
 #include "core/painter.h"
 #include "core/object.h"
+#include "core/theme.h"
 #include "widget/listview.h"
 #include "types.h"
 
@@ -16,7 +17,7 @@
 using namespace QtmCore;
 using namespace QtmWidget;
 
-QString conversionOutputFormatComboBoxStyle = R"(
+QString conversionOutputFormatComboBoxStyle_dark = R"(
     QComboBox#conversionOutputFormatComboBox
     {
         font-weight: 400;
@@ -56,42 +57,43 @@ QString conversionOutputFormatComboBoxStyle = R"(
     QComboBox#conversionOutputFormatComboBox::drop-down{
         subcontrol-position: right center;
         subcontrol-origin: padding;
-        width: 16px;
-        height: 16px;
-        padding-right: 4px;
+        width: 20px;
+        height: 20px;
+        padding-right: 0px;
         background:transparent; 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow
     {
-        width: 16px;
-        height: 16px;
+        width: 20px;
+        height: 20px;
         subcontrol-origin: content;
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
+        image: url(:/QtmImg/img/dark/icon/icon_basic/icon20/icon20_Arrow_down_white_n.png); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:on
     {
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
+        image: url(:/QtmImg/img/dark/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:hover
     {
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
+        image: url(:/QtmImg/img/dark/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:pressed
     {
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
+        image: url(:/QtmImg/img/dark/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
     }
 
     QComboBox#conversionOutputFormatComboBox::down-arrow:disabled
     {
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
+        image: url(:/QtmImg/img/dark/icon/icon_basic/icon20/icon20_Arrow_down_d.png); 
     }
 
     QComboBox#conversionOutputFormatComboBox QAbstractItemView{
         selection-background-color: #473e6a;
+		selection-color: #FFFFFF;
         font-weight: 400;
         font-size: 12px;
         line-height: 16px;
@@ -102,82 +104,124 @@ QString conversionOutputFormatComboBoxStyle = R"(
         color: rgba(255, 255, 255, 0.72);
     }
 
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::item{
-        font-weight: 400;
-        font-size: 12px;
-        line-height: 16px;
-        color:#FFFFFF;
-        min-height:24px;
-        border:0px;
-        padding-left:0px;
-    }
-
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::item:hover {
-        background: #352c52;
-    }
-
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::item:selected {
-        background: #473e6a;
-    }
-
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::item:checked {
-        background: #473e6a;
-    }
-
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::indicator{
-        margin-left: 0px;
-        width: 16px;
-        height: 16px;
-        image:url("");
-    }
-
-    QComboBox#conversionOutputFormatComboBox QAbstractItemView::indicator:checked
-    {
-        image: url(:/QtmImg/img/dark/v16/icon16/icon16_add.svg); 
-    }
-
     QComboBox#conversionOutputFormatComboBox QScrollBar::vertical
     {
-        width:6px;
-        margin:0px,4px,6px,4px;
-        padding-top:4px; 
-        padding-bottom:0px;
+        width:4px;
     }
 
     QComboBox#conversionOutputFormatComboBox QScrollBar::handle:vertical
     {
-        width:6px;
         background:rgba(255, 255, 255, 0.24);
-        border-radius:3px;
-        max-height:34;
-        min-height:34;
+        border-radius:2px;
     }
 
     QComboBox#conversionOutputFormatComboBox QScrollBar::handle:vertical:hover
     {
-        width:6px;
         background:rgba(255, 255, 255, 0.48);
-        border-radius:3px;
-        max-height:34;
-        min-height:34;
+    }
+)";
+
+QString conversionOutputFormatComboBoxStyle_light = R"(
+    QComboBox#conversionOutputFormatComboBox
+    {
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        color:#000000;
+        background: transparent;
+        border: 1px solid #e4e8f0;
+        padding-left:4px;
+        border-radius: 12px;
     }
 
-    QComboBox#conversionOutputFormatComboBox QScrollBar::add-line:vertical 
-    {
-        height:0px;width:4px;
-        subcontrol-position:bottom;
+    QComboBox#conversionOutputFormatComboBox:editable {
+        background: transparent;
     }
 
-    QComboBox#conversionOutputFormatComboBox QScrollBar::sub-line:vertical 
-    {
-        height:0px;width:4px;
-        subcontrol-position:top;
+    QComboBox#conversionOutputFormatComboBox:!editable {
+        background: transparent;
     }
 
-    QComboBox#conversionOutputFormatComboBox QScrollBar::add-page:vertical,QComboBox#conversionOutputFormatComboBox QScrollBar::sub-page:vertical   
+    QComboBox#conversionOutputFormatComboBox:hover
     {
-        background:transparent;
-        border-radius:3px;
+        background: transparent;
+        border: 1px solid #e4e8f0;
+    }
+
+    QComboBox#conversionOutputFormatComboBox:disabled
+    {
+        background: transparent;
+    }
+
+    QComboBox#conversionOutputFormatComboBox:on
+    {
+        border: 2px solid #986efa;
+    }
+
+    QComboBox#conversionOutputFormatComboBox::drop-down{
+        subcontrol-position: right center;
+        subcontrol-origin: padding;
+        width: 20px;
+        height: 20px;
+        padding-right: 0px;
+        background:transparent; 
+    }
+
+    QComboBox#conversionOutputFormatComboBox::down-arrow
+    {
+        width: 20px;
+        height: 20px;
+        subcontrol-origin: content;
+        image: url(:/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_black_n.png); 
+    }
+
+    QComboBox#conversionOutputFormatComboBox::down-arrow:on
+    {
+        image: url(:/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
+    }
+
+    QComboBox#conversionOutputFormatComboBox::down-arrow:hover
+    {
+        image: url(:/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
+    }
+
+    QComboBox#conversionOutputFormatComboBox::down-arrow:pressed
+    {
+        image: url(:/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_h.png); 
+    }
+
+    QComboBox#conversionOutputFormatComboBox::down-arrow:disabled
+    {
+        image: url(:/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_d.png); 
+    }
+
+    QComboBox#conversionOutputFormatComboBox QAbstractItemView{
+        selection-background-color: #f4f6f9;
+        selection-color: #000000;
+        font-weight: 400;
+        font-size: 12px;
+        line-height: 16px;
+        background-color: #ffffff;
+        border: 1px solid #e4e8f0;
+        border-radius:0px;
+        outline:none;
+        color: #000000;
+    }
+
+    QComboBox#conversionOutputFormatComboBox QScrollBar::vertical
+    {
+        width:4px;
+    }
+
+    QComboBox#conversionOutputFormatComboBox QScrollBar::handle:vertical
+    {
+        background:#e4e8f0;
+        border-radius:2px;
+    }
+
+    QComboBox#conversionOutputFormatComboBox QScrollBar::handle:vertical:hover
+    {
+        background:#d9deea;
     }
 )";
 
@@ -190,7 +234,10 @@ QWidget *ConvListDelegate::createEditor(QWidget *parent, const QStyleOptionViewI
     m_editingIndex = index;
     QComboBox *editor = new QComboBox(parent);
     editor->setObjectName("conversionOutputFormatComboBox");
-    editor->setStyleSheet(conversionOutputFormatComboBoxStyle);
+    if(QtmCore::Theme::currentTheme() == "dark")
+        editor->setStyleSheet(conversionOutputFormatComboBoxStyle_dark);
+    else
+        editor->setStyleSheet(conversionOutputFormatComboBoxStyle_light);
     editor->addItems(CONV_OUTPUT_FORMATS.values());
 
     blockSignalsFunc(editor, [&]() {
@@ -268,45 +315,21 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
 
     auto bgRect = rc.adjusted(0, 0, 0, 0);
     int radius = 0;
-    // QColor bgColor = QColor("#2a2a3c");
-    // if (hover) {
-    //     bgColor = QColor("#2d2741");
-    // }
-    QColor bgColor = QColor("#1a1627");
-    // if (hover) {
-    //     bgColor = QColor("#2d2741");
-    // }
-    // if(checked) {
-    //     bgColor = QColor("#202031");
-    // }
+    QColor bgColor = Qt::transparent;
 
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    // if (!m_bIsListMode) {
-    //     auto pixmapRect = rc.adjusted(4, 24 + 8, -12, -12);
-    //     Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
-    // }
-
-    // QColor borderColor = QColor("#2a2a3c");
-    // if (hover) {
-    //     borderColor = QColor("#703eff");
-    // }
-    // QPen borderPen(borderColor);
-    // painter->setPen(borderPen);
-    // painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
-    // painter->setPen(Qt::NoPen);
-
     auto checkedRect = convListCheckedRect(bgRect);
     if (data.is_checked) {
-        QColor checkBgColor = QColor("#a070ff");
+        QColor checkBgColor = QColor(QtmCore::Theme::colors().value("color4"));
         if (checkedRect.contains(m_CurPos)) {
             if (hover) {
-                checkBgColor = QColor("#ad84ff");
+                checkBgColor.setAlphaF(0.9);
             }
             if (pressed) {
-                checkBgColor = QColor("#bb99ff");
+                checkBgColor.setAlphaF(0.8);
             }
         }
         painter->setBrush(checkBgColor);
@@ -314,19 +337,27 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->setBrush(Qt::NoBrush);
         Painter::paintPixmap(painter, checkedRect, data.checked_icon, 1, 0, true);
     } else {
-        QColor checkBgColor = QColor("#2f2f36");
+        QColor checkBgColor = QColor(QtmCore::Theme::bgColors().value("color2"));
         if (checkedRect.contains(m_CurPos)) {
             if (hover) {
-                checkBgColor = QColor("#3a3a43");
+                checkBgColor.setAlphaF(0.9);
             }
             if (pressed) {
-                checkBgColor = QColor("#464650");
+                checkBgColor.setAlphaF(0.8);
             }
         }
         painter->setBrush(checkBgColor);
         painter->drawRoundedRect(checkedRect, 2, 2);
         painter->setBrush(Qt::NoBrush);
-        QColor checkBorderColor = QColor("#575766");
+        QColor checkBorderColor = QColor(QtmCore::Theme::bdColors().value("color3"));
+        if (checkedRect.contains(m_CurPos)) {
+            if (hover) {
+                checkBorderColor.setAlphaF(0.9);
+            }
+            if (pressed) {
+                checkBorderColor.setAlphaF(0.8);
+            }
+        }
         QPen pen(checkBorderColor);
         pen.setWidth(1);
         painter->setPen(pen);
@@ -335,13 +366,13 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     }
 
     auto delRect = convListDelRect(bgRect);
-    QColor delBgColor = QColor("#fa7681");
+    QColor delBgColor = QColor(QtmCore::Theme::colors().value("color5"));
     if (delRect.contains(m_CurPos)) {
         if (hover) {
-            delBgColor.setAlpha(200);
+            delBgColor.setAlphaF(0.9);
         }
         if (pressed) {
-            delBgColor.setAlpha(100);
+            delBgColor.setAlphaF(0.8);
         }
     }
     if (hover || pressed) {
@@ -352,7 +383,7 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     }
 
     auto nameRect = convListNameRect(bgRect);
-    QColor nameColor = QColor("#ffffff");
+    QColor nameColor = QColor(QtmCore::Theme::foreColors().value("color0"));
     QPen penName(nameColor);
     painter->setPen(penName);
     QFont fontName = painter->font();
@@ -373,22 +404,19 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
     if (index != m_editingIndex) {
         auto comboRect = convListComboRect(bgRect);
         int comboRadius = 12;
-        QColor comboBgColor = QColor("#1a1627");
-        if(hover) {
-            comboBgColor = QColor("#2c2c3f");
-        }
+        QColor comboBgColor = Qt::transparent;
         painter->setBrush(comboBgColor);
         painter->drawRoundedRect(comboRect, comboRadius, comboRadius);
         painter->setBrush(Qt::NoBrush);
 
-        QColor comboBorderColor = QColor("#39394c");
+        QColor comboBorderColor = QColor(QtmCore::Theme::bdColors().value("color2"));
         QPen comboBorderPen(comboBorderColor);
         painter->setPen(comboBorderPen);
         painter->drawRoundedRect(comboRect.adjusted(1, 1, -1, -1), comboRadius, comboRadius);
         painter->setPen(Qt::NoPen);
 
         auto comboTextRect = QRect(comboRect.left() + 5, comboRect.y(), comboRect.width() - 24, comboRect.height());
-        QColor comboTextColor = QColor("#ffffff");
+        QColor comboTextColor = QColor(QtmCore::Theme::foreColors().value("color0"));
         QPen comboTextPen(comboTextColor);
         painter->setPen(comboTextPen);
         QFont comboTextFont = painter->font();
@@ -398,36 +426,33 @@ void ConvListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &opti
         painter->drawText(comboTextRect, Qt::AlignLeft | Qt::AlignVCenter, comboText);
         painter->setPen(Qt::NoPen);
 
-        QStyleOption arrowOpt;
-        arrowOpt.rect = QRect(comboRect.right() - 16, comboRect.y() + 6, 12, 12);
-        arrowOpt.state = QStyle::State_Enabled;
-        QApplication::style()->drawPrimitive(QStyle::PE_IndicatorArrowDown, &arrowOpt, painter);
+        QRect arrowRect(comboRect.right() - 20, comboRect.y() + 2, 20, 20);
+        QPixmap arrowPixmap(":/QtmImg/img/light/icon/icon_basic/icon20/icon20_Arrow_down_black_n.png");
+        if(QtmCore::Theme::currentTheme() == "dark")
+        {
+            QPixmap arrowPixmap(":/QtmImg/img/dack/icon/icon_basic/icon20/icon20_Arrow_down_white_n.png");
+        }
+        painter->drawPixmap(arrowRect, arrowPixmap);
     }
 
     auto stateRect = convListStateRect(bgRect);
     Painter::paintPixmap(painter, stateRect, data.state_icons[data.state], 1, 0, true);
 
     auto convRect = convListConvRect(bgRect);
-    int convRadius = 10;
-    QColor convBgColor = QColor("#2c2c3f");
-    if(hover) {
-        convBgColor = QColor("#433767");
-    }
-    if(pressed) {
-        convBgColor = QColor("#2f2b47");
-    }
+    int convRadius = 12;
+    QColor convBgColor = Qt::transparent;
     painter->setBrush(convBgColor);
     painter->drawRoundedRect(convRect, convRadius, convRadius);
     painter->setBrush(Qt::NoBrush);
 
-    QColor convBorderColor = QColor("#a070ff");
+    QColor convBorderColor = QColor(QtmCore::Theme::colors().value("color3"));
     QPen convBorderPen(convBorderColor);
     painter->setPen(convBorderPen);
     painter->drawRoundedRect(convRect.adjusted(1, 1, -1, -1), convRadius, convRadius);
     painter->setPen(Qt::NoPen);
 
     auto convTextRect = convRect;
-    QColor convTextColor = QColor("#ffffff");
+    QColor convTextColor = QColor(QtmCore::Theme::foreColors().value("color0"));
     QPen convTextPen(convTextColor);
     painter->setPen(convTextPen);
     QFont convTextFont = painter->font();
