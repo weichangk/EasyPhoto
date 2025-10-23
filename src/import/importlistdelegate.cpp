@@ -1,6 +1,7 @@
 #include "import/importlistdelegate.h"
 #include "types.h"
 #include "core/painter.h"
+#include "core/theme.h"
 
 #include <QMouseEvent>
 #include <QPainter>
@@ -27,19 +28,19 @@ void ImportListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     auto bgRect = rc.adjusted(0, 0, 0, 0);
     int radius = 4;
 
-    QColor bgColor = QColor("#241f37");
+    QColor bgColor = QColor(QtmCore::Theme::bgColors().value("color4"));
     if (hover) {
-        bgColor = QColor("#2d2741");
+        bgColor.setAlphaF(0.9);
     }
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    auto pixmapRect = rc.adjusted(0, 0, 0, 0);
+    auto pixmapRect = rc.adjusted(1, 1, -1, -1);
     Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
 
     if(selected) {
-        QColor borderColor = QColor("#986efa");
+        QColor borderColor = QColor(QtmCore::Theme::colors().value("color4"));
         QPen pen(borderColor);
         painter->setPen(pen);
         painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
@@ -47,13 +48,13 @@ void ImportListDelegate::paint(QPainter *painter, const QStyleOptionViewItem &op
     }
 
     auto delRect = QRect(bgRect.right() - 4 - 16, bgRect.y() + 4, 16, 16);
-    QColor delBgColor = QColor("#fa7681");
+    QColor delBgColor = QColor(QtmCore::Theme::colors().value("color5"));
     if(delRect.contains(m_CurPos)) {
         if (hover) {
-            delBgColor.setAlpha(200);
+            delBgColor.setAlphaF(0.9);
         }
         if (pressed) {
-            delBgColor.setAlpha(100);
+            delBgColor.setAlphaF(0.8);
         }
     }
     if (hover || pressed) {

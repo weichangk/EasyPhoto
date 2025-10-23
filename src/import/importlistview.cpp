@@ -5,6 +5,7 @@
 #include "task/taskfactory.h"
 #include "task/taskdata.h"
 #include "task/taskresult.h"
+#include "core/theme.h"
 #include "types.h"
 
 #include <QFileDialog>
@@ -104,12 +105,12 @@ void ImportListView::createUi() {
     m_pAddBtn = new IconButton(this);
     m_pAddBtn->setFixedSize(24, 24);
     m_pAddBtn->setIconSize(24, 24);
-    m_pAddBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon24/icon24_add_black.svg");
+    m_pAddBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon24/icon24_add_black.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pClearBtn = new IconButton(this);
     m_pClearBtn->setFixedSize(24, 24);
     m_pClearBtn->setIconSize(24, 24);
-    m_pClearBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon24/icon24_delete.svg");
+    m_pClearBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon24/icon24_delete.svg").arg(QtmCore::Theme::currentTheme()));
 
     auto btnLayout = new QVBoxLayout();
     btnLayout->setContentsMargins(0, 8, 0, 8);

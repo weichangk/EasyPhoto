@@ -4,6 +4,7 @@
 #include "mvp/message.h"
 #include "message/upsc/upscresultmessage.h"
 #include "message/msgcode.h"
+#include "core/theme.h"
 
 #include "settings.h"
 #include "mainviewmanage.h"
@@ -36,7 +37,7 @@ void UpscView::createUi() {
 
     //
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("UpscView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("QLbl_LH24_FS24_FW7");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -50,14 +51,13 @@ void UpscView::createUi() {
     m_pImportGuide = new ImportGuide(this);
 
     m_pSmapleWidget = new QWidget(this);
-    m_pSmapleWidget->setObjectName("UpscView_m_pSmapleWidget");
     m_pSmapleWidget->setFixedHeight(134);
     auto smapleWidgetLayout = new QVBoxLayout(m_pSmapleWidget);
     smapleWidgetLayout->setContentsMargins(0, 0, 0, 12);
     smapleWidgetLayout->setSpacing(0);
 
     m_pSmapleTitleLbl = new QLabel(this);
-    m_pSmapleTitleLbl->setObjectName("UpscView_m_pSmapleTitleLbl");
+    m_pSmapleTitleLbl->setObjectName("QLbl_LH20_FS14_FW4");
     m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
 
     m_pStandardSmapleImageLbl = new ClickableLabel(this);
@@ -127,7 +127,7 @@ void UpscView::createUi() {
 
     //
     m_pSelectModelLbl = new QLabel(this);
-    m_pSelectModelLbl->setObjectName("UpscView_m_pSelectModelLbl");
+    m_pSelectModelLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pSelectModelLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     rightWidgetLayout->addWidget(m_pSelectModelLbl);
     rightWidgetLayout->addSpacing(4);
@@ -150,7 +150,7 @@ void UpscView::createUi() {
     m_pDoubleUpscaleTipBtn = new IconButton(this);
     m_pDoubleUpscaleTipBtn->setFixedSize(16, 16);
     m_pDoubleUpscaleTipBtn->setIconSize(16, 16);
-    m_pDoubleUpscaleTipBtn->setFourPixmapPath(":/QtmImg/img/dark/v16/icon16/icon20_question mark.svg");
+    m_pDoubleUpscaleTipBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon16/icon20_question mark.svg").arg(QtmCore::Theme::currentTheme()));
 
     //
     auto doubleUpscaleLayout = new QHBoxLayout();
@@ -168,7 +168,7 @@ void UpscView::createUi() {
 
     //
     m_pScaleLbl = new QLabel(this);
-    m_pScaleLbl->setObjectName("UpscView_m_pScaleLbl");
+    m_pScaleLbl->setObjectName("QLbl_LH16_FS12_FW4");
     m_pScaleLbl->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
     rightWidgetLayout->addWidget(m_pScaleLbl);
     rightWidgetLayout->addSpacing(4);
@@ -181,7 +181,7 @@ void UpscView::createUi() {
 
     //
     m_pSaveAsFormatLbl = new QLabel(this);
-    m_pSaveAsFormatLbl->setObjectName("UpscView_m_pSaveAsFormatLbl");
+    m_pSaveAsFormatLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pSaveAsFormatLbl);
     rightWidgetLayout->addSpacing(4);
 
@@ -193,7 +193,7 @@ void UpscView::createUi() {
 
     //
     m_pOutputFolderLbl = new QLabel(this);
-    m_pOutputFolderLbl->setObjectName("UpscView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pOutputFolderLbl);
     rightWidgetLayout->addSpacing(4);
 
@@ -205,7 +205,7 @@ void UpscView::createUi() {
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
 
     //
     auto outputFolderLayout = new QHBoxLayout();
@@ -223,7 +223,7 @@ void UpscView::createUi() {
 
     //
     m_pExportBtn = new QPushButton(this);
-    m_pExportBtn->setObjectName("UpscView_m_pExportBtn");
+    m_pExportBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pExportBtn->setFixedHeight(32);
     rightWidgetLayout->addWidget(m_pExportBtn);
 

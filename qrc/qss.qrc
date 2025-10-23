@@ -7,7 +7,6 @@
       <file>../qss/light/titlebarview.qss</file>
       <file>../qss/light/navbarview.qss</file>
       <file>../qss/light/funcareaview.qss</file> 
-      <file>../qss/light/comp.qss</file> 
       <file>../qss/light/crop.qss</file> 
       <file>../qss/light/upsc.qss</file> 
       <file>../qss/light/erase.qss</file> 
@@ -27,7 +26,6 @@
       <file>../qss/dark/titlebarview.qss</file>
       <file>../qss/dark/navbarview.qss</file>
       <file>../qss/dark/funcareaview.qss</file> 
-      <file>../qss/dark/comp.qss</file> 
       <file>../qss/dark/crop.qss</file> 
       <file>../qss/dark/upsc.qss</file> 
       <file>../qss/dark/erase.qss</file> 
