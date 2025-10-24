@@ -6,3 +6,28 @@ QWidget#EP_BGView {
 QWidget#EP_Line {
     background-color: "#272336";
 }
+
+QWidget#EP_SwitchBtnWidget {
+    background-color: rgba(228, 232, 240, 1);
+    border-radius: 14px;
+}
+
+QPushButton#EP_SwitchBtn {
+    background-color: rgba(216, 222, 233, 0);
+    color: #000000;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+QPushButton#EP_SwitchBtn:hover {
+    background-color: rgba(216, 222, 233, 1);
+}
+
+QPushButton#EP_SwitchBtn:pressed {
+    background-color: rgba(216, 222, 233, 0);
+}
+
+QPushButton#EP_SwitchBtn:checked {
+    background-color: "#ffffff";
+}

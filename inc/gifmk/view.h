@@ -52,6 +52,7 @@ private:
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
+    // void scaleOrSizeSwitch();
 
 private Q_SLOTS:
     void onLanguageChange();
@@ -83,9 +84,9 @@ private:
 
     QWidget *m_pContentWidget = nullptr;
 
-    QLabel *m_pScaleLbl = nullptr;
+    QPushButton *m_pSizeBtn = nullptr;
+    QPushButton *m_pScaleBtn = nullptr;
     QComboBox *m_pScaleCbb = nullptr;
-    QLabel *m_pSizeLbl = nullptr;
     QComboBox *m_pSizeCbb = nullptr;
     IconButton *m_pLockScaleBtn = nullptr;
     QLineEdit *m_pPixelsWidthLdt = nullptr;

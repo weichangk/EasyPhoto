@@ -10,7 +10,6 @@
       <file>../qss/light/crop.qss</file> 
       <file>../qss/light/upsc.qss</file> 
       <file>../qss/light/erase.qss</file> 
-      <file>../qss/light/gifmk.qss</file> 
       <file>../qss/light/bgrm.qss</file>
       <file>../qss/light/imgdl.qss</file>
       <file>../qss/light/thumbmk.qss</file>
@@ -29,7 +28,6 @@
       <file>../qss/dark/crop.qss</file> 
       <file>../qss/dark/upsc.qss</file> 
       <file>../qss/dark/erase.qss</file> 
-      <file>../qss/dark/gifmk.qss</file> 
       <file>../qss/dark/bgrm.qss</file>
       <file>../qss/dark/imgdl.qss</file>
       <file>../qss/dark/thumbmk.qss</file>
