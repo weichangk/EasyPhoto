@@ -113,7 +113,26 @@ Q_DECLARE_METATYPE(SUpscModelData)
 #define GIFMK_INPUT_FORMATS "(*.jpg;*.jpeg;*.png;*.bmp)"
 #define GIFMK_OUTPUT_MINFRAMERATE 1
 #define GIFMK_OUTPUT_MAXFRAMERATE 60
-#define GIFMKSCALE "original 16:9 1:1"
+const QMap<QString, QString> GIFMK_SIZES {
+    {"Custom", "2276 × 1280"},
+    {"Original", "2276 × 1280"},
+    {"240p", "426 × 240"},
+    {"360p", "640 × 360"},
+    {"450p", "800 × 450"},
+    {"480p", "854 × 480"},
+    {"750p", "1334 × 750"},
+};
+const QMap<QString, QString> GIFMK_SCALES {
+    {"Custom", "Custom"},
+    {"Original", "Original"},
+    {"1:1", "1:1"},
+    {"16:9", "16:9"},
+    {"9:16", "9:16"},
+    {"4:3", "4:3"},
+    {"3:4", "3:4"},
+    {"3:2", "3:2"},
+    {"2:3", "2:3"},
+};
 
 // Upsc
 #define UPSC_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.jfif;*.webp;*.PNG;*.JPG;*.JPEG;*.JFIF;*.WEBP)"

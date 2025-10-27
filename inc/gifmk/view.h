@@ -3,6 +3,7 @@
 #include "mvp/view.h"
 #include "widget/button.h"
 #include "widget/listview.h"
+#include "widget/lineedit.h"
 #include "core/font.h"
 #include "core/object.h"
 #include "core/file.h"
@@ -89,18 +90,20 @@ private:
     QComboBox *m_pScaleCbb = nullptr;
     QComboBox *m_pSizeCbb = nullptr;
     IconButton *m_pLockScaleBtn = nullptr;
-    QLineEdit *m_pPixelsWidthLdt = nullptr;
-    QLineEdit *m_pPixelsHeightLdt = nullptr;
+    UnitLineEdit *m_pPixelsWidthLdt = nullptr;
+    UnitLineEdit *m_pPixelsHeightLdt = nullptr;
     QLabel *m_pPlayLbl = nullptr;
     QCheckBox *m_pLoopCkb = nullptr;
     QCheckBox *m_pReverseCkb = nullptr;
     QLabel *m_pSpeedLbl = nullptr;
+    QLabel *m_pSpeedDescLbl = nullptr;
     QSlider *m_pSpeedSlider = nullptr;
     QLabel *m_pBgLbl = nullptr;
     IconButton *m_pBg1Btn = nullptr;
     IconButton *m_pBg2Btn = nullptr;
     IconButton *m_pBg3Btn = nullptr;
     IconButton *m_pBg4Btn = nullptr;
+    IconButton *m_pBg5Btn = nullptr;
     IconButton *m_pBgSelectBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;
     QComboBox *m_pOutputFolderCbb = nullptr;

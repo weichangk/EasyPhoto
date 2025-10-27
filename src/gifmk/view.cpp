@@ -5,6 +5,7 @@
 #include "settings.h"
 #include "message/funcchangemessage.h"
 #include "funcenum.h"
+#include "types.h"
 
 #include <QFileDialog>
 #include <QStandardPaths>
@@ -60,7 +61,7 @@ void GifMkView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(200);
+    m_pRightWidget->setFixedWidth(236);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
     rightWidgetLayout->setContentsMargins(12, 12, 12, 24);
     rightWidgetLayout->setSpacing(8);
@@ -105,14 +106,22 @@ void GifMkView::createUi() {
     rightWidgetLayout->addWidget(scaleOrSizeBtnWidget);
 
     //
-    m_pPixelsWidthLdt = new QLineEdit(this);
+    m_pPixelsWidthLdt = new UnitLineEdit(this);
     m_pPixelsWidthLdt->setFixedHeight(24);
+    m_pPixelsWidthLdt->setAlignment(Qt::AlignCenter);
+    m_pPixelsWidthLdt->setPrefix("W");
+    m_pPixelsWidthLdt->setUnit("PX");
+    m_pPixelsWidthLdt->setText("0");
+    m_pPixelsHeightLdt = new UnitLineEdit(this);
+    m_pPixelsHeightLdt->setFixedHeight(24);
+    m_pPixelsHeightLdt->setAlignment(Qt::AlignCenter);
+    m_pPixelsHeightLdt->setPrefix("H");
+    m_pPixelsHeightLdt->setUnit("PX");
+    m_pPixelsHeightLdt->setText("0");
     m_pLockScaleBtn = new IconButton(this);
     m_pLockScaleBtn->setFixedSize(24, 24);
     m_pLockScaleBtn->setIconSize(24, 24);
-    m_pLockScaleBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
-    m_pPixelsHeightLdt = new QLineEdit(this);
-    m_pPixelsHeightLdt->setFixedHeight(24);
+    m_pLockScaleBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
 
     auto pixelsLayout = new QHBoxLayout();
     pixelsLayout->setContentsMargins(0, 0, 0, 0);
@@ -122,16 +131,15 @@ void GifMkView::createUi() {
     pixelsLayout->addWidget(m_pPixelsHeightLdt, 1);
     rightWidgetLayout->addLayout(pixelsLayout);
 
-    rightWidgetLayout->addSpacing(16);
-
-    //
-    m_pScaleCbb = new QComboBox(this);
-    m_pScaleCbb->setFixedHeight(24);
-    rightWidgetLayout->addWidget(m_pScaleCbb);
-
     m_pSizeCbb = new QComboBox(this);
     m_pSizeCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pSizeCbb);
+
+    m_pScaleCbb = new QComboBox(this);
+    m_pScaleCbb->setFixedHeight(24);
+    rightWidgetLayout->addWidget(m_pScaleCbb);
+    m_pScaleCbb->setVisible(false);
+
     rightWidgetLayout->addSpacing(16);
 
     //
@@ -144,9 +152,10 @@ void GifMkView::createUi() {
 
     auto playLayout = new QHBoxLayout();
     playLayout->setContentsMargins(0, 0, 0, 0);
+    playLayout->setSpacing(8);
     playLayout->addWidget(m_pLoopCkb);
-    playLayout->addStretch();
     playLayout->addWidget(m_pReverseCkb);
+    playLayout->addStretch();
     rightWidgetLayout->addLayout(playLayout);
 
     rightWidgetLayout->addSpacing(16);
@@ -154,11 +163,20 @@ void GifMkView::createUi() {
     //
     m_pSpeedLbl = new QLabel(this);
     m_pSpeedLbl->setObjectName("QLbl_LH16_FS12_FW4");
-    rightWidgetLayout->addWidget(m_pSpeedLbl);
+    m_pSpeedDescLbl = new QLabel(this);
+    m_pSpeedDescLbl->setObjectName("QLbl_LH16_FS12_FW4");
+    auto speedLblLayout = new QHBoxLayout();
+    speedLblLayout->setContentsMargins(0, 0, 0, 0);
+    speedLblLayout->setSpacing(8);
+    speedLblLayout->addWidget(m_pSpeedLbl);
+    speedLblLayout->addWidget(m_pSpeedDescLbl);
+    speedLblLayout->addStretch();
+    rightWidgetLayout->addLayout(speedLblLayout);
 
     m_pSpeedSlider = new QSlider(Qt::Horizontal, this);
-    m_pSpeedSlider->setRange(0.1, 3.0);
-    m_pSpeedSlider->setTickInterval(0.1);
+    m_pSpeedSlider->setRange(1, 30);
+    m_pSpeedSlider->setPageStep(1);
+    m_pSpeedSlider->setValue(10);
     rightWidgetLayout->addWidget(m_pSpeedSlider);
 
     rightWidgetLayout->addSpacing(16);
@@ -169,36 +187,43 @@ void GifMkView::createUi() {
     rightWidgetLayout->addWidget(m_pBgLbl);
 
     m_pBg1Btn = new IconButton(this);
-    m_pBg1Btn->setFixedSize(24, 24);
-    m_pBg1Btn->setIconSize(24, 24);
-    m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
+    m_pBg1Btn->setFixedSize(32, 32);
+    m_pBg1Btn->setIconSize(32, 32);
+    m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBg2Btn = new IconButton(this);
-    m_pBg2Btn->setFixedSize(24, 24);
-    m_pBg2Btn->setIconSize(24, 24);
-    m_pBg2Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
+    m_pBg2Btn->setFixedSize(32, 32);
+    m_pBg2Btn->setIconSize(32, 32);
+    m_pBg2Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_white.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBg3Btn = new IconButton(this);
-    m_pBg3Btn->setFixedSize(24, 24);
-    m_pBg3Btn->setIconSize(24, 24);
-    m_pBg3Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
+    m_pBg3Btn->setFixedSize(32, 32);
+    m_pBg3Btn->setIconSize(32, 32);
+    m_pBg3Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_black.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBg4Btn = new IconButton(this);
-    m_pBg4Btn->setFixedSize(24, 24);
-    m_pBg4Btn->setIconSize(24, 24);
-    m_pBg4Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
+    m_pBg4Btn->setFixedSize(32, 32);
+    m_pBg4Btn->setIconSize(32, 32);
+    m_pBg4Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_grey.svg").arg(QtmCore::Theme::currentTheme()));
+
+    m_pBg5Btn = new IconButton(this);
+    m_pBg5Btn->setFixedSize(32, 32);
+    m_pBg5Btn->setIconSize(32, 32);
+    m_pBg5Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_light blue.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgSelectBtn = new IconButton(this);
-    m_pBgSelectBtn->setFixedSize(24, 24);
-    m_pBgSelectBtn->setIconSize(24, 24);
-    m_pBgSelectBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
+    m_pBgSelectBtn->setFixedSize(32, 32);
+    m_pBgSelectBtn->setIconSize(32, 32);
+    m_pBgSelectBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_gradiet3.png").arg(QtmCore::Theme::currentTheme()));
 
     auto bgBtnLayout = new QHBoxLayout();
     bgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgBtnLayout->setSpacing(4);
     bgBtnLayout->addWidget(m_pBg1Btn);
     bgBtnLayout->addWidget(m_pBg2Btn);
     bgBtnLayout->addWidget(m_pBg3Btn);
     bgBtnLayout->addWidget(m_pBg4Btn);
+    bgBtnLayout->addWidget(m_pBg5Btn);
     bgBtnLayout->addWidget(m_pBgSelectBtn);
     rightWidgetLayout->addLayout(bgBtnLayout);
 
@@ -293,18 +318,17 @@ void GifMkView::setOutputFolder(const QString &path) {
 }
 
 void GifMkView::initScaleCbbItem() {
-    QString scale = GIFMKSCALE;
-    QStringList scales = scale.split(' ');
-    for (auto &item : scales) {
-        m_pScaleCbb->addItem(item);
-    }
+    blockSignalsFunc(m_pScaleCbb, [&]() {
+        m_pScaleCbb->clear();
+        m_pScaleCbb->addItems(GIFMK_SCALES.keys());
+    });
 }
 
 void GifMkView::initSizeCbbItem() {
-    QStringList sizes = { "原始大小(最大1280p)", "240p", "360p", "450p", "480p", "750p" };
-    for (auto &item : sizes) {
-        m_pSizeCbb->addItem(item);
-    }
+    blockSignalsFunc(m_pSizeCbb, [&]() {
+        m_pSizeCbb->clear();
+        m_pSizeCbb->addItems(GIFMK_SIZES.keys());
+    });
 }
 
 void GifMkView::gotoImportGuide() {
@@ -327,6 +351,7 @@ void GifMkView::onLanguageChange() {
     m_pLoopCkb->setText(tr("Loop"));
     m_pReverseCkb->setText(tr("Reverse"));
     m_pSpeedLbl->setText(tr("Speed"));
+    m_pSpeedDescLbl->setText(tr("(1.0s / frame)"));
     m_pBgLbl->setText(tr("Background"));
     m_pOutputFolderLbl->setText(tr("Output folder"));
     m_pPreviewBtn->setText(tr("Preview"));

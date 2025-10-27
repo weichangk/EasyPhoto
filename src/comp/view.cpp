@@ -123,7 +123,7 @@ void CompView::createUi() {
 
     m_pCompreSlider = new QSlider(Qt::Horizontal, bottomWidget);
     m_pCompreSlider->setRange(1, 100);
-    m_pCompreSlider->setTickInterval(1);
+    m_pCompreSlider->setPageStep(1);
     m_pCompreSlider->setValue(SETTINGS->getCompSetting()->getQuality());
 
     m_pCompreValueEdit = new QLineEdit(bottomWidget);
