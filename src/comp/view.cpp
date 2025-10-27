@@ -122,13 +122,12 @@ void CompView::createUi() {
     m_pCompreToLbl->setObjectName("QLbl_LH16_FS12_FW4");
 
     m_pCompreSlider = new QSlider(Qt::Horizontal, bottomWidget);
-    m_pCompreSlider->setObjectName("CompView_m_pCompreSlider");
     m_pCompreSlider->setRange(1, 100);
     m_pCompreSlider->setTickInterval(1);
     m_pCompreSlider->setValue(SETTINGS->getCompSetting()->getQuality());
 
     m_pCompreValueEdit = new QLineEdit(bottomWidget);
-    m_pCompreValueEdit->setObjectName("CompView_m_pCompreValueEdit");
+    m_pCompreValueEdit->setAlignment(Qt::AlignCenter);
     QIntValidator *validator = new QIntValidator(1, 100, m_pCompreValueEdit);
     m_pCompreValueEdit->setValidator(validator);
     m_pCompreValueEdit->setText(QString::number(SETTINGS->getCompSetting()->getQuality()));
