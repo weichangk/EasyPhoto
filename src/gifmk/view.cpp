@@ -189,7 +189,7 @@ void GifMkView::createUi() {
     m_pBg1Btn = new IconButton(this);
     m_pBg1Btn->setFixedSize(32, 32);
     m_pBg1Btn->setIconSize(32, 32);
-    m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()), true);
 
     m_pBg2Btn = new IconButton(this);
     m_pBg2Btn->setFixedSize(32, 32);

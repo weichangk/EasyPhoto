@@ -18,9 +18,13 @@ public:
     ~NavbarView() override {
     }
 
+protected:
+    void showEvent(QShowEvent *event) override;
+    
 private:
     void createUi();
     void connectSig();
+    QVBoxLayout *createNavBtnsMVP();
     QVBoxLayout *createNavBtns();
     void setNavBtnChecked(EFunc);
     void clearNavBtnChecked();

@@ -21,6 +21,14 @@ NavbarView::NavbarView(QWidget *parent) :
     onLanguageChange();
 }
 
+void NavbarView::showEvent(QShowEvent *event) {
+    QWidget::showEvent(event);
+    #ifdef IS_MVP
+        onNavBtnClicked(EFunc::FuncUpsc);
+        m_pNavBtnGroup->button(EFunc::FuncUpsc)->setChecked(true);
+    #endif
+}
+
 void NavbarView::createUi() {
     setObjectName("NavbarView");
     setAttribute(Qt::WA_StyledBackground);
@@ -33,7 +41,11 @@ void NavbarView::createUi() {
     m_pProjectLogo->setIconSize(40, 40);
     m_pProjectLogo->setNormalPixmapPath(":/logo");
 
-    auto navlayout = createNavBtns();
+    #ifdef IS_MVP
+        auto navlayout = createNavBtnsMVP();
+    #else
+        auto navlayout = createNavBtns();
+    #endif
 
     m_FreeTrialTimerView = new FreeTrialTimerView(this);
 
@@ -54,6 +66,36 @@ void NavbarView::connectSig() {
     bool bIsConn = false;
     bIsConn = connect(m_pLang, &LanguageFilter::sigLanguageChange, this, &NavbarView::onLanguageChange);
     Q_ASSERT(bIsConn);
+}
+
+QVBoxLayout *NavbarView::createNavBtnsMVP() {
+    auto navlayout = new QVBoxLayout();
+    navlayout->setAlignment(Qt::AlignCenter);
+    navlayout->setContentsMargins(23, 20, 23, 13);
+    navlayout->setSpacing(0);
+    QMap<int, SNavIconName> navMap;
+    navMap[EFunc::FuncUpsc] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_photo enhancer.svg").arg(QtmCore::Theme::currentTheme()), tr("Image Enhancer")}; 
+    navMap[EFunc::FuncGifMk] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")}; 
+    navMap[EFunc::FuncConversion] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_converter.svg").arg(QtmCore::Theme::currentTheme()), tr("Converter")}; 
+    navMap[EFunc::FuncCompression] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_compress.svg").arg(QtmCore::Theme::currentTheme()), tr("Compressor")}; 
+    QMap<int, SNavIconName>::Iterator iter;
+    m_pNavBtnGroup = new QButtonGroup(this);
+    m_pNavBtnGroup->setExclusive(true);
+    for (iter = navMap.begin(); iter != navMap.end(); ++iter) {
+        auto *btn = new HorIconTextButton(this, style::EHorIconTexAligns::Left);
+        btn->setObjectName("NavbarView_m_pNavbarBtn");
+        btn->setNormalPixmapPath(iter.value().icon);
+        btn->setText(iter.value().name);
+        btn->setIconSize(24, 24);
+        btn->setFixedSize(158, 40);
+        btn->setAdjustWidth(false);
+        btn->setCheckable(true);
+        m_pNavBtnGroup->addButton(btn, iter.key());
+        navlayout->addWidget(btn);
+        navlayout->addSpacing(8);
+    }
+    connect(m_pNavBtnGroup, &QButtonGroup::idClicked, this, &NavbarView::onNavBtnClicked);
+    return navlayout;
 }
 
 QVBoxLayout *NavbarView::createNavBtns() {

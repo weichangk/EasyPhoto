@@ -8,3 +8,5 @@
 
 #include "core/font.h"
 #include "filter/languagefilter.h"
+
+#define IS_MVP

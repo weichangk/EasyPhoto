@@ -91,7 +91,7 @@ void FreeTrialTimerView::connectSig() {
 }
 
 void FreeTrialTimerView::timeKeeping() {
-    m_pDaysLab->setText("7");
+    m_pDaysLab->setText("1");
 }
 
 void FreeTrialTimerView::countdownStart(int seconds) {
