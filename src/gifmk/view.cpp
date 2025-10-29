@@ -122,6 +122,8 @@ void GifMkView::createUi() {
     m_pLockScaleBtn->setFixedSize(24, 24);
     m_pLockScaleBtn->setIconSize(24, 24);
     m_pLockScaleBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pLockScaleBtn->setCheckable(true);
+    m_pLockScaleBtn->setChecked(true);
 
     auto pixelsLayout = new QHBoxLayout();
     pixelsLayout->setContentsMargins(0, 0, 0, 0);
@@ -174,9 +176,8 @@ void GifMkView::createUi() {
     rightWidgetLayout->addLayout(speedLblLayout);
 
     m_pSpeedSlider = new QSlider(Qt::Horizontal, this);
-    m_pSpeedSlider->setRange(1, 30);
+    m_pSpeedSlider->setRange(1, 60);
     m_pSpeedSlider->setPageStep(1);
-    m_pSpeedSlider->setValue(10);
     rightWidgetLayout->addWidget(m_pSpeedSlider);
 
     rightWidgetLayout->addSpacing(16);
@@ -190,31 +191,44 @@ void GifMkView::createUi() {
     m_pBg1Btn->setFixedSize(32, 32);
     m_pBg1Btn->setIconSize(32, 32);
     m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()), true);
+    m_pBg1Btn->setCheckable(true);
 
     m_pBg2Btn = new IconButton(this);
     m_pBg2Btn->setFixedSize(32, 32);
     m_pBg2Btn->setIconSize(32, 32);
     m_pBg2Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_white.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg2Btn->setCheckable(true);
 
     m_pBg3Btn = new IconButton(this);
     m_pBg3Btn->setFixedSize(32, 32);
     m_pBg3Btn->setIconSize(32, 32);
     m_pBg3Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_black.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg3Btn->setCheckable(true);
 
     m_pBg4Btn = new IconButton(this);
     m_pBg4Btn->setFixedSize(32, 32);
     m_pBg4Btn->setIconSize(32, 32);
     m_pBg4Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_grey.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg4Btn->setCheckable(true);
 
     m_pBg5Btn = new IconButton(this);
     m_pBg5Btn->setFixedSize(32, 32);
     m_pBg5Btn->setIconSize(32, 32);
     m_pBg5Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_light blue.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg5Btn->setCheckable(true);
 
     m_pBgSelectBtn = new IconButton(this);
     m_pBgSelectBtn->setFixedSize(32, 32);
     m_pBgSelectBtn->setIconSize(32, 32);
     m_pBgSelectBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_gradiet3.png").arg(QtmCore::Theme::currentTheme()));
+
+    m_pBgBtnGroup = new QButtonGroup(this);
+    m_pBgBtnGroup->setExclusive(true);
+    m_pBgBtnGroup->addButton(m_pBg1Btn, 0);
+    m_pBgBtnGroup->addButton(m_pBg2Btn, 1);
+    m_pBgBtnGroup->addButton(m_pBg3Btn, 2);
+    m_pBgBtnGroup->addButton(m_pBg4Btn, 3);
+    m_pBgBtnGroup->addButton(m_pBg5Btn, 4);
 
     auto bgBtnLayout = new QHBoxLayout();
     bgBtnLayout->setContentsMargins(0, 0, 0, 0);
@@ -287,15 +301,29 @@ void GifMkView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &GifMkView::onImportListCountChange);
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &GifMkView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &GifMkView::onGuideImportFile);
+
+    connect(m_pSizeBtn, &QPushButton::clicked, this, &GifMkView::onSizeBtnClicked);
+    connect(m_pScaleBtn, &QPushButton::clicked, this, &GifMkView::onScaleBtnClicked);
+    connect(m_pScaleCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifMkView::onScaleCbbIndexChanged);
+    connect(m_pSizeCbb, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &GifMkView::onSizeCbbIndexChanged);
+    connect(m_pLockScaleBtn, &QPushButton::clicked, this, &GifMkView::onLockScaleBtnClicked);
+    connect(m_pLoopCkb, &QCheckBox::stateChanged, this, &GifMkView::onLoopCkbStateChanged);
+    connect(m_pReverseCkb, &QCheckBox::stateChanged, this, &GifMkView::onReverseCkbStateChanged);
+    connect(m_pSpeedSlider, &QSlider::valueChanged, this, &GifMkView::onSpeedSliderValueChanged);
+    connect(m_pBg1Btn, &QPushButton::clicked, this, &GifMkView::onBg1BtnClicked);
+    connect(m_pBg2Btn, &QPushButton::clicked, this, &GifMkView::onBg2BtnClicked);
+    connect(m_pBg3Btn, &QPushButton::clicked, this, &GifMkView::onBg3BtnClicked);
+    connect(m_pBg4Btn, &QPushButton::clicked, this, &GifMkView::onBg4BtnClicked);
+    connect(m_pBg5Btn, &QPushButton::clicked, this, &GifMkView::onBg5BtnClicked);
+    connect(m_pBgSelectBtn, &QPushButton::clicked, this, &GifMkView::onBgSelectBtnClicked);
 }
 
 void GifMkView::firstShow() {
     static bool firstShow = true;
     if (firstShow) {
         firstShow = false;
+        initUI();
         initOutputFolderCbbItem();
-        initScaleCbbItem();
-        initSizeCbbItem();
     }
 }
 
@@ -317,17 +345,28 @@ void GifMkView::setOutputFolder(const QString &path) {
     m_pOutputFolderCbb->setItemText(0, path);
 }
 
-void GifMkView::initScaleCbbItem() {
+void GifMkView::initUI() {
     blockSignalsFunc(m_pScaleCbb, [&]() {
         m_pScaleCbb->clear();
         m_pScaleCbb->addItems(GIFMK_SCALES.keys());
     });
-}
 
-void GifMkView::initSizeCbbItem() {
     blockSignalsFunc(m_pSizeCbb, [&]() {
         m_pSizeCbb->clear();
         m_pSizeCbb->addItems(GIFMK_SIZES.keys());
+    });
+
+    blockSignalsFunc(m_pLoopCkb, [&]() {
+        m_pLoopCkb->setChecked(SETTINGS->getGifMkSetting()->getRepeat());
+    });
+
+    blockSignalsFunc(m_pReverseCkb, [&]() {
+        m_pReverseCkb->setChecked(SETTINGS->getGifMkSetting()->getReverse());
+    });
+
+    blockSignalsFunc(m_pSpeedSlider, [&]() {
+        m_pSpeedSlider->setValue(SETTINGS->getGifMkSetting()->getFps());
+        m_pSpeedDescLbl->setText(tr("(%1 frame / s)").arg(m_pSpeedSlider->value()));
     });
 }
 
@@ -413,4 +452,96 @@ void GifMkView::onImportListCurrentChanged(const QString filePath) {
 void GifMkView::onGuideImportFile(const QStringList &filePaths) {
     GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
     m_pImportListView->importFile(filePaths);
+}
+
+void GifMkView::onSizeBtnClicked() {
+    m_pSizeBtn->setChecked(true);
+    m_pPixelsWidthLdt->setEnabled(true);
+    m_pPixelsHeightLdt->setEnabled(true);
+    m_pSizeCbb->setVisible(true);
+    m_pScaleCbb->setVisible(false);
+}
+
+void GifMkView::onScaleBtnClicked() {
+    m_pScaleBtn->setChecked(true);
+    m_pPixelsWidthLdt->setEnabled(false);
+    m_pPixelsHeightLdt->setEnabled(false);
+    m_pSizeCbb->setVisible(false);
+    m_pScaleCbb->setVisible(true);
+}
+
+void GifMkView::onScaleCbbIndexChanged(int index) {
+    // QString scaleText = m_pScaleCbb->currentText();
+    // if (GIFMK_SCALES.contains(scaleText)) {
+    //     double scale = GIFMK_SCALES.value(scaleText);
+    //     GifMkPresenter *prst = dynamic_cast<GifMkPresenter *>(presenter());
+    //     QSize size = prst->getOriginalSize();
+    //     int newWidth = static_cast<int>(size.width() * scale);
+    //     int newHeight = static_cast<int>(size.height() * scale);
+    //     blockSignalsFunc(m_pPixelsWidthLdt, [&]() {
+    //         m_pPixelsWidthLdt->setText(QString::number(newWidth));
+    //     });
+    //     blockSignalsFunc(m_pPixelsHeightLdt, [&]() {
+    //         m_pPixelsHeightLdt->setText(QString::number(newHeight));
+    //     });
+    // }
+}
+
+void GifMkView::onSizeCbbIndexChanged(int index) {
+    // QString sizeText = m_pSizeCbb->currentText();
+    // if (GIFMK_SIZES.contains(sizeText)) {
+    //     QSize size = GIFMK_SIZES.value(sizeText);
+    //     blockSignalsFunc(m_pPixelsWidthLdt, [&]() {
+    //         m_pPixelsWidthLdt->setText(QString::number(size.width()));
+    //     });
+    //     blockSignalsFunc(m_pPixelsHeightLdt, [&]() {
+    //         m_pPixelsHeightLdt->setText(QString::number(size.height()));
+    //     });
+    // }
+}   
+
+void GifMkView::onLockScaleBtnClicked() {
+    m_pLockScaleBtn->setChecked(!m_pLockScaleBtn->isChecked());
+    m_pLockScaleBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/%2.svg").arg(QtmCore::Theme::currentTheme()).arg(m_pLockScaleBtn->isChecked() ? "icon24_lock" : "icon24_unlock"));
+}
+
+void GifMkView::onLoopCkbStateChanged(int state) {
+    SETTINGS->getGifMkSetting()->setRepeat(state == Qt::Checked);
+}
+
+void GifMkView::onReverseCkbStateChanged(int state) {
+    SETTINGS->getGifMkSetting()->setReverse(state == Qt::Checked);
+}
+
+void GifMkView::onSpeedSliderValueChanged(int value) {
+    SETTINGS->getGifMkSetting()->setFps(value);
+    m_pSpeedDescLbl->setText(tr("(%1 frame / s)").arg(value));
+}
+
+void GifMkView::onBg1BtnClicked() {
+    SETTINGS->getGifMkSetting()->setBgColor("transparent");
+}
+
+void GifMkView::onBg2BtnClicked() {
+    SETTINGS->getGifMkSetting()->setBgColor("#ffffff");
+}
+
+void GifMkView::onBg3BtnClicked() {
+    SETTINGS->getGifMkSetting()->setBgColor("#000000");
+}
+
+void GifMkView::onBg4BtnClicked() {
+    SETTINGS->getGifMkSetting()->setBgColor("#cccccc");
+}
+
+void GifMkView::onBg5BtnClicked() {
+    SETTINGS->getGifMkSetting()->setBgColor("#8cd6fe");
+}
+
+void GifMkView::onBgSelectBtnClicked() {
+    QString title = tr("Select Color");
+    QString dirPath = QFileDialog::getOpenFileName(this, title, QDir::homePath(), tr("Images (*.png *.jpg *.bmp);;All Files (*)"));
+    if (!dirPath.isEmpty()) {
+        SETTINGS->getGifMkSetting()->setBgColor(dirPath);
+    }
 }

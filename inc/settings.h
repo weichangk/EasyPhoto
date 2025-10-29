@@ -44,6 +44,8 @@ static int height = 640;
 static int quality = 100;
 static int fps = 25;
 static bool repeat = true;
+static bool reverse = false;
+static QString bgColor = "transparent";
 } // namespace GifMk
 
 namespace BgRm {
@@ -140,6 +142,10 @@ public:
     void setFps(int f);
     bool getRepeat() const;
     void setRepeat(bool b);
+    bool getReverse() const;
+    void setReverse(bool b);
+    void setBgColor(const QString &color);
+    QString getBgColor() const;
 
 private:
     QSettings m_Settings;
@@ -152,6 +158,8 @@ private:
     int m_Quality;
     int m_Fps;
     bool m_Repeat;
+    bool m_Reverse;
+    QString m_BgColor;
 };
 
 class BgRmSetting {

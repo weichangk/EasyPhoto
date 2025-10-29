@@ -145,6 +145,8 @@ void GifMkSetting::load() {
     m_Quality = m_Settings.value(QStringLiteral("Quality"), Default::GifMk::quality).toInt();
     m_Fps = m_Settings.value(QStringLiteral("Fps"), Default::GifMk::fps).toInt();
     m_Repeat = m_Settings.value(QStringLiteral("Repeat"), Default::GifMk::repeat).toBool();
+    m_Reverse = m_Settings.value(QStringLiteral("Reverse"), Default::GifMk::reverse).toBool();
+    m_BgColor = m_Settings.value(QStringLiteral("BgColor"), Default::GifMk::bgColor).toString();
     m_Settings.endGroup();
 }
 
@@ -244,6 +246,28 @@ void GifMkSetting::setRepeat(bool b) {
     m_Repeat = b;
     m_Settings.beginGroup("GifMk");
     m_Settings.setValue(QStringLiteral("Repeat"), m_Repeat);
+    m_Settings.endGroup();
+}
+
+bool GifMkSetting::getReverse() const {
+    return m_Reverse;
+}
+
+void GifMkSetting::setReverse(bool b) {
+    m_Reverse = b;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("Reverse"), m_Reverse);
+    m_Settings.endGroup();
+}
+
+QString GifMkSetting::getBgColor() const {
+    return m_BgColor;
+}
+
+void GifMkSetting::setBgColor(const QString &color) {
+    m_BgColor = color;
+    m_Settings.beginGroup("GifMk");
+    m_Settings.setValue(QStringLiteral("BgColor"), m_BgColor);
     m_Settings.endGroup();
 }
 

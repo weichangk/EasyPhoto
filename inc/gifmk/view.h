@@ -48,8 +48,7 @@ private:
     void initOutputFolderCbbItem();
     QWidget *createDividingLine();
     void setOutputFolder(const QString &path);
-    void initScaleCbbItem();
-    void initSizeCbbItem();
+    void initUI();
     void gotoImportGuide();
     void gotoWorkspace();
     void imageViewerLoad(const QString &filePath);
@@ -64,6 +63,20 @@ private Q_SLOTS:
     void onImportListCountChange(int count);
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
+    void onSizeBtnClicked();
+    void onScaleBtnClicked();
+    void onScaleCbbIndexChanged(int index);
+    void onSizeCbbIndexChanged(int index);
+    void onLockScaleBtnClicked();
+    void onLoopCkbStateChanged(int state);
+    void onReverseCkbStateChanged(int state);
+    void onSpeedSliderValueChanged(int value);
+    void onBg1BtnClicked();
+    void onBg2BtnClicked();
+    void onBg3BtnClicked();
+    void onBg4BtnClicked();
+    void onBg5BtnClicked();
+    void onBgSelectBtnClicked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -99,6 +112,7 @@ private:
     QLabel *m_pSpeedDescLbl = nullptr;
     QSlider *m_pSpeedSlider = nullptr;
     QLabel *m_pBgLbl = nullptr;
+    QButtonGroup *m_pBgBtnGroup = nullptr;
     IconButton *m_pBg1Btn = nullptr;
     IconButton *m_pBg2Btn = nullptr;
     IconButton *m_pBg3Btn = nullptr;
