@@ -57,16 +57,15 @@ void GifMkView::createUi() {
 
     m_pLeftWidget = new QWidget(this);
     auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
-    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setContentsMargins(12, 12, 0, 10);
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
     m_pRightWidget->setFixedWidth(236);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(12, 12, 12, 24);
-    rightWidgetLayout->setSpacing(8);
+    rightWidgetLayout->setContentsMargins(12, 12, 12, 20);
+    rightWidgetLayout->setSpacing(0);
 
-    bodyWidgetLayout->addSpacing(12);
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
     bodyWidgetLayout->addWidget(m_pRightWidget);
 
@@ -74,6 +73,7 @@ void GifMkView::createUi() {
     m_pImageViewer = new ImageViewer(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addSpacing(8);
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
@@ -104,6 +104,7 @@ void GifMkView::createUi() {
     m_pSizeBtn->setChecked(true);
 
     rightWidgetLayout->addWidget(scaleOrSizeBtnWidget);
+    rightWidgetLayout->addSpacing(4);
 
     //
     m_pPixelsWidthLdt = new UnitLineEdit(this);
@@ -132,6 +133,7 @@ void GifMkView::createUi() {
     pixelsLayout->addWidget(m_pLockScaleBtn);
     pixelsLayout->addWidget(m_pPixelsHeightLdt, 1);
     rightWidgetLayout->addLayout(pixelsLayout);
+    rightWidgetLayout->addSpacing(4);
 
     m_pSizeCbb = new QComboBox(this);
     m_pSizeCbb->setFixedHeight(24);
@@ -142,12 +144,13 @@ void GifMkView::createUi() {
     rightWidgetLayout->addWidget(m_pScaleCbb);
     m_pScaleCbb->setVisible(false);
 
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pPlayLbl = new QLabel(this);
     m_pPlayLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pPlayLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pLoopCkb = new QCheckBox(this);
     m_pReverseCkb = new QCheckBox(this);
@@ -160,7 +163,7 @@ void GifMkView::createUi() {
     playLayout->addStretch();
     rightWidgetLayout->addLayout(playLayout);
 
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pSpeedLbl = new QLabel(this);
@@ -180,12 +183,13 @@ void GifMkView::createUi() {
     m_pSpeedSlider->setPageStep(1);
     rightWidgetLayout->addWidget(m_pSpeedSlider);
 
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pBgLbl = new QLabel(this);
     m_pBgLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pBgLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pBg1Btn = new IconButton(this);
     m_pBg1Btn->setFixedSize(32, 32);
@@ -241,12 +245,13 @@ void GifMkView::createUi() {
     bgBtnLayout->addWidget(m_pBgSelectBtn);
     rightWidgetLayout->addLayout(bgBtnLayout);
 
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
     m_pOutputFolderLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pOutputFolderLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pOutputFolderCbb = new QComboBox(this);
     m_pOutputFolderCbb->setFixedHeight(24);
@@ -269,6 +274,8 @@ void GifMkView::createUi() {
     m_pPreviewBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pPreviewBtn->setFixedHeight(32);
     rightWidgetLayout->addWidget(m_pPreviewBtn);
+
+    rightWidgetLayout->addSpacing(8);
 
     m_pStartAllBtn = new QPushButton(this);
     m_pStartAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");

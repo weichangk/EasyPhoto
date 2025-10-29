@@ -75,6 +75,7 @@ QVBoxLayout *NavbarView::createNavBtnsMVP() {
     navlayout->setSpacing(0);
     QMap<int, SNavIconName> navMap;
     navMap[EFunc::FuncUpsc] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_photo enhancer.svg").arg(QtmCore::Theme::currentTheme()), tr("Image Enhancer")}; 
+    navMap[EFunc::FuncBgRm] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_background remover.svg").arg(QtmCore::Theme::currentTheme()), tr("Image BG Remover")}; 
     navMap[EFunc::FuncGifMk] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")}; 
     navMap[EFunc::FuncConversion] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_converter.svg").arg(QtmCore::Theme::currentTheme()), tr("Converter")}; 
     navMap[EFunc::FuncCompression] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_compress.svg").arg(QtmCore::Theme::currentTheme()), tr("Compressor")}; 

@@ -1,6 +1,7 @@
 #include "bgrm/view.h"
 #include "bgrm/presenter.h"
 #include "settings.h"
+#include "core/theme.h"
 
 #include <QFileInfo>
 #include <QFileDialog>
@@ -31,7 +32,7 @@ void BgRmView::createUi() {
 
     //
     m_pTitleLbl = new QLabel(this);
-    m_pTitleLbl->setObjectName("BgRmView_m_pTitleLbl");
+    m_pTitleLbl->setObjectName("QLbl_LH24_FS24_FW7");
     auto titleLabLayout = new QHBoxLayout();
     titleLabLayout->setContentsMargins(20, 0, 0, 0);
     titleLabLayout->addWidget(m_pTitleLbl, 0, Qt::AlignLeft);
@@ -39,7 +40,7 @@ void BgRmView::createUi() {
     //
     m_pImportGuideWidget = new QWidget(this);
     QVBoxLayout *importGuideLayout = new QVBoxLayout(m_pImportGuideWidget);
-    importGuideLayout->setContentsMargins(20, 20, 20, 20);
+    importGuideLayout->setContentsMargins(20, 20, 20, 8);
     importGuideLayout->setSpacing(0);
 
     m_pImportGuide = new ImportGuide(this);
@@ -47,10 +48,11 @@ void BgRmView::createUi() {
     m_pSmapleWidget = new QWidget(this);
     m_pSmapleWidget->setFixedHeight(100);
     auto smapleWidgetLayout = new QVBoxLayout(m_pSmapleWidget);
-    smapleWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    smapleWidgetLayout->setContentsMargins(0, 0, 0, 12);
     smapleWidgetLayout->setSpacing(0);
 
     m_pSmapleTitleLbl = new QLabel(this);
+    m_pSmapleTitleLbl->setObjectName("QLbl_LH20_FS14_FW4");
     m_pSmapleTitleLbl->setAlignment(Qt::AlignCenter);
 
     m_pSmaple1ImageLbl = new ClickableLabel(this);
@@ -67,10 +69,11 @@ void BgRmView::createUi() {
     sampleImageLayout->addStretch();
 
     smapleWidgetLayout->addWidget(m_pSmapleTitleLbl);
+    smapleWidgetLayout->addSpacing(4);
     smapleWidgetLayout->addLayout(sampleImageLayout);
 
     importGuideLayout->addWidget(m_pImportGuide, 1);
-    importGuideLayout->addSpacing(14);
+    importGuideLayout->addSpacing(8);
     importGuideLayout->addWidget(m_pSmapleWidget);
 
     //
@@ -81,13 +84,13 @@ void BgRmView::createUi() {
 
     m_pLeftWidget = new QWidget(this);
     auto LeftWidgetLayout = new QVBoxLayout(m_pLeftWidget);
-    LeftWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    LeftWidgetLayout->setContentsMargins(12, 12, 0, 10);
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(275);
+    m_pRightWidget->setFixedWidth(236);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
-    rightWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    rightWidgetLayout->setContentsMargins(12, 12, 12, 20);
     rightWidgetLayout->setSpacing(0);
 
     bodyWidgetLayout->addWidget(m_pLeftWidget, 1);
@@ -97,60 +100,65 @@ void BgRmView::createUi() {
     m_pImageViewer = new ImageViewer(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
+    LeftWidgetLayout->addSpacing(8);
     LeftWidgetLayout->addWidget(m_pImportListView);
 
     //
     m_pBgColorLbl = new QLabel(this);
-    m_pBgColorLbl->setObjectName("BgRmView_m_pBgColorLbl");
+    m_pBgColorLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pBgColorLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pBgColor0Btn = new IconButton(this);
     m_pBgColor0Btn->setFixedSize(32, 32);
     m_pBgColor0Btn->setIconSize(32, 32);
-    m_pBgColor0Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_alpha.svg");
+    m_pBgColor0Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgColor1Btn = new IconButton(this);
     m_pBgColor1Btn->setFixedSize(32, 32);
     m_pBgColor1Btn->setIconSize(32, 32);
-    m_pBgColor1Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_white.svg");
+    m_pBgColor1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_white.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgColor2Btn = new IconButton(this);
     m_pBgColor2Btn->setFixedSize(32, 32);
     m_pBgColor2Btn->setIconSize(32, 32);
-    m_pBgColor2Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_black.svg");
+    m_pBgColor2Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_black.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgColor3Btn = new IconButton(this);
     m_pBgColor3Btn->setFixedSize(32, 32);
     m_pBgColor3Btn->setIconSize(32, 32);
-    m_pBgColor3Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_grey.svg");
+    m_pBgColor3Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_grey.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgColor4Btn = new IconButton(this);
     m_pBgColor4Btn->setFixedSize(32, 32);
     m_pBgColor4Btn->setIconSize(32, 32);
-    m_pBgColor4Btn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_light blue.svg");
+    m_pBgColor4Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_light blue.svg").arg(QtmCore::Theme::currentTheme()));
 
     m_pBgColorSelectBtn = new IconButton(this);
     m_pBgColorSelectBtn->setFixedSize(32, 32);
     m_pBgColorSelectBtn->setIconSize(32, 32);
-    m_pBgColorSelectBtn->setFourPixmapPath(":/QtmImg/img/dark/v165/bg32_gradiet3.png");
+    m_pBgColorSelectBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_gradiet3.png").arg(QtmCore::Theme::currentTheme()));
 
     auto bgColorBtnLayout = new QHBoxLayout();
     bgColorBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgColorBtnLayout->setSpacing(4);
     bgColorBtnLayout->addWidget(m_pBgColor0Btn);
     bgColorBtnLayout->addWidget(m_pBgColor1Btn);
     bgColorBtnLayout->addWidget(m_pBgColor2Btn);
     bgColorBtnLayout->addWidget(m_pBgColor3Btn);
     bgColorBtnLayout->addWidget(m_pBgColor4Btn);
     bgColorBtnLayout->addWidget(m_pBgColorSelectBtn);
+    bgColorBtnLayout->addStretch();
     rightWidgetLayout->addLayout(bgColorBtnLayout);
 
     //
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pBgImgLbl = new QLabel(this);
-    m_pBgImgLbl->setObjectName("BgRmView_m_pBgImgLbl");
+    m_pBgImgLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pBgImgLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pBgCustomImgBtn = new QPushButton(this);
     m_pBgCustomImgBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
@@ -166,6 +174,7 @@ void BgRmView::createUi() {
 
     auto bgImgBtnLayout = new QHBoxLayout();
     bgImgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgImgBtnLayout->setSpacing(4);
     bgImgBtnLayout->addWidget(m_pBgCustomImgBtn);
     bgImgBtnLayout->addWidget(m_pBgGeneralImgBtn);
     bgImgBtnLayout->addWidget(m_pBgSceneImgBtn);
@@ -181,29 +190,31 @@ void BgRmView::createUi() {
     // m_pBgImgListView->changeData(formatDatas);
 
     //
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
-    m_pOutputFolderLbl->setObjectName("BgRmView_m_pOutputFolderLbl");
+    m_pOutputFolderLbl->setObjectName("QLbl_LH16_FS12_FW4");
     rightWidgetLayout->addWidget(m_pOutputFolderLbl);
+    rightWidgetLayout->addSpacing(4);
 
     m_pOutputFolderCbb = new QComboBox(this);
-    m_pOutputFolderCbb->setFixedSize(240, 24);
+    m_pOutputFolderCbb->setFixedHeight(24);
 
     m_pOpenOutputFolderBtn = new IconButton(this);
     m_pOpenOutputFolderBtn->setFixedSize(24, 24);
     m_pOpenOutputFolderBtn->setIconSize(24, 24);
-    m_pOpenOutputFolderBtn->setFourPixmapPath(":/QtmImg/img/dark/icon/icon_state/icon24/icon24_file.png");
+    m_pOpenOutputFolderBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/icon/icon_state/icon24/icon24_file.png").arg(QtmCore::Theme::currentTheme()));
 
     auto folderLayout = new QHBoxLayout();
     folderLayout->setContentsMargins(0, 0, 0, 0);
+    folderLayout->setSpacing(4);
     folderLayout->addWidget(m_pOutputFolderCbb, 1);
     folderLayout->addWidget(m_pOpenOutputFolderBtn);
     rightWidgetLayout->addLayout(folderLayout);
 
     //
-    rightWidgetLayout->addSpacing(16);
+    rightWidgetLayout->addSpacing(12);
 
     //
     m_pStartAllBtn = new QPushButton(this);
@@ -290,7 +301,7 @@ void BgRmView::imageViewerLoad(const QString &filePath) {
 void BgRmView::onLanguageChange() {
     m_pTitleLbl->setText(tr("Backgroung Remover"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
-    m_pOutputFolderLbl->setText(tr("Output folder:"));
+    m_pOutputFolderLbl->setText(tr("Output folder"));
     m_pBgColorLbl->setText(tr("Background Color"));
     m_pBgImgLbl->setText(tr("Background Image"));
     m_pBgCustomImgBtn->setText(tr("Custom"));
