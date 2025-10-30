@@ -144,7 +144,7 @@ void GifMkView::createUi() {
     rightWidgetLayout->addWidget(m_pScaleCbb);
     m_pScaleCbb->setVisible(false);
 
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pPlayLbl = new QLabel(this);
@@ -163,7 +163,7 @@ void GifMkView::createUi() {
     playLayout->addStretch();
     rightWidgetLayout->addLayout(playLayout);
 
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pSpeedLbl = new QLabel(this);
@@ -183,7 +183,7 @@ void GifMkView::createUi() {
     m_pSpeedSlider->setPageStep(1);
     rightWidgetLayout->addWidget(m_pSpeedSlider);
 
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pBgLbl = new QLabel(this);
@@ -245,7 +245,7 @@ void GifMkView::createUi() {
     bgBtnLayout->addWidget(m_pBgSelectBtn);
     rightWidgetLayout->addLayout(bgBtnLayout);
 
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pOutputFolderLbl = new QLabel(this);

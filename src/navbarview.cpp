@@ -74,11 +74,12 @@ QVBoxLayout *NavbarView::createNavBtnsMVP() {
     navlayout->setContentsMargins(23, 20, 23, 13);
     navlayout->setSpacing(0);
     QMap<int, SNavIconName> navMap;
-    navMap[EFunc::FuncUpsc] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_photo enhancer.svg").arg(QtmCore::Theme::currentTheme()), tr("Image Enhancer")}; 
-    navMap[EFunc::FuncBgRm] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_background remover.svg").arg(QtmCore::Theme::currentTheme()), tr("Image BG Remover")}; 
-    navMap[EFunc::FuncGifMk] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")}; 
+    navMap[EFunc::FuncUpsc] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_photo enhancer.svg").arg(QtmCore::Theme::currentTheme()), tr("Enhancer")}; 
+    navMap[EFunc::FuncBgRm] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_background remover.svg").arg(QtmCore::Theme::currentTheme()), tr("BG Remover")}; 
+    navMap[EFunc::FuncCrop] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_auto crop.svg").arg(QtmCore::Theme::currentTheme()), tr("Crop & Resize")}; 
     navMap[EFunc::FuncConversion] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_converter.svg").arg(QtmCore::Theme::currentTheme()), tr("Converter")}; 
     navMap[EFunc::FuncCompression] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_compress.svg").arg(QtmCore::Theme::currentTheme()), tr("Compressor")}; 
+    navMap[EFunc::FuncGifMk] = {QString(":/QtmImg/img/%1/v16/icon24/icon24_gif maker.svg").arg(QtmCore::Theme::currentTheme()), tr("GIF Maker")};
     QMap<int, SNavIconName>::Iterator iter;
     m_pNavBtnGroup = new QButtonGroup(this);
     m_pNavBtnGroup->setExclusive(true);

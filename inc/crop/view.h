@@ -4,6 +4,7 @@
 #include "widget/button.h"
 #include "widget/label.h"
 #include "widget/listview.h"
+#include "widget/lineedit.h"
 #include "core/font.h"
 #include "core/object.h"
 #include "core/file.h"
@@ -86,8 +87,8 @@ private:
     ListView<SCropScaleData> *m_pCropScaleListView = nullptr;
     ScalelListDelegate *m_pScalelListDelegate = nullptr;
     IconButton *m_pLockScaleBtn = nullptr;
-    QLineEdit *m_pPixelsWidthLdt = nullptr;
-    QLineEdit *m_pPixelsHeightLdt = nullptr;
+    UnitLineEdit *m_pPixelsWidthLdt = nullptr;
+    UnitLineEdit *m_pPixelsHeightLdt = nullptr;
 
     QLabel *m_pRotateAndFlipLbl = nullptr;
     IconButton *m_pRotateRight90Btn = nullptr;

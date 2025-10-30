@@ -152,7 +152,7 @@ void BgRmView::createUi() {
     rightWidgetLayout->addLayout(bgColorBtnLayout);
 
     //
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pBgImgLbl = new QLabel(this);
@@ -190,7 +190,7 @@ void BgRmView::createUi() {
     // m_pBgImgListView->changeData(formatDatas);
 
     //
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
@@ -214,11 +214,11 @@ void BgRmView::createUi() {
     rightWidgetLayout->addLayout(folderLayout);
 
     //
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pStartAllBtn = new QPushButton(this);
-    m_pStartAllBtn->setObjectName("BgRmView_m_pStartAllBtn");
+    m_pStartAllBtn->setObjectName("QPBtn_BR16_FS14_FW7");
     m_pStartAllBtn->setFixedHeight(32);
     rightWidgetLayout->addWidget(m_pStartAllBtn);
 

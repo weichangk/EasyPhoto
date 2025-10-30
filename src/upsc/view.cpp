@@ -136,12 +136,12 @@ void UpscView::createUi() {
     m_pSelectModelCbb = new QComboBox(this);
     m_pSelectModelCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pSelectModelCbb);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pModelCard = new ModelCard(this);
     rightWidgetLayout->addWidget(m_pModelCard);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pDoubleUpscaleCkb = new QCheckBox(this);
@@ -164,7 +164,7 @@ void UpscView::createUi() {
 
     //
     rightWidgetLayout->addLayout(doubleUpscaleLayout);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pScaleLbl = new QLabel(this);
@@ -177,7 +177,7 @@ void UpscView::createUi() {
     m_pScaleCbb = new QComboBox(this);
     m_pScaleCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pScaleCbb);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pSaveAsFormatLbl = new QLabel(this);
@@ -189,7 +189,7 @@ void UpscView::createUi() {
     m_pSaveAsFormatCbb = new QComboBox(this);
     m_pSaveAsFormatCbb->setFixedHeight(24);
     rightWidgetLayout->addWidget(m_pSaveAsFormatCbb);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     m_pOutputFolderLbl = new QLabel(this);
@@ -216,7 +216,7 @@ void UpscView::createUi() {
 
     //
     rightWidgetLayout->addLayout(outputFolderLayout);
-    rightWidgetLayout->addSpacing(12);
+    rightWidgetLayout->addSpacing(16);
 
     //
     rightWidgetLayout->addStretch();
