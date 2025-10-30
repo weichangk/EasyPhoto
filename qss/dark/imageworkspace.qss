@@ -1,0 +1,4 @@
+QGraphicsView#ImageWorkspace {
+    border: none;
+    background-color: "#272336";
+}

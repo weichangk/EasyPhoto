@@ -14,7 +14,7 @@
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "types.h"
-#include "preview/imageviewer.h"
+#include "imageworkspace.h"
 #include "import/importlistview.h"
 #include "listdelegate.h"
 
@@ -61,6 +61,7 @@ private Q_SLOTS:
     void onImportListCountChange(int count);
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
+    void onResetBtnClieked();
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -80,7 +81,7 @@ private:
     QWidget *m_pLeftWidget = nullptr;
     QWidget *m_pRightWidget = nullptr;
 
-    ImageViewer *m_pImageViewer = nullptr;
+    ImageWorkspace *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
     QLabel *m_pCropSizeLbl = nullptr;

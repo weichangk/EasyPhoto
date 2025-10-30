@@ -11,6 +11,7 @@
       <file>../qss/light/imgdl.qss</file>
       <file>../qss/light/thumbmk.qss</file>
       <file>../qss/light/importguide.qss</file>
+      <file>../qss/light/imageworkspace.qss</file>
       <file>../qss/light/imageviewer.qss</file>
       <file>../qss/light/gifpreviewer.qss</file>
       <file>../qss/light/freetrialtimerview.qss</file>
@@ -26,6 +27,7 @@
       <file>../qss/dark/imgdl.qss</file>
       <file>../qss/dark/thumbmk.qss</file>
       <file>../qss/dark/importguide.qss</file>
+      <file>../qss/dark/imageworkspace.qss</file>
       <file>../qss/dark/imageviewer.qss</file>
       <file>../qss/dark/gifpreviewer.qss</file>
       <file>../qss/dark/freetrialtimerview.qss</file>

@@ -92,7 +92,7 @@ void CropView::createUi() {
     bodyWidgetLayout->addWidget(m_pRightWidget);
 
     //
-    m_pImageViewer = new ImageViewer(this);
+    m_pImageViewer = new ImageWorkspace(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
     LeftWidgetLayout->addSpacing(8);
@@ -251,6 +251,7 @@ void CropView::connectSig() {
     connect(m_pImportListView, &ImportListView::sigImportListCountChange, this, &CropView::onImportListCountChange);
     connect(m_pImportListView, &ImportListView::sigImportListCurrentChanged, this, &CropView::onImportListCurrentChanged);
     connect(m_pImportGuide, &ImportGuide::sigImportFile, this, &CropView::onGuideImportFile);
+    connect(m_pResetBtn, &IconButton::clicked, this, &CropView::onResetBtnClieked);
 }
 
 void CropView::firstShow() {
@@ -296,6 +297,7 @@ void CropView::gotoWorkspace() {
 
 void CropView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->loadImage(filePath);
+    m_pImageViewer->enableCropMode(true);
 }
 
 void CropView::onLanguageChange() {
@@ -331,4 +333,8 @@ void CropView::onImportListCurrentChanged(const QString filePath) {
 void CropView::onGuideImportFile(const QStringList &filePaths) {
     CropPresenter *prst = dynamic_cast<CropPresenter *>(presenter());
     m_pImportListView->importFile(filePaths);
+}
+
+void CropView::onResetBtnClieked() {
+    m_pImageViewer->resetCropRect();
 }
