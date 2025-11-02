@@ -92,7 +92,7 @@ void CropView::createUi() {
     bodyWidgetLayout->addWidget(m_pRightWidget);
 
     //
-    m_pImageViewer = new ImageWorkspace(this);
+    m_pImageViewer = new ImageWorkWidget(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
     LeftWidgetLayout->addSpacing(8);
@@ -296,8 +296,7 @@ void CropView::gotoWorkspace() {
 }
 
 void CropView::imageViewerLoad(const QString &filePath) {
-    m_pImageViewer->loadImage(filePath);
-    m_pImageViewer->enableCropMode(true);
+    m_pImageViewer->workspace()->loadImage(filePath);
 }
 
 void CropView::onLanguageChange() {
@@ -336,5 +335,5 @@ void CropView::onGuideImportFile(const QStringList &filePaths) {
 }
 
 void CropView::onResetBtnClieked() {
-    m_pImageViewer->resetCropRect();
+    m_pImageViewer->workspace()->resetCropRect();
 }

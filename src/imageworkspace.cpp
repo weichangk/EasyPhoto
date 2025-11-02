@@ -3,459 +3,9 @@
 #include <QPainter>
 #include <QPen>
 #include <QBrush>
-#include <QGraphicsSceneMouseEvent>
-#include <QCursor>
 #include <QPaintEvent>
 #include <QFontMetrics>
 #include <QtMath>
-
-// ==================== CropMaskItem 实现 ====================
-CropMaskItem::CropMaskItem(QGraphicsItem *parent)
-    : QGraphicsItem(parent)
-    , m_imageBounds()
-    , m_cropRect()
-{
-    setZValue(90); // 在图片之上、裁剪框之下
-    setAcceptedMouseButtons(Qt::NoButton); // 不处理事件
-    setFlag(QGraphicsItem::ItemHasNoContents, false); // 确保会绘制
-}
-
-void CropMaskItem::setImageBounds(const QRectF &bounds) {
-    if (m_imageBounds == bounds) return;
-    prepareGeometryChange();
-    m_imageBounds = bounds;
-    update();
-}
-
-void CropMaskItem::setCropRect(const QRectF &cropRect) {
-    if (m_cropRect == cropRect) return;
-    m_cropRect = cropRect;
-    update();
-}
-
-QRectF CropMaskItem::boundingRect() const {
-    return m_imageBounds; // 遮罩绘制区域限定为图片范围
-}
-
-QPainterPath CropMaskItem::shape() const {
-    // 返回空路径，确保不拦截任何鼠标事件
-    return QPainterPath();
-}
-
-void CropMaskItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    if (m_imageBounds.isNull()) return;
-
-    // 计算本地裁剪区域（CropRect 是场景坐标，这里 item 没有位移，直接映射）
-    QRectF cropLocal = m_cropRect;
-    // 遮罩: 图片范围减去裁剪区域
-    QPainterPath path;
-    path.addRect(m_imageBounds);
-    path.addRect(cropLocal);
-    painter->setRenderHint(QPainter::Antialiasing, true);
-    painter->fillPath(path, QColor(0, 0, 0, 100));
-}
-
-// ==================== CropRectItem 实现 ====================
-CropRectItem::CropRectItem(ImageWorkspace *viewer, QGraphicsItem *parent)
-    : QGraphicsRectItem(parent)
-    , m_currentHandle(None)
-    , m_hasMoved(false)
-    , m_imageBounds(QRectF())
-    , m_viewer(viewer)
-{
-    setFlags(QGraphicsItem::ItemSendsGeometryChanges);
-    setAcceptHoverEvents(true);
-    setZValue(100);
-    QPen pen(QColor(255, 255, 255), 2, Qt::SolidLine);
-    setPen(pen);
-    setBrush(Qt::NoBrush);
-
-    // 设置为透明,只在 shape() 中定义可交互区域
-    setAcceptedMouseButtons(Qt::LeftButton);
-}
-
-void CropRectItem::setImageBounds(const QRectF &bounds) {
-    m_imageBounds = bounds;
-}
-
-QPainterPath CropRectItem::shape() const {
-    // 定义可交互区域:只包含8个控制点和中心锚点,其他区域透明穿透
-    QPainterPath path;
-    
-    // 添加8个角/边控制点
-    QList<HandlePosition> handles = {TopLeft, TopRight, BottomLeft, BottomRight,
-                                     Top, Bottom, Left, Right};
-    for (auto pos : handles) {
-        path.addRect(getHandleRect(pos));
-    }
-    
-    // 添加中心锚点(圆形)
-    QRectF r = rect();
-    path.addEllipse(r.center(), m_anchorRadius, m_anchorRadius);
-    
-    return path;
-}
-
-void CropRectItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget) {
-    Q_UNUSED(option);
-    Q_UNUSED(widget);
-    QRectF r = rect();
-
-    // 绘制选区边框
-    painter->setPen(QPen(QColor(255, 255, 255), 2, Qt::SolidLine));
-    painter->setBrush(Qt::NoBrush);
-    painter->drawRect(r);
-
-    // 绘制三等分线(九宫格)
-    painter->setPen(QPen(QColor(255, 255, 255), 1, Qt::DashLine));
-    qreal w = r.width() / 3.0;
-    qreal h = r.height() / 3.0;
-    painter->drawLine(QPointF(r.left() + w, r.top()), QPointF(r.left() + w, r.bottom()));
-    painter->drawLine(QPointF(r.left() + 2*w, r.top()), QPointF(r.left() + 2*w, r.bottom()));
-    painter->drawLine(QPointF(r.left(), r.top() + h), QPointF(r.right(), r.top() + h));
-    painter->drawLine(QPointF(r.left(), r.top() + 2*h), QPointF(r.right(), r.top() + 2*h));
-
-    // 绘制8个角/边控制点
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor(255, 255, 255));
-    QList<HandlePosition> handles = {TopLeft, TopRight, BottomLeft, BottomRight,
-                                     Top, Bottom, Left, Right};
-    for (auto pos : handles) {
-        painter->drawRect(getHandleRect(pos));
-    }
-    
-    // 绘制中心锚点(圆形,用于移动整个选区)
-    QPointF center = r.center();
-    qreal anchorRadius = m_anchorRadius;
-    
-    // 外圈(白色描边)
-    painter->setPen(QPen(QColor(255, 255, 255), 2));
-    painter->setBrush(QColor(100, 100, 100, 180));
-    painter->drawEllipse(center, anchorRadius, anchorRadius);
-    
-    // 内圈(更小的白色实心圆)
-    painter->setPen(Qt::NoPen);
-    painter->setBrush(QColor(255, 255, 255));
-    painter->drawEllipse(center, anchorRadius * 0.4, anchorRadius * 0.4);
-
-    // 绘制尺寸标签(选区内底部中央)
-    QString sizeText = QString("%1 × %2").arg((int)r.width()).arg((int)r.height());
-    QFont font;
-    font.setPixelSize(14);
-    font.setBold(false);
-    painter->setFont(font);
-    
-    QFontMetrics fm(font);
-    QRect textRect = fm.boundingRect(sizeText);
-    int padding = 6;
-    int labelWidth = textRect.width() + padding * 2;
-    int labelHeight = textRect.height() + padding;
-    
-    // 标签位置:选区内底部中央,距离底边 10 像素
-    QPointF labelPos(r.center().x() - labelWidth / 2.0, r.bottom() - labelHeight - 10);
-    QRectF labelBgRect(labelPos, QSizeF(labelWidth, labelHeight));
-    
-    // 绘制标签背景(深色半透明)
-    painter->setBrush(QColor(0, 0, 0, 160));
-    painter->setPen(Qt::NoPen);
-    painter->drawRoundedRect(labelBgRect, 3, 3);
-    
-    // 绘制文字
-    painter->setPen(QColor(255, 255, 255));
-    painter->drawText(labelBgRect, Qt::AlignCenter, sizeText);
-}
-
-QRectF CropRectItem::getHandleRect(HandlePosition pos) const {
-    QRectF r = rect();
-    qreal half = m_handleSize / 2.0;
-    
-    switch (pos) {
-        case TopLeft:     return QRectF(r.topLeft() - QPointF(half, half), QSizeF(m_handleSize, m_handleSize));
-        case TopRight:    return QRectF(r.topRight() - QPointF(half, half), QSizeF(m_handleSize, m_handleSize));
-        case BottomLeft:  return QRectF(r.bottomLeft() - QPointF(half, half), QSizeF(m_handleSize, m_handleSize));
-        case BottomRight: return QRectF(r.bottomRight() - QPointF(half, half), QSizeF(m_handleSize, m_handleSize));
-        case Top:         return QRectF(QPointF(r.center().x() - half, r.top() - half), QSizeF(m_handleSize, m_handleSize));
-        case Bottom:      return QRectF(QPointF(r.center().x() - half, r.bottom() - half), QSizeF(m_handleSize, m_handleSize));
-        case Left:        return QRectF(QPointF(r.left() - half, r.center().y() - half), QSizeF(m_handleSize, m_handleSize));
-        case Right:       return QRectF(QPointF(r.right() - half, r.center().y() - half), QSizeF(m_handleSize, m_handleSize));
-        default:          return QRectF();
-    }
-}
-
-CropRectItem::HandlePosition CropRectItem::getHandleAt(const QPointF &pos) {
-    QRectF r = rect();
-    
-    // 优先检查中心锚点(圆形区域)
-    QPointF center = r.center();
-    qreal distToCenter = QLineF(center, pos).length();
-    if (distToCenter <= m_anchorRadius) {
-        return Center;
-    }
-    
-    // 检查8个角/边控制点
-    QList<HandlePosition> handles = {TopLeft, TopRight, BottomLeft, BottomRight, 
-                                      Top, Bottom, Left, Right};
-    for (auto h : handles) {
-        if (getHandleRect(h).contains(pos)) {
-            return h;
-        }
-    }
-    
-    // 其他区域不响应(实现鼠标穿透效果)
-    return None;
-}
-
-void CropRectItem::mousePressEvent(QGraphicsSceneMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        m_currentHandle = getHandleAt(event->pos());
-        
-        // 如果点击的不是控制点或中心锚点，忽略事件让其穿透
-        if (m_currentHandle == None) {
-            event->ignore();
-            return;
-        }
-        
-        m_dragStartPos = event->scenePos();  // 使用场景坐标
-        // 使用逻辑矩形（场景坐标）：当前 item 的左上角 + 当前 rect 尺寸，避免 sceneBoundingRect 因边界约束造成尺寸跳变
-        m_dragStartRect = QRectF(scenePos(), rect().size());
-        m_hasMoved = false;  // 重置移动标志
-        event->accept();
-    } else {
-        event->ignore();
-    }
-}
-
-QRectF CropRectItem::constrainRectToBounds(const QRectF &sceneRect) const {
-    if (m_imageBounds.isEmpty()) {
-        return sceneRect;
-    }
-    
-    QRectF constrained = sceneRect.normalized();
-    
-    // 直接在场景坐标系中限制
-    if (constrained.left() < m_imageBounds.left()) {
-        constrained.setLeft(m_imageBounds.left());
-    }
-    
-    if (constrained.top() < m_imageBounds.top()) {
-        constrained.setTop(m_imageBounds.top());
-    }
-    
-    if (constrained.right() > m_imageBounds.right()) {
-        constrained.setRight(m_imageBounds.right());
-    }
-    
-    if (constrained.bottom() > m_imageBounds.bottom()) {
-        constrained.setBottom(m_imageBounds.bottom());
-    }
-    
-    return constrained;
-}
-
-QRectF CropRectItem::constrainMoveInBounds(const QRectF &sceneRect) const {
-    if (m_imageBounds.isEmpty()) {
-        return sceneRect;
-    }
-    
-    // 保存原始大小，确保移动时大小绝对不变
-    const qreal width = sceneRect.width();
-    const qreal height = sceneRect.height();
-    
-    // 计算新的左上角位置
-    qreal newX = sceneRect.x();
-    qreal newY = sceneRect.y();
-    
-    // 限制 X 坐标
-    if (newX < m_imageBounds.left()) {
-        newX = m_imageBounds.left();
-    } else if (newX + width > m_imageBounds.right()) {
-        newX = m_imageBounds.right() - width;
-    }
-    
-    // 限制 Y 坐标
-    if (newY < m_imageBounds.top()) {
-        newY = m_imageBounds.top();
-    } else if (newY + height > m_imageBounds.bottom()) {
-        newY = m_imageBounds.bottom() - height;
-    }
-    
-    // 创建新矩形，严格使用原始大小
-    return QRectF(newX, newY, width, height);
-}
-
-void CropRectItem::mouseMoveEvent(QGraphicsSceneMouseEvent *event) {
-    if (m_currentHandle == None) {
-        event->ignore();
-        return;
-    }
-    
-    m_hasMoved = true;  // 标记已发生移动
-    
-    QPointF sceneDelta = event->scenePos() - m_dragStartPos;
-    QRectF newSceneRect = m_dragStartRect;
-    
-    if (m_currentHandle == Center) {
-        // 移动整个选区 - 使用原始大小创建新矩形
-        qreal newX = m_dragStartRect.x() + sceneDelta.x();
-        qreal newY = m_dragStartRect.y() + sceneDelta.y();
-        newSceneRect = QRectF(newX, newY, m_dragStartRect.width(), m_dragStartRect.height());
-        
-        // 限制在图片边界内（保持大小不变）
-        newSceneRect = constrainMoveInBounds(newSceneRect);
-        
-        // 转换为本地坐标系统
-        setRect(0, 0, newSceneRect.width(), newSceneRect.height());
-        setPos(newSceneRect.topLeft());
-        
-        // 通知更新遮罩
-    if (m_viewer) m_viewer->notifyCropRectChangedFromItem();
-        update();
-        event->accept();
-        return;
-    }
-    
-    // 调整选区大小（在场景坐标系中）
-    switch (m_currentHandle) {
-        case TopLeft:
-            newSceneRect.setTopLeft(m_dragStartRect.topLeft() + sceneDelta);
-            break;
-        case TopRight:
-            newSceneRect.setTopRight(m_dragStartRect.topRight() + sceneDelta);
-            break;
-        case BottomLeft:
-            newSceneRect.setBottomLeft(m_dragStartRect.bottomLeft() + sceneDelta);
-            break;
-        case BottomRight:
-            newSceneRect.setBottomRight(m_dragStartRect.bottomRight() + sceneDelta);
-            break;
-        case Top:
-            newSceneRect.setTop(m_dragStartRect.top() + sceneDelta.y());
-            break;
-        case Bottom:
-            newSceneRect.setBottom(m_dragStartRect.bottom() + sceneDelta.y());
-            break;
-        case Left:
-            newSceneRect.setLeft(m_dragStartRect.left() + sceneDelta.x());
-            break;
-        case Right:
-            newSceneRect.setRight(m_dragStartRect.right() + sceneDelta.x());
-            break;
-        default:
-            break;
-    }
-    
-    newSceneRect = newSceneRect.normalized();
-    
-    // 限制在图片边界内
-    newSceneRect = constrainRectToBounds(newSceneRect);
-    
-    // 确保矩形有效（宽高至少为20像素）
-    if (newSceneRect.width() >= 20 && newSceneRect.height() >= 20) {
-        // 转换为本地坐标系统
-        setRect(0, 0, newSceneRect.width(), newSceneRect.height());
-        setPos(newSceneRect.topLeft());
-    }
-    
-    if (m_viewer) m_viewer->notifyCropRectChangedFromItem();
-    update();
-    event->accept();
-}
-
-void CropRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event) {
-    if (event->button() == Qt::LeftButton && m_currentHandle != None) {
-        // 使用当前逻辑矩形（避免 sceneBoundingRect 可能的放大）
-        QRectF currentSceneRect(scenePos(), rect().size());
-
-        if (m_hasMoved) {
-            if (m_currentHandle == Center) {
-                // 已移动：保持大小不变，仅位置对齐到边界
-                QRectF finalRect = constrainMoveInBounds(currentSceneRect);
-                setRect(0, 0, finalRect.width(), finalRect.height());
-                setPos(finalRect.topLeft());
-            } else {
-                // 已调整大小：限制在边界内
-                QRectF bounded = constrainRectToBounds(currentSceneRect);
-                setRect(0, 0, bounded.width(), bounded.height());
-                setPos(bounded.topLeft());
-            }
-            if (m_viewer) m_viewer->notifyCropRectChangedFromItem();
-            update();
-        } // 未移动则不做任何尺寸/位置修改，避免尺寸跳变
-        
-        m_currentHandle = None;
-        m_hasMoved = false;
-        
-        // 释放后，根据当前鼠标位置重新设置光标
-        HandlePosition handle = getHandleAt(event->pos());
-        if (handle == None) {
-            // 如果在非交互区域，取消光标让 View 的光标生效
-            m_viewer->unsetCursor();
-        } else {
-            // 如果在控制点或锚点上，设置对应的光标
-            switch (handle) {
-                case TopLeft:
-                case BottomRight:
-                    m_viewer->setCursor(Qt::SizeFDiagCursor);
-                    break;
-                case TopRight:
-                case BottomLeft:
-                    m_viewer->setCursor(Qt::SizeBDiagCursor);
-                    break;
-                case Top:
-                case Bottom:
-                    m_viewer->setCursor(Qt::SizeVerCursor);
-                    break;
-                case Left:
-                case Right:
-                    m_viewer->setCursor(Qt::SizeHorCursor);
-                    break;
-                case Center:
-                    m_viewer->setCursor(Qt::SizeAllCursor);
-                    break;
-                default:
-                    m_viewer->unsetCursor();
-                    break;
-            }
-        }
-    }
-    event->accept();
-}
-
-void CropRectItem::hoverMoveEvent(QGraphicsSceneHoverEvent *event) {
-    HandlePosition handle = getHandleAt(event->pos());
-    
-    switch (handle) {
-        case TopLeft:
-        case BottomRight:
-            m_viewer->setCursor(Qt::SizeFDiagCursor);
-            break;
-        case TopRight:
-        case BottomLeft:
-            m_viewer->setCursor(Qt::SizeBDiagCursor);
-            break;
-        case Top:
-        case Bottom:
-            m_viewer->setCursor(Qt::SizeVerCursor);
-            break;
-        case Left:
-        case Right:
-            m_viewer->setCursor(Qt::SizeHorCursor);
-            break;
-        case Center:
-            m_viewer->setCursor(Qt::SizeAllCursor); // 中心锚点显示移动光标
-            break;
-        default:
-            m_viewer->unsetCursor(); // 取消光标设置，让 View 的光标生效（穿透效果）
-            break;
-    }
-}
-
-void CropRectItem::hoverLeaveEvent(QGraphicsSceneHoverEvent *event) {
-    Q_UNUSED(event);
-    m_viewer->unsetCursor(); // 离开时取消光标，恢复 View 的光标
-}
 
 // ==================== ImageWorkspace 实现 ====================
 ImageWorkspace::ImageWorkspace(QWidget *parent) :
@@ -464,9 +14,11 @@ ImageWorkspace::ImageWorkspace(QWidget *parent) :
     m_pixmapItem(new QGraphicsPixmapItem()),
     m_scaleFactor(1.0),
     m_isPanning(false),
-    m_cropMode(false),
-    m_cropRect(nullptr),
-    m_cropMask(nullptr) {
+    m_mode(ModeNone),
+    m_cropAspectMode(CropAspectFree),
+    m_cropOverlay(),
+    m_overlayHandle(HandleNone),
+    m_draggingOverlay(false) {
     setObjectName("ImageWorkspace");
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -488,10 +40,6 @@ void ImageWorkspace::loadImage(const QString &filePath) {
     m_pixmapItem->setPixmap(pixmap);
     m_scene->setSceneRect(pixmap.rect());
     setFitView();
-    // 如果已有裁剪遮罩与裁剪框，更新其边界
-    if (m_cropMask) m_cropMask->setImageBounds(m_pixmapItem->sceneBoundingRect());
-    if (m_cropRect) m_cropRect->setImageBounds(m_pixmapItem->sceneBoundingRect());
-    cropRectItemGeometryChanged();
 }
 
 void ImageWorkspace::setFitView() {
@@ -514,7 +62,7 @@ void ImageWorkspace::zoomIn() {
 }
 
 void ImageWorkspace::zoomOut() {
-    scale(1 / 1.01, 1 / 1.01);  // 每次缩小1%
+    scale(1 / 1.01, 1 / 1.01);
     m_scaleFactor /= 1.01;
     emit scaleFactorChanged(m_scaleFactor);
     viewport()->update();
@@ -529,179 +77,704 @@ void ImageWorkspace::updateScaleFactor() {
 }
 
 void ImageWorkspace::wheelEvent(QWheelEvent *event) {
-    if (event->angleDelta().y() > 0) {
-        zoomIn();
-    } else {
-        zoomOut();
-    }
-}
-
-void ImageWorkspace::enableCropMode(bool enable) {
-    m_cropMode = enable;
-    
-    if (enable) {
-        // 进入裁剪模式
-        setCursor(Qt::ArrowCursor);
-        
-        // 创建裁剪框和遮罩，默认覆盖整个图片
-        if (!m_pixmapItem->pixmap().isNull()) {
-            QRectF imageRect = m_pixmapItem->sceneBoundingRect();
-            if (!m_cropMask) {
-                m_cropMask = new CropMaskItem();
-                m_scene->addItem(m_cropMask);
-                m_cropMask->setImageBounds(imageRect);
+    if (m_mode == ModeCrop && !m_cropOverlay.isNull()) {
+        // ModeCrop 模式下缩小时检查限制：图片投影不能缩到选区边界以内
+        if (event->angleDelta().y() < 0) {
+            // 先执行缩小
+            qreal oldScale = m_scaleFactor;
+            scale(1 / 1.01, 1 / 1.01);
+            m_scaleFactor /= 1.01;
+            
+            // 检查缩小后图片投影是否仍包含选区
+            QRect newImageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+            
+            if (!newImageVp.contains(m_cropOverlay)) {
+                // 缩小后图片不能完全包含选区，回退缩放
+                resetTransform();
+                scale(oldScale, oldScale);
+                m_scaleFactor = oldScale;
+                emit scaleFactorChanged(m_scaleFactor);
+                viewport()->update();
+                return;
             }
-            if (!m_cropRect) {
-                m_cropRect = new CropRectItem(this);
-                m_scene->addItem(m_cropRect);
-                m_cropRect->setImageBounds(imageRect);
-                m_cropRect->setRect(QRectF(0, 0, imageRect.width(), imageRect.height()));
-                m_cropRect->setPos(imageRect.topLeft());
-            }
-            cropRectItemGeometryChanged();
+            
+            // 缩放有效，发射信号
+            emit scaleFactorChanged(m_scaleFactor);
+            viewport()->update();
+        } else {
+            zoomIn();
         }
     } else {
-        // 退出裁剪模式
-        setCursor(Qt::ArrowCursor);
-        clearCropRect();
+        if (event->angleDelta().y() > 0) {
+            zoomIn();
+        } else {
+            zoomOut();
+        }
     }
 }
 
-bool ImageWorkspace::isCropMode() const {
-    return m_cropMode;
+void ImageWorkspace::setWorkspaceMode(WorkspaceMode mode) {
+    if (m_mode == mode) return;
+    // 清理当前模式资源
+    if (m_mode == ModeCrop) {
+        m_cropOverlay = QRect();
+    }
+    m_mode = mode;
+    // 初始化新模式
+    if (m_mode == ModeCrop) {
+        initOverlayFromVisibleImage();
+    }
+    viewport()->update();
+    emit modeChanged(m_mode);
+}
+
+void ImageWorkspace::setCropAspectRatioMode(CropAspectRatioMode mode) {
+    if (m_cropAspectMode == mode) return;
+    m_cropAspectMode = mode;
+    
+    // 如果当前在裁剪模式，重新初始化选区为居中且最大尺寸
+    if (m_mode == ModeCrop && m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+        // 获取图片在视口中的投影区域
+        QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+        if (imageVp.isEmpty()) return;
+        
+        qreal aspectRatio = getAspectRatio();
+        
+        if (aspectRatio > 0.0) {
+            // 按比例模式：计算在图片范围内能容纳的最大选区
+            int maxWidth = imageVp.width();
+            int maxHeight = imageVp.height();
+            
+            int fitWidth = maxWidth;
+            int fitHeight = qRound(fitWidth / aspectRatio);
+            
+            if (fitHeight > maxHeight) {
+                fitHeight = maxHeight;
+                fitWidth = qRound(fitHeight * aspectRatio);
+            }
+            
+            // 创建居中的选区
+            m_cropOverlay = QRect(0, 0, fitWidth, fitHeight);
+            m_cropOverlay.moveCenter(imageVp.center());
+        } else {
+            // 自由模式：铺满整个图片
+            m_cropOverlay = imageVp;
+        }
+        
+        viewport()->update();
+        emit cropRectChanged(getCropRect());
+    }
 }
 
 void ImageWorkspace::resetCropRect() {
-    if (m_cropRect && !m_pixmapItem->pixmap().isNull()) {
-        QRectF imageRect = m_pixmapItem->sceneBoundingRect();
-        m_cropRect->setImageBounds(imageRect);
-        m_cropRect->setRect(QRectF(0, 0, imageRect.width(), imageRect.height()));
-        m_cropRect->setPos(imageRect.topLeft());
-        if (m_cropMask) m_cropMask->setImageBounds(imageRect);
-        cropRectItemGeometryChanged();
+    if (m_mode == ModeCrop) {
+        initOverlayFromVisibleImage();
+        viewport()->update();
     }
 }
 
 QRectF ImageWorkspace::getCropRect() const {
-    if (m_cropRect) {
-        QRectF rect = m_cropRect->rect();
-        rect.translate(m_cropRect->pos());
-        return rect;
+    if (m_mode == ModeCrop) {
+        if (m_cropOverlay.isNull()) return QRectF();
+        return overlayViewportRectToScene(m_cropOverlay);
     }
     return QRectF();
 }
 
 QRect ImageWorkspace::getCropRectInImage() const {
-    if (!m_cropRect || m_pixmapItem->pixmap().isNull()) {
-        return QRect();
-    }
-    
+    if (m_pixmapItem->pixmap().isNull()) return QRect();
     QRectF sceneRect = getCropRect();
+    if (sceneRect.isNull()) return QRect();
     QRectF itemRect = m_pixmapItem->mapRectFromScene(sceneRect);
-    
     return itemRect.toRect();
 }
 
 void ImageWorkspace::clearCropRect() {
-    if (m_cropRect) {
-        m_scene->removeItem(m_cropRect);
-        delete m_cropRect;
-        m_cropRect = nullptr;
+    if (m_mode == ModeCrop) {
+        m_cropOverlay = QRect();
     }
-    if (m_cropMask) {
-        m_scene->removeItem(m_cropMask);
-        delete m_cropMask;
-        m_cropMask = nullptr;
-    }
+    viewport()->update();
 }
 
 QPixmap ImageWorkspace::getCroppedImage() const {
-    if (!m_cropRect || m_pixmapItem->pixmap().isNull()) {
-        return QPixmap();
-    }
-    
+    if (m_mode==ModeNone || m_pixmapItem->pixmap().isNull()) return QPixmap();
     QRect cropRect = getCropRectInImage();
-    return m_pixmapItem->pixmap().copy(cropRect);
+    if (cropRect.isEmpty()) return QPixmap();
+    return m_pixmapItem->pixmap().copy(cropRect.intersected(m_pixmapItem->pixmap().rect()));
 }
 
 void ImageWorkspace::mousePressEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        // 先传递给 scene，让 CropRectItem 有机会处理
-        QGraphicsView::mousePressEvent(event);
-        
-        // 如果事件没有被接受（穿透了），则启动平移
-        if (!event->isAccepted()) {
-            m_isPanning = true;
-            m_lastMousePos = event->pos();
-            setCursor(Qt::ClosedHandCursor);
-            event->accept();
+    if (event->button()==Qt::LeftButton) {
+        if (m_mode==ModeCrop) {
+            m_overlayHandle = hitTestOverlayHandle(event->pos());
+            if (m_overlayHandle!=HandleNone) {
+                // 角/边缩放 或 中心移动
+                m_draggingOverlay=true;
+                m_dragStartPos=event->pos();
+                m_dragStartOverlay=m_cropOverlay;
+                updateCursorForHandle(m_overlayHandle);
+                event->accept();
+                return;
+            }
+            // 选区外：进入图片平移
+            m_isPanning=true; m_lastMousePos=event->pos(); setCursor(Qt::ClosedHandCursor); event->accept(); return;
         }
-    } else {
-        QGraphicsView::mousePressEvent(event);
+        // 进入平移
+        m_isPanning=true; m_lastMousePos=event->pos(); setCursor(Qt::ClosedHandCursor); event->accept(); return;
     }
+    QGraphicsView::mousePressEvent(event);
 }
 
 void ImageWorkspace::mouseMoveEvent(QMouseEvent *event) {
+    if (m_mode==ModeCrop && m_draggingOverlay) {
+        QPoint delta = event->pos() - m_dragStartPos;
+        QRect r = m_dragStartOverlay;
+        
+        switch (m_overlayHandle) {
+            case HandleTopLeft: r.setTopLeft((m_dragStartOverlay.topLeft()+delta)); break;
+            case HandleTopRight: r.setTopRight((m_dragStartOverlay.topRight()+delta)); break;
+            case HandleBottomLeft: r.setBottomLeft((m_dragStartOverlay.bottomLeft()+delta)); break;
+            case HandleBottomRight: r.setBottomRight((m_dragStartOverlay.bottomRight()+delta)); break;
+            case HandleTop: r.setTop(m_dragStartOverlay.top()+delta.y()); break;
+            case HandleBottom: r.setBottom(m_dragStartOverlay.bottom()+delta.y()); break;
+            case HandleLeft: r.setLeft(m_dragStartOverlay.left()+delta.x()); break;
+            case HandleRight: r.setRight(m_dragStartOverlay.right()+delta.x()); break;
+            case HandleCenter: r.translate(delta); break;
+            default: break;
+        }
+        // 归一化并最小尺寸（中心拖动不需要归一化改变形状，只是平移）
+        if (m_overlayHandle != HandleCenter) {
+            r = r.normalized();
+            if (r.width() < 20) r.setWidth(20);
+            if (r.height() < 20) r.setHeight(20);
+            
+            // 获取图片投影区域
+            QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+            
+            // 应用比例约束（如果不是自由模式）
+            qreal aspectRatio = getAspectRatio();
+            if (aspectRatio > 0.0 && !imageVp.isEmpty()) {
+                // 应用比例约束
+                r = constrainToAspectRatio(r, m_overlayHandle);
+                
+                // 检查是否超出图片边界（任意一条边超出都算超出）
+                if (r.left() < imageVp.left() || r.top() < imageVp.top() ||
+                    r.right() > imageVp.right() || r.bottom() > imageVp.bottom()) {
+                    
+                    // 计算在不超出边界的情况下，能容纳的最大尺寸（保持比例）
+                    int maxWidth = imageVp.width();
+                    int maxHeight = imageVp.height();
+                    
+                    // 从拖动起始位置的对应锚点开始计算可用空间
+                    int availableWidth = maxWidth;
+                    int availableHeight = maxHeight;
+                    
+                    // 根据句柄确定可用空间
+                    switch (m_overlayHandle) {
+                        case HandleTopLeft:
+                            availableWidth = m_dragStartOverlay.right() - imageVp.left();
+                            availableHeight = m_dragStartOverlay.bottom() - imageVp.top();
+                            break;
+                        case HandleTopRight:
+                            availableWidth = imageVp.right() - m_dragStartOverlay.left();
+                            availableHeight = m_dragStartOverlay.bottom() - imageVp.top();
+                            break;
+                        case HandleBottomLeft:
+                            availableWidth = m_dragStartOverlay.right() - imageVp.left();
+                            availableHeight = imageVp.bottom() - m_dragStartOverlay.top();
+                            break;
+                        case HandleBottomRight:
+                            availableWidth = imageVp.right() - m_dragStartOverlay.left();
+                            availableHeight = imageVp.bottom() - m_dragStartOverlay.top();
+                            break;
+                        case HandleTop:
+                        case HandleBottom:
+                            availableHeight = (m_overlayHandle == HandleTop) ? 
+                                (m_dragStartOverlay.bottom() - imageVp.top()) : 
+                                (imageVp.bottom() - m_dragStartOverlay.top());
+                            // 宽度需要居中，所以可用空间受限
+                            availableWidth = qMin(
+                                (m_dragStartOverlay.center().x() - imageVp.left()) * 2,
+                                (imageVp.right() - m_dragStartOverlay.center().x()) * 2
+                            );
+                            break;
+                        case HandleLeft:
+                        case HandleRight:
+                            availableWidth = (m_overlayHandle == HandleLeft) ? 
+                                (m_dragStartOverlay.right() - imageVp.left()) : 
+                                (imageVp.right() - m_dragStartOverlay.left());
+                            // 高度需要居中，所以可用空间受限
+                            availableHeight = qMin(
+                                (m_dragStartOverlay.center().y() - imageVp.top()) * 2,
+                                (imageVp.bottom() - m_dragStartOverlay.center().y()) * 2
+                            );
+                            break;
+                        default:
+                            break;
+                    }
+                    
+                    // 按比例计算能容纳的最大尺寸
+                    int fitWidth = availableWidth;
+                    int fitHeight = qRound(fitWidth / aspectRatio);
+                    
+                    if (fitHeight > availableHeight) {
+                        fitHeight = availableHeight;
+                        fitWidth = qRound(fitHeight * aspectRatio);
+                    }
+                    
+                    // 设置限制后的尺寸
+                    r.setSize(QSize(fitWidth, fitHeight));
+                    
+                    // 根据句柄重新定位
+                    switch (m_overlayHandle) {
+                        case HandleTopLeft:     r.moveBottomRight(m_dragStartOverlay.bottomRight()); break;
+                        case HandleTopRight:    r.moveBottomLeft(m_dragStartOverlay.bottomLeft()); break;
+                        case HandleBottomLeft:  r.moveTopRight(m_dragStartOverlay.topRight()); break;
+                        case HandleBottomRight: r.moveTopLeft(m_dragStartOverlay.topLeft()); break;
+                        case HandleTop:         r.moveBottom(m_dragStartOverlay.bottom()); 
+                                                r.moveCenter(QPoint(m_dragStartOverlay.center().x(), r.center().y())); 
+                                                break;
+                        case HandleBottom:      r.moveTop(m_dragStartOverlay.top()); 
+                                                r.moveCenter(QPoint(m_dragStartOverlay.center().x(), r.center().y())); 
+                                                break;
+                        case HandleLeft:        r.moveRight(m_dragStartOverlay.right()); 
+                                                r.moveCenter(QPoint(r.center().x(), m_dragStartOverlay.center().y())); 
+                                                break;
+                        case HandleRight:       r.moveLeft(m_dragStartOverlay.left()); 
+                                                r.moveCenter(QPoint(r.center().x(), m_dragStartOverlay.center().y())); 
+                                                break;
+                        default:
+                            break;
+                    }
+                }
+                
+                // 最终确保在图片范围内
+                clampOverlayToImage(r, false);
+            } else {
+                // 自由模式：直接限制边界
+                clampOverlayToImage(r, false);
+            }
+        } else {
+            // 移动时：保持大小不变
+            clampOverlayToImage(r, true);
+        }
+        m_cropOverlay = r;
+        
+        viewport()->update();
+        event->accept();
+        return;
+    }
     if (m_isPanning) {
         QPointF delta = mapToScene(event->pos()) - mapToScene(m_lastMousePos);
         translate(delta.x(), delta.y());
         m_lastMousePos = event->pos();
+        viewport()->update();
+        event->accept();
+        return;
     }
+    if (m_mode==ModeCrop) { updateCursorForHandle(hitTestOverlayHandle(event->pos())); }
     QGraphicsView::mouseMoveEvent(event);
 }
 
-// 内部辅助：裁剪框几何变化
-void ImageWorkspace::cropRectItemGeometryChanged() {
-    if (!m_cropRect) return;
-    QRectF sceneRect = getCropRect();
-    if (m_cropMask) m_cropMask->setCropRect(sceneRect);
-    emit cropRectChanged(sceneRect);
-}
-
 void ImageWorkspace::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton) {
-        if (m_isPanning) {
-            m_isPanning = false;
-            // 裁剪模式下恢复箭头光标，非裁剪模式也恢复箭头光标
-            setCursor(Qt::ArrowCursor);
+    if (event->button()==Qt::LeftButton) {
+        if (m_mode==ModeCrop && m_draggingOverlay) {
+            m_draggingOverlay=false; 
+            m_overlayHandle=HandleNone; 
+            updateCursorForHandle(hitTestOverlayHandle(event->pos())); 
+            emit cropRectChanged(getCropRect());
+            event->accept(); 
+            return; 
         }
+        if (m_isPanning) { m_isPanning=false; setCursor(Qt::ArrowCursor); event->accept(); return; }
     }
     QGraphicsView::mouseReleaseEvent(event);
 }
 
 void ImageWorkspace::paintEvent(QPaintEvent *event) {
-    // 先绘制基类内容（图片和场景）
     QGraphicsView::paintEvent(event);
-    
-    // 在视图左下角绘制缩放比例
     QPainter painter(viewport());
     painter.setRenderHint(QPainter::Antialiasing);
     
-    // 准备文字
-    QString scaleText = QString("%1%").arg(qRound(m_scaleFactor * 100));
-    QFont font;
-    font.setPixelSize(14);
-    font.setBold(true);
-    painter.setFont(font);
+    // 绘制场景边框（画布边框）
+    if (m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+        QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+        if (!imageVp.isEmpty()) {
+            painter.setPen(QPen(QColor(150, 150, 150), 1, Qt::DashLine));
+            painter.setBrush(Qt::NoBrush);
+            painter.drawRect(imageVp);
+        }
+    }
     
-    // 计算文字大小
-    QFontMetrics fm(font);
-    QRect textRect = fm.boundingRect(scaleText);
-    int padding = 8;
-    int labelWidth = textRect.width() + padding * 2;
-    int labelHeight = textRect.height() + padding;
+    // 绘制裁剪覆盖
+    if (m_mode==ModeCrop && !m_cropOverlay.isNull()) {
+        paintOverlay(painter);
+    }
+}
+
+void ImageWorkspace::resizeEvent(QResizeEvent *event) {
+    // ModeCrop 模式下，保存选区在图片中的相对位置和大小（比例）
+    QRectF relativeRect; // 相对于图片的归一化矩形 [0.0, 1.0]
+    bool hadCropOverlay = false;
     
-    // 位置：左下角，距离边缘 10 像素
-    int margin = 10;
-    QRect labelBgRect(margin, viewport()->height() - labelHeight - margin, 
-                     labelWidth, labelHeight);
+    if (m_mode == ModeCrop && !m_cropOverlay.isNull() && m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+        hadCropOverlay = true;
+        
+        // 将视口选区转换为场景坐标
+        QRectF overlaySceneRect = overlayViewportRectToScene(m_cropOverlay);
+        
+        // 获取图片在场景中的矩形
+        QRectF imageSceneRect = m_pixmapItem->sceneBoundingRect();
+        
+        // 计算选区相对于图片的归一化矩形（0.0 ~ 1.0）
+        if (!imageSceneRect.isEmpty()) {
+            qreal relLeft = (overlaySceneRect.left() - imageSceneRect.left()) / imageSceneRect.width();
+            qreal relTop = (overlaySceneRect.top() - imageSceneRect.top()) / imageSceneRect.height();
+            qreal relWidth = overlaySceneRect.width() / imageSceneRect.width();
+            qreal relHeight = overlaySceneRect.height() / imageSceneRect.height();
+            
+            relativeRect = QRectF(relLeft, relTop, relWidth, relHeight);
+        }
+    }
     
-    // 绘制半透明背景
-    painter.setBrush(QColor(0, 0, 0, 160));
+    QGraphicsView::resizeEvent(event);
+    
+    // 窗口改变后，根据保存的相对位置恢复选区
+    if (hadCropOverlay && !relativeRect.isNull() && m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+        // 获取新的图片在场景中的矩形
+        QRectF imageSceneRect = m_pixmapItem->sceneBoundingRect();
+        
+        if (!imageSceneRect.isEmpty()) {
+            // 根据归一化比例计算新的选区场景坐标
+            qreal newLeft = imageSceneRect.left() + relativeRect.left() * imageSceneRect.width();
+            qreal newTop = imageSceneRect.top() + relativeRect.top() * imageSceneRect.height();
+            qreal newWidth = relativeRect.width() * imageSceneRect.width();
+            qreal newHeight = relativeRect.height() * imageSceneRect.height();
+            
+            QRectF newOverlayScene(newLeft, newTop, newWidth, newHeight);
+            
+            // 转换回视口坐标
+            m_cropOverlay = overlaySceneRectToViewport(newOverlayScene);
+            
+            // 约束选区在图片范围内
+            clampOverlayToImage(m_cropOverlay);
+            
+            // 触发重绘
+            viewport()->update();
+        }
+    }
+}
+
+// ==================== 新裁剪覆盖实现 ====================
+QRectF ImageWorkspace::overlayViewportRectToScene(const QRect &vpRect) const {
+    if (vpRect.isNull()) return QRectF();
+    QPointF tlScene = mapToScene(vpRect.topLeft());
+    QPointF brScene = mapToScene(vpRect.bottomRight());
+    return QRectF(tlScene, brScene).normalized();
+}
+
+QRect ImageWorkspace::overlaySceneRectToViewport(const QRectF &sceneRect) const {
+    if (sceneRect.isNull()) return QRect();
+    QPoint tl = mapFromScene(sceneRect.topLeft());
+    QPoint br = mapFromScene(sceneRect.bottomRight());
+    return QRect(tl, br).normalized();
+}
+
+void ImageWorkspace::initOverlayFromVisibleImage() {
+    if (m_pixmapItem->pixmap().isNull()) { m_cropOverlay = QRect(); return; }
+    // 可见图像区域：当前图片在视口的投影
+    QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+    if (imageVp.isEmpty()) { m_cropOverlay = QRect(); return; }
+    // 初始选区铺满整个可见图片
+    m_cropOverlay = imageVp;
+    emit cropRectChanged(getCropRect());
+}
+
+void ImageWorkspace::clampOverlayToImage(QRect &overlay, bool preserveSize) {
+    if (overlay.isNull()) return;
+    QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+    if (imageVp.isEmpty()) { overlay = QRect(); return; }
+    
+    if (preserveSize) {
+        // 移动模式：保持大小不变，只调整位置
+        int width = overlay.width();
+        int height = overlay.height();
+        int newX = overlay.x();
+        int newY = overlay.y();
+        
+        // 限制 X 坐标
+        if (newX < imageVp.left()) {
+            newX = imageVp.left();
+        } else if (newX + width > imageVp.right()) {
+            newX = imageVp.right() - width;
+        }
+        
+        // 限制 Y 坐标
+        if (newY < imageVp.top()) {
+            newY = imageVp.top();
+        } else if (newY + height > imageVp.bottom()) {
+            newY = imageVp.bottom() - height;
+        }
+        
+        overlay = QRect(newX, newY, width, height);
+    } else {
+        // 缩放模式：限制边界但允许改变大小
+        if (overlay.left() < imageVp.left()) overlay.setLeft(imageVp.left());
+        if (overlay.top() < imageVp.top()) overlay.setTop(imageVp.top());
+        if (overlay.right() > imageVp.right()) overlay.setRight(imageVp.right());
+        if (overlay.bottom() > imageVp.bottom()) overlay.setBottom(imageVp.bottom());
+    }
+}
+
+
+ImageWorkspace::OverlayHandle ImageWorkspace::hitTestOverlayHandle(const QPoint &vpPos) const {
+    if (m_mode!=ModeCrop || m_cropOverlay.isNull()) return HandleNone;
+    
+    const int hs = m_handleVisualSize;
+    const qreal anchorRadius = 12.0;
+    
+    auto rectAt=[&](int x,int y){return QRect(x-hs/2,y-hs/2,hs,hs);};
+    
+    // 四个角控制点
+    if (rectAt(m_cropOverlay.left(), m_cropOverlay.top()).contains(vpPos)) return HandleTopLeft;
+    if (rectAt(m_cropOverlay.right(), m_cropOverlay.top()).contains(vpPos)) return HandleTopRight;
+    if (rectAt(m_cropOverlay.left(), m_cropOverlay.bottom()).contains(vpPos)) return HandleBottomLeft;
+    if (rectAt(m_cropOverlay.right(), m_cropOverlay.bottom()).contains(vpPos)) return HandleBottomRight;
+    
+    // 四条边中点控制点
+    if (rectAt(m_cropOverlay.center().x(), m_cropOverlay.top()).contains(vpPos)) return HandleTop;
+    if (rectAt(m_cropOverlay.center().x(), m_cropOverlay.bottom()).contains(vpPos)) return HandleBottom;
+    if (rectAt(m_cropOverlay.left(), m_cropOverlay.center().y()).contains(vpPos)) return HandleLeft;
+    if (rectAt(m_cropOverlay.right(), m_cropOverlay.center().y()).contains(vpPos)) return HandleRight;
+    
+    // 中心锚点（圆形区域）
+    QPointF center = m_cropOverlay.center();
+    qreal distToCenter = QLineF(center, vpPos).length();
+    if (distToCenter <= anchorRadius) {
+        return HandleCenter;
+    }
+    
+    // 其他区域返回 None，实现鼠标穿透
+    return HandleNone;
+}
+
+qreal ImageWorkspace::getMinScaleForCropOverlay() const {
+    if (m_pixmapItem->pixmap().isNull() || m_cropOverlay.isNull()) {
+        return 0.0;
+    }
+    
+    // 获取图片原始尺寸
+    QSize imgSize = m_pixmapItem->pixmap().size();
+    
+    // 选区在视口中的尺寸（像素）
+    int cropWidth = m_cropOverlay.width();
+    int cropHeight = m_cropOverlay.height();
+    
+    // 计算需要的最小缩放：图片在该缩放下的视口投影必须至少等于选区大小
+    // 在缩放 s 下，图片宽度在视口的投影 = imgSize.width() * s
+    // 需要：imgSize.width() * s >= cropWidth
+    // 所以：s >= cropWidth / imgSize.width()
+    qreal minScaleW = (qreal)cropWidth / (qreal)imgSize.width();
+    qreal minScaleH = (qreal)cropHeight / (qreal)imgSize.height();
+    
+    // 取较大值，确保两个维度都能覆盖选区
+    // 加一个小的容差避免浮点误差
+    return qMax(minScaleW, minScaleH) * 1.001;
+}
+
+void ImageWorkspace::updateCursorForHandle(OverlayHandle h) {
+    switch (h) {
+        case HandleTopLeft: case HandleBottomRight: setCursor(Qt::SizeFDiagCursor); break;
+        case HandleTopRight: case HandleBottomLeft: setCursor(Qt::SizeBDiagCursor); break;
+        case HandleTop: case HandleBottom: setCursor(Qt::SizeVerCursor); break;
+        case HandleLeft: case HandleRight: setCursor(Qt::SizeHorCursor); break;
+        case HandleCenter: setCursor(Qt::SizeAllCursor); break;
+        default: setCursor(Qt::ArrowCursor); break; // 选区外部/无锚点
+    }
+}
+
+void ImageWorkspace::paintOverlay(QPainter &painter) {
+    if (m_cropOverlay.isNull()) return;
+    
+    // 获取图片在视口中的投影区域
+    QRect imageVp = overlaySceneRectToViewport(m_pixmapItem->sceneBoundingRect());
+    if (imageVp.isEmpty()) return;
+    
+    // 半透明遮罩：只覆盖图片区域，不覆盖整个视口
+    QPainterPath path; 
+    path.addRect(imageVp);  // 图片区域
+    path.addRect(m_cropOverlay);  // 选区
+    painter.fillPath(path, QColor(0,0,0,120));
+    
+    // 边框
+    painter.setPen(QPen(Qt::white,2)); painter.setBrush(Qt::NoBrush); painter.drawRect(m_cropOverlay);
+    // 九宫格
+    painter.setPen(QPen(Qt::white,1,Qt::DashLine));
+    int x1=m_cropOverlay.left()+m_cropOverlay.width()/3; int x2=m_cropOverlay.left()+m_cropOverlay.width()*2/3;
+    int y1=m_cropOverlay.top()+m_cropOverlay.height()/3; int y2=m_cropOverlay.top()+m_cropOverlay.height()*2/3;
+    painter.drawLine(QPoint(x1,m_cropOverlay.top()), QPoint(x1,m_cropOverlay.bottom()));
+    painter.drawLine(QPoint(x2,m_cropOverlay.top()), QPoint(x2,m_cropOverlay.bottom()));
+    painter.drawLine(QPoint(m_cropOverlay.left(), y1), QPoint(m_cropOverlay.right(), y1));
+    painter.drawLine(QPoint(m_cropOverlay.left(), y2), QPoint(m_cropOverlay.right(), y2));
+    
+    // 绘制控制点和锚点（与 Resize 模式一致）
+    painter.setPen(Qt::NoPen); painter.setBrush(Qt::white);
+    int hs=m_handleVisualSize; 
+    auto drawHandle=[&](const QPoint&p){ QRect r(p.x()-hs/2,p.y()-hs/2,hs,hs); painter.drawRect(r); };
+    
+    // 四个角控制点
+    drawHandle(m_cropOverlay.topLeft()); 
+    drawHandle(m_cropOverlay.topRight());
+    drawHandle(m_cropOverlay.bottomLeft()); 
+    drawHandle(m_cropOverlay.bottomRight());
+    
+    // 四条边中点控制点
+    drawHandle(QPoint(m_cropOverlay.center().x(), m_cropOverlay.top()));      // Top
+    drawHandle(QPoint(m_cropOverlay.center().x(), m_cropOverlay.bottom()));   // Bottom
+    drawHandle(QPoint(m_cropOverlay.left(), m_cropOverlay.center().y()));     // Left
+    drawHandle(QPoint(m_cropOverlay.right(), m_cropOverlay.center().y()));    // Right
+    
+    // 中心锚点（圆形，用于移动选区）
+    QPointF center = m_cropOverlay.center();
+    qreal anchorRadius = 12.0;
+    
+    // 外圈(白色描边)
+    painter.setPen(QPen(QColor(255, 255, 255), 2));
+    painter.setBrush(QColor(100, 100, 100, 180));
+    painter.drawEllipse(center, anchorRadius, anchorRadius);
+    
+    // 内圈(更小的白色实心圆)
     painter.setPen(Qt::NoPen);
-    painter.drawRoundedRect(labelBgRect, 4, 4);
+    painter.setBrush(QColor(255, 255, 255));
+    painter.drawEllipse(center, anchorRadius * 0.4, anchorRadius * 0.4);
     
-    // 绘制文字
-    painter.setPen(QColor(255, 255, 255));
-    painter.drawText(labelBgRect, Qt::AlignCenter, scaleText);
+    // 尺寸标签
+    QString sizeText = QString("%1 × %2").arg(getCropRectInImage().width()).arg(getCropRectInImage().height());
+    QFont font; font.setPixelSize(12); painter.setFont(font); QFontMetrics fm(font); QRect tr=fm.boundingRect(sizeText); int pad=4;
+    QRect bg(m_cropOverlay.center().x()-tr.width()/2 - pad, m_cropOverlay.bottom()-tr.height()-pad-6, tr.width()+pad*2, tr.height()+pad);
+    painter.setBrush(QColor(0,0,0,160)); painter.setPen(Qt::NoPen); painter.drawRoundedRect(bg,3,3);
+    painter.setPen(Qt::white); painter.drawText(bg, Qt::AlignCenter, sizeText);
+}
+
+// ==================== 裁剪比例辅助函数 ====================
+qreal ImageWorkspace::getAspectRatio() const {
+    switch (m_cropAspectMode) {
+        case CropAspectFree:      return 0.0;  // 0 表示自由比例
+        case CropAspectOriginal:  // 原始图片比例
+            if (m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+                QSize imgSize = m_pixmapItem->pixmap().size();
+                return (qreal)imgSize.width() / (qreal)imgSize.height();
+            }
+            return 1.0;
+        case CropAspectSquare:    return 1.0;      // 1:1
+        case CropAspect16_9:      return 16.0/9.0; // 16:9
+        case CropAspect9_16:      return 9.0/16.0; // 9:16
+        case CropAspect4_5:       return 4.0/5.0;  // 4:5
+        case CropAspect5_4:       return 5.0/4.0;  // 5:4
+        case CropAspect3_4:       return 3.0/4.0;  // 3:4
+        case CropAspect4_3:       return 4.0/3.0;  // 4:3
+        case CropAspect2_3:       return 2.0/3.0;  // 2:3
+        case CropAspect3_2:       return 3.0/2.0;  // 3:2
+        case CropAspect5_7:       return 5.0/7.0;  // 5:7
+        case CropAspect7_5:       return 7.0/5.0;  // 7:5
+        case CropAspect1_2:       return 1.0/2.0;  // 1:2
+        case CropAspect2_1:       return 2.0/1.0;  // 2:1
+        default:                  return 0.0;
+    }
+}
+
+QRect ImageWorkspace::constrainToAspectRatio(const QRect &rect, OverlayHandle handle) const {
+    qreal aspectRatio = getAspectRatio();
+    
+    // 自由模式，不约束比例
+    if (aspectRatio <= 0.0) {
+        return rect;
+    }
+    
+    QRect result = rect.normalized();
+    int width = result.width();
+    int height = result.height();
+    
+    // 根据拖动的句柄决定如何调整，并保持对应的锚点不变
+    switch (handle) {
+        case HandleTopLeft: {
+            // 左上角：保持右下角不变
+            QPoint anchor = result.bottomRight();
+            int newHeight = qRound(width / aspectRatio);
+            result.setHeight(newHeight);
+            result.moveBottomRight(anchor);
+            break;
+        }
+        case HandleTopRight: {
+            // 右上角：保持左下角不变
+            QPoint anchor = result.bottomLeft();
+            int newHeight = qRound(width / aspectRatio);
+            result.setHeight(newHeight);
+            result.moveBottomLeft(anchor);
+            break;
+        }
+        case HandleBottomLeft: {
+            // 左下角：保持右上角不变
+            QPoint anchor = result.topRight();
+            int newHeight = qRound(width / aspectRatio);
+            result.setHeight(newHeight);
+            result.moveTopRight(anchor);
+            break;
+        }
+        case HandleBottomRight: {
+            // 右下角：保持左上角不变
+            QPoint anchor = result.topLeft();
+            int newHeight = qRound(width / aspectRatio);
+            result.setHeight(newHeight);
+            result.moveTopLeft(anchor);
+            break;
+        }
+        case HandleTop: {
+            // 顶边：保持底边不变，调整宽度
+            int bottom = result.bottom();
+            int newWidth = qRound(height * aspectRatio);
+            int centerX = result.center().x();
+            result.setWidth(newWidth);
+            result.setBottom(bottom);
+            result.moveCenter(QPoint(centerX, result.center().y()));
+            break;
+        }
+        case HandleBottom: {
+            // 底边：保持顶边不变，调整宽度
+            int top = result.top();
+            int newWidth = qRound(height * aspectRatio);
+            int centerX = result.center().x();
+            result.setWidth(newWidth);
+            result.setTop(top);
+            result.moveCenter(QPoint(centerX, result.center().y()));
+            break;
+        }
+        case HandleLeft: {
+            // 左边：保持右边不变，调整高度
+            int right = result.right();
+            int newHeight = qRound(width / aspectRatio);
+            int centerY = result.center().y();
+            result.setHeight(newHeight);
+            result.setRight(right);
+            result.moveCenter(QPoint(result.center().x(), centerY));
+            break;
+        }
+        case HandleRight: {
+            // 右边：保持左边不变，调整高度
+            int left = result.left();
+            int newHeight = qRound(width / aspectRatio);
+            int centerY = result.center().y();
+            result.setHeight(newHeight);
+            result.setLeft(left);
+            result.moveCenter(QPoint(result.center().x(), centerY));
+            break;
+        }
+        case HandleCenter:
+            // 中心移动：保持原有尺寸和比例
+            break;
+        default:
+            break;
+    }
+    
+    return result;
 }

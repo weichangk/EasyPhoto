@@ -14,7 +14,7 @@
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "types.h"
-#include "imageworkspace.h"
+#include "imageworkwidget.h"
 #include "import/importlistview.h"
 #include "listdelegate.h"
 
@@ -81,7 +81,7 @@ private:
     QWidget *m_pLeftWidget = nullptr;
     QWidget *m_pRightWidget = nullptr;
 
-    ImageWorkspace *m_pImageViewer = nullptr;
+    ImageWorkWidget *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
     QLabel *m_pCropSizeLbl = nullptr;
