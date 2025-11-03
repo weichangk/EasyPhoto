@@ -43,47 +43,47 @@ QList<SCropAspectData> getCropAspectFormatDatas() {
 
     data.type = ECropAspectType_Original;
     data.name = "Original";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_Custom;
     data.name = "Custom";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_custom.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_1_1;
     data.name = "1:1";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_1_1.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_16_9;
     data.name = "16:9";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_16_9.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_9_16;
     data.name = "9:16";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_9_16.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_4_3;
     data.name = "4:3";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_4_3.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_3_4;
     data.name = "3:4";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_3_4.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_3_2;
     data.name = "3:2";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_3_2.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     data.type = ECropAspectType_2_3;
     data.name = "2:3";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_2_3.svg").arg(QtmCore::Theme::currentTheme())).copy(0, 0, 20, 20);
     datas.append(data);
 
     return datas;
@@ -94,93 +94,87 @@ QList<SCropResizeData> getCropResizeFormatDatas() {
     SCropResizeData data;
 
     data.type = ECropResizeType_Original;
-    data.name = "Original";
-    data.desc = "Keep the original image size";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Original Size";
+    data.desc = "";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_Custom;
-    data.name = "Custom";
-    data.desc = "Keep the original image size";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Custom Size";
+    data.desc = "";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1080_1080;
-    data.name = "1080x1080";
-    data.desc = "Ideal for Instagram posts";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Instagram Post";
+    data.desc = "1080 x 1080 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1080_1920;
-    data.name = "1080x1920";
-    data.desc = "Perfect for Instagram stories and TikTok videos";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Instagram Story";
+    data.desc = "1080 x 1920 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1200_630;
-    data.name = "1200x630";
-    data.desc = "Recommended for Facebook link shares";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Facebook Post";
+    data.desc = "1200 x 630 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_851_315;
-    data.name = "851x315";
-    data.desc = "Optimal for Facebook cover photos";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Facebook Cover Image";
+    data.desc = "851 x 315 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1200_675;
-    data.name = "1200x675";
-    data.desc = "Great for Twitter in-stream photos";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "X (Twitter) Post";
+    data.desc = "1200 x 675 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1500_500;
-    data.name = "1500x500";
-    data.desc = "Suitable for Twitter header images";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "X (Twitter) Cover Image";
+    data.desc = "1500 x 500 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1280_720;
-    data.name = "1280x720";
-    data.desc = "Standard HD video resolution";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Youtube Thumbnail";
+    data.desc = "1280 x 720 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
-    data.type = ECropResizeType_1920_1080;
-    data.name = "1920x1080";
-    data.desc = "Full HD video resolution";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
-    datas.append(data);
-
-        data.type = ECropResizeType_2000_2000;
-    data.name = "2000x2000";
-    data.desc = "High-resolution square format";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.type = ECropResizeType_2000_2000;
+    data.name = "Amazon Product";
+    data.desc = "2000 x 2000 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1600_1600;
-    data.name = "1600x1600";
-    data.desc = "High-resolution square format";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "eBay Product";
+    data.desc = "1600 x 1600 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_2048_2048;
-    data.name = "2048x2048";
-    data.desc = "High-resolution square format";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Shopify Product";
+    data.desc = "2048 x 2048 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1000_1500;
-    data.name = "1000x1500";
-    data.desc = "High-resolution portrait format";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "Pinterest Pin";
+    data.desc = "1000 x 1500 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     data.type = ECropResizeType_1920_1080;
-    data.name = "1920x1080";
-    data.desc = "Full HD video resolution";
-    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon24_lock.svg").arg(QtmCore::Theme::currentTheme()));
+    data.name = "PPT Slide (16:9)";
+    data.desc = "1920 x 1080 px";
+    data.thumbnail = QPixmap(QString(":/QtmImg/img/%1/v165/icon20_crop_original.svg").arg(QtmCore::Theme::currentTheme()));
     datas.append(data);
 
     return datas;
@@ -206,28 +200,32 @@ void CropViewCropAspectListDelegate::paint(QPainter *painter, const QStyleOption
     int radius = 8;
 
     QColor bgColor = QColor("#ffffff");
-    if (hover) {
-        bgColor = QColor("#ffffff");
+    if(hover) {
+        bgColor = QColor("#e8e0fc");
     }
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    auto pixmapRect = rc.adjusted(4, 4, -4, -28);
+    auto pixmapRect = QRect(rc.left() + (rc.width() - 20) / 2, rc.top() + 10, 20, 20);
     Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
 
-    if (selected) {
-        QColor borderColor = QColor("#a070ff");
-        QPen pen(borderColor);
-        painter->setPen(pen);
-        painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
-        painter->setPen(Qt::NoPen);
+    QColor borderColor = QColor("#ecebef");
+    if (hover) {
+        borderColor = QColor("#c9afff");
     }
+    if (selected) {
+        borderColor = QColor("#7938ff");
+    }
+    QPen penBorder(borderColor);
+    painter->setPen(penBorder);
+    painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
+    painter->setPen(Qt::NoPen);
 
-    auto nameRect = bgRect;
+    auto nameRect = QRect(bgRect.left() + 4, bgRect.bottom() - 24, bgRect.width() - 8, 18);
     QColor nameColor = QColor("#000000");
-    QPen pen(nameColor);
-    painter->setPen(pen);
+    QPen penName(nameColor);
+    painter->setPen(penName);
     QFont font = painter->font();
     font.setPixelSize(13);
     painter->setFont(font);
@@ -279,37 +277,61 @@ void CropViewCropResizeListDelegate::paint(QPainter *painter, const QStyleOption
     int radius = 8;
 
     QColor bgColor = QColor("#ffffff");
-    if (hover) {
-        bgColor = QColor("#ffffff");
+    if(hover) {
+        bgColor = QColor("#e8e0fc");
     }
     painter->setBrush(bgColor);
     painter->drawRoundedRect(bgRect, radius, radius);
     painter->setBrush(Qt::NoBrush);
 
-    auto pixmapRect = rc.adjusted(4, 4, -4, -28);
-    Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
+    // auto pixmapRect = rc.adjusted(4, 4, -4, -28);
+    // Painter::paintPixmap(painter, pixmapRect, data.thumbnail, 1, radius, true);
 
-    if (selected) {
-        QColor borderColor = QColor("#a070ff");
-        QPen pen(borderColor);
-        painter->setPen(pen);
-        painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
-        painter->setPen(Qt::NoPen);
+    QColor borderColor = QColor("#ecebef");
+    if (hover) {
+        borderColor = QColor("#c9afff");
     }
+    if (selected) {
+        borderColor = QColor("#7938ff");
+    }
+    QPen penBorder(borderColor);
+    painter->setPen(penBorder);
+    painter->drawRoundedRect(bgRect.adjusted(1, 1, -1, -1), radius, radius);
+    painter->setPen(Qt::NoPen);
 
-    auto nameRect = bgRect;
+    //
+    auto nameRect = QRect(bgRect.left() + 8, bgRect.top() + 8, bgRect.width() - 16, 18);
+    if(data.type == ECropResizeType_Original || data.type == ECropResizeType_Custom) {
+        nameRect = QRect(bgRect.left() + 8, bgRect.top() + (bgRect.height() - 18) / 2, bgRect.width() - 16, 18);
+    }
     QColor nameColor = QColor("#000000");
-    QPen pen(nameColor);
-    painter->setPen(pen);
-    QFont font = painter->font();
-    font.setPixelSize(13);
-    painter->setFont(font);
+    QPen penName(nameColor);
+    painter->setPen(penName);
+    QFont fontName = painter->font();
+    fontName.setPixelSize(13);
+    painter->setFont(fontName);
     QString fileName = data.name;
-    QFontMetricsF metrics(font);
-    if (metrics.horizontalAdvance(fileName) > nameRect.width()) {
-        fileName = metrics.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
+    QFontMetricsF metricsName(fontName);
+    if (metricsName.horizontalAdvance(fileName) > nameRect.width()) {
+        fileName = metricsName.elidedText(fileName, Qt::ElideMiddle, nameRect.width());
     }
     painter->drawText(nameRect, Qt::AlignCenter, fileName);
+    painter->setPen(Qt::NoPen);
+
+    //
+    auto descRect = QRect(bgRect.left() + 8, bgRect.bottom() - 24, bgRect.width() - 16, 16);
+    QColor descColor = QColor("#666666");
+    QPen penDesc(descColor);
+    painter->setPen(penDesc);
+    QFont fontDesc = painter->font();
+    fontDesc.setPixelSize(12);
+    painter->setFont(fontDesc);
+    QString desc = data.desc;
+    QFontMetricsF metricsDesc(fontDesc);
+    if (metricsDesc.horizontalAdvance(desc) > descRect.width()) {
+        desc = metricsDesc.elidedText(desc, Qt::ElideMiddle, descRect.width());
+    }
+    painter->drawText(descRect, Qt::AlignCenter, desc);
     painter->setPen(Qt::NoPen);
 }
 
@@ -412,7 +434,7 @@ void CropView::createUi() {
     LeftWidgetLayout->setSpacing(0);
 
     m_pRightWidget = new QWidget(this);
-    m_pRightWidget->setFixedWidth(256);
+    m_pRightWidget->setFixedWidth(255);
     auto rightWidgetLayout = new QVBoxLayout(m_pRightWidget);
     rightWidgetLayout->setContentsMargins(12, 12, 12, 20);
     rightWidgetLayout->setSpacing(0);
@@ -459,8 +481,11 @@ void CropView::createUi() {
 
     //
     m_pCropAspectListView = new ListView<SCropAspectData>(this);
-    m_pCropAspectListView->setFixedHeight(200);
-    m_pCropAspectListView->setSpacing(0);
+    m_pCropAspectListView->setStyleSheet("border-radius:10px; background-color:#f7f7fc;");
+    m_pCropAspectListView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pCropAspectListView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_pCropAspectListView->setFixedHeight(179);
+    m_pCropAspectListView->setSpacing(4);
     m_pCropAspectListDelegate = new CropViewCropAspectListDelegate(m_pCropAspectListView);
     m_pCropAspectListView->setItemDelegate(m_pCropAspectListDelegate);
     m_pCropAspectListView->viewport()->installEventFilter(m_pCropAspectListDelegate);
@@ -468,8 +493,9 @@ void CropView::createUi() {
 
     //
     m_pCropResizeListView = new ListView<SCropResizeData>(this);
-    m_pCropResizeListView->setFixedHeight(200);
-    m_pCropResizeListView->setSpacing(0);
+    m_pCropResizeListView->setStyleSheet("border-radius:10px; background-color:#f7f7fc;");
+    m_pCropResizeListView->setFixedHeight(276);
+    m_pCropResizeListView->setSpacing(4);
     m_pCropResizeListDelegate = new CropViewCropResizeListDelegate(m_pCropResizeListView);
     m_pCropResizeListView->setItemDelegate(m_pCropResizeListDelegate);
     m_pCropResizeListView->viewport()->installEventFilter(m_pCropResizeListDelegate);

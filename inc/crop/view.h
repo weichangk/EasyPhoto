@@ -40,7 +40,7 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    QSize m_Size = QSize(70, 40);
+    QSize m_Size = QSize(71, 54);
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
 };
@@ -54,7 +54,7 @@ public:
     QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
 private:
-    QSize m_Size = QSize(70, 40);
+    QSize m_Size = QSize(218, 50);
     int m_EventType = QEvent::None;
     QPoint m_CurPos;
 };

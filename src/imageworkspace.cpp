@@ -47,11 +47,11 @@ ImageWorkspace::ImageWorkspace(QWidget *parent) :
     setScene(m_scene);
     m_scene->addItem(m_pixmapItem);
 
-    // 设置场景背景色
-    m_scene->setBackgroundBrush(QBrush(Qt::red));
+    // // 设置场景背景色
+    // m_scene->setBackgroundBrush(QBrush(Qt::red));
     
-    // 设置视口背景色
-    setBackgroundBrush(QBrush(Qt::blue));
+    // // 设置视口背景色
+    // setBackgroundBrush(QBrush(Qt::blue));
 
     setDragMode(QGraphicsView::NoDrag);
     setRenderHint(QPainter::Antialiasing);
