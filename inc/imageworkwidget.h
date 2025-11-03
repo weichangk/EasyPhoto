@@ -29,6 +29,8 @@ private slots:
     void onZoomOut();
     void onToggleCrop(bool checked);
     void onExportCrop();
+    void onToggleResize(bool checked);
+    void onExportResize();
 
     void updateScaleLabel(double scale); // 响应缩放因子更新
 
@@ -47,6 +49,8 @@ private:
     QAction *m_actZoomOut;
     QAction *m_actCropToggle; // checkable
     QAction *m_actExportCrop;
+    QAction *m_actResizeToggle; // checkable
+    QAction *m_actExportResize;
 
     QAction *m_actScaleDisplay; // 仅显示当前缩放比
 };

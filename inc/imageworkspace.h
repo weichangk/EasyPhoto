@@ -19,10 +19,15 @@ public:
     void zoomIn();                           // 放大
     void zoomOut();                          // 缩小
 
-    // 裁剪模式
-    enum WorkspaceMode { ModeNone=0, ModeCrop };
+    // 工作模式：普通 / 裁剪 / Resize(固定画布大小，图片可在其中移动缩放)
+    enum WorkspaceMode { ModeNone=0, ModeCrop, ModeResize };
     void setWorkspaceMode(WorkspaceMode mode);
     WorkspaceMode workspaceMode() const { return m_mode; }
+
+    // Resize 画布设置（例如 1280x720 用于 YouTube 缩略图）
+    // 注意：传入 QSize(0,0) 或不设置时，画布将使用图片实际尺寸
+    void setResizeCanvasSize(const QSize &size); // 设置目标画布大小（进入或已在 ModeResize 都可调用）
+    QSize resizeCanvasSize() const { return m_resizeCanvasSize; }
 
     // 裁剪比例模式
     enum CropAspectRatioMode {
@@ -77,6 +82,21 @@ private:
     WorkspaceMode m_mode;           // 当前模式
     CropAspectRatioMode m_cropAspectMode; // 裁剪比例模式
 
+    // Resize 模式相关
+    QSize m_resizeCanvasSize;      // 画布逻辑尺寸（场景大小）
+    bool m_isImageDragging = false; // 是否在 Resize 模式下拖动图片
+    QPoint m_imageDragStartPos;     // 拖动开始时鼠标（视口坐标）
+    QPointF m_imageItemStartPos;    // 拖动开始时图片项的 pos
+    
+    // 模式状态保存（用于模式切换时恢复）
+    struct ImageItemState {
+        QPointF pos;
+        qreal scale;
+        QPointF transformOrigin;
+    };
+    ImageItemState m_cropModeState;   // Crop/None 模式图片状态
+    ImageItemState m_resizeModeState; // Resize 模式图片状态
+
     // 裁剪系统：视口坐标中的裁剪矩形与交互
     enum OverlayHandle { HandleNone=0, HandleTopLeft, HandleTopRight, HandleBottomLeft, HandleBottomRight,
                          HandleTop, HandleBottom, HandleLeft, HandleRight, HandleCenter };
@@ -102,4 +122,14 @@ private:
     QRect constrainToAspectRatio(const QRect &rect, OverlayHandle handle) const; // 按比例约束矩形
     
     void updateScaleFactor();       // 更新并发射缩放比例信号
+
+    // Resize 模式辅助
+    void initResizeCanvas();        // 初始化/重设场景大小与图片初始位置
+    void clampImageInsideCanvas();  // 保证图片在当前画布范围内（不允许移出）
+    void applyResizeZoom(qreal factor); // 在 Resize 模式下缩放图片并保持约束
+    
+    // 状态保存恢复
+    void saveImageItemState(ImageItemState &state);
+    void restoreImageItemState(const ImageItemState &state);
+    void resetImageItemToOriginal(); // 重置图片项到原始状态（Crop/None 模式用）
 };

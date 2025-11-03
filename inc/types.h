@@ -82,29 +82,47 @@ enum EBgImgType {
 
 // CROP
 #define CROP_INPUT_FORMATS "(*.jpg;*.jpeg;*.webp)"
-enum ECropScaleType {
-    ECropScaleType_Original = 0,
-    ECropScaleType_Custom,
-    ECropScaleType_1_1,
-    ECropScaleType_16_9,
-    ECropScaleType_9_16,
-    ECropScaleType_4_3,
-    ECropScaleType_3_2,
-    ECropScaleType_2_3,
+enum ECropAspectType {
+    ECropAspectType_Original = 0,
+    ECropAspectType_Custom,
+    ECropAspectType_1_1,
+    ECropAspectType_16_9,
+    ECropAspectType_9_16,
+    ECropAspectType_4_3,
+    ECropAspectType_3_4,
+    ECropAspectType_3_2,
+    ECropAspectType_2_3,
 };
-struct SCropScaleData {
-    ECropScaleType type = ECropScaleType_Original;
-    QString name = "Original";
-    QPixmap thumbnail = QPixmap();
-};
-Q_DECLARE_METATYPE(SCropScaleData)
-struct SUpscModelData {
-    QString id = "";
+struct SCropAspectData {
+    ECropAspectType type = ECropAspectType_Original;
     QString name = "";
-    QString path = "";
     QPixmap thumbnail = QPixmap();
 };
-Q_DECLARE_METATYPE(SUpscModelData)
+Q_DECLARE_METATYPE(SCropAspectData)
+
+enum ECropResizeType {
+    ECropResizeType_Original = 0,
+    ECropResizeType_Custom,
+    ECropResizeType_1080_1080,
+    ECropResizeType_1080_1920,
+    ECropResizeType_1200_630,
+    ECropResizeType_851_315,
+    ECropResizeType_1200_675,
+    ECropResizeType_1500_500,
+    ECropResizeType_1280_720,
+    ECropResizeType_2000_2000,
+    ECropResizeType_1600_1600,
+    ECropResizeType_2048_2048,
+    ECropResizeType_1000_1500,
+    ECropResizeType_1920_1080,
+};
+struct SCropResizeData {
+    ECropResizeType type = ECropResizeType_Original;
+    QString name = "";
+    QString desc = "";
+    QPixmap thumbnail = QPixmap();
+};
+Q_DECLARE_METATYPE(SCropResizeData)
 
 // ERASE
 #define ERASE_INPUT_FORMATS "(*.png;*.jpg;*.jpeg;*.webp;*.bmp)"

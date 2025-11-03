@@ -32,6 +32,9 @@ void ImageWorkWidget::setupUi() {
     m_actCropToggle = new QAction(tr("裁剪"), this);
     m_actCropToggle->setCheckable(true);
     m_actExportCrop = new QAction(tr("导出裁剪"), this);
+    m_actResizeToggle = new QAction(tr("调整大小"), this);
+    m_actResizeToggle->setCheckable(true);
+    m_actExportResize = new QAction(tr("导出调整"), this);
 
     m_actScaleDisplay = new QAction("100%", this);
     m_actScaleDisplay->setEnabled(false); // 仅显示
@@ -47,6 +50,9 @@ void ImageWorkWidget::setupUi() {
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_actCropToggle);
     m_toolBar->addAction(m_actExportCrop);
+    m_toolBar->addSeparator();
+    m_toolBar->addAction(m_actResizeToggle);
+    m_toolBar->addAction(m_actExportResize);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_actScaleDisplay);
 
@@ -67,6 +73,8 @@ void ImageWorkWidget::setupConnections() {
     connect(m_actZoomOut, &QAction::triggered, this, &ImageWorkWidget::onZoomOut);
     connect(m_actCropToggle, &QAction::toggled, this, &ImageWorkWidget::onToggleCrop);
     connect(m_actExportCrop, &QAction::triggered, this, &ImageWorkWidget::onExportCrop);
+    connect(m_actResizeToggle, &QAction::toggled, this, &ImageWorkWidget::onToggleResize);
+    connect(m_actExportResize, &QAction::triggered, this, &ImageWorkWidget::onExportResize);
 
     if (m_workspace) {
         connect(m_workspace, &ImageWorkspace::scaleFactorChanged, this, &ImageWorkWidget::updateScaleLabel);
@@ -96,6 +104,11 @@ void ImageWorkWidget::onToggleCrop(bool checked) {
     }
 }
 
+void ImageWorkWidget::onToggleResize(bool checked) {
+    if (!m_workspace) return;
+    m_workspace->setWorkspaceMode(checked?ImageWorkspace::ModeResize:ImageWorkspace::ModeNone);
+}
+
 void ImageWorkWidget::onExportCrop() {
     if (!m_workspace) return;
     QPixmap cropped = m_workspace->getCroppedImage();
@@ -104,6 +117,10 @@ void ImageWorkWidget::onExportCrop() {
     if (file.isEmpty()) return;
     cropped.save(file);
     emit croppedImageExported(file);
+}
+
+void ImageWorkWidget::onExportResize() {
+
 }
 
 void ImageWorkWidget::updateScaleLabel(double scale) {

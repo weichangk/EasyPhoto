@@ -16,7 +16,6 @@
 #include "types.h"
 #include "imageworkwidget.h"
 #include "import/importlistview.h"
-#include "listdelegate.h"
 
 #include <QStackedLayout>
 #include <QCheckBox>
@@ -24,11 +23,41 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QStyledItemDelegate>
+#include <QEvent>
 
 using namespace QtmMvp;
 using namespace QtmWidget;
 using namespace QtmCore;
 using namespace QtmFilter;
+
+class CropViewCropAspectListDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+public:
+    explicit CropViewCropAspectListDelegate(QObject *parent);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    bool eventFilter(QObject *object, QEvent *event) override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+private:
+    QSize m_Size = QSize(70, 40);
+    int m_EventType = QEvent::None;
+    QPoint m_CurPos;
+};
+
+class CropViewCropResizeListDelegate : public QStyledItemDelegate {
+    Q_OBJECT
+public:
+    explicit CropViewCropResizeListDelegate(QObject *parent);
+    void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+    bool eventFilter(QObject *object, QEvent *event) override;
+    QSize sizeHint(const QStyleOptionViewItem &option, const QModelIndex &index) const override;
+
+private:
+    QSize m_Size = QSize(70, 40);
+    int m_EventType = QEvent::None;
+    QPoint m_CurPos;
+};
 
 class CropView : public QWidget, public View {
     Q_OBJECT
@@ -62,6 +91,10 @@ private Q_SLOTS:
     void onImportListCurrentChanged(const QString filePath);
     void onGuideImportFile(const QStringList &filePaths);
     void onResetBtnClieked();
+    void onCropBtnClicked();
+    void onResizeBtnClicked();
+    void onCropAspectListCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void onCropResizeListCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -84,9 +117,14 @@ private:
     ImageWorkWidget *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
-    QLabel *m_pCropSizeLbl = nullptr;
-    ListView<SCropScaleData> *m_pCropScaleListView = nullptr;
-    ScalelListDelegate *m_pScalelListDelegate = nullptr;
+    QPushButton *m_pCropBtn = nullptr;
+    QPushButton *m_pResizeBtn = nullptr;
+
+    ListView<SCropAspectData> *m_pCropAspectListView = nullptr;
+    CropViewCropAspectListDelegate *m_pCropAspectListDelegate = nullptr;
+    ListView<SCropResizeData> *m_pCropResizeListView = nullptr;
+    CropViewCropResizeListDelegate *m_pCropResizeListDelegate = nullptr;
+
     IconButton *m_pLockScaleBtn = nullptr;
     UnitLineEdit *m_pPixelsWidthLdt = nullptr;
     UnitLineEdit *m_pPixelsHeightLdt = nullptr;

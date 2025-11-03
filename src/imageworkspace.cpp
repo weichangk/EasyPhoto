@@ -7,6 +7,28 @@
 #include <QFontMetrics>
 #include <QtMath>
 
+/*
+┌─────────────────────────────────────────────────────┐
+│              ImageWorkspace (QGraphicsView)         │
+│  ┌───────────────────────────────────────────────┐  │
+│  │          Viewport (视口窗口)                   │  │
+│  │  ┌─────────────────────────────────────────┐  │  │
+│  │  │    QGraphicsScene (场景/画布)           │  │  │
+│  │  │  ┌───────────────────────────────────┐  │  │  │
+│  │  │  │  QGraphicsPixmapItem (图片项)     │  │  │  │
+│  │  │  │  ┌─────────────────────────────┐  │  │  │  │
+│  │  │  │  │   QPixmap (实际图片数据)    │  │  │  │  │
+│  │  │  │  └─────────────────────────────┘  │  │  │  │
+│  │  │  └───────────────────────────────────┘  │  │  │
+│  │  └─────────────────────────────────────────┘  │  │
+│  │                                                │  │
+│  │  + m_cropOverlay (视口坐标的裁剪框)           │  │
+│  └───────────────────────────────────────────────┘  │
+└─────────────────────────────────────────────────────┘
+
+变换关系: Viewport ←→ Scene ←→ Item (PixmapItem)
+ */
+
 // ==================== ImageWorkspace 实现 ====================
 ImageWorkspace::ImageWorkspace(QWidget *parent) :
     QGraphicsView(parent),
@@ -25,6 +47,12 @@ ImageWorkspace::ImageWorkspace(QWidget *parent) :
     setScene(m_scene);
     m_scene->addItem(m_pixmapItem);
 
+    // 设置场景背景色
+    m_scene->setBackgroundBrush(QBrush(Qt::red));
+    
+    // 设置视口背景色
+    setBackgroundBrush(QBrush(Qt::blue));
+
     setDragMode(QGraphicsView::NoDrag);
     setRenderHint(QPainter::Antialiasing);
     setRenderHint(QPainter::SmoothPixmapTransform);
@@ -38,12 +66,25 @@ void ImageWorkspace::loadImage(const QString &filePath) {
         return;
     }
     m_pixmapItem->setPixmap(pixmap);
-    m_scene->setSceneRect(pixmap.rect());
-    setFitView();
+    if (m_mode == ModeResize) {
+        // Resize 模式：支持固定尺寸或 QSize(0,0) 自动使用图片尺寸
+        initResizeCanvas();
+        resetTransform(); // 视图变换归零，保持 1:1，图片已缩放适配
+        updateScaleFactor();
+    } else {
+        // 普通/裁剪模式行为：sceneRect = 图片尺寸 + 自适应视图
+        m_scene->setSceneRect(pixmap.rect());
+        setFitView();
+    }
 }
 
 void ImageWorkspace::setFitView() {
-    fitInView(m_pixmapItem, Qt::KeepAspectRatio);
+    if (m_mode == ModeResize) {
+        // Resize 模式：适配整个画布（sceneRect），而不是图片
+        fitInView(m_scene->sceneRect(), Qt::KeepAspectRatio);
+    } else {
+        fitInView(m_pixmapItem, Qt::KeepAspectRatio);
+    }
     updateScaleFactor(); // 计算fitInView后的实际缩放比例
 }
 
@@ -55,17 +96,14 @@ void ImageWorkspace::resetView() {
 }
 
 void ImageWorkspace::zoomIn() {
+    // Resize 模式与普通模式统一：缩放视图（场景），而不是缩放图片项
     scale(1.01, 1.01);  // 每次放大1%
-    m_scaleFactor *= 1.01;
-    emit scaleFactorChanged(m_scaleFactor);
-    viewport()->update();
+    updateScaleFactor();
 }
 
 void ImageWorkspace::zoomOut() {
-    scale(1 / 1.01, 1 / 1.01);
-    m_scaleFactor /= 1.01;
-    emit scaleFactorChanged(m_scaleFactor);
-    viewport()->update();
+    scale(1/1.01, 1/1.01);
+    updateScaleFactor();
 }
 
 void ImageWorkspace::updateScaleFactor() {
@@ -115,15 +153,37 @@ void ImageWorkspace::wheelEvent(QWheelEvent *event) {
 
 void ImageWorkspace::setWorkspaceMode(WorkspaceMode mode) {
     if (m_mode == mode) return;
+    
+    // 保存当前模式的图片状态
+    if (m_mode == ModeResize) {
+        saveImageItemState(m_resizeModeState);
+    } else {
+        saveImageItemState(m_cropModeState);
+    }
+    
     // 清理当前模式资源
     if (m_mode == ModeCrop) {
         m_cropOverlay = QRect();
     }
+    
     m_mode = mode;
-    // 初始化新模式
-    if (m_mode == ModeCrop) {
-        initOverlayFromVisibleImage();
+    
+    // 初始化新模式并恢复状态
+    if (m_mode == ModeCrop || m_mode == ModeNone) {
+        // 恢复到 Crop/None 模式：场景 = 图片大小，图片项在原点无缩放
+        if (m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+            m_scene->setSceneRect(m_pixmapItem->pixmap().rect());
+            resetImageItemToOriginal();
+        }
+        if (m_mode == ModeCrop) {
+            initOverlayFromVisibleImage();
+        }
+        setFitView();
+    } else if (m_mode == ModeResize) {
+        initResizeCanvas();
+        setFitView(); // 适配整个画布
     }
+    
     viewport()->update();
     emit modeChanged(m_mode);
 }
@@ -219,7 +279,24 @@ void ImageWorkspace::mousePressEvent(QMouseEvent *event) {
             // 选区外：进入图片平移
             m_isPanning=true; m_lastMousePos=event->pos(); setCursor(Qt::ClosedHandCursor); event->accept(); return;
         }
-        // 进入平移
+        if (m_mode==ModeResize) {
+            // 判断是否点击在图片上，准备拖动图片
+            if (m_pixmapItem && !m_pixmapItem->pixmap().isNull()) {
+                QPointF scenePos = mapToScene(event->pos());
+                if (m_pixmapItem->contains(m_pixmapItem->mapFromScene(scenePos))) {
+                    m_isImageDragging = true;
+                    m_imageDragStartPos = event->pos();
+                    m_imageItemStartPos = m_pixmapItem->pos();
+                    setCursor(Qt::ClosedHandCursor);
+                    event->accept();
+                    return;
+                }
+            }
+            // 未点中图片：不允许平移视图，直接忽略让父级处理（或保持静止）
+            event->ignore();
+            return;
+        }
+        // 进入平移（非 Resize 模式）
         m_isPanning=true; m_lastMousePos=event->pos(); setCursor(Qt::ClosedHandCursor); event->accept(); return;
     }
     QGraphicsView::mousePressEvent(event);
@@ -364,6 +441,15 @@ void ImageWorkspace::mouseMoveEvent(QMouseEvent *event) {
         event->accept();
         return;
     }
+    if (m_mode==ModeResize && m_isImageDragging) {
+        QPoint delta = event->pos() - m_imageDragStartPos;
+        QPointF newPos = m_imageItemStartPos + QPointF(delta.x(), delta.y());
+        m_pixmapItem->setPos(newPos);
+        clampImageInsideCanvas();
+        viewport()->update();
+        event->accept();
+        return;
+    }
     if (m_isPanning) {
         QPointF delta = mapToScene(event->pos()) - mapToScene(m_lastMousePos);
         translate(delta.x(), delta.y());
@@ -385,6 +471,12 @@ void ImageWorkspace::mouseReleaseEvent(QMouseEvent *event) {
             emit cropRectChanged(getCropRect());
             event->accept(); 
             return; 
+        }
+        if (m_mode==ModeResize && m_isImageDragging) {
+            m_isImageDragging = false;
+            setCursor(Qt::ArrowCursor);
+            event->accept();
+            return;
         }
         if (m_isPanning) { m_isPanning=false; setCursor(Qt::ArrowCursor); event->accept(); return; }
     }
@@ -409,6 +501,14 @@ void ImageWorkspace::paintEvent(QPaintEvent *event) {
     // 绘制裁剪覆盖
     if (m_mode==ModeCrop && !m_cropOverlay.isNull()) {
         paintOverlay(painter);
+    }
+    // Resize 模式下绘制固定画布边界（sceneRect）
+    if (m_mode==ModeResize) {
+        QRectF sceneR = m_scene->sceneRect();
+        QRect canvasVp = overlaySceneRectToViewport(sceneR);
+        painter.setPen(QPen(QColor(200,200,200), 2));
+        painter.setBrush(Qt::NoBrush);
+        painter.drawRect(canvasVp);
     }
 }
 
@@ -777,4 +877,107 @@ QRect ImageWorkspace::constrainToAspectRatio(const QRect &rect, OverlayHandle ha
     }
     
     return result;
+}
+
+// ==================== Resize 模式辅助实现 ====================
+void ImageWorkspace::setResizeCanvasSize(const QSize &size) {
+    // 允许 QSize(0,0) 表示使用图片实际尺寸
+    m_resizeCanvasSize = size;
+    if (m_mode == ModeResize) {
+        initResizeCanvas();
+        viewport()->update();
+    }
+}
+
+void ImageWorkspace::initResizeCanvas() {
+    if (!m_pixmapItem || m_pixmapItem->pixmap().isNull()) return;
+    
+    // 确定画布大小：如果 m_resizeCanvasSize 为空或 (0,0)，使用图片实际尺寸
+    QSizeF canvasSize;
+    if (m_resizeCanvasSize.isEmpty() || (m_resizeCanvasSize.width() == 0 && m_resizeCanvasSize.height() == 0)) {
+        canvasSize = m_pixmapItem->pixmap().size();
+    } else {
+        canvasSize = m_resizeCanvasSize;
+    }
+    
+    // 设置固定画布大小（以 (0,0) 为原点）
+    QRectF canvasRect(0, 0, canvasSize.width(), canvasSize.height());
+    m_scene->setSceneRect(canvasRect);
+    
+    // 将图片居中并适配
+    // 使用左上角为变换原点，避免居中计算受缩放影响
+    m_pixmapItem->setTransformOriginPoint(QPointF(0,0));
+    QSizeF imgSize = m_pixmapItem->pixmap().size();
+    qreal sx = canvasRect.width()  / imgSize.width();
+    qreal sy = canvasRect.height() / imgSize.height();
+    qreal fitScale = qMin(sx, sy);
+    if (fitScale <= 0) fitScale = 1.0;
+    m_pixmapItem->setScale(fitScale);
+    QSizeF scaled = imgSize * fitScale;
+    QPointF offset((canvasRect.width()-scaled.width())/2.0,
+                   (canvasRect.height()-scaled.height())/2.0);
+    m_pixmapItem->setPos(offset);
+    m_scaleFactor = fitScale;
+    emit scaleFactorChanged(m_scaleFactor);
+    
+    // 视图居中到画布中心
+    centerOn(canvasRect.center());
+}
+
+void ImageWorkspace::clampImageInsideCanvas() {
+    if (!m_pixmapItem || m_pixmapItem->pixmap().isNull()) return;
+    if (m_mode != ModeResize) return; // 仅在 Resize 模式下约束
+    
+    QRectF canvas = m_scene->sceneRect();
+    QRectF imgBounds = m_pixmapItem->mapToScene(m_pixmapItem->pixmap().rect()).boundingRect();
+    QPointF currentPos = m_pixmapItem->pos();
+    // 只有图片越界才回拉；允许图片比画布小并位于内部任意位置
+    qreal dx = 0.0; qreal dy = 0.0;
+    if (imgBounds.left() < canvas.left()) dx = canvas.left() - imgBounds.left();
+    if (imgBounds.top() < canvas.top()) dy = canvas.top() - imgBounds.top();
+    if (imgBounds.right() > canvas.right()) dx = canvas.right() - imgBounds.right();
+    if (imgBounds.bottom() > canvas.bottom()) dy = canvas.bottom() - imgBounds.bottom();
+    if (!qFuzzyIsNull(dx) || !qFuzzyIsNull(dy)) {
+        m_pixmapItem->setPos(currentPos + QPointF(dx, dy));
+    }
+}
+
+void ImageWorkspace::applyResizeZoom(qreal factor) {
+    if (!m_pixmapItem || m_pixmapItem->pixmap().isNull()) return;
+    qreal newScale = m_pixmapItem->scale() * factor;
+    // 限制缩放范围（可调）
+    if (newScale < 0.05) newScale = 0.05;
+    if (newScale > 20.0) newScale = 20.0;
+    m_pixmapItem->setScale(newScale);
+    m_scaleFactor = newScale;
+    emit scaleFactorChanged(m_scaleFactor);
+    clampImageInsideCanvas();
+    viewport()->update();
+}
+
+// ==================== 状态保存恢复辅助 ====================
+void ImageWorkspace::saveImageItemState(ImageItemState &state) {
+    if (!m_pixmapItem) return;
+    state.pos = m_pixmapItem->pos();
+    state.scale = m_pixmapItem->scale();
+    state.transformOrigin = m_pixmapItem->transformOriginPoint();
+}
+
+void ImageWorkspace::restoreImageItemState(const ImageItemState &state) {
+    if (!m_pixmapItem) return;
+    m_pixmapItem->setPos(state.pos);
+    m_pixmapItem->setScale(state.scale);
+    m_pixmapItem->setTransformOriginPoint(state.transformOrigin);
+    m_scaleFactor = state.scale;
+    emit scaleFactorChanged(m_scaleFactor);
+}
+
+void ImageWorkspace::resetImageItemToOriginal() {
+    if (!m_pixmapItem) return;
+    // Crop/None 模式：图片在场景原点，无缩放，原点为左上角
+    m_pixmapItem->setPos(0, 0);
+    m_pixmapItem->setScale(1.0);
+    m_pixmapItem->setTransformOriginPoint(QPointF(0, 0));
+    m_scaleFactor = 1.0;
+    emit scaleFactorChanged(m_scaleFactor);
 }
