@@ -20,6 +20,7 @@ public:
 signals:
     void imageLoaded(const QString &path);
     void croppedImageExported(const QString &path);
+    void resizedImageExported(const QString &path); // Resize 导出完成
 
 private slots:
     void onOpenImage();
@@ -31,8 +32,11 @@ private slots:
     void onExportCrop();
     void onToggleResize(bool checked);
     void onExportResize();
+    void onCenterImage();   // Resize 模式：居中图片
+    void onToggleFill(bool checked); // 切换拉伸填满模式
 
     void updateScaleLabel(double scale); // 响应缩放因子更新
+    void updateImageSizeLabel(const QSize &size); // 响应图片大小更新
 
 private:
     void setupUi();
@@ -51,6 +55,9 @@ private:
     QAction *m_actExportCrop;
     QAction *m_actResizeToggle; // checkable
     QAction *m_actExportResize;
+    QAction *m_actCenterImage;  // Resize 模式：居中图片
+    QAction *m_actToggleFill;   // Resize 模式：切换拉伸填满（checkable）
 
     QAction *m_actScaleDisplay; // 仅显示当前缩放比
+    QAction *m_actImageSizeDisplay; // 仅显示图片实际大小
 };

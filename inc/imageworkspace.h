@@ -28,6 +28,15 @@ public:
     // 注意：传入 QSize(0,0) 或不设置时，画布将使用图片实际尺寸
     void setResizeCanvasSize(const QSize &size); // 设置目标画布大小（进入或已在 ModeResize 都可调用）
     QSize resizeCanvasSize() const { return m_resizeCanvasSize; }
+    
+    // Resize 模式背景色设置（默认透明 Qt::transparent）
+    void setResizeBackgroundColor(const QColor &color);
+    QColor resizeBackgroundColor() const { return m_resizeBackgroundColor; }
+    
+    // Resize 模式图片快速调整
+    void centerImageInCanvas();  // 将图片居中到画布
+    void toggleFillMode();       // 切换填满模式（拉伸填充）
+    bool isFillMode() const { return m_isFillMode; }
 
     // 裁剪比例模式
     enum CropAspectRatioMode {
@@ -55,6 +64,8 @@ public:
     void clearCropRect();                    // 清除裁剪选区
     QPixmap getCroppedImage() const;         // 获取裁剪后的图片
     void resetCropRect();                    // 重置裁剪区域为当前可见图片区域
+    // Resize 模式导出：返回当前画布合成后的图像（透明背景）
+    QImage getResizeResultImage() const;     // 仅在 ModeResize 下有效，其它模式返回空 QImage
     
     double getScaleFactor() const { return m_scaleFactor; } // 获取当前缩放比例
 
@@ -62,6 +73,7 @@ signals:
     void cropRectChanged(const QRectF &rect); // 裁剪区域改变信号
     void scaleFactorChanged(double scale);    // 缩放比例改变信号
     void modeChanged(WorkspaceMode mode);      // 模式切换信号
+    void imageSizeChanged(const QSize &size);  // 图片实际大小改变信号
 
 protected:
     void wheelEvent(QWheelEvent *event) override;        // 处理滚轮事件
@@ -84,6 +96,8 @@ private:
 
     // Resize 模式相关
     QSize m_resizeCanvasSize;      // 画布逻辑尺寸（场景大小）
+    QColor m_resizeBackgroundColor = Qt::transparent; // Resize 导出背景色
+    bool m_isFillMode = false;     // 是否开启填满模式（拉伸填充画布）
     bool m_isImageDragging = false; // 是否在 Resize 模式下拖动图片
     QPoint m_imageDragStartPos;     // 拖动开始时鼠标（视口坐标）
     QPointF m_imageItemStartPos;    // 拖动开始时图片项的 pos
@@ -93,14 +107,17 @@ private:
         QPointF pos;
         qreal scale;
         QPointF transformOrigin;
+        QTransform transform;  // 保存完整变换（支持非等比缩放）
     };
     ImageItemState m_cropModeState;   // Crop/None 模式图片状态
     ImageItemState m_resizeModeState; // Resize 模式图片状态
+    ImageItemState m_beforeFillState; // 填满前的状态（用于恢复）
 
     // 裁剪系统：视口坐标中的裁剪矩形与交互
     enum OverlayHandle { HandleNone=0, HandleTopLeft, HandleTopRight, HandleBottomLeft, HandleBottomRight,
                          HandleTop, HandleBottom, HandleLeft, HandleRight, HandleCenter };
     QRect m_cropOverlay;            // 视口坐标中的裁剪矩形（视觉固定）
+    QRectF m_savedCropOverlayScene; // 保存的选框场景坐标（用于模式切换恢复）
     OverlayHandle m_overlayHandle;  // 当前拖拽句柄
     bool m_draggingOverlay;         // 是否正在拖拽
     QPoint m_dragStartPos;          // 拖拽开始时视口坐标

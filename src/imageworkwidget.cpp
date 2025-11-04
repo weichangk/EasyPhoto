@@ -35,9 +35,15 @@ void ImageWorkWidget::setupUi() {
     m_actResizeToggle = new QAction(tr("调整大小"), this);
     m_actResizeToggle->setCheckable(true);
     m_actExportResize = new QAction(tr("导出调整"), this);
+    m_actCenterImage = new QAction(tr("居中"), this);
+    m_actToggleFill = new QAction(tr("拉伸"), this);
+    m_actToggleFill->setCheckable(true);
 
     m_actScaleDisplay = new QAction("100%", this);
     m_actScaleDisplay->setEnabled(false); // 仅显示
+
+    m_actImageSizeDisplay = new QAction("0 × 0", this);
+    m_actImageSizeDisplay->setEnabled(false); // 仅显示
 
     // 添加到工具条
     m_toolBar->addAction(m_actOpen);
@@ -52,9 +58,12 @@ void ImageWorkWidget::setupUi() {
     m_toolBar->addAction(m_actExportCrop);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_actResizeToggle);
+    m_toolBar->addAction(m_actCenterImage);
+    m_toolBar->addAction(m_actToggleFill);
     m_toolBar->addAction(m_actExportResize);
     m_toolBar->addSeparator();
     m_toolBar->addAction(m_actScaleDisplay);
+    m_toolBar->addAction(m_actImageSizeDisplay);
 
     // 布局：工作区 + 底部工具条
     QVBoxLayout *v = new QVBoxLayout(this);
@@ -75,9 +84,12 @@ void ImageWorkWidget::setupConnections() {
     connect(m_actExportCrop, &QAction::triggered, this, &ImageWorkWidget::onExportCrop);
     connect(m_actResizeToggle, &QAction::toggled, this, &ImageWorkWidget::onToggleResize);
     connect(m_actExportResize, &QAction::triggered, this, &ImageWorkWidget::onExportResize);
+    connect(m_actCenterImage, &QAction::triggered, this, &ImageWorkWidget::onCenterImage);
+    connect(m_actToggleFill, &QAction::toggled, this, &ImageWorkWidget::onToggleFill);
 
     if (m_workspace) {
         connect(m_workspace, &ImageWorkspace::scaleFactorChanged, this, &ImageWorkWidget::updateScaleLabel);
+        connect(m_workspace, &ImageWorkspace::imageSizeChanged, this, &ImageWorkWidget::updateImageSizeLabel);
     }
 }
 
@@ -113,17 +125,69 @@ void ImageWorkWidget::onExportCrop() {
     if (!m_workspace) return;
     QPixmap cropped = m_workspace->getCroppedImage();
     if (cropped.isNull()) return;
-    QString file = QFileDialog::getSaveFileName(this, tr("保存裁剪"), QString(), tr("PNG (*.png);;JPG (*.jpg)"));
+    QString file = QFileDialog::getSaveFileName(this, tr("保存裁剪"), QString(), tr("PNG (*.png);;JPG (*.jpg);;WEBP (*.webp);;BMP (*.bmp)"));
     if (file.isEmpty()) return;
-    cropped.save(file);
-    emit croppedImageExported(file);
+    
+    // 根据后缀决定保存格式
+    QString suffix = QFileInfo(file).suffix().toLower();
+    if (suffix.isEmpty()) {
+        file += ".png";
+        suffix = "png";
+    }
+    bool ok = false;
+    if (suffix == "jpg" || suffix == "jpeg") {
+        ok = cropped.save(file, "JPG", 95);
+    } else if (suffix == "webp") {
+        ok = cropped.save(file, "WEBP", 90);
+    } else if (suffix == "bmp") {
+        ok = cropped.save(file, "BMP");
+    } else { // png / others
+        ok = cropped.save(file, "PNG");
+    }
+    if (ok) emit croppedImageExported(file);
 }
 
 void ImageWorkWidget::onExportResize() {
+    if (!m_workspace) return;
+    if (m_workspace->workspaceMode() != ImageWorkspace::ModeResize) return; // 仅在 Resize 模式
+    QImage img = m_workspace->getResizeResultImage();
+    if (img.isNull()) return;
+    QString file = QFileDialog::getSaveFileName(this, tr("保存调整结果"), QString(), tr("PNG (*.png);;JPG (*.jpg);;WEBP (*.webp);;BMP (*.bmp)"));
+    if (file.isEmpty()) return;
 
+    // 根据后缀决定保存格式；默认 PNG 保留透明
+    QString suffix = QFileInfo(file).suffix().toLower();
+    if (suffix.isEmpty()) {
+        file += ".png";
+        suffix = "png";
+    }
+    bool ok = false;
+    if (suffix == "jpg" || suffix == "jpeg") {
+        QImage opaque = img.convertToFormat(QImage::Format_RGB32);
+        ok = opaque.save(file, "JPG", 95);
+    } else if (suffix == "webp") {
+        ok = img.save(file, "WEBP", 90);
+    } else if (suffix == "bmp") {
+        ok = img.save(file, "BMP");
+    } else { // png / others
+        ok = img.save(file, "PNG");
+    }
+    if (ok) emit resizedImageExported(file);
+}
+
+void ImageWorkWidget::onCenterImage() {
+    if (m_workspace) m_workspace->centerImageInCanvas();
+}
+
+void ImageWorkWidget::onToggleFill(bool checked) {
+    if (m_workspace) m_workspace->toggleFillMode();
 }
 
 void ImageWorkWidget::updateScaleLabel(double scale) {
     int percent = qRound(scale * 100.0);
     m_actScaleDisplay->setText(QString::number(percent) + "%");
+}
+
+void ImageWorkWidget::updateImageSizeLabel(const QSize &size) {
+    m_actImageSizeDisplay->setText(QString("%1 × %2").arg(size.width()).arg(size.height()));
 }
