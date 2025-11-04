@@ -107,6 +107,28 @@ void ImageWorkspace::zoomOut() {
     updateScaleFactor();
 }
 
+void ImageWorkspace::zoomToPercent(double percent) {
+    if (percent <= 0.0) return; // 无效输入
+
+    qreal target = percent / 100.0; // percent -> 比例因子
+
+    // 限制到合理范围，避免变得过小或过大（可根据需要调整）
+    target = qBound<qreal>(0.01, target, 20.0);
+
+    // 如果在裁剪模式下，确保不小于使图片覆盖裁剪框的最小缩放
+    if (m_mode == ModeCrop && !m_cropOverlay.isNull()) {
+        qreal minScale = getMinScaleForCropOverlay();
+        if (minScale > 0.0 && target < minScale) {
+            target = minScale;
+        }
+    }
+
+    // 计算相对缩放因子并应用
+    qreal factor = target / m_scaleFactor;
+    scale(factor, factor);
+    updateScaleFactor();
+}
+
 void ImageWorkspace::updateScaleFactor() {
     // 计算当前变换矩阵的实际缩放比例
     QTransform t = transform();

@@ -18,6 +18,10 @@ public:
     void resetView();                        // 还原原始大小
     void zoomIn();                           // 放大
     void zoomOut();                          // 缩小
+    // 以百分比设置缩放（相对于原始 1:1 大小）。
+    // percent = 100 表示 100%（原始大小），200 表示放大 2 倍。
+    // 传入 <= 0 的值将被忽略。
+    void zoomToPercent(double percent);
 
     // 工作模式：普通 / 裁剪 / Resize(固定画布大小，图片可在其中移动缩放)
     enum WorkspaceMode { ModeNone=0, ModeCrop, ModeResize };

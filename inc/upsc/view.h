@@ -13,7 +13,7 @@
 #include "filter/comboboxfilter.h"
 #include "import/importguide.h"
 #include "types.h"
-#include "preview/imageviewer.h"
+#include "imageworkwidget.h"
 #include "import/importlistview.h"
 #include "modelcard.h"
 
@@ -105,7 +105,7 @@ private:
     QWidget *m_pLeftWidget = nullptr;
     QWidget *m_pRightWidget = nullptr;
 
-    ImageViewer *m_pImageViewer = nullptr;
+    ImageWorkWidget *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
     QLabel *m_pSelectModelLbl = nullptr;

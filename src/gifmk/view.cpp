@@ -70,7 +70,7 @@ void GifMkView::createUi() {
     bodyWidgetLayout->addWidget(m_pRightWidget);
 
     //
-    m_pImageViewer = new ImageViewer(this);
+    m_pImageViewer = new ImageWorkWidget(this);
     m_pImportListView = new ImportListView(this);
     LeftWidgetLayout->addWidget(m_pImageViewer, 1);
     LeftWidgetLayout->addSpacing(8);
@@ -386,7 +386,8 @@ void GifMkView::gotoWorkspace() {
 }
 
 void GifMkView::imageViewerLoad(const QString &filePath) {
-    m_pImageViewer->loadImage(filePath);
+    m_pImageViewer->workspace()->loadImage(filePath);
+    m_pImageViewer->workspace()->setFitView();
 }
 
 void GifMkView::onLanguageChange() {

@@ -14,7 +14,7 @@
 #include "import/importguide.h"
 #include "types.h"
 #include "listdelegate.h"
-#include "preview/imageviewer.h"
+#include "imageworkwidget.h"
 #include "import/importlistview.h"
 
 #include <QStackedLayout>
@@ -84,7 +84,7 @@ private:
     QWidget *m_pLeftWidget = nullptr;
     QWidget *m_pRightWidget = nullptr;
 
-    ImageViewer *m_pImageViewer = nullptr;
+    ImageWorkWidget *m_pImageViewer = nullptr;
     ImportListView *m_pImportListView = nullptr;
 
     QLabel *m_pOutputFolderLbl = nullptr;

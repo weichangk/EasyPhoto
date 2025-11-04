@@ -1,4 +1,7 @@
 #pragma once
+#include "imageworkspace.h"
+#include "widget/button.h"
+
 #include <QWidget>
 #include <QPointer>
 #include <QToolBar>
@@ -7,7 +10,8 @@
 #include <QHBoxLayout>
 #include <QFileDialog>
 #include <QPixmap>
-#include "imageworkspace.h"
+#include <QSlider>
+#include <QComboBox>
 
 // ImageWorkWidget: 对 ImageWorkspace 进行包装，在底部提供工具条操作图片浏览与裁剪。
 // 工具条包含：打开图片、适应窗口、原始大小、放大、缩小、裁剪模式开关、导出裁剪结果。
@@ -28,12 +32,14 @@ private slots:
     void onReset();
     void onZoomIn();
     void onZoomOut();
+    void onZoomToPercent(int percent);
     void onToggleCrop(bool checked);
     void onExportCrop();
     void onToggleResize(bool checked);
     void onExportResize();
     void onCenterImage();   // Resize 模式：居中图片
     void onToggleFill(bool checked); // 切换拉伸填满模式
+    void onZoomCbbIndexChanged(int index);
 
     void updateScaleLabel(double scale); // 响应缩放因子更新
     void updateImageSizeLabel(const QSize &size); // 响应图片大小更新
@@ -43,8 +49,13 @@ private:
     void setupConnections();
 
     QPointer<ImageWorkspace> m_workspace;
-    QToolBar *m_toolBar; // 底部工具条
-    QWidget *m_toolContainer; // 用于放置工具条并可自定义样式
+    QToolBar *m_testToolBar;
+    QWidget *m_toolBar;
+    QtmWidget::IconButton *m_ZoomInBtn = nullptr;
+    QtmWidget::IconButton *m_ZoomOutBtn = nullptr;
+    QtmWidget::IconButton *m_FitBtn = nullptr;
+    QSlider *m_ZoomSlider = nullptr;
+    QComboBox *m_ZoomCbb = nullptr;
 
     QAction *m_actOpen;
     QAction *m_actFit;
