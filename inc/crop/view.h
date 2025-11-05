@@ -23,6 +23,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QPushButton>
+#include <QButtonGroup>
 #include <QStyledItemDelegate>
 #include <QEvent>
 
@@ -95,6 +96,7 @@ private Q_SLOTS:
     void onResizeBtnClicked();
     void onCropAspectListCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
     void onCropResizeListCurrentChanged(const QModelIndex &current, const QModelIndex &previous);
+    void onStretchToFitCkbStateChanged(int state);
 
 private:
     LanguageFilter *m_pLanguageFilter = nullptr;
@@ -129,14 +131,35 @@ private:
     UnitLineEdit *m_pPixelsWidthLdt = nullptr;
     UnitLineEdit *m_pPixelsHeightLdt = nullptr;
 
+    QWidget *m_pRotateAndFlipWidget = nullptr;
     QLabel *m_pRotateAndFlipLbl = nullptr;
     IconButton *m_pRotateRight90Btn = nullptr;
     IconButton *m_pRotateLeft90Btn = nullptr;
     IconButton *m_pFlipHorBtn = nullptr;
     IconButton *m_pFlipVErBtn = nullptr;
 
+    QWidget *m_pStretchToFitWidget = nullptr;
+    QCheckBox *m_pStretchToFitCkb = nullptr;
+
+    QWidget *m_pBgWidget = nullptr;
+    QLabel *m_pBgLbl = nullptr;
+    QButtonGroup *m_pBgBtnGroup = nullptr;
+    IconButton *m_pBg1Btn = nullptr;
+    IconButton *m_pBg2Btn = nullptr;
+    IconButton *m_pBg3Btn = nullptr;
+    IconButton *m_pBg4Btn = nullptr;
+    IconButton *m_pBg5Btn = nullptr;
+    IconButton *m_pBgSelectBtn = nullptr;
+
     QCheckBox *m_pApplySameCkb = nullptr;
     IconButton *m_pResetBtn = nullptr;
+
+    QLabel *m_pOutputFmtLbl = nullptr;
+    QButtonGroup *m_pOutputFmtBtnGroup = nullptr;
+    QPushButton *m_pPNGBtn = nullptr;
+    QPushButton *m_pJPGBtn = nullptr;
+    QPushButton *m_pBMPBtn = nullptr;
+    QPushButton *m_pWEBPBtn = nullptr;
 
     QPushButton *m_pExportBtn = nullptr;
     QLabel *m_pOutputFolderLbl = nullptr;

@@ -474,7 +474,6 @@ void CropView::createUi() {
     scaleOrSizeBtnGroup->setExclusive(true);
     scaleOrSizeBtnGroup->addButton(m_pCropBtn, 0);
     scaleOrSizeBtnGroup->addButton(m_pResizeBtn, 1);
-    m_pCropBtn->setChecked(true);
 
     rightWidgetLayout->addWidget(scaleOrSizeBtnWidget);
     rightWidgetLayout->addSpacing(4);
@@ -494,7 +493,7 @@ void CropView::createUi() {
     //
     m_pCropResizeListView = new ListView<SCropResizeData>(this);
     m_pCropResizeListView->setStyleSheet("border-radius:10px; background-color:#f7f7fc;");
-    m_pCropResizeListView->setFixedHeight(276);
+    m_pCropResizeListView->setFixedHeight(220);
     m_pCropResizeListView->setSpacing(4);
     m_pCropResizeListDelegate = new CropViewCropResizeListDelegate(m_pCropResizeListView);
     m_pCropResizeListView->setItemDelegate(m_pCropResizeListDelegate);
@@ -532,13 +531,18 @@ void CropView::createUi() {
     //
     rightWidgetLayout->addSpacing(16);
 
-    //
-    m_pRotateAndFlipLbl = new QLabel(this);
-    m_pRotateAndFlipLbl->setObjectName("QLbl_LH16_FS12_FW4");
-    rightWidgetLayout->addWidget(m_pRotateAndFlipLbl);
-    rightWidgetLayout->addSpacing(4);
 
     //
+    m_pRotateAndFlipWidget = new QWidget(this);
+    auto rotateAndFlipLayout = new QVBoxLayout(m_pRotateAndFlipWidget);
+    rotateAndFlipLayout->setContentsMargins(0, 0, 0, 0);
+    rotateAndFlipLayout->setSpacing(0);
+
+    m_pRotateAndFlipLbl = new QLabel(this);
+    m_pRotateAndFlipLbl->setObjectName("QLbl_LH16_FS12_FW4");
+    rotateAndFlipLayout->addWidget(m_pRotateAndFlipLbl);
+    rotateAndFlipLayout->addSpacing(4);
+
     m_pRotateRight90Btn = new IconButton(this);
     m_pRotateRight90Btn->setFixedSize(32, 32);
     m_pRotateRight90Btn->setIconSize(32, 32);
@@ -557,31 +561,159 @@ void CropView::createUi() {
     m_pFlipVErBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon32/icon32_horizontal symmetry.svg").arg(QtmCore::Theme::currentTheme()));
     auto rotateBtnLayout = new QHBoxLayout();
     rotateBtnLayout->setContentsMargins(0, 0, 0, 0);
+    rotateBtnLayout->setSpacing(8);
     rotateBtnLayout->addWidget(m_pRotateRight90Btn);
     rotateBtnLayout->addWidget(m_pRotateLeft90Btn);
     rotateBtnLayout->addWidget(m_pFlipHorBtn);
     rotateBtnLayout->addWidget(m_pFlipVErBtn);
-    rightWidgetLayout->addLayout(rotateBtnLayout);
+    rotateBtnLayout->addStretch();
+    rotateAndFlipLayout->addLayout(rotateBtnLayout);
+
+    rotateAndFlipLayout->addSpacing(16);
+
+    rightWidgetLayout->addWidget(m_pRotateAndFlipWidget);
 
     //
-    rightWidgetLayout->addSpacing(16);
+    m_pStretchToFitWidget = new QWidget(this);
+    auto stretchToFitLayout = new QVBoxLayout(m_pStretchToFitWidget);
+    stretchToFitLayout->setContentsMargins(0, 0, 0, 0);
+    stretchToFitLayout->setSpacing(0);
+
+    m_pStretchToFitCkb = new QCheckBox(this);
+    stretchToFitLayout->addWidget(m_pStretchToFitCkb);
+    stretchToFitLayout->addSpacing(16);
+
+    rightWidgetLayout->addWidget(m_pStretchToFitWidget);
+
+    //
+    m_pBgWidget = new QWidget(this);
+    auto bgWidgetLayout = new QVBoxLayout(m_pBgWidget);
+    bgWidgetLayout->setContentsMargins(0, 0, 0, 0);
+    bgWidgetLayout->setSpacing(0);
+
+    m_pBgLbl = new QLabel(this);
+    m_pBgLbl->setObjectName("QLbl_LH16_FS12_FW4");
+    bgWidgetLayout->addWidget(m_pBgLbl);
+    bgWidgetLayout->addSpacing(4);
+
+    m_pBg1Btn = new IconButton(this);
+    m_pBg1Btn->setFixedSize(32, 32);
+    m_pBg1Btn->setIconSize(32, 32);
+    m_pBg1Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_alpha.svg").arg(QtmCore::Theme::currentTheme()), true);
+    m_pBg1Btn->setCheckable(true);
+
+    m_pBg2Btn = new IconButton(this);
+    m_pBg2Btn->setFixedSize(32, 32);
+    m_pBg2Btn->setIconSize(32, 32);
+    m_pBg2Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_white.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg2Btn->setCheckable(true);
+
+    m_pBg3Btn = new IconButton(this);
+    m_pBg3Btn->setFixedSize(32, 32);
+    m_pBg3Btn->setIconSize(32, 32);
+    m_pBg3Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_black.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg3Btn->setCheckable(true);
+
+    m_pBg4Btn = new IconButton(this);
+    m_pBg4Btn->setFixedSize(32, 32);
+    m_pBg4Btn->setIconSize(32, 32);
+    m_pBg4Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_grey.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg4Btn->setCheckable(true);
+
+    m_pBg5Btn = new IconButton(this);
+    m_pBg5Btn->setFixedSize(32, 32);
+    m_pBg5Btn->setIconSize(32, 32);
+    m_pBg5Btn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_light blue.svg").arg(QtmCore::Theme::currentTheme()));
+    m_pBg5Btn->setCheckable(true);
+
+    m_pBgSelectBtn = new IconButton(this);
+    m_pBgSelectBtn->setFixedSize(32, 32);
+    m_pBgSelectBtn->setIconSize(32, 32);
+    m_pBgSelectBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v165/bg32_gradiet3.png").arg(QtmCore::Theme::currentTheme()));
+
+    m_pBgBtnGroup = new QButtonGroup(this);
+    m_pBgBtnGroup->setExclusive(true);
+    m_pBgBtnGroup->addButton(m_pBg1Btn, 0);
+    m_pBgBtnGroup->addButton(m_pBg2Btn, 1);
+    m_pBgBtnGroup->addButton(m_pBg3Btn, 2);
+    m_pBgBtnGroup->addButton(m_pBg4Btn, 3);
+    m_pBgBtnGroup->addButton(m_pBg5Btn, 4);
+
+    auto bgBtnLayout = new QHBoxLayout();
+    bgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgBtnLayout->setSpacing(4);
+    bgBtnLayout->addWidget(m_pBg1Btn);
+    bgBtnLayout->addWidget(m_pBg2Btn);
+    bgBtnLayout->addWidget(m_pBg3Btn);
+    bgBtnLayout->addWidget(m_pBg4Btn);
+    bgBtnLayout->addWidget(m_pBg5Btn);
+    bgBtnLayout->addWidget(m_pBgSelectBtn);
+    bgWidgetLayout->addLayout(bgBtnLayout);
+
+    bgWidgetLayout->addSpacing(16);
+
+    rightWidgetLayout->addWidget(m_pBgWidget);
 
     //
     m_pApplySameCkb = new QCheckBox(this);
-
-    //
     m_pResetBtn = new IconButton(this);
     m_pResetBtn->setFixedSize(24, 24);
     m_pResetBtn->setIconSize(24, 24);
     m_pResetBtn->setFourPixmapPath(QString(":/QtmImg/img/%1/v16/icon24/icon24_refresh2.svg").arg(QtmCore::Theme::currentTheme()));
 
-    //
     auto applySameLayout = new QHBoxLayout();
     applySameLayout->setContentsMargins(0, 0, 0, 0);
     applySameLayout->addWidget(m_pApplySameCkb);
     applySameLayout->addStretch();
     applySameLayout->addWidget(m_pResetBtn);
     rightWidgetLayout->addLayout(applySameLayout);
+    // rightWidgetLayout->addSpacing(16);
+    m_pApplySameCkb->setVisible(false);
+    m_pResetBtn->setVisible(false);
+
+    //
+    m_pOutputFmtLbl = new QLabel(this);
+    m_pOutputFmtLbl->setObjectName("QLbl_LH16_FS12_FW4");
+    rightWidgetLayout->addWidget(m_pOutputFmtLbl);
+    rightWidgetLayout->addSpacing(4);
+
+    m_pPNGBtn = new QPushButton(this);
+    m_pPNGBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pPNGBtn->setFixedSize(50, 32);
+    m_pPNGBtn->setCheckable(true);
+
+    m_pJPGBtn = new QPushButton(this);
+    m_pJPGBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pJPGBtn->setFixedSize(50, 32);
+    m_pJPGBtn->setCheckable(true);
+
+    m_pBMPBtn = new QPushButton(this);
+    m_pBMPBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pBMPBtn->setFixedSize(50, 32);
+    m_pBMPBtn->setCheckable(true);
+
+    m_pWEBPBtn = new QPushButton(this);
+    m_pWEBPBtn->setObjectName("QPBtn_H32_R8_B1_T14_W7");
+    m_pWEBPBtn->setFixedSize(50, 32);
+    m_pWEBPBtn->setCheckable(true);
+    
+    m_pOutputFmtBtnGroup = new QButtonGroup(this);
+    m_pOutputFmtBtnGroup->setExclusive(true);
+    m_pOutputFmtBtnGroup->addButton(m_pPNGBtn, 0);
+    m_pOutputFmtBtnGroup->addButton(m_pJPGBtn, 1);
+    m_pOutputFmtBtnGroup->addButton(m_pBMPBtn, 2);
+    m_pOutputFmtBtnGroup->addButton(m_pWEBPBtn, 3);
+
+    auto bgImgBtnLayout = new QHBoxLayout();
+    bgImgBtnLayout->setContentsMargins(0, 0, 0, 0);
+    bgImgBtnLayout->setSpacing(4);
+    bgImgBtnLayout->addWidget(m_pPNGBtn);
+    bgImgBtnLayout->addWidget(m_pJPGBtn);
+    bgImgBtnLayout->addWidget(m_pBMPBtn);
+    bgImgBtnLayout->addWidget(m_pWEBPBtn);
+    bgImgBtnLayout->addStretch();
+    rightWidgetLayout->addLayout(bgImgBtnLayout);
+
     rightWidgetLayout->addSpacing(16);
 
     //
@@ -646,6 +778,7 @@ void CropView::connectSig() {
     connect(m_pResizeBtn, &QPushButton::clicked, this, &CropView::onResizeBtnClicked);
     connect(m_pCropAspectListView, &AbstractListView::sigCurrentChanged, this, &CropView::onCropAspectListCurrentChanged);
     connect(m_pCropResizeListView, &AbstractListView::sigCurrentChanged, this, &CropView::onCropResizeListCurrentChanged);
+    connect(m_pStretchToFitCkb, &QCheckBox::stateChanged, this, &CropView::onStretchToFitCkbStateChanged);
 }
 
 void CropView::firstShow() {
@@ -655,11 +788,12 @@ void CropView::firstShow() {
         loadSampleImage();
         initOutputFolderCbbItem();
 
+        m_pCropBtn->setChecked(true);
         m_pCropAspectListView->changeData(getCropAspectFormatDatas());
         m_pCropResizeListView->changeData(getCropResizeFormatDatas());
         m_pCropResizeListView->setVisible(false);
-        m_pImageViewer->workspace()->setCropAspectRatioMode(ImageWorkspace::CropAspectOriginal);
-        m_pImageViewer->workspace()->setFitView();
+        m_pStretchToFitWidget->setVisible(false);
+        m_pBgWidget->setVisible(false);
     }
 }
 
@@ -697,6 +831,18 @@ void CropView::gotoWorkspace() {
 
 void CropView::imageViewerLoad(const QString &filePath) {
     m_pImageViewer->workspace()->loadImage(filePath);
+
+    if(m_pCropBtn->isChecked())
+    {
+        m_pImageViewer->workspace()->setWorkspaceMode(ImageWorkspace::ModeCrop);
+        m_pImageViewer->workspace()->setCropAspectRatioMode(ImageWorkspace::CropAspectOriginal);
+    }
+    else
+    {
+        m_pImageViewer->workspace()->setWorkspaceMode(ImageWorkspace::ModeResize);
+        m_pImageViewer->workspace()->setResizeCanvasSize(CropAspectResizeMode[ECropResizeType_Original]);
+    }
+    m_pImageViewer->workspace()->setFitView();
 }
 
 void CropView::onLanguageChange() {
@@ -704,7 +850,14 @@ void CropView::onLanguageChange() {
     m_pCropBtn->setText(tr("Crop"));
     m_pResizeBtn->setText(tr("Resize"));
     m_pRotateAndFlipLbl->setText(tr("Rotate and Flip"));
+    m_pStretchToFitCkb->setText(tr("Stretch to Fit"));
+    m_pBgLbl->setText(tr("Background"));
     m_pApplySameCkb->setText(tr("Apply same to all images"));
+    m_pOutputFmtLbl->setText(tr("Output Format"));
+    m_pPNGBtn->setText(tr("PNG"));
+    m_pJPGBtn->setText(tr("JPG"));
+    m_pBMPBtn->setText(tr("BMP"));
+    m_pWEBPBtn->setText(tr("WEBP"));
     m_pSmapleTitleLbl->setText(tr("Try with one of our smaples!"));
     m_pOutputFolderLbl->setText(tr("Output folder:"));
     m_pExportBtn->setText(tr("Export"));
@@ -741,13 +894,20 @@ void CropView::onResetBtnClieked() {
 
 void CropView::onCropBtnClicked() {
     m_pCropAspectListView->setVisible(true);
+    m_pRotateAndFlipWidget->setVisible(true);
     m_pCropResizeListView->setVisible(false);
+    m_pStretchToFitWidget->setVisible(false);
+    m_pBgWidget->setVisible(false);
     m_pImageViewer->workspace()->setWorkspaceMode(ImageWorkspace::ModeCrop);
 }
 
 void CropView::onResizeBtnClicked() {
     m_pCropAspectListView->setVisible(false);
+    m_pRotateAndFlipWidget->setVisible(false);
     m_pCropResizeListView->setVisible(true);
+    m_pStretchToFitWidget->setVisible(true);
+    if(!m_pStretchToFitCkb->isChecked())
+        m_pBgWidget->setVisible(true);
     m_pImageViewer->workspace()->setWorkspaceMode(ImageWorkspace::ModeResize);
 }
 
@@ -761,4 +921,10 @@ void CropView::onCropResizeListCurrentChanged(const QModelIndex &current, const 
     auto resizeData = current.data(Qt::UserRole).value<SCropResizeData>();
     m_pImageViewer->workspace()->setResizeCanvasSize(CropAspectResizeMode[resizeData.type]);
     m_pImageViewer->workspace()->setFitView();
+}
+
+void CropView::onStretchToFitCkbStateChanged(int state) {
+    bool checked = state == Qt::Checked;
+    m_pBgWidget->setVisible(!checked);
+    m_pImageViewer->workspace()->toggleFillMode();
 }
